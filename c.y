@@ -37,15 +37,56 @@
 %%
 
 value_expression
-    : mtdh_expression pm_expression
+    : orh_expression assign_expression
+    ;
+
+assign_expression
+    : ASSIGN orh_expression assign_expression
+    | /* epsilon */
+    ;
+
+orh_expression
+    : andh_expression or_expression
     ;
 
 or_expression
-    :
+    : OR andh_expression or_expression
+    | /* epsilon */
+    ;
+
+andh_expression
+    : eneh_expression and_expression
     ;
 
 and_expression
-    :
+    : AND eneh_expression and_expression
+    | /* epsilon */
+    ;
+
+eneh_expression
+    : lgh_expression ene_expression
+    ;
+
+ene_expression
+    : EQ lgh_expression ene_expression
+    | NE lgh_expression ene_expression
+    | /* epsilon */
+    ;
+
+lgh_expression
+    : pmh_expression lg_expression
+    ;
+
+lg_expression
+    : GT pmh_expression lg_expression
+    | GE pmh_expression lg_expression
+    | LT pmh_expression lg_expression
+    | LE pmh_expression lg_expression
+    | /* epsilon */
+    ;
+
+pmh_expression
+    : mtdh_expression pm_expression
     ;
 
 pm_expression
@@ -66,39 +107,31 @@ mtd_expression
     ;
 
 powh_expression
-    : pid_expression pow_expression
+    : noth_expression pow_expression
     ;
 
 pow_expression
-    : POW pid_expression pow_expression
+    : POW noth_expression pow_expression
     | /* epsilon */
     ;
 
+noth_expression
+    : pid_expression not_expression
+    ;
+
 not_expression
-    :
+    : NOT pid_expression not_expression
+    | /* epsilon */
     ;
 
 pid_expression
     : LP value_expression RP
-    | IDENTIFIER /* value_expression */
+    | IDENTIFIER
     ;
 
 type_defination
     : INT
     | STRUCT IDENTIFIER
-    ;
-
-formula_expression
-    : IDENTIFIER
-    ;
-
-value_expression
-    : IDENTIFIER
-    | formula_expression
-    ;
-
-assign_expression
-    : ASSIGN value_expression
     ;
 
 primary_expression
