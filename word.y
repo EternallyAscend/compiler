@@ -1,12 +1,36 @@
 %token IDENTIFIER
-%token IF ELSE ELSEIF
+%token IF ELSE
 %token MAIN
 %token INT
-%token ASSIGN
+%token ASSIGN TIMES
+%token LP RP LSB RSB LBP RBP
+%token CONSTANT
 
 %%
+
+array_decorator
+    : LSB expression RSB
+    ;
+
+high_level_array_decorator
+    : array_decorator high_level_array_decorator
+    | array_decorator
+    ;
+
+high_level_pointer_decorator
+    : TIMES high_level_pointer_decorator
+    | TIMES
+    ;
+
+address_decorator
+    :
+
+decorated_identifier
+    : high_level_pointer_decorator IDENTIFIER high_level_array_decorator
+    ;
+
 statement_block
-    : '{' statement_body '}'
+    : LBP statement_body RBP
     ;
 
 statement_body
@@ -16,40 +40,50 @@ statement_body
     ;
 
 main_function
-    : INT MAIN '(' argument_list ')' statement_block
+    : INT MAIN LP argument_list RP statement_block
     ;
 
 statement
-    : type_defination IDENTIFIER ASSIGN expression
-    | type_defination IDENTIFIER
+    : type_defination statement_argument_list
+    | type_defination statement_init_list
     ;
 
-argument
-    : INT IDENTIFIER
+statement_argument_list
+    : decorated_identifier ',' statement_argument_list
+    | decorated_identifier
     ;
 
-argument_list
-    : argument ',' argument_list
-    | argument
+statement_init_unit
+    : decorated_identifier ASSIGN expression
+    ;
+
+statement_init_list
+    : statement_init_unit ',' statement_init_list
+    | statement_init_unit
+    ;
+
+function_argument
+    : type_defination decorated_identifier
+    ;
+
+function_argument_list
+    : function_argument ',' function_argument_list
+    | function_argument
     |
     ;
 
 condition_expression
-    : condition_start_expression condition_branches_expression condition_end_expression
-    | condition_start_expression  condition_end_expression
+    : condition_start_expression condition_branches_expression
     | condition_start_expression
     ;
 
 condition_start_expression
-    : IF '(' expression ')' statement_block 
-    ;
-
-condition_end_expression
-    : ELSE '(' expression ')' statement_block
+    : IF LP expression RP statement_block 
     ;
 
 condition_branch_expression
-    : ELSEIF '(' expression ')' statement_block
+    : ELSE condition_start_expression
+    | ELSE statement_block
     ;
 
 condition_branches_expression
