@@ -160,12 +160,8 @@ while_expression
     ;
 
 for_init_expression
-    : define_expression
-    | expression
-    ;
-
-for_more_init_expression
-    : ',' for_init_expression
+    : declaration
+    | expression for_more_condition_expression
     | /* epsilon */
     ;
 
