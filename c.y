@@ -6,13 +6,14 @@
 
 %token IDENTIFIER // Idenfifier
 %token CONSTANT STRING_LITERAL // Constant String_literal
-%token INT VOID// int void
+%token INT MAIN VOID// int main void
 %token ASSIGN // =
 %token PLUS MINUS TIMES DIVIDE MOD POW // + - * / % ^
 %token LP RP LSB RSB LBP RBP // () [] {}
 %token EQ GT LT GE LE NE // == > < >= <= !=
 %token IF ELSE // if else
 %token AND OR NOT // && || !
+%token COMMA // ,
 %token WHILE DO FOR CONTINUE BREAK // while do for continue break
 %token RETURN // return
 %token STRUCT // struct
@@ -36,7 +37,7 @@
 
 %%
 
-value_expression
+expression
     : orh_expression assign_expression
     ;
 
@@ -103,7 +104,7 @@ mtd_expression
     : MOD powh_expression mtd_expression
     | TIMES powh_expression mtd_expression
     | DIVIDE powh_expression mtd_expression
-    | /* espilon */
+    | /* epsilon */
     ;
 
 powh_expression
@@ -133,12 +134,63 @@ type_defination
     : INT
     | STRUCT IDENTIFIER
     ;
+statement_block
+    : LBP statement_body RBP
+    ;
 
-primary_expression
-    : IDENTIFIER
-    | CONSTANT
-    | STRING_LITERAL
-    | `(``)`
+statement_body
+    : expression statement_body
+    | /* epsilon */
+    ;
+
+main_function
+    : INT MAIN LP argument_list RP statement_block
+    ;
+
+argument
+    : INT IDENTIFIER
+    ;
+
+do_expression
+    : DO statement_block WHILE LP expression RP ';'
+    ;
+
+while_expression
+    : WHILE LP expression RP statement_block
+    ;
+
+for_init_expression
+    : define_expression
+    | expression
+    ;
+
+for_more_init_expression
+    : ',' for_init_expression
+    | /* epsilon */
+    ;
+
+for_condition_expression
+    : expression for_more_condition_expression
+    | /* epsilon */
+    ;
+
+for_more_condition_expression
+    : ',' expression for_more_condition_expression
+    | / * epsilon */
+    ;
+    
+for_action_expression
+    : expression more_action_expression
+    | /* epsilon */
+    ;
+
+for_more_action_expression
+    : ',' expression
+    | /* epsilon */
+    ;
+
+for_expression
+    : FOR LP for_init_expression ';' for_condition_expression ';' for_action_expression RP statement_block
     ;
 
 %%
