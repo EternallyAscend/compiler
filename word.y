@@ -5,6 +5,7 @@
 %token ASSIGN TIMES
 %token LP RP LSB RSB LBP RBP
 %token CONSTANT
+%token ADDRESS
 
 %%
 
@@ -14,19 +15,27 @@ array_decorator
 
 high_level_array_decorator
     : array_decorator high_level_array_decorator
-    | array_decorator
+    |
     ;
 
 high_level_pointer_decorator
     : TIMES high_level_pointer_decorator
-    | TIMES
+    |
     ;
 
 address_decorator
-    :
+    : ADDRESS
+    | 
+    ;
 
 decorated_identifier
-    : high_level_pointer_decorator IDENTIFIER high_level_array_decorator
+    : address_decorator high_level_pointer_decorator IDENTIFIER high_level_array_decorator
+    ;
+
+condition_loop_block
+    : statement_block
+    | expression
+    |
     ;
 
 statement_block
@@ -35,31 +44,30 @@ statement_block
 
 statement_body
     : expression statement_body
-    | expression
     |
     ;
 
 main_function
-    : INT MAIN LP argument_list RP statement_block
+    : INT MAIN LP function_argument_list RP statement_block
     ;
 
-statement
-    : type_defination statement_argument_list
-    | type_defination statement_init_list
+declaration
+    : type_defination declaration_list
     ;
 
-statement_argument_list
-    : decorated_identifier ',' statement_argument_list
-    | decorated_identifier
+
+declaration_list
+    : declaration_unit ',' declaration_list
+    | declaration_unit
     ;
 
-statement_init_unit
-    : decorated_identifier ASSIGN expression
+declaration_unit
+    : decorated_identifier declaration_init
     ;
 
-statement_init_list
-    : statement_init_unit ',' statement_init_list
-    | statement_init_unit
+declaration_init
+    : ASSIGN expression
+    | 
     ;
 
 function_argument
@@ -73,17 +81,17 @@ function_argument_list
     ;
 
 condition_expression
-    : condition_start_expression condition_branches_expression
-    | condition_start_expression
+    : condition_start_expression condition_branches_expression ';'
+    | condition_start_expression ';'
     ;
 
 condition_start_expression
-    : IF LP expression RP statement_block 
+    : IF LP expression RP condition_loop_block 
     ;
 
 condition_branch_expression
     : ELSE condition_start_expression
-    | ELSE statement_block
+    | ELSE condition_loop_block
     ;
 
 condition_branches_expression
