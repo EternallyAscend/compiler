@@ -1,19 +1,28 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include <y.tab.c>
+#include "y.tab.c"
 %}
 
-%token IDENTIFIER // Idenfifier
 %token CONSTANT STRING_LITERAL // Constant String_literal
-%token INT MAIN VOID// int main void
-%token ASSIGN // =
-%token PLUS MINUS TIMES DIVIDE MOD POW // + - * / % ^
+%token IDENTIFIER // Idenfifier
+
 %token LP RP LSB RSB LBP RBP // () [] {}
-%token EQ GT LT GE LE NE // == > < >= <= !=
+%token POINTER // ->
+%token ADDRESS // &
+%token NOT // !
+%token POW // ^
+%token TIMES DIVIDE MOD // * / %
+%token PLUS MINUS // + -
+%token GT LT GE LE // > < >= <=
+%token EQ NE // == !=
+%token AND // &&
+%token OR // ||
+%token ASSIGN // =
+
+%token INT // int
+%token COMMA SEMICOLON // , ;
 %token IF ELSE // if else
-%token AND OR NOT // && || !
-%token COMMA // ,
 %token WHILE DO FOR CONTINUE BREAK // while do for continue break
 %token RETURN // return
 %token STRUCT // struct
@@ -134,25 +143,9 @@ type_defination
     : INT
     | STRUCT IDENTIFIER
     ;
-statement_block
-    : LBP statement_body RBP
-    ;
-
-statement_body
-    : expression statement_body
-    | /* epsilon */
-    ;
-
-main_function
-    : INT MAIN LP argument_list RP statement_block
-    ;
-
-argument
-    : INT IDENTIFIER
-    ;
 
 do_expression
-    : DO statement_block WHILE LP expression RP ';'
+    : DO statement_block WHILE LP expression RP SEMICOLON
     ;
 
 while_expression
@@ -171,7 +164,7 @@ for_condition_expression
     ;
 
 for_more_condition_expression
-    : ',' expression for_more_condition_expression
+    : COMMA expression for_more_condition_expression
     | / * epsilon */
     ;
     
@@ -181,12 +174,12 @@ for_action_expression
     ;
 
 for_more_action_expression
-    : ',' expression
+    : COMMA expression
     | /* epsilon */
     ;
 
 for_expression
-    : FOR LP for_init_expression ';' for_condition_expression ';' for_action_expression RP statement_block
+    : FOR LP for_init_expression SEMICOLON for_condition_expression SEMICOLON for_action_expression RP statement_block
     ;
 
 %%
