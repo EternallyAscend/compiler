@@ -47,8 +47,8 @@ statement_body
     |
     ;
 
-main_function
-    : INT MAIN LP function_argument_list RP statement_block
+function
+    : type_defination decorated_identifier LP function_argument_list RP statement_block
     ;
 
 declaration
@@ -57,7 +57,7 @@ declaration
 
 
 declaration_list
-    : declaration_unit ',' declaration_list
+    : declaration_unit COMMA declaration_list
     | declaration_unit
     ;
 
@@ -75,14 +75,14 @@ function_argument
     ;
 
 function_argument_list
-    : function_argument ',' function_argument_list
+    : function_argument COMMA function_argument_list
     | function_argument
     |
     ;
 
 condition_expression
-    : condition_start_expression condition_branches_expression ';'
-    | condition_start_expression ';'
+    : condition_start_expression condition_branches_expression SEMICOLON
+    | condition_start_expression SEMICOLON
     ;
 
 condition_start_expression
