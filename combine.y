@@ -27,7 +27,7 @@
 %token RETURN // return
 %token STRUCT // struct
 
-%start statement
+%start entry
 %%
 
 expression
