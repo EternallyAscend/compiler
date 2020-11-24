@@ -27,7 +27,7 @@
 %token RETURN // return
 %token STRUCT // struct
 
-%start entry
+%start statement_body
 %%
 
 expression
@@ -195,9 +195,6 @@ condition_loop_block
     |
     ;
 
-entry
-    : statement_body INT 'main' LP function_argument_list RP statement_block statement_body
-
 statement
     : expression SEMICOLON
     | function
@@ -207,6 +204,9 @@ statement
     | condition_expression
     | declaration SEMICOLON
     | statement_block
+    | BREAK SEMICOLON
+    | CONTINUE SEMICOLON
+    | RETURN expression SEMICOLON
     ;
 
 statement_block
