@@ -4,7 +4,7 @@
 #include "y.tab.c"
 %}
 
-%token CONSTANT STRING_LITERAL // Constant String_literal
+%token CONSTANT // Constant
 %token IDENTIFIER // Idenfifier
 
 %token LP RP LSB RSB LBP RBP // () [] {}
@@ -20,7 +20,7 @@
 %token OR // ||
 %token ASSIGN // =
 
-%token INT // int
+%token INT VOID // int void
 %token COMMA SEMICOLON // , ;
 %token IF ELSE // if else
 %token WHILE DO FOR CONTINUE BREAK // while do for continue break
@@ -121,10 +121,12 @@ not_expression
 pid_expression
     : LP expression RP
     | IDENTIFIER
+    | CONSTANT
     ;
 
 type_defination
     : INT
+    | VOID
     | STRUCT IDENTIFIER
     ;
 
@@ -191,7 +193,7 @@ decorated_identifier
 
 condition_loop_block
     : statement_block
-    | expression
+    | statement
     |
     ;
 
