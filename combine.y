@@ -27,6 +27,9 @@
 %token RETURN // return
 %token STRUCT // struct
 
+%nonassoc NONE_ELSE
+%nonassoc ELSE
+
 %start statement_body
 %%
 
@@ -191,12 +194,6 @@ decorated_identifier
     : address_decorator high_level_pointer_decorator IDENTIFIER high_level_array_decorator
     ;
 
-condition_loop_block
-    : statement_block
-    | statement
-    |
-    ;
-
 statement
     : expression SEMICOLON
     | function
@@ -209,6 +206,7 @@ statement
     | BREAK SEMICOLON
     | CONTINUE SEMICOLON
     | RETURN expression SEMICOLON
+    | SEMICOLON
     ;
 
 statement_block
@@ -254,22 +252,7 @@ function_argument_list
     ;
 
 condition_expression
-    : condition_start_expression condition_branches_expression SEMICOLON
-    | condition_start_expression SEMICOLON
+    : IF LP expression RP statement %prec NONE_ELSE
+    | IF LP expression RP statement ELSE statement
     ;
-
-condition_start_expression
-    : IF LP expression RP condition_loop_block 
-    ;
-
-condition_branch_expression
-    : ELSE condition_start_expression
-    | ELSE condition_loop_block
-    ;
-
-condition_branches_expression
-    : condition_branch_expression condition_branches_expression
-    | condition_branch_expression
-    ;
-
 %%
