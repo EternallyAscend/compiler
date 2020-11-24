@@ -124,9 +124,9 @@ pid_expression
     ;
 
 type_defination
-: INT
-| STRUCT IDENTIFIER
-;
+    : INT
+    | STRUCT IDENTIFIER
+    ;
 
 do_expression
     : DO statement_block WHILE LP expression RP SEMICOLON
@@ -199,13 +199,13 @@ entry
     : statement_body INT 'main' LP function_argument_list RP statement_block statement_body
 
 statement
-    : expression
+    : expression SEMICOLON
     | function
     | for_expression
     | do_expression
     | while_expression
     | condition_expression
-    | declaration
+    | declaration SEMICOLON
     | statement_block
     ;
 
@@ -223,7 +223,7 @@ function
     ;
 
 declaration
-    : type_defination declaration_list
+    : type_defination declaration_list SEMICOLON
     ;
 
 
