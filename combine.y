@@ -196,7 +196,18 @@ condition_loop_block
     ;
 
 entry
-    : statement_body INT MAIN LP function_argument_list RP statement_block statement_body
+    : statement_body INT 'main' LP function_argument_list RP statement_block statement_body
+
+statement
+    : expression
+    | function
+    | for_expression
+    | do_expression
+    | while_expression
+    | condition_expression
+    | declaration
+    | statement_block
+    ;
 
 statement_block
     : LBP statement_body RBP
