@@ -27,7 +27,7 @@
 %token RETURN // return
 %token STRUCT // struct
 
-%start translate_unit
+%start statement
 %%
 
 expression
@@ -119,9 +119,14 @@ not_expression
     ;
 
 pid_expression
-    : LP value_expression RP
+    : LP expression RP
     | IDENTIFIER
     ;
+
+type_defination
+: INT
+| STRUCT IDENTIFIER
+;
 
 do_expression
     : DO statement_block WHILE LP expression RP SEMICOLON
@@ -144,11 +149,11 @@ for_condition_expression
 
 for_more_condition_expression
     : COMMA expression for_more_condition_expression
-    | / * epsilon */
+    | /* epsilon */
     ;
     
 for_action_expression
-    : expression more_action_expression
+    : expression for_more_action_expression
     | /* epsilon */
     ;
 
@@ -190,12 +195,15 @@ condition_loop_block
     |
     ;
 
+entry
+    : statement_body INT MAIN LP function_argument_list RP statement_block statement_body
+
 statement_block
     : LBP statement_body RBP
     ;
 
 statement_body
-    : expression statement_body
+    : statement statement_body
     |
     ;
 
