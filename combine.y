@@ -4,7 +4,7 @@
 #include "y.tab.c"
 %}
 
-%token CONSTANT // Constant
+%token CONSTANT STRING_C PRINT INPUT // Constant "String" print input
 %token IDENTIFIER // Idenfifier
 
 %token LP RP LSB RSB LBP RBP // () [] {}
@@ -207,6 +207,9 @@ statement
     | CONTINUE SEMICOLON
     | RETURN expression SEMICOLON
     | SEMICOLON
+    | PRINT LP expression RP SEMICOLON
+    | PRINT LP STRING_C RP SEMICOLON
+    | INPUT LP expression RP SEMICOLON
     ;
 
 statement_block
