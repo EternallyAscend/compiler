@@ -318,11 +318,32 @@ int add(char* name, int type) {
 }
 
 int search(char* name) {
-    return elementInHashTable(symbolTableStack->stack[symbolTableStack->tail], name);
+    return NULL == pull(name);
+}
+
+int functionSearch(char* name) {
+    return NULL == functionPull(name);
 }
 
 struct Item* pull(char* name) {
-    return getElementInHashTable(symbolTableStack->stack[symbolTableStack->tail - 1], name);
+    struct Item* result = NULL;
+    int cursor = symbolTableStack->tail;
+    while (cursor) {
+        result = getElementInHashTable(symbolTableStack->stack[cursor - 1], name);
+        if (NULL != result) {
+            return result;
+        }
+        cursor--;
+    }
+    return result;
+}
+
+struct Item* functionPull(char* name) {
+    struct Item* result = getElementInHashTable(symbolTableStack->stack[symbolTableStack->tail - 1], name);
+    if (NULL == result) {
+        result = getElementInHashTable(symbolTableStack->stack[0], name);
+    }
+    return result;
 }
 
 int stopTable() {
