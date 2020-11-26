@@ -7,10 +7,11 @@ void count();
 
 %%
 [1-9][0-9]*       	            { count(); return(CONSTANT); }
-\"(\\.|[^\\"\n])*\"				{ count(); return(STRING_C)}
+\"(\\.|[^\\"\n])*\"				{ count(); return(STRING_C); }
 "print"							{ count(); return(PRINT); }
 "input"							{ count(); return(INPUT); }
 [a-zA-Z_]([0-9]|[a-zA-Z_]|$)*   { count(); return(IDENTIFER); }
+[\n\t \r]*						{ count(); }
 
 "("			{ count(); return(LP); }
 ")"			{ count(); return(RP); }
