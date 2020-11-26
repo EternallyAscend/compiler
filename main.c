@@ -11,6 +11,7 @@ int main() {
     printf("%d\n", nextSize(2));
     printf("%d\n", nextSize(7));
     printf("%d\n", nextSize(9));
+    printf("0x%d\n", add("PUBLIC", 1));
     push();
     push();
     printf("0x%d\n", add("tom", 1));
@@ -49,6 +50,18 @@ int main() {
     push();
     push();
     push();
+    if (NULL == pull("PUBLIC")) {
+        printf("Not found PUBLIC.\n");
+    }
+    else {
+        printf("%s\n", pull("PUBLIC")->name);
+    }
+    if (NULL == pull("public")) {
+        printf("Not found public.\n");
+    }
+    else {
+        printf("%s\n", pull("public")->name);
+    }
     printf("0x%d\n", add("value4", 1));
     printf("0x%d\n", add("value5", 1));
     if (NULL == pull("value5")) {
