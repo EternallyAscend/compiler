@@ -1,11 +1,13 @@
 %{
 #include <stdio.h>
+#include <table.h>
 #include "y.tab.h"
 
 #define TYPE_OUTPUT_LENGTH 15
 #define NAME_OUTPUT_LENGTH 15
 #define ATTR_OUTPUT_LENGTH 10
 
+void move();
 char* outputTitle();
 void appentLexOutputFile(FILE* file, char* type, char* name, char* attribute);
 char* combineItem(char* type, char* name, char* attribute);
@@ -13,50 +15,63 @@ void printItem(char* type, char* name, char* attribute);
 %}
 
 %%
-(0|([1-9][0-9]*))       	    { count(); return(CONSTANT); }
-\"(\\.|[^\\"\n])*\"				{ count(); return(STRING_C); }
-"print"							{ count(); return(PRINT); }
-"input"							{ count(); return(INPUT); }
-[a-zA-Z_]([0-9]|[a-zA-Z_]|$)*   { count(); return(IDENTIFER); }
-[\n\t \r]*						{ count(); }
+[\n\t \r]*						{ move(); }
+(0|([1-9][0-9]*))       	    { appentLexOutputFile("CONSTANT", yytext, yytext); return(CONSTANT); }
+\"(\\.|[^\\"\n])*\"				{ appentLexOutputFile("STRING_C", yytext, yytext); return(STRING_C); }
+"print"							{ appentLexOutputFile("PRINT", yytext, ""); return(PRINT); }
+"input"							{ appentLexOutputFile("INPUT", yytext, ""); return(INPUT); }
+[a-zA-Z_]([0-9]|[a-zA-Z_]|$)*   { {
+	if (search(yytext)) {
+		printf("Exist.\n");
+	}
+	else {
+		int position = add(yytext);
+		char* attr;
+		itoa(position, attr, 10);
+		char* attribute;
+		strcpy(attribute, "0x");
+		strcat(attribute, attr);
+		appentLexOutputFile("IDENTIFER", yytext, );
+	}
+}  return(IDENTIFER); }
 
-"("			{ count(); return(LP); }
-")"			{ count(); return(RP); }
-"["         { count(); return(LSB); }
-"]"         { count(); return(RSB); }
-"{"         { count(); return(LBP); }
-"}"         { count(); return(RBP); }
-"->"		{ count(); return(POINTER); }
-"&"			{ count(); return(ADDRESS); }
-"!"			{ count(); return(NOT); }
-"^"			{ count(); return(POW); }
-"*"			{ count(); return(TIMES); }
-"/"			{ count(); return(DIVIDE); }
-"%"			{ count(); return(MOD); }
-"+"			{ count(); return(PLUS); }
-"-"			{ count(); return(MINUS); }
-"<"			{ count(); return(GT); }
-">"			{ count(); return(LT); }
-"<="		{ count(); return(LE); }
-">="		{ count(); return(GE); }
-"=="		{ count(); return(EQ); }
-"!="		{ count(); return(NE); }
-"&&"		{ count(); return(AND); }
-"||"		{ count(); return(OR); }
-"="			{ count(); return(ASSIGN); }
-"int"		{ count(); return(INT); }
-"void"      { count(); return(VOID); }
-","			{ count(); return(COMMA); }
-";"			{ count(); return(SEMICOLON); }
-"if"		{ count(); return(IF); }
-"else"		{ count(); return(ELSE); }
-"while"		{ count(); return(WHILE); }
-"do"		{ count(); return(DO); }
-"for"		{ count(); return(FOR); }
-"continue"	{ count(); return(CONTINUE); }
-"break"		{ count(); return(BREAK); }
-"return"	{ count(); return(RETURN); }
-"struct"	{ count(); return(STRUCT); }
+"("			{ appentLexOutputFile("LP", yytext, ""); return(LP); }
+")"			{ appentLexOutputFile("RP", yytext, ""); return(RP); }
+"["         { appentLexOutputFile("LSB", yytext, ""); return(LSB); }
+"]"         { appentLexOutputFile("RSB", yytext, ""); return(RSB); }
+"{"         { appentLexOutputFile("LBP", yytext, ""); return(LBP); }
+"}"         { appentLexOutputFile("RBP", yytext, ""); return(RBP); }
+"->"		{ appentLexOutputFile("POINTER", yytext, ""); return(POINTER); }
+"&"			{ appentLexOutputFile("ADDRESS", yytext, ""); return(ADDRESS); }
+"!"			{ appentLexOutputFile("NOT", yytext, ""); return(NOT); }
+"^"			{ appentLexOutputFile("POW", yytext, ""); return(POW); }
+"*"			{ appentLexOutputFile("TIMES", yytext, ""); return(TIMES); }
+"/"			{ appentLexOutputFile("DIVIDE", yytext, ""); return(DIVIDE); }
+"%"			{ appentLexOutputFile("MOD", yytext, ""); return(MOD); }
+"+"			{ appentLexOutputFile("PLUS", yytext, ""); return(PLUS); }
+"-"			{ appentLexOutputFile("MINUS", yytext, ""); return(MINUS); }
+"<"			{ appentLexOutputFile("GT", yytext, ""); return(GT); }
+">"			{ appentLexOutputFile("LT", yytext, ""); return(LT); }
+"<="		{ appentLexOutputFile("LE", yytext, ""); return(LE); }
+">="		{ appentLexOutputFile("GE", yytext, ""); return(GE); }
+"=="		{ appentLexOutputFile("EQ", yytext, ""); return(EQ); }
+"!="		{ appentLexOutputFile("NE", yytext, ""); return(NE); }
+"&&"		{ appentLexOutputFile("AND", yytext, ""); return(AND); }
+"||"		{ appentLexOutputFile("OR", yytext, ""); return(OR); }
+"="			{ appentLexOutputFile("ASSIGN", yytext, ""); return(ASSIGN); }
+"int"		{ appentLexOutputFile("INT", yytext, ""); return(INT); }
+"void"      { appentLexOutputFile("VOID", yytext, ""); return(VOID); }
+","			{ appentLexOutputFile("COMMA", yytext, ""); return(COMMA); }
+";"			{ appentLexOutputFile("SEMICOLON", yytext, ""); return(SEMICOLON); }
+"if"		{ appentLexOutputFile("IF", yytext, ""); return(IF); }
+"else"		{ appentLexOutputFile("ELSE", yytext, ""); return(ELSE); }
+"while"		{ appentLexOutputFile("WHILE", yytext, ""); return(WHILE); }
+"do"		{ appentLexOutputFile("DO", yytext, ""); return(DO); }
+"for"		{ appentLexOutputFile("FOR", yytext, ""); return(FOR); }
+"continue"	{ appentLexOutputFile("CONTINUE", yytext, ""); return(CONTINUE); }
+"break"		{ appentLexOutputFile("BREAK", yytext, ""); return(BREAK); }
+"return"	{ appentLexOutputFile("RETURN", yytext, ""); return(RETURN); }
+"struct"	{ appentLexOutputFile("STRUCT", yytext, ""); return(STRUCT); }
 %%
 
 int yywrap(void) {
@@ -66,8 +81,8 @@ char* outputTitle() {
 	return "Type           Name           Attribute ";
  }
 
-void appentLexOutputFile(FILE* file, char* type, char* name, char* attribute) {
-
+void appentLexOutputFile(char* type, char* name, char* attribute) {
+	printItem(type, name, attribute);
 }
 
 char* combineItem(char* type, char* name, char* attribute) {
