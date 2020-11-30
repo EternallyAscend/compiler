@@ -8,6 +8,7 @@
 
 // Record number with stack and check it with 7.
 
+int symbolType = TYPE_INT_IST;
 int* hashTableSizeList = NULL;
 unsigned int hashTableSizeListSize = HASH_CACHE_STACK_SIZE;
 
@@ -313,8 +314,12 @@ int pop() {
     return popStack(symbolTableStack);
 }
 
-int add(char* name, int type) {
-    return insertHashTable(symbolTableStack->stack[symbolTableStack->tail - 1], initItem(name, type));
+int setType(int type) {
+    return symbolType = type;
+}
+
+int add(char* name) {
+    return insertHashTable(symbolTableStack->stack[symbolTableStack->tail - 1], initItem(name, symbolType));
 }
 
 int search(char* name) {
