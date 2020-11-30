@@ -90,36 +90,36 @@ char* combineItem(char* type, char* name, char* attribute) {
 	strcpy(result, "");
 	char* t, n, a;
 	int cursor;
-	if (strlen(type) > 15) {
-		strncpy(t, type, type + 12);
+	if (strlen(type) > TYPE_OUTPUT_LENGTH) {
+		strncpy(t, type, type + TYPE_OUTPUT_LENGTH - 3);
 		strcat(t, ".");
 		strcat(t, ".");
 		strcat(t, ".");
 	}
 	else {
-		for(cursor = 0; cursor < 15 - strlen(type); cursor++) {
+		for(cursor = 0; cursor < TYPE_OUTPUT_LENGTH - strlen(type); cursor++) {
 			strcat(t, " ");
 		}
 	}
-	if (strlen(name) > 15) {
-		strncpy(n, name, name + 12);
+	if (strlen(name) > NAME_OUTPUT_LENGTH) {
+		strncpy(n, name, name + NAME_OUTPUT_LENGTH - 3);
 		strcat(n, ".");
 		strcat(n, ".");
 		strcat(n, ".");
 	}
 	else {
-		for(cursor = 0; cursor < 15 - strlen(name); cursor++) {
+		for(cursor = 0; cursor < NAME_OUTPUT_LENGTH - strlen(name); cursor++) {
 			strcat(n, " ");
 		}
 	}
-	if (strlen(attribute) > 10) {
-		strncpy(a, attribute, attribute + 7);
+	if (strlen(attribute) > ATTR_OUTPUT_LENGTH) {
+		strncpy(a, attribute, attribute + ATTR_OUTPUT_LENGTH - 3);
 		strcat(a, ".");
 		strcat(a, ".");
 		strcat(a, ".");
 	}
 	else {
-		for(cursor = 0; cursor < 10 - strlen(attribute); cursor++) {
+		for(cursor = 0; cursor < ATTR_OUTPUT_LENGTH - strlen(attribute); cursor++) {
 			strcat(a, " ");
 		}
 	}
