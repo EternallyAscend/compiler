@@ -9,6 +9,12 @@
 #define HASH_CACHE_STACK_SIZE 5 // Must >= 2;
 #define STACK_INIT_SIZE 2
 
+#define TYPE_INT_IST 1
+#define TYPE_INT_ARRAY_IST 2
+#define TYPE_POINTER_IST 5
+#define TYPE_STRUCT_IST 9
+#define TYPE_FUNCTION_IST 10
+
 #include <stdio.h>
 
 //struct Scope {
@@ -91,7 +97,9 @@ int push();
 
 int pop();
 
-int add(char* name, int type);
+int setType(int type);
+
+int add(char* name);
 
 int search(char* name);
 
