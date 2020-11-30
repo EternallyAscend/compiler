@@ -1,6 +1,7 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include "childNode.h"
 #include "y.tab.c"
 
 extern "C" 
@@ -10,30 +11,70 @@ extern "C"
     extern int yylex(void);
 }
 
+
+
 %}
 
-%token CONSTANT STRING_C PRINT INPUT // Constant "String" print input
-%token IDENTIFIER // Idenfifier
+%union
 
-%token LP RP LSB RSB LBP RBP // () [] {}
-%token POINTER // ->
-%token ADDRESS // &
-%token NOT // !
-%token POW // ^
-%token TIMES DIVIDE MOD // * / %
-%token PLUS MINUS // + -
-%token GT LT GE LE // > < >= <=
-%token EQ NE // == !=
-%token AND // &&
-%token OR // ||
-%token ASSIGN // =
+{
+    char* symbolName;
+    child child_label;
+}
 
-%token INT VOID // int void
-%token COMMA SEMICOLON // , ;
-%token IF ELSE // if else
-%token WHILE DO FOR CONTINUE BREAK // while do for continue break
-%token RETURN // return
-%token STRUCT // struct
+%token<symbolName> CONSTANT STRING_C PRINT INPUT // Constant "String" print input
+%token<symbolName> IDENTIFIER // Idenfifier
+
+%token<symbolName> LP RP LSB RSB LBP RBP // () [] { print_terminal_symbol(word_pos++, ); }
+%token<symbolName> POINTER // ->
+%token<symbolName> ADDRESS // &
+%token<symbolName> NOT // !
+%token<symbolName> POW // ^
+%token<symbolName> TIMES DIVIDE MOD // * / %
+%token<symbolName> PLUS MINUS // + -
+%token<symbolName> GT LT GE LE // > < >= <=
+%token<symbolName> EQ NE // == !=
+%token<symbolName> AND // &&
+%token<symbolName> OR // ||
+%token<symbolName> ASSIGN // =
+
+%token<symbolName> INT VOID // int void
+%token<symbolName> COMMA SEMICOLON // , ;
+%token<symbolName> IF ELSE // if else
+%token<symbolName> WHILE DO FOR CONTINUE BREAK // while do for continue break
+%token<symbolName> RETURN // return
+%token<symbolName> STRUCT // struct
+
+// expression
+%type<child_label> expression assign_expression orh_expression or_expression andh_expression and_expression
+%type<child_label> eneh_expression ene_expression lgh_expression lg_expression pmh_expression pm_expression
+%type<child_label> mtd_expression mtdh_expression pow_expression powh_expression not_expression noth_expression
+%type<child_label> pid_expression pointer_expression
+
+//type of argument
+%type<child_label> type_defination
+
+//for-loop while-loop
+%type<child_label> for_expression while_expression do_expression
+%type<child_label> for_action_expression for_condition_expression for_init_expression for_more_action_expression for_more_condition_expression
+
+//decorated_identifier eg: **a[3]
+%type<child_label> decorated_identifier address_decorator array_decorator high_ay_decorator high_nter_decorator
+
+//statement
+%type<child_label> statement statement_body statement_block
+
+//declaration of argument and function
+%type<child_label> declaration declaration_name declaration_content argument_declaration function_declaration
+%type<child_label> declaration_unit declaration_list declaration_list_tail declaration_init
+%type<child_label> function_argument function_argument_list function_argument_tail
+
+//condition
+%type<child_label> condition_expression condition_tail
+
+//output
+%type<child_label> print_content
+
 
 %nonassoc NONE_ELSE
 %nonassoc ELSE
@@ -42,279 +83,303 @@ extern "C"
 %%
 
 expression
-    : {level++;}orh_expression assign_expression { level--; }
+    : orh_expression { 
+        push_child(word_pos - 1, &($<child_label>$)); 
+      } assign_expression { 
+        push_child(word_pos - 1, &($$.child_label)); 
+        print_non_terminal_symbol(word_pos++, "expression"); 
+      }
     ;
 
 assign_expression
-    : {level++;} ASSIGN orh_expression assign_expression { level--; }
+    : ASSIGN { 
+        print_terminal_symbol(word_pos++, );
+        push_child(word_pos - 1, &($<child_label>$));
+      } orh_expression { 
+        push_child(word_pos - 1, &($<child_label>$)); 
+      } assign_expression { 
+        push_child(word_pos - 1, &($<child_label>$)); 
+        print_non_terminal_symbol(word_pos++, "assign_expression", &($<child_label>$)); 
+      }
     | /* epsilon */
     ;
 
 orh_expression
-    : {level++;} andh_expression or_expression { level--; }
+    : andh_expression { push_child(word_pos - 1, &($<child_label>$)); } or_expression { push_child(word_pos - 1, &($<child_label>$)); print_non_terminal_symbol(word_pos++, "orh_expression"); }
     ;
 
 or_expression
-    : {level++;} OR andh_expression or_expression { level--; }
+    : OR { print_terminal_symbol(word_pos++, ); } andh_expression or_expression { push_child(word_pos - 1, &($<child_label>$)); print_non_terminal_symbol(word_pos++, "or_expression"); }
     | /* epsilon */
     ;
 
 andh_expression
-    : {level++;} eneh_expression and_expression { level--; }
+    : eneh_expression and_expression { print_non_terminal_symbol(word_pos++, "andh_expression"); }
     ;
 
 and_expression
-    : {level++;} AND eneh_expression and_expression { level--; }
+    : AND { print_terminal_symbol(word_pos++, ); } eneh_expression and_expression { print_non_terminal_symbol(word_pos++, "and_expression"); }
     | /* epsilon */
     ;
 
 eneh_expression
-    : {level++;} lgh_expression ene_expression { level--; }
+    : lgh_expression ene_expression { print_non_terminal_symbol(word_pos++, "eneh_expression"); }
     ;
 
 ene_expression
-    : {level++;} EQ lgh_expression ene_expression { level--; }
-    | {level++;} NE lgh_expression ene_expression { level--; }
+    : EQ { print_terminal_symbol(word_pos++, ); } lgh_expression ene_expression { print_non_terminal_symbol(word_pos++, "ene_expression"); }
+    | NE { print_terminal_symbol(word_pos++, ); } lgh_expression ene_expression { print_non_terminal_symbol(word_pos++, "ene_expression"); }
     | /* epsilon */
     ;
 
 lgh_expression
-    : {level++;} pmh_expression lg_expression { level--; }
+    : pmh_expression lg_expression { print_non_terminal_symbol(word_pos++, "lgh_expression"); }
     ;
 
 lg_expression
-    : {level++;} GT pmh_expression lg_expression { level--; }
-    | {level++;} GE pmh_expression lg_expression { level--; }
-    | {level++;} LT pmh_expression lg_expression { level--; }
-    | {level++;} LE pmh_expression lg_expression { level--; }
+    : GT { print_terminal_symbol(word_pos++, ); } pmh_expression lg_expression { print_non_terminal_symbol(word_pos++, "lg_expression"); }
+    | GE { print_terminal_symbol(word_pos++, ); } pmh_expression lg_expression { print_non_terminal_symbol(word_pos++, "lg_expression"); }
+    | LT { print_terminal_symbol(word_pos++, ); } pmh_expression lg_expression { print_non_terminal_symbol(word_pos++, "lg_expression"); }
+    | LE { print_terminal_symbol(word_pos++, ); } pmh_expression lg_expression { print_non_terminal_symbol(word_pos++, "lg_expression"); }
     | /* epsilon */
     ;
 
 pmh_expression
-    : {level++;} mtdh_expression pm_expression { level--; }
+    : mtdh_expression pm_expression { print_non_terminal_symbol(word_pos++, "pmh_expression"); }
     ;
 
 pm_expression
-    : {level++;} PLUS mtdh_expression pm_expression { level--; }
-    | {level++;} MINUS mtdh_expression pm_expression { level--; }
+    : PLUS { print_terminal_symbol(word_pos++, ); } mtdh_expression pm_expression { print_non_terminal_symbol(word_pos++, "pm_expression"); }
+    | MINUS { print_terminal_symbol(word_pos++, ); } mtdh_expression pm_expression { print_non_terminal_symbol(word_pos++, "pm_expression"); }
     | /* epsilon */
     ;
 
 mtdh_expression
-    : {level++;} powh_expression mtd_expression { level--; }
+    : powh_expression mtd_expression { print_non_terminal_symbol(word_pos++, "mtdh_expression"); }
     ;
 
 mtd_expression
-    : {level++;} MOD powh_expression mtd_expression { level--; }
-    | {level++;} TIMES powh_expression mtd_expression { level--; }
-    | {level++;} DIVIDE powh_expression mtd_expression { level--; }
+    : MOD { print_terminal_symbol(word_pos++, ); } powh_expression mtd_expression { print_non_terminal_symbol(word_pos++, "mtd_expression"); }
+    | TIMES { print_terminal_symbol(word_pos++, ); } powh_expression mtd_expression { print_non_terminal_symbol(word_pos++, "mtd_expression"); }
+    | DIVIDE { print_terminal_symbol(word_pos++, ); } powh_expression mtd_expression { print_non_terminal_symbol(word_pos++, "mtd_expression"); }
     | /* epsilon */
     ;
 
 powh_expression
-    : {level++;} noth_expression pow_expression { level--; }
+    : noth_expression pow_expression { print_non_terminal_symbol(word_pos++, "powh_expression"); }
     ;
 
 pow_expression
-    : {level++;} POW noth_expression pow_expression { level--; }
+    : POW { print_terminal_symbol(word_pos++, ); } noth_expression pow_expression { print_non_terminal_symbol(word_pos++, "pow_expression"); }
     | /* epsilon */
     ;
 
 noth_expression
-    : {level++;} pid_expression not_expression { level--; }
+    : pid_expression not_expression { print_non_terminal_symbol(word_pos++, "noth_expression"); }
     ;
 
 not_expression
-    : {level++;} NOT pid_expression not_expression { level--; }
+    : NOT { print_terminal_symbol(word_pos++, ); } pid_expression not_expression { print_non_terminal_symbol(word_pos++, "noth_expression"); }
     | /* epsilon */
     ;
 
 pid_expression
-    : {level++;} LP expression RP { level--; }
-    | {level++;} IDENTIFIER pointer_expression { level--; }
-    | {level++;} CONSTANT { level--; }
+    : LP { print_terminal_symbol(word_pos++, ); } expression RP { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, "pid_expression"); }
+    | IDENTIFIER { print_terminal_symbol(word_pos++, ); } pointer_expression { print_non_terminal_symbol(word_pos++, "pid_expression"); }
+    | CONSTANT { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, "pid_expression"); }
     ;
 
 pointer_expression
-    : {level++;} POINTER IDENTIFIER pointer_expression
+    : POINTER IDENTIFIER { print_terminal_symbol(word_pos++, ); } pointer_expression { print_non_terminal_symbol(word_pos++, "pointer_expression"); }
     |
     ;
 
 type_defination
-    : {level++;} INT { level--; }
-    | {level++;} VOID { level--; }
-    | {level++;} STRUCT IDENTIFIER { level--; }
+    : INT { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, "pointer_expression"); }
+    | VOID { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, "pointer_expression"); }
+    | STRUCT { print_terminal_symbol(word_pos++, ); } IDENTIFIER { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, "pointer_expression"); }
     ;
 
 do_expression
-    : {level++;} DO { /*establish local scope*/ ;} statement_block WHILE LP expression RP SEMICOLON { level--; }
+    : DO { print_terminal_symbol(word_pos++, ); } { /*establish local scope*/ ;} statement_block WHILE { print_terminal_symbol(word_pos++, ); } LP { print_terminal_symbol(word_pos++, ); } expression RP { print_terminal_symbol(word_pos++, ); } SEMICOLON { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, "do_expression"); }
     ;
 
 while_expression
-    : {level++;} WHILE LP expression RP { /*establish local scope*/ ;} statement_block { level--; }
+    : WHILE { print_terminal_symbol(word_pos++, ); } LP { print_terminal_symbol(word_pos++, ); } expression RP { print_terminal_symbol(word_pos++, ); } { /*establish local scope*/ ;} statement_block { print_non_terminal_symbol(word_pos++, "while_expression"); }
     ;
 
 for_init_expression
-    : {level++;} declaration { level--; }
-    | {level++;} expression for_more_condition_expression { level--; }
+    : declaration { print_non_terminal_symbol(word_pos++, "for_init_expression"); }
+    | expression for_more_condition_expression { print_non_terminal_symbol(word_pos++, "for_init_expression"); }
     | /* epsilon */
     ;
 
 for_condition_expression
-    : {level++;} expression for_more_condition_expression { level--; }
+    : expression for_more_condition_expression { print_non_terminal_symbol(word_pos++, "for_condition_expression"); }
     | /* epsilon */
     ;
 
 for_more_condition_expression
-    : {level++;} COMMA expression for_more_condition_expression { level--; }
+    : COMMA { print_terminal_symbol(word_pos++, ); } expression for_more_condition_expression { print_non_terminal_symbol(word_pos++, "for_condition_expression"); }
     | /* epsilon */
     ;
     
 for_action_expression
-    : {level++;} expression for_more_action_expression { level--; }
+    : expression for_more_action_expression { print_non_terminal_symbol(word_pos++, "for_action_expression"); }
     | /* epsilon */
     ;
 
 for_more_action_expression
-    : {level++;} COMMA expression { level--; }
+    : COMMA { print_terminal_symbol(word_pos++, ); } expression { print_non_terminal_symbol(word_pos++, "for_action_expression"); }
     | /* epsilon */
     ;
 
 for_expression
-    : {level++;} FOR { /*establish local scope*/ ;} LP for_init_expression SEMICOLON for_condition_expression SEMICOLON for_action_expression RP statement_block { level--; }
+    : FOR { print_terminal_symbol(word_pos++, ); } { /*establish local scope*/ ;} LP { print_terminal_symbol(word_pos++, ); } for_init_expression SEMICOLON { print_terminal_symbol(word_pos++, ); } for_condition_expression SEMICOLON { print_terminal_symbol(word_pos++, ); } for_action_expression RP { print_terminal_symbol(word_pos++, ); } statement_block { print_non_terminal_symbol(word_pos++, "for_expression"); }
     ;
 
 array_decorator
-    : {level++;} LSB expression RSB { level--; }
+    : LSB { print_terminal_symbol(word_pos++, ); } expression RSB { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, "array_decorator"); }
     ;
 
-high_level_array_decorator
-    : {level++;} array_decorator high_level_array_decorator { level--; }
+high_ay_decorator
+    : array_decorator high_ay_decorator { print_non_terminal_symbol(word_pos++, "high_ay_decorator"); }
     |
     ;
 
-high_level_pointer_decorator
-    : {level++;} TIMES high_level_pointer_decorator { level--; }
+high_nter_decorator
+    : TIMES { print_terminal_symbol(word_pos++, ); } high_nter_decorator { print_non_terminal_symbol(word_pos++, "high_nter_decorator"); }
     |
     ;
 
 address_decorator
-    : {level++;} ADDRESS { level--; }
+    : ADDRESS { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, "address_decorator"); }
     | 
     ;
 
 decorated_identifier
-    : {level++;} address_decorator high_level_pointer_decorator IDENTIFIER high_level_array_decorator { level--; }
+    : address_decorator high_nter_decorator IDENTIFIER { print_terminal_symbol(word_pos++, ); } high_ay_decorator { print_non_terminal_symbol(word_pos++, "decorated_identifier"); }
     ;
 
 statement
-    : {level++;} expression SEMICOLON { level--; }
-    //| function { level--; }
-    | {level++;} for_expression { level--; }
-    | {level++;} do_expression { level--; }
-    | {level++;} while_expression { level--; }
-    | {level++;} condition_expression { level--; }
-    | {level++;} declaration SEMICOLON { level--; }
-    |  {{level++;} /*establish local scope*/ ;}statement_block { level--; }
-    | {level++;} BREAK SEMICOLON { level--; }
-    | {level++;} CONTINUE SEMICOLON { level--; }
-    | {level++;} RETURN expression SEMICOLON { level--; }
-    | {level++;} SEMICOLON { level--; }
-    | {level++;} PRINT LP print_content RP SEMICOLON { level--; }
-    | {level++;} INPUT LP expression RP SEMICOLON { level--; }
+    : expression SEMICOLON { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, "statement"); }
+    //| function { print_non_terminal_symbol(word_pos++, ""); }
+    | for_expression { print_non_terminal_symbol(word_pos++, "statement"); }
+    | do_expression { print_non_terminal_symbol(word_pos++, "statement"); }
+    | while_expression { print_non_terminal_symbol(word_pos++, "statement"); }
+    | condition_expression { print_non_terminal_symbol(word_pos++, "statement"); }
+    | declaration SEMICOLON { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, "statement"); }
+    | { /*establish local scope*/ ; }statement_block { print_non_terminal_symbol(word_pos++, "statement"); }
+    | BREAK { print_terminal_symbol(word_pos++, ); } SEMICOLON { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, "statement"); }
+    | CONTINUE { print_terminal_symbol(word_pos++, ); } SEMICOLON { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, "statement"); }
+    | RETURN { print_terminal_symbol(word_pos++, ); } expression SEMICOLON { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, "statement"); }
+    | SEMICOLON { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, ""); }
+    | PRINT { print_terminal_symbol(word_pos++, ); } LP { print_terminal_symbol(word_pos++, ); } print_content RP { print_terminal_symbol(word_pos++, ); } SEMICOLON { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, "statement"); }
+    | INPUT { print_terminal_symbol(word_pos++, ); } LP { print_terminal_symbol(word_pos++, ); } decorated_identifier RP { print_terminal_symbol(word_pos++, ); } SEMICOLON { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, "statement"); }
     ;
 
+
+
 print_content
-    : {level++;} expression
-    | {level++;} STRING_C
+    : expression { print_non_terminal_symbol(word_pos++, "print_content"); }
+    | STRING_C { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, "print_content"); }
     ;
 
 statement_block
-    : {level++;} LBP statement_body RBP { level--; }
+    : LBP { print_terminal_symbol(word_pos++, ); } statement_body RBP { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, "statement_block"); }
     ;
 
 statement_body
-    : {level++;} statement statement_body { level--; }
+    : statement statement_body { print_non_terminal_symbol(word_pos++, "statement_body"); }
     |
     ;
 
 function_declaration
-    : {level++;} LP function_argument_list RP { /*establish local scope*/ ;} statement_block { level--; }
+    : LP { print_terminal_symbol(word_pos++, ); } function_argument_list RP { print_terminal_symbol(word_pos++, ); } { /*establish local scope*/ ;} statement_block { print_non_terminal_symbol(word_pos++, "function_declaration"); }
     ;
 
 argument_declaration
-    : {level++;} declaration_list SEMICOLON { level--; }
+    : declaration_list SEMICOLON { print_terminal_symbol(word_pos++, ); } { print_non_terminal_symbol(word_pos++, "argument_declaration"); }
     ;
 
 declaration
-    : {level++;} declaration_name declaration_content
+    : declaration_name declaration_content { print_non_terminal_symbol(word_pos++, "declaration"); }
     ;
 
 declaration_content
-    : {level++;} function_declaration
-    | {level++;} argument_declaration
+    : function_declaration { print_non_terminal_symbol(word_pos++, "declaration_content"); }
+    | argument_declaration { print_non_terminal_symbol(word_pos++, "declaration_content"); }
     ;
 
 declaration_name
-    : {level++;} type_defination decorated_identifier
+    : type_defination decorated_identifier { print_non_terminal_symbol(word_pos++, "declaration_name"); }
     ;
 
 // declaration_list
-//     : declaration_unit COMMA declaration_list { level--; }
-//     | declaration_unit { level--; }
+//     : declaration_unit COMMA declaration_list { print_non_terminal_symbol(word_pos++, ""); }
+//     | declaration_unit { print_non_terminal_symbol(word_pos++, ""); }
 //     ;
 declaration_list
-    : {level++;} declaration_unit declaration_list_tail { level--; }
+    : declaration_unit declaration_list_tail { print_non_terminal_symbol(word_pos++, "declaration_list"); }
     ;
 
 declaration_list_tail
-    : {level++;} COMMA declaration_list { level--; }
+    : COMMA { print_terminal_symbol(word_pos++, ); } declaration_list //{ print_non_terminal_symbol(word_pos++, "declaration_list_tail"); }
     | 
     ;
 
 declaration_unit
-    : {level++;} decorated_identifier declaration_init { level--; }
+    : decorated_identifier declaration_init { print_non_terminal_symbol(word_pos++, "declaration_unit"); }
     ;
 
 declaration_init
-    : {level++;} ASSIGN expression { level--; }
+    : ASSIGN { print_terminal_symbol(word_pos++, ); } expression { print_non_terminal_symbol(word_pos++, "declaration_init"); }
     | 
     ;
 
 function_argument
-    : {level++;} type_defination decorated_identifier { level--; }
+    : declaration_name declaration_init{ print_non_terminal_symbol(word_pos++, "function_argument"); }
     ;
 
 function_argument_list
-    : {level++;} function_argument function_argument_tail { level--; }
+    : function_argument function_argument_tail { print_non_terminal_symbol(word_pos++, "function_argument_list"); }
     |
     ;
 
 function_argument_tail
-    : {level++;} COMMA function_argument_list
+    : COMMA { print_terminal_symbol(word_pos++, ); } function_argument_list //{ print_non_terminal_symbol(word_pos++, "function_argument_tail"); }
     |
     ;
 
 condition_expression
-    : {level++;} IF LP expression RP statement {level++;} condition_tail { level--; } { level--; }
+    : IF { print_terminal_symbol(word_pos++, ); } LP { print_terminal_symbol(word_pos++, ); } expression RP { print_terminal_symbol(word_pos++, ); } statement condition_tail { print_non_terminal_symbol(word_pos++, "condition_tail"); } { print_non_terminal_symbol(word_pos++, "condition_expression"); }
     ;
 
 condition_tail
-    : ELSE statement 
-    | %prec NONE_ELSE
+    : ELSE { print_terminal_symbol(word_pos++, ); } statement 
+    | {}%prec NONE_ELSE
+    ;
 
 %%
 
 %{
-    void print_sentence(int offset){
-        for(int i = 0; i < offset; i++){
-            printf('\t');
-        }
+    void print_non_terminal_symbol(int word_pos, const char* sentence, child* childSymbol){
+        printf(sentence);
+        printf(":%d", word_pos);
+        printf("/t/tchild:");
+        for (int i = 0; i < childSymbol)
+    }
+
+    void print_terminal_symbol(){
+
     }
 
     int main(void)  { 
-        int level = 0;
+        int word_pos = 0;
         yyparse(); 
         return 0; 
+        // grammerItem grammerHead
+        // grammerItem* grammerStackTail;
+        // int size = 0;
     }   
 %}
