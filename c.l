@@ -1,6 +1,7 @@
 %{
 #include <stdio.h>
-#include <table.h>
+#include "file.h"
+#include "table.h"
 #include "y.tab.h"
 
 #define TYPE_OUTPUT_LENGTH 15
@@ -15,25 +16,29 @@ void printItem(char* type, char* name, char* attribute);
 %}
 
 %%
-[\n\t \r]*						{ move(); }
+[\t \r]+						{ move(); }
 (0|([1-9][0-9]*))       	    { appentLexOutputFile("CONSTANT", yytext, yytext); return(CONSTANT); }
 \"(\\.|[^\\"\n])*\"				{ appentLexOutputFile("STRING_C", yytext, yytext); return(STRING_C); }
 "print"							{ appentLexOutputFile("PRINT", yytext, ""); return(PRINT); }
 "input"							{ appentLexOutputFile("INPUT", yytext, ""); return(INPUT); }
-[a-zA-Z_]([0-9]|[a-zA-Z_]|$)*   { {
-	if (search(yytext)) {
-		printf("Exist.\n");
+[a-zA-Z_]([0-9]|[a-zA-Z_]|$)*   {
+	{
+		if (search(yytext)) {
+			printf("Exist at line %d.\n", yylineno);
+		}
+		else {
+			int position = add(yytext);
+			char* attr;
+			itoa(position, attr, 10);
+			char* attribute;
+			strcpy(attribute, "0x");
+			strcat(attribute, attr);
+			appentLexOutputFile("IDENTIFER", yytext, );
+		}
 	}
-	else {
-		int position = add(yytext);
-		char* attr;
-		itoa(position, attr, 10);
-		char* attribute;
-		strcpy(attribute, "0x");
-		strcat(attribute, attr);
-		appentLexOutputFile("IDENTIFER", yytext, );
-	}
-}  return(IDENTIFER); }
+	yyval.str=yytext;
+	return(IDENTIFER);
+}
 
 "("			{ appentLexOutputFile("LP", yytext, ""); return(LP); }
 ")"			{ appentLexOutputFile("RP", yytext, ""); return(RP); }
@@ -82,6 +87,7 @@ char* outputTitle() {
  }
 
 void appentLexOutputFile(char* type, char* name, char* attribute) {
+	appendLEX(combineItem(type, name, attribute));
 	printItem(type, name, attribute);
 }
 
