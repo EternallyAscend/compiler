@@ -5,30 +5,48 @@
 #ifndef TABLE_H
 #define TABLE_H
 
-int launchTable();
+struct Word {
+	const char* name;
+	int type;
+	int store;
+	int position;
+	int symbolPosition;
+};
 
-int stopTable();
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+	int launchTable();
 
-int pushScope(int creator);
+	int stopTable();
 
-int popScope();
+	int pushScope(int creator);
 
-int addWord(char* name);
+	int popScope();
 
-int searchWord(char* name);
+	int addWord(char* name);
 
-int searchWordGlobal(char* name);
+	int searchWord(char* name);
 
-int setType(char* name, int type);
+	int searchWordGlobal(char* name);
 
-int setStore(char* name, int store, int position);
+	int setType(char* name, int type);
 
-int setCurrentType(int type);
+	int setStore(char* name, int store, int position);
 
-int setTypeFunction(char* name, int type);
+	int setCurrentType(int type);
 
-int setStoreFunction(char* name, int store, int position);
+	int setTypeFunction(char* name, int type);
 
-int restartTable();
+	int setStoreFunction(char* name, int store, int position);
 
+	int restartTable();
+
+	struct Word* getWordInfo(char* name);
+
+	struct Word* getWordInfoFunction(char* name);
+
+#ifdef __cplusplus
+}
+#endif // __cplusplus
 #endif // TABLE_H

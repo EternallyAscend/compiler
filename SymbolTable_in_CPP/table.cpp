@@ -115,7 +115,7 @@ int setStoreFunction(char* name, int store, int position) {
 		return 0;
 	}
 	else {
-		return symbolTable->setStore(name, store, position);
+		return symbolTable->setStoreFunction(name, store, position);
 	}
 }
 
@@ -125,5 +125,23 @@ int restartTable() {
 	}
 	else {
 		return symbolTable->restart();
+	}
+}
+
+struct Word* getWordInfo(char* name) {
+	if (NULL == symbolTable) {
+		return NULL;
+	}
+	else {
+		return symbolTable->getWordGlobal(name);
+	}
+}
+
+struct Word* getWordInfoFunction(char* name) {
+	if (NULL == symbolTable) {
+		return NULL;
+	}
+	else {
+		return symbolTable->getWordFunction(name);
 	}
 }

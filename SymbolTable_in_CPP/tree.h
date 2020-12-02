@@ -21,6 +21,7 @@ private:
 	~Node();
 	int addItem(Item* item);
 	int addChild(Node* child);
+	int countItem(std::string name);
 	Item* getItem(std::string name);
 	Node* getNextChild();
 };
@@ -48,6 +49,8 @@ public:
 	int setStoreFunction(std::string name, int store, int position);
 	int setCurrentType(int type);
 	int restart();
+	struct Word* getWordGlobal(std::string name);
+	struct Word* getWordFunction(std::string name);
 };
 
 #endif TREE_H // TREE_H

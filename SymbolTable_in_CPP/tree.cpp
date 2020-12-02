@@ -3,6 +3,7 @@
 //
 
 #include "tree.h"
+#include "table.h"
 
 // Node ============================================================
 
@@ -35,8 +36,17 @@ int Node::addChild(Node* child) {
 	return this->children->size();
 }
 
+int Node::countItem(std::string name) {
+	return this->hashMap->count(name);
+}
+
 Item* Node::getItem(std::string name) {
-	return this->hashMap->at(name);
+	if (this->hashMap->count(name)) {
+		return this->hashMap->at(name);
+	}
+	else {
+		return NULL;
+	}
 }
 
 Node* Node::getNextChild() {
@@ -94,6 +104,9 @@ int Tree::popScope() {
 			this->current = this->current->parent;
 			return 1;
 		}
+		else {
+			this->current = this->root;
+		}
 		return 0;
 	}
 	return -1;
@@ -112,10 +125,12 @@ int Tree::addWord(std::string name) {
 
 int Tree::searchWord(std::string name) {
 	if (NULL == this->current) {
+
+		printf("Null current pointer. \n");
 		return -1;
 	}
 	else {
-		return NULL == this->current->getItem(name);
+		return this->current->countItem(name); // NULL != this->current->getItem(name);
 	}
 }
 
@@ -125,7 +140,7 @@ int Tree::searchWordGlobal(std::string name) {
 	}
 	else {
 		Node* pointer = this->current;
-		while (NULL == pointer->getItem(name)) {
+		while (0 == pointer->countItem(name)) { // NULL == pointer->getItem(name)) {
 			if (NULL != pointer->parent) {
 				pointer = pointer->parent;
 			}
@@ -133,7 +148,7 @@ int Tree::searchWordGlobal(std::string name) {
 				break;
 			}
 		}
-		return NULL == pointer->getItem(name);
+		return pointer->countItem(name); // NULL != pointer->getItem(name);
 	}
 }
 
@@ -204,4 +219,37 @@ int Tree::restart() {
 	this->current = this->root;
 	this->root->cursor = 0;
 	return 1;
+}
+
+struct Word* Tree::getWordGlobal(std::string name) {
+	Item* item = getItemGlobal(name);
+	if (NULL == item) {
+		return NULL;
+	}
+	else {
+		struct Word* word = (struct Word*)malloc(sizeof(struct Word));
+		word->name = item->name.c_str();
+		word->type = item->type;
+		word->store = item->store;
+		word->position = item->position;
+		word->symbolPosition = (int)item;
+		return word;
+	}
+}
+
+struct Word* Tree::getWordFunction(std::string name) {
+	Item* item = this->current->getItem(name);
+	if (NULL == item) {
+		item = this->root->getItem(name);
+		if (NULL == item) {
+			return NULL;
+		}
+	}
+	struct Word* word = (struct Word*)malloc(sizeof(struct Word));
+	word->name = item->name.c_str();
+	word->type = item->type;
+	word->store = item->store;
+	word->position = item->position;
+	word->symbolPosition = (int)item;
+	return word;
 }
