@@ -4,6 +4,7 @@
 #include "file.h"
 #define MAX_CHILDREN_NUM 10
 #define MAX_SENTENCE_LENGTH 32
+#define MAX_OUTPUT_LENGTH 128
 #define TERMINAL 1
 #define NON_TERMINAL 0
 
@@ -49,8 +50,14 @@ void freeGrammerTree(grammerTree* root) {
 }
 
 void printGrammerNode(grammerTree* node) {
-    char* str;
-    // unfinished
+    char str[MAX_OUTPUT_LENGTH];
+    sprintf(str, "%-8d: \t%-32s\t%-32s\t", node->index, node->grammer, node->word);
+    char child[24] = "child: ";
+    for(int i = 0; i < node->size; i++) {
+        sprintf(child, "%s %d", child, node->child[i]->index);
+    }
+    strcat(str, child);
+    // output str
     appendYACC(str);
 }
 

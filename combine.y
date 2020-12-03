@@ -23,6 +23,8 @@ void extendTree(int isTerminal, const char* word, const char* grammer);
 void backToParent();
 void extendOptTree(const char* opt);
 void extendTerminal(const char* word, const char* grammer);
+void broToParent();
+void connectParentChild();
 
 void saveNode();
 void loadNode();
@@ -64,8 +66,7 @@ void loadNode();
 
 //for-loop while-loop
 %type for_expression while_expression do_expression
-%type for_action_expression for_condition_expression for_init_expression for_more_action_expression for_more_condition_expression
-
+%type for_action_expression for_condition_expression for_init_expression
 //decorated_identifier eg: **a[3]
 %type decorated_identifier address_decorator array_decorator high_ay_decorator high_nter_decorator
 
@@ -73,8 +74,8 @@ void loadNode();
 %type statement statement_body statement_block
 
 //declaration of argument and function
-%type declaration declaration_name declaration_content argument_declaration function_declaration
-%type declaration_unit declaration_list declaration_list_tail declaration_init
+%type declaration function_declaration
+%type argument_declaration_unit argument_declaration_list argument_declaration_list_tail argument_declaration_init
 %type function_argument function_argument_list function_argument_tail
 
 //condition
@@ -83,14 +84,27 @@ void loadNode();
 //output
 %type print_content
 
-
 %nonassoc NONE_ELSE
 %nonassoc ELSE
 
 %start statement_body
 %%
 
+
 expression
+    : single_expression comma_expression
+    ;
+
+comma_expression
+    : COMMA {
+        extendOptTree(",");
+    } single_expression {
+        backToParent();
+    } comma_expression 
+    | {} 
+    ;
+
+single_expression
     : orh_expression assign_expression
     ;
 
@@ -315,30 +329,46 @@ while_expression
     }
     ;
 
-for_init_expression
+/* for_init_expression
     : declaration { print_non_terminal_symbol(word_pos++, "for_init_expression"); }
-    | expression for_more_condition_expression { print_non_terminal_symbol(word_pos++, "for_init_expression"); }
-    | /* epsilon */
+    | for_condition_expression
+    | // epsilon 
     ;
 
 for_condition_expression
     : expression for_more_condition_expression { print_non_terminal_symbol(word_pos++, "for_condition_expression"); }
-    | /* epsilon */
+    | // epsilon 
     ;
 
 for_more_condition_expression
-    : COMMA {  } expression for_more_condition_expression { print_non_terminal_symbol(word_pos++, "for_condition_expression"); }
-    | /* epsilon */
+    : COMMA {  } for_condition_expression { print_non_terminal_symbol(word_pos++, "for_condition_expression"); }
+    | // epsilon 
     ;
     
 for_action_expression
     : expression for_more_action_expression { print_non_terminal_symbol(word_pos++, "for_action_expression"); }
-    | /* epsilon */
+    | // epsilon 
     ;
 
 for_more_action_expression
-    : COMMA {  } expression { print_non_terminal_symbol(word_pos++, "for_action_expression"); }
-    | /* epsilon */
+    : COMMA {  } for_action_expression { print_non_terminal_symbol(word_pos++, "for_action_expression"); }
+    | // epsilon 
+    ; */
+
+for_init_expression
+    : declaration
+    | expression
+    |
+    ;
+
+for_condition_expression
+    : expression
+    |
+    ;
+
+for_action_expression
+    : expression
+    |
     ;
 
 for_expression
@@ -365,125 +395,210 @@ for_expression
     ;
 
 array_decorator
-    : LSB {  } expression RSB {  } { print_non_terminal_symbol(word_pos++, "array_decorator"); }
+    : LSB { 
+        extendOptTree("[]"); 
+    } expression RSB {
+        backToParent();
+    }
     ;
 
 high_ay_decorator
-    : array_decorator high_ay_decorator { print_non_terminal_symbol(word_pos++, "high_ay_decorator"); }
+    : array_decorator high_ay_decorator
     |
     ;
 
 high_nter_decorator
-    : TIMES {  } high_nter_decorator { print_non_terminal_symbol(word_pos++, "high_nter_decorator"); }
+    : TIMES {
+        extendTree(NON_TERMINAL, "*", "pointer");
+    } high_nter_decorator
     |
     ;
 
 address_decorator
-    : ADDRESS {  } { print_non_terminal_symbol(word_pos++, "address_decorator"); }
+    : ADDRESS {
+        extendTree(NON_TERMINAL, "&", "address");
+    }
     | 
     ;
 
 decorated_identifier
-    : address_decorator high_nter_decorator IDENTIFIER {  } high_ay_decorator { print_non_terminal_symbol(word_pos++, "decorated_identifier"); }
+    : {
+        saveNode();
+    } address_decorator high_nter_decorator IDENTIFIER {
+        extendTerminal($4, "identifier");
+    } high_ay_decorator {
+        loadNode();
+    }
     ;
 
 statement
-    : expression SEMICOLON {  } { print_non_terminal_symbol(word_pos++, "statement"); }
+    : expression SEMICOLON
     //| function { print_non_terminal_symbol(word_pos++, ""); }
-    | for_expression { print_non_terminal_symbol(word_pos++, "statement"); }
-    | do_expression { print_non_terminal_symbol(word_pos++, "statement"); }
-    | while_expression { print_non_terminal_symbol(word_pos++, "statement"); }
-    | condition_expression { print_non_terminal_symbol(word_pos++, "statement"); }
-    | declaration SEMICOLON {  } { print_non_terminal_symbol(word_pos++, "statement"); }
-    | { /*establish local scope*/ ; }statement_block { print_non_terminal_symbol(word_pos++, "statement"); }
-    | BREAK {  } SEMICOLON {  } { print_non_terminal_symbol(word_pos++, "statement"); }
-    | CONTINUE {  } SEMICOLON {  } { print_non_terminal_symbol(word_pos++, "statement"); }
-    | RETURN {  } expression SEMICOLON {  } { print_non_terminal_symbol(word_pos++, "statement"); }
-    | SEMICOLON {  } { print_non_terminal_symbol(word_pos++, ""); }
-    | PRINT {  } LP {  } print_content RP {  } SEMICOLON {  } { print_non_terminal_symbol(word_pos++, "statement"); }
-    | INPUT {  } LP {  } decorated_identifier RP {  } SEMICOLON {  } { print_non_terminal_symbol(word_pos++, "statement"); }
+    | for_expression
+    | do_expression
+    | while_expression
+    | condition_expression
+    | declaration SEMICOLON
+    | { /*establish local scope*/ ; }statement_block
+    | BREAK {
+        extendTerminal("break", "break");
+    } SEMICOLON
+    | CONTINUE {
+        extendTerminal("continue", "continue");
+    } SEMICOLON
+    | RETURN {
+        extendTree(NON_TERMINAL, "return", "return");
+    } expression SEMICOLON {
+        backToParent();
+    }
+    | SEMICOLON
+    | PRINT {
+        extendTree(NON_TERMINAL, "print", "print");
+    } LP {
+        extendTree(NON_TERMINAL, "", "print_content");
+    } print_content RP {
+        backToParent();
+        backToParent();
+    } SEMICOLON
+    | INPUT {
+        extendTree(NON_TERMINAL, "input", "input");
+    } LP decorated_identifier RP {
+        backToParent();
+    } SEMICOLON
     ;
 
 
 
 print_content
-    : expression { print_non_terminal_symbol(word_pos++, "print_content"); }
-    | STRING_C {  } { print_non_terminal_symbol(word_pos++, "print_content"); }
+    : expression
+    | STRING_C {
+        extendTerminal($1, "string");
+    }
     ;
 
 statement_block
-    : LBP {  } statement_body RBP {  } { print_non_terminal_symbol(word_pos++, "statement_block"); }
+    : LBP {
+        extendTree(NON_TERMINAL, "{}", "statement body");
+    } statement_body RBP {
+        backToParent();
+    }
     ;
 
 statement_body
-    : statement statement_body { print_non_terminal_symbol(word_pos++, "statement_body"); }
+    : statement statement_body
     |
     ;
 
-function_declaration
-    : LP {  } function_argument_list RP {  } { /*establish local scope*/ ;} statement_block { print_non_terminal_symbol(word_pos++, "function_declaration"); }
-    ;
-
-argument_declaration
-    : declaration_list SEMICOLON {  } { print_non_terminal_symbol(word_pos++, "argument_declaration"); }
-    ;
-
 declaration
-    : declaration_name declaration_content { print_non_terminal_symbol(word_pos++, "declaration"); }
+    : {
+        extendTree(NON_TERMINAL, "", "declaration");
+    } type_defination {
+        extendTree(NON_TERMINAL, "", "declaration body");
+        saveNode();
+    } declaration_body
     ;
 
-declaration_content
-    : function_declaration { print_non_terminal_symbol(word_pos++, "declaration_content"); }
-    | argument_declaration { print_non_terminal_symbol(word_pos++, "declaration_content"); }
+declaration_body
+    : function_declaration {
+        extendTree(NON_TERMINAL, "", "function declaration");
+        broToParent();
+        connectParentChild();
+    }
+    | argument_declaration_list {
+        extendTree(NON_TERMINAL, "", "argument declaration list");
+        broToParent();
+        connectParentChild();
+    } SEMICOLON
     ;
 
-declaration_name
-    : type_defination decorated_identifier { print_non_terminal_symbol(word_pos++, "declaration_name"); }
+function_declaration
+    : init_identifier LP {
+        extendTree(NON_TERMINAL, "()", "function argument list");
+    } function_argument_list RP {
+        backToParent();
+        // establish local scope
+    } function_defination
     ;
 
-// declaration_list
-//     : declaration_unit COMMA declaration_list { print_non_terminal_symbol(word_pos++, ""); }
-//     | declaration_unit { print_non_terminal_symbol(word_pos++, ""); }
-//     ;
-declaration_list
-    : declaration_unit declaration_list_tail { print_non_terminal_symbol(word_pos++, "declaration_list"); }
+function_defination
+    : {
+        extendTree(NON_TERMINAL, "", "function defination");
+    } statement_block {
+        backToParent();
+    }
+    | SEMICOLON
     ;
 
-declaration_list_tail
-    : COMMA {  } declaration_list //{ print_non_terminal_symbol(word_pos++, "declaration_list_tail"); }
+argument_declaration_list
+    : argument_declaration_unit argument_declaration_list_tail
+    ;
+
+argument_declaration_list_tail
+    : COMMA argument_declaration_list
     | 
     ;
 
-declaration_unit
-    : decorated_identifier declaration_init { print_non_terminal_symbol(word_pos++, "declaration_unit"); }
+argument_declaration_unit
+    : init_identifier {
+        extendTree(NON_TERMINAL, "", "argument declaration unit");
+        broToParent(1)
+    } argument_declaration_init {
+        backToParent();
+    }
+    ; 
+
+argument_declaration_init
+    : ASSIGN {
+        extendOptTree("=");
+    } single_expression {
+        backToParent();
+    }
+    | 
     ;
 
-declaration_init
-    : ASSIGN {  } expression { print_non_terminal_symbol(word_pos++, "declaration_init"); }
-    | 
+init_identifier
+    : high_nter_decorator IDENTIFIER {
+        extendTerminal($2, "identifier");
+    } high_ay_decorator {
+        loadNode();
+    }
     ;
 
 function_argument
-    : declaration_name declaration_init{ print_non_terminal_symbol(word_pos++, "function_argument"); }
+    : {
+        extendTree(NON_TERMINAL, "", "function argument unit");
+        saveNode();
+    } type_defination init_identifier argument_declaration_init {
+        backToParent();
+    }
     ;
 
 function_argument_list
-    : function_argument function_argument_tail { print_non_terminal_symbol(word_pos++, "function_argument_list"); }
+    : function_argument function_argument_tail
     |
     ;
 
 function_argument_tail
-    : COMMA {  } function_argument_list //{ print_non_terminal_symbol(word_pos++, "function_argument_tail"); }
+    : COMMA function_argument_list
     |
     ;
 
 condition_expression
-    : IF {  } LP {  } expression RP {  } statement condition_tail { print_non_terminal_symbol(word_pos++, "condition_tail"); } { print_non_terminal_symbol(word_pos++, "condition_expression"); }
+    : IF { 
+        extendTree(NON_TERMINAL, "if", "if expression");
+    } LP {
+        extendTree(NON_TERMINAL, "()", "if condition");
+    } expression RP {
+        backToParent();
+        extendTree(NON_TERMINAL, "", "if statement");
+    } statement condition_tail
     ;
 
 condition_tail
-    : ELSE {  } statement 
-    | {}%prec NONE_ELSE
+    : ELSE {
+        extendTree(NON_TERMINAL, "else", "else statement");
+    } statement 
+    | {} %prec NONE_ELSE
     ;
 
 %%
@@ -523,14 +638,49 @@ condition_tail
         curNode = stack[--stackContentSize];
     }
 
-    void extendOptTree(const char* opt){
+    void extendOptTree(const char* opt) {
         extendTree(NON_TERMINAL, opt, "expression");
         adjustOptNode(curNode);
     }
 
-    void extendTerminal(const char* word, const char* grammer){
+    void extendTerminal(const char* word, const char* grammer) {
         extendTree(TERMINAL, word, grammer);
     }
+
+    void broToParent(int num = -1) {
+        grammerTree* parent = curNode->parent;
+        selfPos = findSelfPos(curNode)
+        if (num == -1) i = 0;
+        else i =  selfPos - num
+        for (int n = i; n < selfPos; n++) {
+            push_child(curNode, parent->child[n]);
+        }
+        parent->child[i++] = curNode;
+        parent->size = i;
+    }
+
+    void connectParentChild() {
+        grammerTree* parent = curNode->parent;
+        grammerTree* child[] = curNode->child;
+        for (int i = 0; i < curNode->size; i++) {
+            push_child(parent, child[i]);
+        }
+        freeGrammerNode(curNode);
+        curNode = parent;
+    }
+
+    // void adjustOptNode(grammerTree* optNode) {
+    //     grammerTree* parent = optNode->parent;
+    //     int pos;
+    //     if((pos = findSelfPos(optNode)) == -1) return;
+    //     grammerTree* node = parent->child[pos - 1];
+    //     parent->child[pos - 1] = optNode;
+    //     parent->size--;
+    //     optNode->child[1] = optNode->child[0];
+    //     optNode->child[0] = node;
+    //     node->parent = optNode;
+    //     optNode->size++;
+    // }
 
     int main(void) { 
         root = createGrammerNode(NONTERMINAL, "start", -1);

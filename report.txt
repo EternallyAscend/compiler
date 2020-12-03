@@ -2,399 +2,366 @@ Grammar
 
     0 $accept: statement_body $end
 
-    1 $@1: %empty
+    1 expression: single_expression comma_expression
 
-    2 expression: $@1 orh_expression assign_expression
+    2 $@1: %empty
 
     3 $@2: %empty
 
-    4 assign_expression: $@2 ASSIGN orh_expression assign_expression
-    5                  | %empty
+    4 comma_expression: COMMA $@1 single_expression $@2 comma_expression
+    5                 | %empty
 
-    6 $@3: %empty
+    6 single_expression: orh_expression assign_expression
 
-    7 orh_expression: $@3 andh_expression or_expression
+    7 $@3: %empty
 
     8 $@4: %empty
 
-    9 or_expression: $@4 OR andh_expression or_expression
-   10              | %empty
+    9 assign_expression: ASSIGN $@3 orh_expression $@4 assign_expression
+   10                  | %empty
 
-   11 $@5: %empty
+   11 orh_expression: andh_expression or_expression
 
-   12 andh_expression: $@5 eneh_expression and_expression
+   12 $@5: %empty
 
    13 $@6: %empty
 
-   14 and_expression: $@6 AND eneh_expression and_expression
-   15               | %empty
+   14 or_expression: OR $@5 andh_expression $@6 or_expression
+   15              | %empty
 
-   16 $@7: %empty
+   16 andh_expression: eneh_expression and_expression
 
-   17 eneh_expression: $@7 lgh_expression ene_expression
+   17 $@7: %empty
 
    18 $@8: %empty
 
-   19 ene_expression: $@8 EQ lgh_expression ene_expression
+   19 and_expression: AND $@7 eneh_expression $@8 and_expression
+   20               | %empty
 
-   20 $@9: %empty
+   21 eneh_expression: lgh_expression ene_expression
 
-   21 ene_expression: $@9 NE lgh_expression ene_expression
-   22               | %empty
+   22 $@9: %empty
 
-   23 $@10: %empty
+   23 ene_expression: EQ $@9 lgh_expression
 
-   24 lgh_expression: $@10 pmh_expression lg_expression
+   24 $@10: %empty
 
-   25 $@11: %empty
+   25 ene_expression: NE $@10 lgh_expression
 
-   26 lg_expression: $@11 GT pmh_expression lg_expression
+   26 lgh_expression: pmh_expression lg_expression
 
-   27 $@12: %empty
+   27 $@11: %empty
 
-   28 lg_expression: $@12 GE pmh_expression lg_expression
+   28 lg_expression: GT $@11 pmh_expression
 
-   29 $@13: %empty
+   29 $@12: %empty
 
-   30 lg_expression: $@13 LT pmh_expression lg_expression
+   30 lg_expression: GE $@12 pmh_expression
 
-   31 $@14: %empty
+   31 $@13: %empty
 
-   32 lg_expression: $@14 LE pmh_expression lg_expression
-   33              | %empty
+   32 lg_expression: LT $@13 pmh_expression
 
-   34 $@15: %empty
+   33 $@14: %empty
 
-   35 pmh_expression: $@15 mtdh_expression pm_expression
+   34 lg_expression: LE $@14 pmh_expression
+   35              | %empty
 
-   36 $@16: %empty
+   36 pmh_expression: mtdh_expression pm_expression
 
-   37 pm_expression: $@16 PLUS mtdh_expression pm_expression
+   37 $@15: %empty
 
-   38 $@17: %empty
+   38 $@16: %empty
 
-   39 pm_expression: $@17 MINUS mtdh_expression pm_expression
-   40              | %empty
+   39 pm_expression: PLUS $@15 mtdh_expression $@16 pm_expression
+
+   40 $@17: %empty
 
    41 $@18: %empty
 
-   42 mtdh_expression: $@18 powh_expression mtd_expression
+   42 pm_expression: MINUS $@17 mtdh_expression $@18 pm_expression
+   43              | %empty
 
-   43 $@19: %empty
+   44 mtdh_expression: powh_expression mtd_expression
 
-   44 mtd_expression: $@19 MOD powh_expression mtd_expression
+   45 $@19: %empty
 
-   45 $@20: %empty
+   46 $@20: %empty
 
-   46 mtd_expression: $@20 TIMES powh_expression mtd_expression
+   47 mtd_expression: MOD $@19 powh_expression $@20 mtd_expression
 
-   47 $@21: %empty
+   48 $@21: %empty
 
-   48 mtd_expression: $@21 DIVIDE powh_expression mtd_expression
-   49               | %empty
+   49 $@22: %empty
 
-   50 $@22: %empty
+   50 mtd_expression: TIMES $@21 powh_expression $@22 mtd_expression
 
-   51 powh_expression: $@22 noth_expression pow_expression
+   51 $@23: %empty
 
-   52 $@23: %empty
+   52 $@24: %empty
 
-   53 pow_expression: $@23 POW noth_expression pow_expression
+   53 mtd_expression: DIVIDE $@23 powh_expression $@24 mtd_expression
    54               | %empty
 
-   55 $@24: %empty
+   55 powh_expression: noth_expression pow_expression
 
-   56 noth_expression: $@24 pid_expression not_expression
+   56 $@25: %empty
 
-   57 $@25: %empty
+   57 $@26: %empty
 
-   58 not_expression: $@25 NOT pid_expression not_expression
+   58 pow_expression: POW $@25 noth_expression $@26 pow_expression
    59               | %empty
 
-   60 $@26: %empty
+   60 $@27: %empty
 
-   61 pid_expression: $@26 LP expression RP
+   61 noth_expression: $@27 not_expression pid_expression
 
-   62 $@27: %empty
+   62 $@28: %empty
 
-   63 pid_expression: $@27 IDENTIFIER pointer_expression
+   63 not_expression: NOT $@28 not_expression
+   64               | %empty
 
-   64 $@28: %empty
+   65 $@29: %empty
 
-   65 pid_expression: $@28 CONSTANT
+   66 pid_expression: LP $@29 expression RP
 
-   66 $@29: %empty
+   67 $@30: %empty
 
-   67 pointer_expression: $@29 POINTER IDENTIFIER pointer_expression
-   68                   | %empty
+   68 pid_expression: IDENTIFIER $@30 pointer_expression
+   69               | CONSTANT
 
-   69 $@30: %empty
+   70 $@31: %empty
 
-   70 type_defination: $@30 INT
+   71 pointer_expression: POINTER IDENTIFIER $@31 pointer_expression
+   72                   | %empty
 
-   71 $@31: %empty
+   73 type_defination: INT
+   74                | VOID
 
-   72 type_defination: $@31 VOID
+   75 $@32: %empty
 
-   73 $@32: %empty
+   76 type_defination: STRUCT $@32 IDENTIFIER
 
-   74 type_defination: $@32 STRUCT IDENTIFIER
+   77 $@33: %empty
 
-   75 $@33: %empty
+   78 $@34: %empty
 
-   76 $@34: %empty
+   79 $@35: %empty
 
-   77 do_expression: $@33 DO $@34 statement_block WHILE LP expression RP SEMICOLON
+   80 $@36: %empty
 
-   78 $@35: %empty
+   81 do_expression: DO $@33 statement_block WHILE $@34 LP $@35 expression RP $@36 SEMICOLON
 
-   79 $@36: %empty
-
-   80 while_expression: $@35 WHILE LP expression RP $@36 statement_block
-
-   81 $@37: %empty
-
-   82 for_init_expression: $@37 declaration
+   82 $@37: %empty
 
    83 $@38: %empty
 
-   84 for_init_expression: $@38 expression for_more_condition_expression
-   85                    | %empty
+   84 $@39: %empty
 
-   86 $@39: %empty
+   85 while_expression: WHILE $@37 LP $@38 expression RP $@39 statement_block
 
-   87 for_condition_expression: $@39 expression for_more_condition_expression
-   88                         | %empty
+   86 for_init_expression: declaration
+   87                    | expression
+   88                    | %empty
 
-   89 $@40: %empty
+   89 for_condition_expression: expression
+   90                         | %empty
 
-   90 for_more_condition_expression: $@40 COMMA expression for_more_condition_expression
-   91                              | %empty
+   91 for_action_expression: expression
+   92                      | %empty
 
-   92 $@41: %empty
+   93 $@40: %empty
 
-   93 for_action_expression: $@41 expression for_more_action_expression
-   94                      | %empty
+   94 $@41: %empty
 
    95 $@42: %empty
 
-   96 for_more_action_expression: $@42 COMMA expression
-   97                           | %empty
+   96 $@43: %empty
 
-   98 $@43: %empty
+   97 $@44: %empty
 
-   99 $@44: %empty
+   98 for_expression: FOR $@40 LP $@41 for_init_expression SEMICOLON $@42 for_condition_expression SEMICOLON $@43 for_action_expression RP $@44 statement_block
 
-  100 for_expression: $@43 FOR $@44 LP for_init_expression SEMICOLON for_condition_expression SEMICOLON for_action_expression RP statement_block
+   99 $@45: %empty
 
-  101 $@45: %empty
+  100 array_decorator: LSB $@45 expression RSB
 
-  102 array_decorator: $@45 LSB expression RSB
+  101 high_ay_decorator: array_decorator high_ay_decorator
+  102                  | %empty
 
   103 $@46: %empty
 
-  104 high_level_array_decorator: $@46 array_decorator high_level_array_decorator
-  105                           | %empty
+  104 high_nter_decorator: TIMES $@46 high_nter_decorator
+  105                    | %empty
 
-  106 $@47: %empty
+  106 address_decorator: ADDRESS
+  107                  | %empty
 
-  107 high_level_pointer_decorator: $@47 TIMES high_level_pointer_decorator
-  108                             | %empty
+  108 $@47: %empty
 
   109 $@48: %empty
 
-  110 address_decorator: $@48 ADDRESS
-  111                  | %empty
+  110 decorated_identifier: $@47 address_decorator high_nter_decorator IDENTIFIER $@48 high_ay_decorator
 
-  112 $@49: %empty
+  111 statement: expression SEMICOLON
+  112          | for_expression
+  113          | do_expression
+  114          | while_expression
+  115          | condition_expression
+  116          | declaration SEMICOLON
 
-  113 decorated_identifier: $@49 address_decorator high_level_pointer_decorator IDENTIFIER high_level_array_decorator
+  117 $@49: %empty
 
-  114 $@50: %empty
+  118 statement: $@49 statement_block
 
-  115 statement: $@50 expression SEMICOLON
+  119 $@50: %empty
 
-  116 $@51: %empty
+  120 statement: BREAK $@50 SEMICOLON
 
-  117 statement: $@51 for_expression
+  121 $@51: %empty
 
-  118 $@52: %empty
+  122 statement: CONTINUE $@51 SEMICOLON
 
-  119 statement: $@52 do_expression
+  123 $@52: %empty
 
-  120 $@53: %empty
+  124 statement: RETURN $@52 expression SEMICOLON
+  125          | SEMICOLON
 
-  121 statement: $@53 while_expression
+  126 $@53: %empty
 
-  122 $@54: %empty
+  127 $@54: %empty
 
-  123 statement: $@54 condition_expression
+  128 $@55: %empty
 
-  124 $@55: %empty
+  129 statement: PRINT $@53 LP $@54 print_content RP $@55 SEMICOLON
 
-  125 statement: $@55 declaration SEMICOLON
+  130 $@56: %empty
 
-  126 $@56: %empty
+  131 $@57: %empty
 
-  127 statement: $@56 statement_block
+  132 statement: INPUT $@56 LP decorated_identifier RP $@57 SEMICOLON
 
-  128 $@57: %empty
+  133 print_content: expression
+  134              | STRING_C
 
-  129 statement: $@57 BREAK SEMICOLON
+  135 $@58: %empty
 
-  130 $@58: %empty
+  136 statement_block: LBP $@58 statement_body RBP
 
-  131 statement: $@58 CONTINUE SEMICOLON
+  137 statement_body: statement statement_body
+  138               | %empty
 
-  132 $@59: %empty
+  139 $@59: %empty
 
-  133 statement: $@59 RETURN expression SEMICOLON
+  140 $@60: %empty
 
-  134 $@60: %empty
+  141 declaration: $@59 type_defination $@60 declaration_body
 
-  135 statement: $@60 SEMICOLON
+  142 declaration_body: function_declaration
 
-  136 $@61: %empty
+  143 $@61: %empty
 
-  137 statement: $@61 PRINT LP print_content RP SEMICOLON
+  144 declaration_body: argument_declaration_list $@61 SEMICOLON
 
-  138 $@62: %empty
+  145 $@62: %empty
 
-  139 statement: $@62 INPUT LP expression RP SEMICOLON
+  146 $@63: %empty
 
-  140 $@63: %empty
+  147 function_declaration: init_identifier LP $@62 function_argument_list RP $@63 function_defination
 
-  141 print_content: $@63 expression
+  148 $@64: %empty
 
-  142 $@64: %empty
+  149 function_defination: $@64 statement_block
+  150                    | SEMICOLON
 
-  143 print_content: $@64 STRING_C
+  151 argument_declaration_list: argument_declaration_unit argument_declaration_list_tail
 
-  144 $@65: %empty
+  152 argument_declaration_list_tail: COMMA argument_declaration_list
+  153                               | %empty
 
-  145 statement_block: $@65 LBP statement_body RBP
+  154 $@65: %empty
 
-  146 $@66: %empty
+  155 argument_declaration_unit: init_identifier $@65 argument_declaration_init
 
-  147 statement_body: $@66 statement statement_body
-  148               | %empty
+  156 $@66: %empty
 
-  149 $@67: %empty
+  157 argument_declaration_init: ASSIGN $@66 single_expression
+  158                          | %empty
 
-  150 $@68: %empty
+  159 $@67: %empty
 
-  151 function_declaration: $@67 LP function_argument_list RP $@68 statement_block
+  160 init_identifier: high_nter_decorator IDENTIFIER $@67 high_ay_decorator
 
-  152 $@69: %empty
+  161 $@68: %empty
 
-  153 argument_declaration: $@69 declaration_list SEMICOLON
+  162 function_argument: $@68 type_defination init_identifier argument_declaration_init
 
-  154 $@70: %empty
+  163 function_argument_list: function_argument function_argument_tail
+  164                       | %empty
 
-  155 declaration: $@70 declaration_name declaration_content
+  165 function_argument_tail: COMMA function_argument_list
+  166                       | %empty
 
-  156 $@71: %empty
+  167 $@69: %empty
 
-  157 declaration_content: $@71 function_declaration
+  168 $@70: %empty
 
-  158 $@72: %empty
+  169 $@71: %empty
 
-  159 declaration_content: $@72 argument_declaration
+  170 condition_expression: IF $@69 LP $@70 expression RP $@71 statement condition_tail
 
-  160 $@73: %empty
+  171 $@72: %empty
 
-  161 declaration_name: $@73 type_defination decorated_identifier
-
-  162 $@74: %empty
-
-  163 declaration_list: $@74 declaration_unit declaration_list_tail
-
-  164 $@75: %empty
-
-  165 declaration_list_tail: $@75 COMMA declaration_list
-  166                      | %empty
-
-  167 $@76: %empty
-
-  168 declaration_unit: $@76 decorated_identifier declaration_init
-
-  169 $@77: %empty
-
-  170 declaration_init: $@77 ASSIGN expression
-  171                 | %empty
-
-  172 $@78: %empty
-
-  173 function_argument: $@78 type_defination decorated_identifier
-
-  174 $@79: %empty
-
-  175 function_argument_list: $@79 function_argument function_argument_tail
-  176                       | %empty
-
-  177 $@80: %empty
-
-  178 function_argument_tail: $@80 COMMA function_argument_list
-  179                       | %empty
-
-  180 $@81: %empty
-
-  181 $@82: %empty
-
-  182 $@83: %empty
-
-  183 condition_expression: $@81 IF LP expression RP statement $@82 condition_tail $@83
-
-  184 condition_tail: ELSE statement
-  185               | %empty
+  172 condition_tail: ELSE $@72 statement
+  173               | %empty
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
     error (256)
-    CONSTANT (258) 65
-    STRING_C (259) 143
-    PRINT (260) 137
-    INPUT (261) 139
-    IDENTIFIER (262) 63 67 74 113
-    LP (263) 61 77 80 100 137 139 151 183
-    RP (264) 61 77 80 100 137 139 151 183
-    LSB (265) 102
-    RSB (266) 102
-    LBP (267) 145
-    RBP (268) 145
-    POINTER (269) 67
-    ADDRESS (270) 110
-    NOT (271) 58
-    POW (272) 53
-    TIMES (273) 46 107
-    DIVIDE (274) 48
-    MOD (275) 44
-    PLUS (276) 37
-    MINUS (277) 39
-    GT (278) 26
-    LT (279) 30
-    GE (280) 28
-    LE (281) 32
-    EQ (282) 19
-    NE (283) 21
-    AND (284) 14
-    OR (285) 9
-    ASSIGN (286) 4 170
-    INT (287) 70
-    VOID (288) 72
-    COMMA (289) 90 96 165 178
-    SEMICOLON (290) 77 100 115 125 129 131 133 135 137 139 153
-    IF (291) 183
-    ELSE (292) 184
-    WHILE (293) 77 80
-    DO (294) 77
-    FOR (295) 100
-    CONTINUE (296) 131
-    BREAK (297) 129
-    RETURN (298) 133
-    STRUCT (299) 74
+    CONSTANT (258) 69
+    STRING_C (259) 134
+    PRINT (260) 129
+    INPUT (261) 132
+    IDENTIFIER (262) 68 71 76 110 160
+    LP (263) 66 81 85 98 129 132 147 170
+    RP (264) 66 81 85 98 129 132 147 170
+    LSB (265) 100
+    RSB (266) 100
+    LBP (267) 136
+    RBP (268) 136
+    POINTER (269) 71
+    ADDRESS (270) 106
+    NOT (271) 63
+    POW (272) 58
+    TIMES (273) 50 104
+    DIVIDE (274) 53
+    MOD (275) 47
+    PLUS (276) 39
+    MINUS (277) 42
+    GT (278) 28
+    LT (279) 32
+    GE (280) 30
+    LE (281) 34
+    EQ (282) 23
+    NE (283) 25
+    AND (284) 19
+    OR (285) 14
+    ASSIGN (286) 9 157
+    INT (287) 73
+    VOID (288) 74
+    COMMA (289) 4 152 165
+    SEMICOLON (290) 81 98 111 116 120 122 124 125 129 132 144 150
+    IF (291) 170
+    ELSE (292) 172
+    WHILE (293) 81 85
+    DO (294) 81
+    FOR (295) 98
+    CONTINUE (296) 122
+    BREAK (297) 120
+    RETURN (298) 124
+    STRUCT (299) 76
     NONE_ELSE (300)
 
 
@@ -403,3366 +370,3553 @@ Nonterminals, with rules where they appear
     $accept (46)
         on left: 0
     expression (47)
-        on left: 2
-        on right: 61 77 80 84 87 90 93 96 102 115 133 139 141 170 183
-    $@1 (48)
         on left: 1
-        on right: 2
-    assign_expression (49)
+        on right: 66 81 85 87 89 91 100 111 124 133 170
+    comma_expression (48)
         on left: 4 5
-        on right: 2 4
+        on right: 1 4
+    $@1 (49)
+        on left: 2
+        on right: 4
     $@2 (50)
         on left: 3
         on right: 4
-    orh_expression (51)
-        on left: 7
-        on right: 2 4
-    $@3 (52)
+    single_expression (51)
         on left: 6
-        on right: 7
-    or_expression (53)
+        on right: 1 4 157
+    assign_expression (52)
         on left: 9 10
-        on right: 7 9
+        on right: 6 9
+    $@3 (53)
+        on left: 7
+        on right: 9
     $@4 (54)
         on left: 8
         on right: 9
-    andh_expression (55)
-        on left: 12
-        on right: 7 9
-    $@5 (56)
+    orh_expression (55)
         on left: 11
-        on right: 12
-    and_expression (57)
+        on right: 6 9
+    or_expression (56)
         on left: 14 15
-        on right: 12 14
+        on right: 11 14
+    $@5 (57)
+        on left: 12
+        on right: 14
     $@6 (58)
         on left: 13
         on right: 14
-    eneh_expression (59)
-        on left: 17
-        on right: 12 14
-    $@7 (60)
+    andh_expression (59)
         on left: 16
-        on right: 17
-    ene_expression (61)
-        on left: 19 21 22
-        on right: 17 19 21
+        on right: 11 14
+    and_expression (60)
+        on left: 19 20
+        on right: 16 19
+    $@7 (61)
+        on left: 17
+        on right: 19
     $@8 (62)
         on left: 18
         on right: 19
-    $@9 (63)
-        on left: 20
+    eneh_expression (63)
+        on left: 21
+        on right: 16 19
+    ene_expression (64)
+        on left: 23 25
         on right: 21
-    lgh_expression (64)
+    $@9 (65)
+        on left: 22
+        on right: 23
+    $@10 (66)
         on left: 24
-        on right: 17 19 21
-    $@10 (65)
-        on left: 23
-        on right: 24
-    lg_expression (66)
-        on left: 26 28 30 32 33
-        on right: 24 26 28 30 32
-    $@11 (67)
-        on left: 25
+        on right: 25
+    lgh_expression (67)
+        on left: 26
+        on right: 21 23 25
+    lg_expression (68)
+        on left: 28 30 32 34 35
         on right: 26
-    $@12 (68)
+    $@11 (69)
         on left: 27
         on right: 28
-    $@13 (69)
+    $@12 (70)
         on left: 29
         on right: 30
-    $@14 (70)
+    $@13 (71)
         on left: 31
         on right: 32
-    pmh_expression (71)
-        on left: 35
-        on right: 24 26 28 30 32
-    $@15 (72)
-        on left: 34
-        on right: 35
-    pm_expression (73)
-        on left: 37 39 40
-        on right: 35 37 39
-    $@16 (74)
+    $@14 (72)
+        on left: 33
+        on right: 34
+    pmh_expression (73)
         on left: 36
-        on right: 37
-    $@17 (75)
+        on right: 26 28 30 32 34
+    pm_expression (74)
+        on left: 39 42 43
+        on right: 36 39 42
+    $@15 (75)
+        on left: 37
+        on right: 39
+    $@16 (76)
         on left: 38
         on right: 39
-    mtdh_expression (76)
-        on left: 42
-        on right: 35 37 39
-    $@18 (77)
+    $@17 (77)
+        on left: 40
+        on right: 42
+    $@18 (78)
         on left: 41
         on right: 42
-    mtd_expression (78)
-        on left: 44 46 48 49
-        on right: 42 44 46 48
-    $@19 (79)
-        on left: 43
-        on right: 44
-    $@20 (80)
+    mtdh_expression (79)
+        on left: 44
+        on right: 36 39 42
+    mtd_expression (80)
+        on left: 47 50 53 54
+        on right: 44 47 50 53
+    $@19 (81)
         on left: 45
-        on right: 46
-    $@21 (81)
-        on left: 47
-        on right: 48
-    powh_expression (82)
-        on left: 51
-        on right: 42 44 46 48
-    $@22 (83)
-        on left: 50
-        on right: 51
-    pow_expression (84)
-        on left: 53 54
-        on right: 51 53
+        on right: 47
+    $@20 (82)
+        on left: 46
+        on right: 47
+    $@21 (83)
+        on left: 48
+        on right: 50
+    $@22 (84)
+        on left: 49
+        on right: 50
     $@23 (85)
+        on left: 51
+        on right: 53
+    $@24 (86)
         on left: 52
         on right: 53
-    noth_expression (86)
-        on left: 56
-        on right: 51 53
-    $@24 (87)
+    powh_expression (87)
         on left: 55
-        on right: 56
-    not_expression (88)
+        on right: 44 47 50 53
+    pow_expression (88)
         on left: 58 59
-        on right: 56 58
+        on right: 55 58
     $@25 (89)
+        on left: 56
+        on right: 58
+    $@26 (90)
         on left: 57
         on right: 58
-    pid_expression (90)
-        on left: 61 63 65
-        on right: 56 58
-    $@26 (91)
+    noth_expression (91)
+        on left: 61
+        on right: 55 58
+    $@27 (92)
         on left: 60
         on right: 61
-    $@27 (92)
+    not_expression (93)
+        on left: 63 64
+        on right: 61 63
+    $@28 (94)
         on left: 62
         on right: 63
-    $@28 (93)
-        on left: 64
-        on right: 65
-    pointer_expression (94)
-        on left: 67 68
-        on right: 63 67
-    $@29 (95)
-        on left: 66
-        on right: 67
-    type_defination (96)
-        on left: 70 72 74
-        on right: 161 173
+    pid_expression (95)
+        on left: 66 68 69
+        on right: 61
+    $@29 (96)
+        on left: 65
+        on right: 66
     $@30 (97)
-        on left: 69
-        on right: 70
-    $@31 (98)
-        on left: 71
-        on right: 72
-    $@32 (99)
-        on left: 73
-        on right: 74
-    do_expression (100)
-        on left: 77
-        on right: 119
-    $@33 (101)
+        on left: 67
+        on right: 68
+    pointer_expression (98)
+        on left: 71 72
+        on right: 68 71
+    $@31 (99)
+        on left: 70
+        on right: 71
+    type_defination (100)
+        on left: 73 74 76
+        on right: 141 162
+    $@32 (101)
         on left: 75
-        on right: 77
-    $@34 (102)
-        on left: 76
-        on right: 77
-    while_expression (103)
-        on left: 80
-        on right: 121
-    $@35 (104)
-        on left: 78
-        on right: 80
-    $@36 (105)
-        on left: 79
-        on right: 80
-    for_init_expression (106)
-        on left: 82 84 85
-        on right: 100
-    $@37 (107)
+        on right: 76
+    do_expression (102)
         on left: 81
-        on right: 82
-    $@38 (108)
+        on right: 113
+    $@33 (103)
+        on left: 77
+        on right: 81
+    $@34 (104)
+        on left: 78
+        on right: 81
+    $@35 (105)
+        on left: 79
+        on right: 81
+    $@36 (106)
+        on left: 80
+        on right: 81
+    while_expression (107)
+        on left: 85
+        on right: 114
+    $@37 (108)
+        on left: 82
+        on right: 85
+    $@38 (109)
         on left: 83
-        on right: 84
-    for_condition_expression (109)
-        on left: 87 88
-        on right: 100
+        on right: 85
     $@39 (110)
-        on left: 86
-        on right: 87
-    for_more_condition_expression (111)
-        on left: 90 91
-        on right: 84 87 90
-    $@40 (112)
-        on left: 89
-        on right: 90
+        on left: 84
+        on right: 85
+    for_init_expression (111)
+        on left: 86 87 88
+        on right: 98
+    for_condition_expression (112)
+        on left: 89 90
+        on right: 98
     for_action_expression (113)
-        on left: 93 94
-        on right: 100
-    $@41 (114)
-        on left: 92
-        on right: 93
-    for_more_action_expression (115)
-        on left: 96 97
-        on right: 93
-    $@42 (116)
-        on left: 95
-        on right: 96
-    for_expression (117)
-        on left: 100
-        on right: 117
-    $@43 (118)
+        on left: 91 92
+        on right: 98
+    for_expression (114)
         on left: 98
-        on right: 100
+        on right: 112
+    $@40 (115)
+        on left: 93
+        on right: 98
+    $@41 (116)
+        on left: 94
+        on right: 98
+    $@42 (117)
+        on left: 95
+        on right: 98
+    $@43 (118)
+        on left: 96
+        on right: 98
     $@44 (119)
+        on left: 97
+        on right: 98
+    array_decorator (120)
+        on left: 100
+        on right: 101
+    $@45 (121)
         on left: 99
         on right: 100
-    array_decorator (120)
-        on left: 102
-        on right: 104
-    $@45 (121)
-        on left: 101
-        on right: 102
-    high_level_array_decorator (122)
+    high_ay_decorator (122)
+        on left: 101 102
+        on right: 101 110 160
+    high_nter_decorator (123)
         on left: 104 105
-        on right: 104 113
-    $@46 (123)
+        on right: 104 110 160
+    $@46 (124)
         on left: 103
         on right: 104
-    high_level_pointer_decorator (124)
-        on left: 107 108
-        on right: 107 113
-    $@47 (125)
-        on left: 106
-        on right: 107
-    address_decorator (126)
-        on left: 110 111
-        on right: 113
-    $@48 (127)
+    address_decorator (125)
+        on left: 106 107
+        on right: 110
+    decorated_identifier (126)
+        on left: 110
+        on right: 132
+    $@47 (127)
+        on left: 108
+        on right: 110
+    $@48 (128)
         on left: 109
         on right: 110
-    decorated_identifier (128)
-        on left: 113
-        on right: 161 168 173
-    $@49 (129)
-        on left: 112
-        on right: 113
-    statement (130)
-        on left: 115 117 119 121 123 125 127 129 131 133 135 137 139
-        on right: 147 183 184
+    statement (129)
+        on left: 111 112 113 114 115 116 118 120 122 124 125 129 132
+        on right: 137 170 172
+    $@49 (130)
+        on left: 117
+        on right: 118
     $@50 (131)
-        on left: 114
-        on right: 115
+        on left: 119
+        on right: 120
     $@51 (132)
-        on left: 116
-        on right: 117
+        on left: 121
+        on right: 122
     $@52 (133)
-        on left: 118
-        on right: 119
+        on left: 123
+        on right: 124
     $@53 (134)
-        on left: 120
-        on right: 121
-    $@54 (135)
-        on left: 122
-        on right: 123
-    $@55 (136)
-        on left: 124
-        on right: 125
-    $@56 (137)
         on left: 126
-        on right: 127
-    $@57 (138)
+        on right: 129
+    $@54 (135)
+        on left: 127
+        on right: 129
+    $@55 (136)
         on left: 128
         on right: 129
-    $@58 (139)
+    $@56 (137)
         on left: 130
-        on right: 131
-    $@59 (140)
-        on left: 132
-        on right: 133
-    $@60 (141)
-        on left: 134
-        on right: 135
-    $@61 (142)
+        on right: 132
+    $@57 (138)
+        on left: 131
+        on right: 132
+    print_content (139)
+        on left: 133 134
+        on right: 129
+    statement_block (140)
         on left: 136
-        on right: 137
-    $@62 (143)
-        on left: 138
-        on right: 139
-    print_content (144)
-        on left: 141 143
-        on right: 137
-    $@63 (145)
+        on right: 81 85 98 118 149
+    $@58 (141)
+        on left: 135
+        on right: 136
+    statement_body (142)
+        on left: 137 138
+        on right: 0 136 137
+    declaration (143)
+        on left: 141
+        on right: 86 116
+    $@59 (144)
+        on left: 139
+        on right: 141
+    $@60 (145)
         on left: 140
         on right: 141
-    $@64 (146)
-        on left: 142
-        on right: 143
-    statement_block (147)
+    declaration_body (146)
+        on left: 142 144
+        on right: 141
+    $@61 (147)
+        on left: 143
+        on right: 144
+    function_declaration (148)
+        on left: 147
+        on right: 142
+    $@62 (149)
         on left: 145
-        on right: 77 80 100 127 151
-    $@65 (148)
-        on left: 144
-        on right: 145
-    statement_body (149)
-        on left: 147 148
-        on right: 0 145 147
-    $@66 (150)
+        on right: 147
+    $@63 (150)
         on left: 146
         on right: 147
-    function_declaration (151)
+    function_defination (151)
+        on left: 149 150
+        on right: 147
+    $@64 (152)
+        on left: 148
+        on right: 149
+    argument_declaration_list (153)
         on left: 151
-        on right: 157
-    $@67 (152)
-        on left: 149
+        on right: 144 152
+    argument_declaration_list_tail (154)
+        on left: 152 153
         on right: 151
-    $@68 (153)
-        on left: 150
-        on right: 151
-    argument_declaration (154)
-        on left: 153
-        on right: 159
-    $@69 (155)
-        on left: 152
-        on right: 153
-    declaration (156)
+    argument_declaration_unit (155)
         on left: 155
-        on right: 82 125
-    $@70 (157)
+        on right: 151
+    $@65 (156)
         on left: 154
         on right: 155
-    declaration_content (158)
-        on left: 157 159
-        on right: 155
-    $@71 (159)
+    argument_declaration_init (157)
+        on left: 157 158
+        on right: 155 162
+    $@66 (158)
         on left: 156
         on right: 157
-    $@72 (160)
-        on left: 158
-        on right: 159
-    declaration_name (161)
-        on left: 161
-        on right: 155
-    $@73 (162)
+    init_identifier (159)
         on left: 160
-        on right: 161
-    declaration_list (163)
-        on left: 163
-        on right: 153 165
-    $@74 (164)
+        on right: 147 155 162
+    $@67 (160)
+        on left: 159
+        on right: 160
+    function_argument (161)
         on left: 162
         on right: 163
-    declaration_list_tail (165)
+    $@68 (162)
+        on left: 161
+        on right: 162
+    function_argument_list (163)
+        on left: 163 164
+        on right: 147 165
+    function_argument_tail (164)
         on left: 165 166
         on right: 163
-    $@75 (166)
-        on left: 164
-        on right: 165
-    declaration_unit (167)
-        on left: 168
-        on right: 163
-    $@76 (168)
+    condition_expression (165)
+        on left: 170
+        on right: 115
+    $@69 (166)
         on left: 167
-        on right: 168
-    declaration_init (169)
-        on left: 170 171
-        on right: 168
-    $@77 (170)
+        on right: 170
+    $@70 (167)
+        on left: 168
+        on right: 170
+    $@71 (168)
         on left: 169
         on right: 170
-    function_argument (171)
-        on left: 173
-        on right: 175
-    $@78 (172)
-        on left: 172
-        on right: 173
-    function_argument_list (173)
-        on left: 175 176
-        on right: 151 178
-    $@79 (174)
-        on left: 174
-        on right: 175
-    function_argument_tail (175)
-        on left: 178 179
-        on right: 175
-    $@80 (176)
-        on left: 177
-        on right: 178
-    condition_expression (177)
-        on left: 183
-        on right: 123
-    $@81 (178)
-        on left: 180
-        on right: 183
-    $@82 (179)
-        on left: 181
-        on right: 183
-    $@83 (180)
-        on left: 182
-        on right: 183
-    condition_tail (181)
-        on left: 184 185
-        on right: 183
+    condition_tail (169)
+        on left: 172 173
+        on right: 170
+    $@72 (170)
+        on left: 171
+        on right: 172
 
 
 State 0
 
     0 $accept: . statement_body $end
-  146 $@66: . %empty  [CONSTANT, PRINT, INPUT, IDENTIFIER, LP, LBP, INT, VOID, SEMICOLON, IF, WHILE, DO, FOR, CONTINUE, BREAK, RETURN, STRUCT]
-  147 statement_body: . $@66 statement statement_body
-  148               | . %empty  [$end]
+    1 expression: . single_expression comma_expression
+    6 single_expression: . orh_expression assign_expression
+   11 orh_expression: . andh_expression or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty  [CONSTANT, IDENTIFIER, LP, NOT]
+   61 noth_expression: . $@27 not_expression pid_expression
+   81 do_expression: . DO $@33 statement_block WHILE $@34 LP $@35 expression RP $@36 SEMICOLON
+   85 while_expression: . WHILE $@37 LP $@38 expression RP $@39 statement_block
+   98 for_expression: . FOR $@40 LP $@41 for_init_expression SEMICOLON $@42 for_condition_expression SEMICOLON $@43 for_action_expression RP $@44 statement_block
+  111 statement: . expression SEMICOLON
+  112          | . for_expression
+  113          | . do_expression
+  114          | . while_expression
+  115          | . condition_expression
+  116          | . declaration SEMICOLON
+  117 $@49: . %empty  [LBP]
+  118 statement: . $@49 statement_block
+  120          | . BREAK $@50 SEMICOLON
+  122          | . CONTINUE $@51 SEMICOLON
+  124          | . RETURN $@52 expression SEMICOLON
+  125          | . SEMICOLON
+  129          | . PRINT $@53 LP $@54 print_content RP $@55 SEMICOLON
+  132          | . INPUT $@56 LP decorated_identifier RP $@57 SEMICOLON
+  137 statement_body: . statement statement_body
+  138               | . %empty  [$end]
+  139 $@59: . %empty  [INT, VOID, STRUCT]
+  141 declaration: . $@59 type_defination $@60 declaration_body
+  170 condition_expression: . IF $@69 LP $@70 expression RP $@71 statement condition_tail
 
-    $end      reduce using rule 148 (statement_body)
-    $default  reduce using rule 146 ($@66)
+    PRINT      shift, and go to state 1
+    INPUT      shift, and go to state 2
+    SEMICOLON  shift, and go to state 3
+    IF         shift, and go to state 4
+    WHILE      shift, and go to state 5
+    DO         shift, and go to state 6
+    FOR        shift, and go to state 7
+    CONTINUE   shift, and go to state 8
+    BREAK      shift, and go to state 9
+    RETURN     shift, and go to state 10
 
-    statement_body  go to state 1
-    $@66            go to state 2
+    $end      reduce using rule 138 (statement_body)
+    LBP       reduce using rule 117 ($@49)
+    INT       reduce using rule 139 ($@59)
+    VOID      reduce using rule 139 ($@59)
+    STRUCT    reduce using rule 139 ($@59)
+    $default  reduce using rule 60 ($@27)
+
+    expression            go to state 11
+    single_expression     go to state 12
+    orh_expression        go to state 13
+    andh_expression       go to state 14
+    eneh_expression       go to state 15
+    lgh_expression        go to state 16
+    pmh_expression        go to state 17
+    mtdh_expression       go to state 18
+    powh_expression       go to state 19
+    noth_expression       go to state 20
+    $@27                  go to state 21
+    do_expression         go to state 22
+    while_expression      go to state 23
+    for_expression        go to state 24
+    statement             go to state 25
+    $@49                  go to state 26
+    statement_body        go to state 27
+    declaration           go to state 28
+    $@59                  go to state 29
+    condition_expression  go to state 30
 
 
 State 1
 
-    0 $accept: statement_body . $end
+  126 $@53: . %empty
+  129 statement: PRINT . $@53 LP $@54 print_content RP $@55 SEMICOLON
 
-    $end  shift, and go to state 3
+    $default  reduce using rule 126 ($@53)
+
+    $@53  go to state 31
 
 
 State 2
 
-  114 $@50: . %empty  [CONSTANT, IDENTIFIER, LP]
-  115 statement: . $@50 expression SEMICOLON
-  116 $@51: . %empty  [FOR]
-  117 statement: . $@51 for_expression
-  118 $@52: . %empty  [DO]
-  119 statement: . $@52 do_expression
-  120 $@53: . %empty  [WHILE]
-  121 statement: . $@53 while_expression
-  122 $@54: . %empty  [IF]
-  123 statement: . $@54 condition_expression
-  124 $@55: . %empty  [INT, VOID, STRUCT]
-  125 statement: . $@55 declaration SEMICOLON
-  126 $@56: . %empty  [LBP]
-  127 statement: . $@56 statement_block
-  128 $@57: . %empty  [BREAK]
-  129 statement: . $@57 BREAK SEMICOLON
-  130 $@58: . %empty  [CONTINUE]
-  131 statement: . $@58 CONTINUE SEMICOLON
-  132 $@59: . %empty  [RETURN]
-  133 statement: . $@59 RETURN expression SEMICOLON
-  134 $@60: . %empty  [SEMICOLON]
-  135 statement: . $@60 SEMICOLON
-  136 $@61: . %empty  [PRINT]
-  137 statement: . $@61 PRINT LP print_content RP SEMICOLON
-  138 $@62: . %empty  [INPUT]
-  139 statement: . $@62 INPUT LP expression RP SEMICOLON
-  147 statement_body: $@66 . statement statement_body
+  130 $@56: . %empty
+  132 statement: INPUT . $@56 LP decorated_identifier RP $@57 SEMICOLON
 
-    PRINT      reduce using rule 136 ($@61)
-    INPUT      reduce using rule 138 ($@62)
-    LBP        reduce using rule 126 ($@56)
-    INT        reduce using rule 124 ($@55)
-    VOID       reduce using rule 124 ($@55)
-    SEMICOLON  reduce using rule 134 ($@60)
-    IF         reduce using rule 122 ($@54)
-    WHILE      reduce using rule 120 ($@53)
-    DO         reduce using rule 118 ($@52)
-    FOR        reduce using rule 116 ($@51)
-    CONTINUE   reduce using rule 130 ($@58)
-    BREAK      reduce using rule 128 ($@57)
-    RETURN     reduce using rule 132 ($@59)
-    STRUCT     reduce using rule 124 ($@55)
-    $default   reduce using rule 114 ($@50)
+    $default  reduce using rule 130 ($@56)
 
-    statement  go to state 4
-    $@50       go to state 5
-    $@51       go to state 6
-    $@52       go to state 7
-    $@53       go to state 8
-    $@54       go to state 9
-    $@55       go to state 10
-    $@56       go to state 11
-    $@57       go to state 12
-    $@58       go to state 13
-    $@59       go to state 14
-    $@60       go to state 15
-    $@61       go to state 16
-    $@62       go to state 17
+    $@56  go to state 32
 
 
 State 3
+
+  125 statement: SEMICOLON .
+
+    $default  reduce using rule 125 (statement)
+
+
+State 4
+
+  167 $@69: . %empty
+  170 condition_expression: IF . $@69 LP $@70 expression RP $@71 statement condition_tail
+
+    $default  reduce using rule 167 ($@69)
+
+    $@69  go to state 33
+
+
+State 5
+
+   82 $@37: . %empty
+   85 while_expression: WHILE . $@37 LP $@38 expression RP $@39 statement_block
+
+    $default  reduce using rule 82 ($@37)
+
+    $@37  go to state 34
+
+
+State 6
+
+   77 $@33: . %empty
+   81 do_expression: DO . $@33 statement_block WHILE $@34 LP $@35 expression RP $@36 SEMICOLON
+
+    $default  reduce using rule 77 ($@33)
+
+    $@33  go to state 35
+
+
+State 7
+
+   93 $@40: . %empty
+   98 for_expression: FOR . $@40 LP $@41 for_init_expression SEMICOLON $@42 for_condition_expression SEMICOLON $@43 for_action_expression RP $@44 statement_block
+
+    $default  reduce using rule 93 ($@40)
+
+    $@40  go to state 36
+
+
+State 8
+
+  121 $@51: . %empty
+  122 statement: CONTINUE . $@51 SEMICOLON
+
+    $default  reduce using rule 121 ($@51)
+
+    $@51  go to state 37
+
+
+State 9
+
+  119 $@50: . %empty
+  120 statement: BREAK . $@50 SEMICOLON
+
+    $default  reduce using rule 119 ($@50)
+
+    $@50  go to state 38
+
+
+State 10
+
+  123 $@52: . %empty
+  124 statement: RETURN . $@52 expression SEMICOLON
+
+    $default  reduce using rule 123 ($@52)
+
+    $@52  go to state 39
+
+
+State 11
+
+  111 statement: expression . SEMICOLON
+
+    SEMICOLON  shift, and go to state 40
+
+
+State 12
+
+    1 expression: single_expression . comma_expression
+    4 comma_expression: . COMMA $@1 single_expression $@2 comma_expression
+    5                 | . %empty  [RP, RSB, SEMICOLON]
+
+    COMMA  shift, and go to state 41
+
+    $default  reduce using rule 5 (comma_expression)
+
+    comma_expression  go to state 42
+
+
+State 13
+
+    6 single_expression: orh_expression . assign_expression
+    9 assign_expression: . ASSIGN $@3 orh_expression $@4 assign_expression
+   10                  | . %empty  [RP, RSB, COMMA, SEMICOLON]
+
+    ASSIGN  shift, and go to state 43
+
+    $default  reduce using rule 10 (assign_expression)
+
+    assign_expression  go to state 44
+
+
+State 14
+
+   11 orh_expression: andh_expression . or_expression
+   14 or_expression: . OR $@5 andh_expression $@6 or_expression
+   15              | . %empty  [RP, RSB, ASSIGN, COMMA, SEMICOLON]
+
+    OR  shift, and go to state 45
+
+    $default  reduce using rule 15 (or_expression)
+
+    or_expression  go to state 46
+
+
+State 15
+
+   16 andh_expression: eneh_expression . and_expression
+   19 and_expression: . AND $@7 eneh_expression $@8 and_expression
+   20               | . %empty  [RP, RSB, OR, ASSIGN, COMMA, SEMICOLON]
+
+    AND  shift, and go to state 47
+
+    $default  reduce using rule 20 (and_expression)
+
+    and_expression  go to state 48
+
+
+State 16
+
+   21 eneh_expression: lgh_expression . ene_expression
+   23 ene_expression: . EQ $@9 lgh_expression
+   25               | . NE $@10 lgh_expression
+
+    EQ  shift, and go to state 49
+    NE  shift, and go to state 50
+
+    ene_expression  go to state 51
+
+
+State 17
+
+   26 lgh_expression: pmh_expression . lg_expression
+   28 lg_expression: . GT $@11 pmh_expression
+   30              | . GE $@12 pmh_expression
+   32              | . LT $@13 pmh_expression
+   34              | . LE $@14 pmh_expression
+   35              | . %empty  [RP, RSB, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
+
+    GT  shift, and go to state 52
+    LT  shift, and go to state 53
+    GE  shift, and go to state 54
+    LE  shift, and go to state 55
+
+    $default  reduce using rule 35 (lg_expression)
+
+    lg_expression  go to state 56
+
+
+State 18
+
+   36 pmh_expression: mtdh_expression . pm_expression
+   39 pm_expression: . PLUS $@15 mtdh_expression $@16 pm_expression
+   42              | . MINUS $@17 mtdh_expression $@18 pm_expression
+   43              | . %empty  [RP, RSB, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
+
+    PLUS   shift, and go to state 57
+    MINUS  shift, and go to state 58
+
+    $default  reduce using rule 43 (pm_expression)
+
+    pm_expression  go to state 59
+
+
+State 19
+
+   44 mtdh_expression: powh_expression . mtd_expression
+   47 mtd_expression: . MOD $@19 powh_expression $@20 mtd_expression
+   50               | . TIMES $@21 powh_expression $@22 mtd_expression
+   53               | . DIVIDE $@23 powh_expression $@24 mtd_expression
+   54               | . %empty  [RP, RSB, PLUS, MINUS, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
+
+    TIMES   shift, and go to state 60
+    DIVIDE  shift, and go to state 61
+    MOD     shift, and go to state 62
+
+    $default  reduce using rule 54 (mtd_expression)
+
+    mtd_expression  go to state 63
+
+
+State 20
+
+   55 powh_expression: noth_expression . pow_expression
+   58 pow_expression: . POW $@25 noth_expression $@26 pow_expression
+   59               | . %empty  [RP, RSB, TIMES, DIVIDE, MOD, PLUS, MINUS, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
+
+    POW  shift, and go to state 64
+
+    $default  reduce using rule 59 (pow_expression)
+
+    pow_expression  go to state 65
+
+
+State 21
+
+   61 noth_expression: $@27 . not_expression pid_expression
+   63 not_expression: . NOT $@28 not_expression
+   64               | . %empty  [CONSTANT, IDENTIFIER, LP]
+
+    NOT  shift, and go to state 66
+
+    $default  reduce using rule 64 (not_expression)
+
+    not_expression  go to state 67
+
+
+State 22
+
+  113 statement: do_expression .
+
+    $default  reduce using rule 113 (statement)
+
+
+State 23
+
+  114 statement: while_expression .
+
+    $default  reduce using rule 114 (statement)
+
+
+State 24
+
+  112 statement: for_expression .
+
+    $default  reduce using rule 112 (statement)
+
+
+State 25
+
+    1 expression: . single_expression comma_expression
+    6 single_expression: . orh_expression assign_expression
+   11 orh_expression: . andh_expression or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty  [CONSTANT, IDENTIFIER, LP, NOT]
+   61 noth_expression: . $@27 not_expression pid_expression
+   81 do_expression: . DO $@33 statement_block WHILE $@34 LP $@35 expression RP $@36 SEMICOLON
+   85 while_expression: . WHILE $@37 LP $@38 expression RP $@39 statement_block
+   98 for_expression: . FOR $@40 LP $@41 for_init_expression SEMICOLON $@42 for_condition_expression SEMICOLON $@43 for_action_expression RP $@44 statement_block
+  111 statement: . expression SEMICOLON
+  112          | . for_expression
+  113          | . do_expression
+  114          | . while_expression
+  115          | . condition_expression
+  116          | . declaration SEMICOLON
+  117 $@49: . %empty  [LBP]
+  118 statement: . $@49 statement_block
+  120          | . BREAK $@50 SEMICOLON
+  122          | . CONTINUE $@51 SEMICOLON
+  124          | . RETURN $@52 expression SEMICOLON
+  125          | . SEMICOLON
+  129          | . PRINT $@53 LP $@54 print_content RP $@55 SEMICOLON
+  132          | . INPUT $@56 LP decorated_identifier RP $@57 SEMICOLON
+  137 statement_body: . statement statement_body
+  137               | statement . statement_body
+  138               | . %empty  [$end, RBP]
+  139 $@59: . %empty  [INT, VOID, STRUCT]
+  141 declaration: . $@59 type_defination $@60 declaration_body
+  170 condition_expression: . IF $@69 LP $@70 expression RP $@71 statement condition_tail
+
+    PRINT      shift, and go to state 1
+    INPUT      shift, and go to state 2
+    SEMICOLON  shift, and go to state 3
+    IF         shift, and go to state 4
+    WHILE      shift, and go to state 5
+    DO         shift, and go to state 6
+    FOR        shift, and go to state 7
+    CONTINUE   shift, and go to state 8
+    BREAK      shift, and go to state 9
+    RETURN     shift, and go to state 10
+
+    $end      reduce using rule 138 (statement_body)
+    LBP       reduce using rule 117 ($@49)
+    RBP       reduce using rule 138 (statement_body)
+    INT       reduce using rule 139 ($@59)
+    VOID      reduce using rule 139 ($@59)
+    STRUCT    reduce using rule 139 ($@59)
+    $default  reduce using rule 60 ($@27)
+
+    expression            go to state 11
+    single_expression     go to state 12
+    orh_expression        go to state 13
+    andh_expression       go to state 14
+    eneh_expression       go to state 15
+    lgh_expression        go to state 16
+    pmh_expression        go to state 17
+    mtdh_expression       go to state 18
+    powh_expression       go to state 19
+    noth_expression       go to state 20
+    $@27                  go to state 21
+    do_expression         go to state 22
+    while_expression      go to state 23
+    for_expression        go to state 24
+    statement             go to state 25
+    $@49                  go to state 26
+    statement_body        go to state 68
+    declaration           go to state 28
+    $@59                  go to state 29
+    condition_expression  go to state 30
+
+
+State 26
+
+  118 statement: $@49 . statement_block
+  136 statement_block: . LBP $@58 statement_body RBP
+
+    LBP  shift, and go to state 69
+
+    statement_block  go to state 70
+
+
+State 27
+
+    0 $accept: statement_body . $end
+
+    $end  shift, and go to state 71
+
+
+State 28
+
+  116 statement: declaration . SEMICOLON
+
+    SEMICOLON  shift, and go to state 72
+
+
+State 29
+
+   73 type_defination: . INT
+   74                | . VOID
+   76                | . STRUCT $@32 IDENTIFIER
+  141 declaration: $@59 . type_defination $@60 declaration_body
+
+    INT     shift, and go to state 73
+    VOID    shift, and go to state 74
+    STRUCT  shift, and go to state 75
+
+    type_defination  go to state 76
+
+
+State 30
+
+  115 statement: condition_expression .
+
+    $default  reduce using rule 115 (statement)
+
+
+State 31
+
+  129 statement: PRINT $@53 . LP $@54 print_content RP $@55 SEMICOLON
+
+    LP  shift, and go to state 77
+
+
+State 32
+
+  132 statement: INPUT $@56 . LP decorated_identifier RP $@57 SEMICOLON
+
+    LP  shift, and go to state 78
+
+
+State 33
+
+  170 condition_expression: IF $@69 . LP $@70 expression RP $@71 statement condition_tail
+
+    LP  shift, and go to state 79
+
+
+State 34
+
+   85 while_expression: WHILE $@37 . LP $@38 expression RP $@39 statement_block
+
+    LP  shift, and go to state 80
+
+
+State 35
+
+   81 do_expression: DO $@33 . statement_block WHILE $@34 LP $@35 expression RP $@36 SEMICOLON
+  136 statement_block: . LBP $@58 statement_body RBP
+
+    LBP  shift, and go to state 69
+
+    statement_block  go to state 81
+
+
+State 36
+
+   98 for_expression: FOR $@40 . LP $@41 for_init_expression SEMICOLON $@42 for_condition_expression SEMICOLON $@43 for_action_expression RP $@44 statement_block
+
+    LP  shift, and go to state 82
+
+
+State 37
+
+  122 statement: CONTINUE $@51 . SEMICOLON
+
+    SEMICOLON  shift, and go to state 83
+
+
+State 38
+
+  120 statement: BREAK $@50 . SEMICOLON
+
+    SEMICOLON  shift, and go to state 84
+
+
+State 39
+
+    1 expression: . single_expression comma_expression
+    6 single_expression: . orh_expression assign_expression
+   11 orh_expression: . andh_expression or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+  124 statement: RETURN $@52 . expression SEMICOLON
+
+    $default  reduce using rule 60 ($@27)
+
+    expression         go to state 85
+    single_expression  go to state 12
+    orh_expression     go to state 13
+    andh_expression    go to state 14
+    eneh_expression    go to state 15
+    lgh_expression     go to state 16
+    pmh_expression     go to state 17
+    mtdh_expression    go to state 18
+    powh_expression    go to state 19
+    noth_expression    go to state 20
+    $@27               go to state 21
+
+
+State 40
+
+  111 statement: expression SEMICOLON .
+
+    $default  reduce using rule 111 (statement)
+
+
+State 41
+
+    2 $@1: . %empty
+    4 comma_expression: COMMA . $@1 single_expression $@2 comma_expression
+
+    $default  reduce using rule 2 ($@1)
+
+    $@1  go to state 86
+
+
+State 42
+
+    1 expression: single_expression comma_expression .
+
+    $default  reduce using rule 1 (expression)
+
+
+State 43
+
+    7 $@3: . %empty
+    9 assign_expression: ASSIGN . $@3 orh_expression $@4 assign_expression
+
+    $default  reduce using rule 7 ($@3)
+
+    $@3  go to state 87
+
+
+State 44
+
+    6 single_expression: orh_expression assign_expression .
+
+    $default  reduce using rule 6 (single_expression)
+
+
+State 45
+
+   12 $@5: . %empty
+   14 or_expression: OR . $@5 andh_expression $@6 or_expression
+
+    $default  reduce using rule 12 ($@5)
+
+    $@5  go to state 88
+
+
+State 46
+
+   11 orh_expression: andh_expression or_expression .
+
+    $default  reduce using rule 11 (orh_expression)
+
+
+State 47
+
+   17 $@7: . %empty
+   19 and_expression: AND . $@7 eneh_expression $@8 and_expression
+
+    $default  reduce using rule 17 ($@7)
+
+    $@7  go to state 89
+
+
+State 48
+
+   16 andh_expression: eneh_expression and_expression .
+
+    $default  reduce using rule 16 (andh_expression)
+
+
+State 49
+
+   22 $@9: . %empty
+   23 ene_expression: EQ . $@9 lgh_expression
+
+    $default  reduce using rule 22 ($@9)
+
+    $@9  go to state 90
+
+
+State 50
+
+   24 $@10: . %empty
+   25 ene_expression: NE . $@10 lgh_expression
+
+    $default  reduce using rule 24 ($@10)
+
+    $@10  go to state 91
+
+
+State 51
+
+   21 eneh_expression: lgh_expression ene_expression .
+
+    $default  reduce using rule 21 (eneh_expression)
+
+
+State 52
+
+   27 $@11: . %empty
+   28 lg_expression: GT . $@11 pmh_expression
+
+    $default  reduce using rule 27 ($@11)
+
+    $@11  go to state 92
+
+
+State 53
+
+   31 $@13: . %empty
+   32 lg_expression: LT . $@13 pmh_expression
+
+    $default  reduce using rule 31 ($@13)
+
+    $@13  go to state 93
+
+
+State 54
+
+   29 $@12: . %empty
+   30 lg_expression: GE . $@12 pmh_expression
+
+    $default  reduce using rule 29 ($@12)
+
+    $@12  go to state 94
+
+
+State 55
+
+   33 $@14: . %empty
+   34 lg_expression: LE . $@14 pmh_expression
+
+    $default  reduce using rule 33 ($@14)
+
+    $@14  go to state 95
+
+
+State 56
+
+   26 lgh_expression: pmh_expression lg_expression .
+
+    $default  reduce using rule 26 (lgh_expression)
+
+
+State 57
+
+   37 $@15: . %empty
+   39 pm_expression: PLUS . $@15 mtdh_expression $@16 pm_expression
+
+    $default  reduce using rule 37 ($@15)
+
+    $@15  go to state 96
+
+
+State 58
+
+   40 $@17: . %empty
+   42 pm_expression: MINUS . $@17 mtdh_expression $@18 pm_expression
+
+    $default  reduce using rule 40 ($@17)
+
+    $@17  go to state 97
+
+
+State 59
+
+   36 pmh_expression: mtdh_expression pm_expression .
+
+    $default  reduce using rule 36 (pmh_expression)
+
+
+State 60
+
+   48 $@21: . %empty
+   50 mtd_expression: TIMES . $@21 powh_expression $@22 mtd_expression
+
+    $default  reduce using rule 48 ($@21)
+
+    $@21  go to state 98
+
+
+State 61
+
+   51 $@23: . %empty
+   53 mtd_expression: DIVIDE . $@23 powh_expression $@24 mtd_expression
+
+    $default  reduce using rule 51 ($@23)
+
+    $@23  go to state 99
+
+
+State 62
+
+   45 $@19: . %empty
+   47 mtd_expression: MOD . $@19 powh_expression $@20 mtd_expression
+
+    $default  reduce using rule 45 ($@19)
+
+    $@19  go to state 100
+
+
+State 63
+
+   44 mtdh_expression: powh_expression mtd_expression .
+
+    $default  reduce using rule 44 (mtdh_expression)
+
+
+State 64
+
+   56 $@25: . %empty
+   58 pow_expression: POW . $@25 noth_expression $@26 pow_expression
+
+    $default  reduce using rule 56 ($@25)
+
+    $@25  go to state 101
+
+
+State 65
+
+   55 powh_expression: noth_expression pow_expression .
+
+    $default  reduce using rule 55 (powh_expression)
+
+
+State 66
+
+   62 $@28: . %empty
+   63 not_expression: NOT . $@28 not_expression
+
+    $default  reduce using rule 62 ($@28)
+
+    $@28  go to state 102
+
+
+State 67
+
+   61 noth_expression: $@27 not_expression . pid_expression
+   66 pid_expression: . LP $@29 expression RP
+   68               | . IDENTIFIER $@30 pointer_expression
+   69               | . CONSTANT
+
+    CONSTANT    shift, and go to state 103
+    IDENTIFIER  shift, and go to state 104
+    LP          shift, and go to state 105
+
+    pid_expression  go to state 106
+
+
+State 68
+
+  137 statement_body: statement statement_body .
+
+    $default  reduce using rule 137 (statement_body)
+
+
+State 69
+
+  135 $@58: . %empty
+  136 statement_block: LBP . $@58 statement_body RBP
+
+    $default  reduce using rule 135 ($@58)
+
+    $@58  go to state 107
+
+
+State 70
+
+  118 statement: $@49 statement_block .
+
+    $default  reduce using rule 118 (statement)
+
+
+State 71
 
     0 $accept: statement_body $end .
 
     $default  accept
 
 
-State 4
-
-  146 $@66: . %empty  [CONSTANT, PRINT, INPUT, IDENTIFIER, LP, LBP, INT, VOID, SEMICOLON, IF, WHILE, DO, FOR, CONTINUE, BREAK, RETURN, STRUCT]
-  147 statement_body: . $@66 statement statement_body
-  147               | $@66 statement . statement_body
-  148               | . %empty  [$end, RBP]
-
-    $end      reduce using rule 148 (statement_body)
-    RBP       reduce using rule 148 (statement_body)
-    $default  reduce using rule 146 ($@66)
-
-    statement_body  go to state 18
-    $@66            go to state 2
-
-
-State 5
-
-    1 $@1: . %empty
-    2 expression: . $@1 orh_expression assign_expression
-  115 statement: $@50 . expression SEMICOLON
-
-    $default  reduce using rule 1 ($@1)
-
-    expression  go to state 19
-    $@1         go to state 20
-
-
-State 6
-
-   98 $@43: . %empty
-  100 for_expression: . $@43 FOR $@44 LP for_init_expression SEMICOLON for_condition_expression SEMICOLON for_action_expression RP statement_block
-  117 statement: $@51 . for_expression
-
-    $default  reduce using rule 98 ($@43)
-
-    for_expression  go to state 21
-    $@43            go to state 22
-
-
-State 7
-
-   75 $@33: . %empty
-   77 do_expression: . $@33 DO $@34 statement_block WHILE LP expression RP SEMICOLON
-  119 statement: $@52 . do_expression
-
-    $default  reduce using rule 75 ($@33)
-
-    do_expression  go to state 23
-    $@33           go to state 24
-
-
-State 8
-
-   78 $@35: . %empty
-   80 while_expression: . $@35 WHILE LP expression RP $@36 statement_block
-  121 statement: $@53 . while_expression
-
-    $default  reduce using rule 78 ($@35)
-
-    while_expression  go to state 25
-    $@35              go to state 26
-
-
-State 9
-
-  123 statement: $@54 . condition_expression
-  180 $@81: . %empty
-  183 condition_expression: . $@81 IF LP expression RP statement $@82 condition_tail $@83
-
-    $default  reduce using rule 180 ($@81)
-
-    condition_expression  go to state 27
-    $@81                  go to state 28
-
-
-State 10
-
-  125 statement: $@55 . declaration SEMICOLON
-  154 $@70: . %empty
-  155 declaration: . $@70 declaration_name declaration_content
-
-    $default  reduce using rule 154 ($@70)
-
-    declaration  go to state 29
-    $@70         go to state 30
-
-
-State 11
-
-  127 statement: $@56 . statement_block
-  144 $@65: . %empty
-  145 statement_block: . $@65 LBP statement_body RBP
-
-    $default  reduce using rule 144 ($@65)
-
-    statement_block  go to state 31
-    $@65             go to state 32
-
-
-State 12
-
-  129 statement: $@57 . BREAK SEMICOLON
-
-    BREAK  shift, and go to state 33
-
-
-State 13
-
-  131 statement: $@58 . CONTINUE SEMICOLON
-
-    CONTINUE  shift, and go to state 34
-
-
-State 14
-
-  133 statement: $@59 . RETURN expression SEMICOLON
-
-    RETURN  shift, and go to state 35
-
-
-State 15
-
-  135 statement: $@60 . SEMICOLON
-
-    SEMICOLON  shift, and go to state 36
-
-
-State 16
-
-  137 statement: $@61 . PRINT LP print_content RP SEMICOLON
-
-    PRINT  shift, and go to state 37
-
-
-State 17
-
-  139 statement: $@62 . INPUT LP expression RP SEMICOLON
-
-    INPUT  shift, and go to state 38
-
-
-State 18
-
-  147 statement_body: $@66 statement statement_body .
-
-    $default  reduce using rule 147 (statement_body)
-
-
-State 19
-
-  115 statement: $@50 expression . SEMICOLON
-
-    SEMICOLON  shift, and go to state 39
-
-
-State 20
-
-    2 expression: $@1 . orh_expression assign_expression
-    6 $@3: . %empty
-    7 orh_expression: . $@3 andh_expression or_expression
-
-    $default  reduce using rule 6 ($@3)
-
-    orh_expression  go to state 40
-    $@3             go to state 41
-
-
-State 21
-
-  117 statement: $@51 for_expression .
-
-    $default  reduce using rule 117 (statement)
-
-
-State 22
-
-  100 for_expression: $@43 . FOR $@44 LP for_init_expression SEMICOLON for_condition_expression SEMICOLON for_action_expression RP statement_block
-
-    FOR  shift, and go to state 42
-
-
-State 23
-
-  119 statement: $@52 do_expression .
-
-    $default  reduce using rule 119 (statement)
-
-
-State 24
-
-   77 do_expression: $@33 . DO $@34 statement_block WHILE LP expression RP SEMICOLON
-
-    DO  shift, and go to state 43
-
-
-State 25
-
-  121 statement: $@53 while_expression .
-
-    $default  reduce using rule 121 (statement)
-
-
-State 26
-
-   80 while_expression: $@35 . WHILE LP expression RP $@36 statement_block
-
-    WHILE  shift, and go to state 44
-
-
-State 27
-
-  123 statement: $@54 condition_expression .
-
-    $default  reduce using rule 123 (statement)
-
-
-State 28
-
-  183 condition_expression: $@81 . IF LP expression RP statement $@82 condition_tail $@83
-
-    IF  shift, and go to state 45
-
-
-State 29
-
-  125 statement: $@55 declaration . SEMICOLON
-
-    SEMICOLON  shift, and go to state 46
-
-
-State 30
-
-  155 declaration: $@70 . declaration_name declaration_content
-  160 $@73: . %empty
-  161 declaration_name: . $@73 type_defination decorated_identifier
-
-    $default  reduce using rule 160 ($@73)
-
-    declaration_name  go to state 47
-    $@73              go to state 48
-
-
-State 31
-
-  127 statement: $@56 statement_block .
-
-    $default  reduce using rule 127 (statement)
-
-
-State 32
-
-  145 statement_block: $@65 . LBP statement_body RBP
-
-    LBP  shift, and go to state 49
-
-
-State 33
-
-  129 statement: $@57 BREAK . SEMICOLON
-
-    SEMICOLON  shift, and go to state 50
-
-
-State 34
-
-  131 statement: $@58 CONTINUE . SEMICOLON
-
-    SEMICOLON  shift, and go to state 51
-
-
-State 35
-
-    1 $@1: . %empty
-    2 expression: . $@1 orh_expression assign_expression
-  133 statement: $@59 RETURN . expression SEMICOLON
-
-    $default  reduce using rule 1 ($@1)
-
-    expression  go to state 52
-    $@1         go to state 20
-
-
-State 36
-
-  135 statement: $@60 SEMICOLON .
-
-    $default  reduce using rule 135 (statement)
-
-
-State 37
-
-  137 statement: $@61 PRINT . LP print_content RP SEMICOLON
-
-    LP  shift, and go to state 53
-
-
-State 38
-
-  139 statement: $@62 INPUT . LP expression RP SEMICOLON
-
-    LP  shift, and go to state 54
-
-
-State 39
-
-  115 statement: $@50 expression SEMICOLON .
-
-    $default  reduce using rule 115 (statement)
-
-
-State 40
-
-    2 expression: $@1 orh_expression . assign_expression
-    3 $@2: . %empty  [ASSIGN]
-    4 assign_expression: . $@2 ASSIGN orh_expression assign_expression
-    5                  | . %empty  [RP, RSB, COMMA, SEMICOLON]
-
-    ASSIGN    reduce using rule 3 ($@2)
-    $default  reduce using rule 5 (assign_expression)
-
-    assign_expression  go to state 55
-    $@2                go to state 56
-
-
-State 41
-
-    7 orh_expression: $@3 . andh_expression or_expression
-   11 $@5: . %empty
-   12 andh_expression: . $@5 eneh_expression and_expression
-
-    $default  reduce using rule 11 ($@5)
-
-    andh_expression  go to state 57
-    $@5              go to state 58
-
-
-State 42
-
-   99 $@44: . %empty
-  100 for_expression: $@43 FOR . $@44 LP for_init_expression SEMICOLON for_condition_expression SEMICOLON for_action_expression RP statement_block
-
-    $default  reduce using rule 99 ($@44)
-
-    $@44  go to state 59
-
-
-State 43
-
-   76 $@34: . %empty
-   77 do_expression: $@33 DO . $@34 statement_block WHILE LP expression RP SEMICOLON
-
-    $default  reduce using rule 76 ($@34)
-
-    $@34  go to state 60
-
-
-State 44
-
-   80 while_expression: $@35 WHILE . LP expression RP $@36 statement_block
-
-    LP  shift, and go to state 61
-
-
-State 45
-
-  183 condition_expression: $@81 IF . LP expression RP statement $@82 condition_tail $@83
-
-    LP  shift, and go to state 62
-
-
-State 46
-
-  125 statement: $@55 declaration SEMICOLON .
-
-    $default  reduce using rule 125 (statement)
-
-
-State 47
-
-  155 declaration: $@70 declaration_name . declaration_content
-  156 $@71: . %empty  [LP]
-  157 declaration_content: . $@71 function_declaration
-  158 $@72: . %empty  [IDENTIFIER, ADDRESS, TIMES]
-  159 declaration_content: . $@72 argument_declaration
-
-    LP        reduce using rule 156 ($@71)
-    $default  reduce using rule 158 ($@72)
-
-    declaration_content  go to state 63
-    $@71                 go to state 64
-    $@72                 go to state 65
-
-
-State 48
-
-   69 $@30: . %empty  [INT]
-   70 type_defination: . $@30 INT
-   71 $@31: . %empty  [VOID]
-   72 type_defination: . $@31 VOID
-   73 $@32: . %empty  [STRUCT]
-   74 type_defination: . $@32 STRUCT IDENTIFIER
-  161 declaration_name: $@73 . type_defination decorated_identifier
-
-    VOID      reduce using rule 71 ($@31)
-    STRUCT    reduce using rule 73 ($@32)
-    $default  reduce using rule 69 ($@30)
-
-    type_defination  go to state 66
-    $@30             go to state 67
-    $@31             go to state 68
-    $@32             go to state 69
-
-
-State 49
-
-  145 statement_block: $@65 LBP . statement_body RBP
-  146 $@66: . %empty  [CONSTANT, PRINT, INPUT, IDENTIFIER, LP, LBP, INT, VOID, SEMICOLON, IF, WHILE, DO, FOR, CONTINUE, BREAK, RETURN, STRUCT]
-  147 statement_body: . $@66 statement statement_body
-  148               | . %empty  [RBP]
-
-    RBP       reduce using rule 148 (statement_body)
-    $default  reduce using rule 146 ($@66)
-
-    statement_body  go to state 70
-    $@66            go to state 2
-
-
-State 50
-
-  129 statement: $@57 BREAK SEMICOLON .
-
-    $default  reduce using rule 129 (statement)
-
-
-State 51
-
-  131 statement: $@58 CONTINUE SEMICOLON .
-
-    $default  reduce using rule 131 (statement)
-
-
-State 52
-
-  133 statement: $@59 RETURN expression . SEMICOLON
-
-    SEMICOLON  shift, and go to state 71
-
-
-State 53
-
-  137 statement: $@61 PRINT LP . print_content RP SEMICOLON
-  140 $@63: . %empty  [CONSTANT, IDENTIFIER, LP]
-  141 print_content: . $@63 expression
-  142 $@64: . %empty  [STRING_C]
-  143 print_content: . $@64 STRING_C
-
-    STRING_C  reduce using rule 142 ($@64)
-    $default  reduce using rule 140 ($@63)
-
-    print_content  go to state 72
-    $@63           go to state 73
-    $@64           go to state 74
-
-
-State 54
-
-    1 $@1: . %empty
-    2 expression: . $@1 orh_expression assign_expression
-  139 statement: $@62 INPUT LP . expression RP SEMICOLON
-
-    $default  reduce using rule 1 ($@1)
-
-    expression  go to state 75
-    $@1         go to state 20
-
-
-State 55
-
-    2 expression: $@1 orh_expression assign_expression .
-
-    $default  reduce using rule 2 (expression)
-
-
-State 56
-
-    4 assign_expression: $@2 . ASSIGN orh_expression assign_expression
-
-    ASSIGN  shift, and go to state 76
-
-
-State 57
-
-    7 orh_expression: $@3 andh_expression . or_expression
-    8 $@4: . %empty  [OR]
-    9 or_expression: . $@4 OR andh_expression or_expression
-   10              | . %empty  [RP, RSB, ASSIGN, COMMA, SEMICOLON]
-
-    OR        reduce using rule 8 ($@4)
-    $default  reduce using rule 10 (or_expression)
-
-    or_expression  go to state 77
-    $@4            go to state 78
-
-
-State 58
-
-   12 andh_expression: $@5 . eneh_expression and_expression
-   16 $@7: . %empty
-   17 eneh_expression: . $@7 lgh_expression ene_expression
-
-    $default  reduce using rule 16 ($@7)
-
-    eneh_expression  go to state 79
-    $@7              go to state 80
-
-
-State 59
-
-  100 for_expression: $@43 FOR $@44 . LP for_init_expression SEMICOLON for_condition_expression SEMICOLON for_action_expression RP statement_block
-
-    LP  shift, and go to state 81
-
-
-State 60
-
-   77 do_expression: $@33 DO $@34 . statement_block WHILE LP expression RP SEMICOLON
-  144 $@65: . %empty
-  145 statement_block: . $@65 LBP statement_body RBP
-
-    $default  reduce using rule 144 ($@65)
-
-    statement_block  go to state 82
-    $@65             go to state 32
-
-
-State 61
-
-    1 $@1: . %empty
-    2 expression: . $@1 orh_expression assign_expression
-   80 while_expression: $@35 WHILE LP . expression RP $@36 statement_block
-
-    $default  reduce using rule 1 ($@1)
-
-    expression  go to state 83
-    $@1         go to state 20
-
-
-State 62
-
-    1 $@1: . %empty
-    2 expression: . $@1 orh_expression assign_expression
-  183 condition_expression: $@81 IF LP . expression RP statement $@82 condition_tail $@83
-
-    $default  reduce using rule 1 ($@1)
-
-    expression  go to state 84
-    $@1         go to state 20
-
-
-State 63
-
-  155 declaration: $@70 declaration_name declaration_content .
-
-    $default  reduce using rule 155 (declaration)
-
-
-State 64
-
-  149 $@67: . %empty
-  151 function_declaration: . $@67 LP function_argument_list RP $@68 statement_block
-  157 declaration_content: $@71 . function_declaration
-
-    $default  reduce using rule 149 ($@67)
-
-    function_declaration  go to state 85
-    $@67                  go to state 86
-
-
-State 65
-
-  152 $@69: . %empty
-  153 argument_declaration: . $@69 declaration_list SEMICOLON
-  159 declaration_content: $@72 . argument_declaration
-
-    $default  reduce using rule 152 ($@69)
-
-    argument_declaration  go to state 87
-    $@69                  go to state 88
-
-
-State 66
-
-  112 $@49: . %empty
-  113 decorated_identifier: . $@49 address_decorator high_level_pointer_decorator IDENTIFIER high_level_array_decorator
-  161 declaration_name: $@73 type_defination . decorated_identifier
-
-    $default  reduce using rule 112 ($@49)
-
-    decorated_identifier  go to state 89
-    $@49                  go to state 90
-
-
-State 67
-
-   70 type_defination: $@30 . INT
-
-    INT  shift, and go to state 91
-
-
-State 68
-
-   72 type_defination: $@31 . VOID
-
-    VOID  shift, and go to state 92
-
-
-State 69
-
-   74 type_defination: $@32 . STRUCT IDENTIFIER
-
-    STRUCT  shift, and go to state 93
-
-
-State 70
-
-  145 statement_block: $@65 LBP statement_body . RBP
-
-    RBP  shift, and go to state 94
-
-
-State 71
-
-  133 statement: $@59 RETURN expression SEMICOLON .
-
-    $default  reduce using rule 133 (statement)
-
-
 State 72
 
-  137 statement: $@61 PRINT LP print_content . RP SEMICOLON
+  116 statement: declaration SEMICOLON .
 
-    RP  shift, and go to state 95
+    $default  reduce using rule 116 (statement)
 
 
 State 73
 
-    1 $@1: . %empty
-    2 expression: . $@1 orh_expression assign_expression
-  141 print_content: $@63 . expression
+   73 type_defination: INT .
 
-    $default  reduce using rule 1 ($@1)
-
-    expression  go to state 96
-    $@1         go to state 20
+    $default  reduce using rule 73 (type_defination)
 
 
 State 74
 
-  143 print_content: $@64 . STRING_C
-
-    STRING_C  shift, and go to state 97
-
-
-State 75
-
-  139 statement: $@62 INPUT LP expression . RP SEMICOLON
-
-    RP  shift, and go to state 98
-
-
-State 76
-
-    4 assign_expression: $@2 ASSIGN . orh_expression assign_expression
-    6 $@3: . %empty
-    7 orh_expression: . $@3 andh_expression or_expression
-
-    $default  reduce using rule 6 ($@3)
-
-    orh_expression  go to state 99
-    $@3             go to state 41
-
-
-State 77
-
-    7 orh_expression: $@3 andh_expression or_expression .
-
-    $default  reduce using rule 7 (orh_expression)
-
-
-State 78
-
-    9 or_expression: $@4 . OR andh_expression or_expression
-
-    OR  shift, and go to state 100
-
-
-State 79
-
-   12 andh_expression: $@5 eneh_expression . and_expression
-   13 $@6: . %empty  [AND]
-   14 and_expression: . $@6 AND eneh_expression and_expression
-   15               | . %empty  [RP, RSB, OR, ASSIGN, COMMA, SEMICOLON]
-
-    AND       reduce using rule 13 ($@6)
-    $default  reduce using rule 15 (and_expression)
-
-    and_expression  go to state 101
-    $@6             go to state 102
-
-
-State 80
-
-   17 eneh_expression: $@7 . lgh_expression ene_expression
-   23 $@10: . %empty
-   24 lgh_expression: . $@10 pmh_expression lg_expression
-
-    $default  reduce using rule 23 ($@10)
-
-    lgh_expression  go to state 103
-    $@10            go to state 104
-
-
-State 81
-
-   81 $@37: . %empty  [INT, VOID, STRUCT]
-   82 for_init_expression: . $@37 declaration
-   83 $@38: . %empty  [CONSTANT, IDENTIFIER, LP]
-   84 for_init_expression: . $@38 expression for_more_condition_expression
-   85                    | . %empty  [SEMICOLON]
-  100 for_expression: $@43 FOR $@44 LP . for_init_expression SEMICOLON for_condition_expression SEMICOLON for_action_expression RP statement_block
-
-    CONSTANT    reduce using rule 83 ($@38)
-    IDENTIFIER  reduce using rule 83 ($@38)
-    LP          reduce using rule 83 ($@38)
-    SEMICOLON   reduce using rule 85 (for_init_expression)
-    $default    reduce using rule 81 ($@37)
-
-    for_init_expression  go to state 105
-    $@37                 go to state 106
-    $@38                 go to state 107
-
-
-State 82
-
-   77 do_expression: $@33 DO $@34 statement_block . WHILE LP expression RP SEMICOLON
-
-    WHILE  shift, and go to state 108
-
-
-State 83
-
-   80 while_expression: $@35 WHILE LP expression . RP $@36 statement_block
-
-    RP  shift, and go to state 109
-
-
-State 84
-
-  183 condition_expression: $@81 IF LP expression . RP statement $@82 condition_tail $@83
-
-    RP  shift, and go to state 110
-
-
-State 85
-
-  157 declaration_content: $@71 function_declaration .
-
-    $default  reduce using rule 157 (declaration_content)
-
-
-State 86
-
-  151 function_declaration: $@67 . LP function_argument_list RP $@68 statement_block
-
-    LP  shift, and go to state 111
-
-
-State 87
-
-  159 declaration_content: $@72 argument_declaration .
-
-    $default  reduce using rule 159 (declaration_content)
-
-
-State 88
-
-  153 argument_declaration: $@69 . declaration_list SEMICOLON
-  162 $@74: . %empty
-  163 declaration_list: . $@74 declaration_unit declaration_list_tail
-
-    $default  reduce using rule 162 ($@74)
-
-    declaration_list  go to state 112
-    $@74              go to state 113
-
-
-State 89
-
-  161 declaration_name: $@73 type_defination decorated_identifier .
-
-    $default  reduce using rule 161 (declaration_name)
-
-
-State 90
-
-  109 $@48: . %empty  [ADDRESS]
-  110 address_decorator: . $@48 ADDRESS
-  111                  | . %empty  [IDENTIFIER, TIMES]
-  113 decorated_identifier: $@49 . address_decorator high_level_pointer_decorator IDENTIFIER high_level_array_decorator
-
-    ADDRESS   reduce using rule 109 ($@48)
-    $default  reduce using rule 111 (address_decorator)
-
-    address_decorator  go to state 114
-    $@48               go to state 115
-
-
-State 91
-
-   70 type_defination: $@30 INT .
-
-    $default  reduce using rule 70 (type_defination)
-
-
-State 92
-
-   72 type_defination: $@31 VOID .
-
-    $default  reduce using rule 72 (type_defination)
-
-
-State 93
-
-   74 type_defination: $@32 STRUCT . IDENTIFIER
-
-    IDENTIFIER  shift, and go to state 116
-
-
-State 94
-
-  145 statement_block: $@65 LBP statement_body RBP .
-
-    $default  reduce using rule 145 (statement_block)
-
-
-State 95
-
-  137 statement: $@61 PRINT LP print_content RP . SEMICOLON
-
-    SEMICOLON  shift, and go to state 117
-
-
-State 96
-
-  141 print_content: $@63 expression .
-
-    $default  reduce using rule 141 (print_content)
-
-
-State 97
-
-  143 print_content: $@64 STRING_C .
-
-    $default  reduce using rule 143 (print_content)
-
-
-State 98
-
-  139 statement: $@62 INPUT LP expression RP . SEMICOLON
-
-    SEMICOLON  shift, and go to state 118
-
-
-State 99
-
-    3 $@2: . %empty  [ASSIGN]
-    4 assign_expression: . $@2 ASSIGN orh_expression assign_expression
-    4                  | $@2 ASSIGN orh_expression . assign_expression
-    5                  | . %empty  [RP, RSB, COMMA, SEMICOLON]
-
-    ASSIGN    reduce using rule 3 ($@2)
-    $default  reduce using rule 5 (assign_expression)
-
-    assign_expression  go to state 119
-    $@2                go to state 56
-
-
-State 100
-
-    9 or_expression: $@4 OR . andh_expression or_expression
-   11 $@5: . %empty
-   12 andh_expression: . $@5 eneh_expression and_expression
-
-    $default  reduce using rule 11 ($@5)
-
-    andh_expression  go to state 120
-    $@5              go to state 58
-
-
-State 101
-
-   12 andh_expression: $@5 eneh_expression and_expression .
-
-    $default  reduce using rule 12 (andh_expression)
-
-
-State 102
-
-   14 and_expression: $@6 . AND eneh_expression and_expression
-
-    AND  shift, and go to state 121
-
-
-State 103
-
-   17 eneh_expression: $@7 lgh_expression . ene_expression
-   18 $@8: . %empty  [EQ]
-   19 ene_expression: . $@8 EQ lgh_expression ene_expression
-   20 $@9: . %empty  [NE]
-   21 ene_expression: . $@9 NE lgh_expression ene_expression
-   22               | . %empty  [RP, RSB, AND, OR, ASSIGN, COMMA, SEMICOLON]
-
-    EQ        reduce using rule 18 ($@8)
-    NE        reduce using rule 20 ($@9)
-    $default  reduce using rule 22 (ene_expression)
-
-    ene_expression  go to state 122
-    $@8             go to state 123
-    $@9             go to state 124
-
-
-State 104
-
-   24 lgh_expression: $@10 . pmh_expression lg_expression
-   34 $@15: . %empty
-   35 pmh_expression: . $@15 mtdh_expression pm_expression
-
-    $default  reduce using rule 34 ($@15)
-
-    pmh_expression  go to state 125
-    $@15            go to state 126
-
-
-State 105
-
-  100 for_expression: $@43 FOR $@44 LP for_init_expression . SEMICOLON for_condition_expression SEMICOLON for_action_expression RP statement_block
-
-    SEMICOLON  shift, and go to state 127
-
-
-State 106
-
-   82 for_init_expression: $@37 . declaration
-  154 $@70: . %empty
-  155 declaration: . $@70 declaration_name declaration_content
-
-    $default  reduce using rule 154 ($@70)
-
-    declaration  go to state 128
-    $@70         go to state 30
-
-
-State 107
-
-    1 $@1: . %empty
-    2 expression: . $@1 orh_expression assign_expression
-   84 for_init_expression: $@38 . expression for_more_condition_expression
-
-    $default  reduce using rule 1 ($@1)
-
-    expression  go to state 129
-    $@1         go to state 20
-
-
-State 108
-
-   77 do_expression: $@33 DO $@34 statement_block WHILE . LP expression RP SEMICOLON
-
-    LP  shift, and go to state 130
-
-
-State 109
-
-   79 $@36: . %empty
-   80 while_expression: $@35 WHILE LP expression RP . $@36 statement_block
-
-    $default  reduce using rule 79 ($@36)
-
-    $@36  go to state 131
-
-
-State 110
-
-  114 $@50: . %empty  [CONSTANT, IDENTIFIER, LP]
-  115 statement: . $@50 expression SEMICOLON
-  116 $@51: . %empty  [FOR]
-  117 statement: . $@51 for_expression
-  118 $@52: . %empty  [DO]
-  119 statement: . $@52 do_expression
-  120 $@53: . %empty  [WHILE]
-  121 statement: . $@53 while_expression
-  122 $@54: . %empty  [IF]
-  123 statement: . $@54 condition_expression
-  124 $@55: . %empty  [INT, VOID, STRUCT]
-  125 statement: . $@55 declaration SEMICOLON
-  126 $@56: . %empty  [LBP]
-  127 statement: . $@56 statement_block
-  128 $@57: . %empty  [BREAK]
-  129 statement: . $@57 BREAK SEMICOLON
-  130 $@58: . %empty  [CONTINUE]
-  131 statement: . $@58 CONTINUE SEMICOLON
-  132 $@59: . %empty  [RETURN]
-  133 statement: . $@59 RETURN expression SEMICOLON
-  134 $@60: . %empty  [SEMICOLON]
-  135 statement: . $@60 SEMICOLON
-  136 $@61: . %empty  [PRINT]
-  137 statement: . $@61 PRINT LP print_content RP SEMICOLON
-  138 $@62: . %empty  [INPUT]
-  139 statement: . $@62 INPUT LP expression RP SEMICOLON
-  183 condition_expression: $@81 IF LP expression RP . statement $@82 condition_tail $@83
-
-    PRINT      reduce using rule 136 ($@61)
-    INPUT      reduce using rule 138 ($@62)
-    LBP        reduce using rule 126 ($@56)
-    INT        reduce using rule 124 ($@55)
-    VOID       reduce using rule 124 ($@55)
-    SEMICOLON  reduce using rule 134 ($@60)
-    IF         reduce using rule 122 ($@54)
-    WHILE      reduce using rule 120 ($@53)
-    DO         reduce using rule 118 ($@52)
-    FOR        reduce using rule 116 ($@51)
-    CONTINUE   reduce using rule 130 ($@58)
-    BREAK      reduce using rule 128 ($@57)
-    RETURN     reduce using rule 132 ($@59)
-    STRUCT     reduce using rule 124 ($@55)
-    $default   reduce using rule 114 ($@50)
-
-    statement  go to state 132
-    $@50       go to state 5
-    $@51       go to state 6
-    $@52       go to state 7
-    $@53       go to state 8
-    $@54       go to state 9
-    $@55       go to state 10
-    $@56       go to state 11
-    $@57       go to state 12
-    $@58       go to state 13
-    $@59       go to state 14
-    $@60       go to state 15
-    $@61       go to state 16
-    $@62       go to state 17
-
-
-State 111
-
-  151 function_declaration: $@67 LP . function_argument_list RP $@68 statement_block
-  174 $@79: . %empty  [INT, VOID, STRUCT]
-  175 function_argument_list: . $@79 function_argument function_argument_tail
-  176                       | . %empty  [RP]
-
-    RP        reduce using rule 176 (function_argument_list)
-    $default  reduce using rule 174 ($@79)
-
-    function_argument_list  go to state 133
-    $@79                    go to state 134
-
-
-State 112
-
-  153 argument_declaration: $@69 declaration_list . SEMICOLON
-
-    SEMICOLON  shift, and go to state 135
-
-
-State 113
-
-  163 declaration_list: $@74 . declaration_unit declaration_list_tail
-  167 $@76: . %empty
-  168 declaration_unit: . $@76 decorated_identifier declaration_init
-
-    $default  reduce using rule 167 ($@76)
-
-    declaration_unit  go to state 136
-    $@76              go to state 137
-
-
-State 114
-
-  106 $@47: . %empty  [TIMES]
-  107 high_level_pointer_decorator: . $@47 TIMES high_level_pointer_decorator
-  108                             | . %empty  [IDENTIFIER]
-  113 decorated_identifier: $@49 address_decorator . high_level_pointer_decorator IDENTIFIER high_level_array_decorator
-
-    IDENTIFIER  reduce using rule 108 (high_level_pointer_decorator)
-    $default    reduce using rule 106 ($@47)
-
-    high_level_pointer_decorator  go to state 138
-    $@47                          go to state 139
-
-
-State 115
-
-  110 address_decorator: $@48 . ADDRESS
-
-    ADDRESS  shift, and go to state 140
-
-
-State 116
-
-   74 type_defination: $@32 STRUCT IDENTIFIER .
+   74 type_defination: VOID .
 
     $default  reduce using rule 74 (type_defination)
 
 
+State 75
+
+   75 $@32: . %empty
+   76 type_defination: STRUCT . $@32 IDENTIFIER
+
+    $default  reduce using rule 75 ($@32)
+
+    $@32  go to state 108
+
+
+State 76
+
+  140 $@60: . %empty
+  141 declaration: $@59 type_defination . $@60 declaration_body
+
+    $default  reduce using rule 140 ($@60)
+
+    $@60  go to state 109
+
+
+State 77
+
+  127 $@54: . %empty
+  129 statement: PRINT $@53 LP . $@54 print_content RP $@55 SEMICOLON
+
+    $default  reduce using rule 127 ($@54)
+
+    $@54  go to state 110
+
+
+State 78
+
+  108 $@47: . %empty
+  110 decorated_identifier: . $@47 address_decorator high_nter_decorator IDENTIFIER $@48 high_ay_decorator
+  132 statement: INPUT $@56 LP . decorated_identifier RP $@57 SEMICOLON
+
+    $default  reduce using rule 108 ($@47)
+
+    decorated_identifier  go to state 111
+    $@47                  go to state 112
+
+
+State 79
+
+  168 $@70: . %empty
+  170 condition_expression: IF $@69 LP . $@70 expression RP $@71 statement condition_tail
+
+    $default  reduce using rule 168 ($@70)
+
+    $@70  go to state 113
+
+
+State 80
+
+   83 $@38: . %empty
+   85 while_expression: WHILE $@37 LP . $@38 expression RP $@39 statement_block
+
+    $default  reduce using rule 83 ($@38)
+
+    $@38  go to state 114
+
+
+State 81
+
+   81 do_expression: DO $@33 statement_block . WHILE $@34 LP $@35 expression RP $@36 SEMICOLON
+
+    WHILE  shift, and go to state 115
+
+
+State 82
+
+   94 $@41: . %empty
+   98 for_expression: FOR $@40 LP . $@41 for_init_expression SEMICOLON $@42 for_condition_expression SEMICOLON $@43 for_action_expression RP $@44 statement_block
+
+    $default  reduce using rule 94 ($@41)
+
+    $@41  go to state 116
+
+
+State 83
+
+  122 statement: CONTINUE $@51 SEMICOLON .
+
+    $default  reduce using rule 122 (statement)
+
+
+State 84
+
+  120 statement: BREAK $@50 SEMICOLON .
+
+    $default  reduce using rule 120 (statement)
+
+
+State 85
+
+  124 statement: RETURN $@52 expression . SEMICOLON
+
+    SEMICOLON  shift, and go to state 117
+
+
+State 86
+
+    4 comma_expression: COMMA $@1 . single_expression $@2 comma_expression
+    6 single_expression: . orh_expression assign_expression
+   11 orh_expression: . andh_expression or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+
+    $default  reduce using rule 60 ($@27)
+
+    single_expression  go to state 118
+    orh_expression     go to state 13
+    andh_expression    go to state 14
+    eneh_expression    go to state 15
+    lgh_expression     go to state 16
+    pmh_expression     go to state 17
+    mtdh_expression    go to state 18
+    powh_expression    go to state 19
+    noth_expression    go to state 20
+    $@27               go to state 21
+
+
+State 87
+
+    9 assign_expression: ASSIGN $@3 . orh_expression $@4 assign_expression
+   11 orh_expression: . andh_expression or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+
+    $default  reduce using rule 60 ($@27)
+
+    orh_expression   go to state 119
+    andh_expression  go to state 14
+    eneh_expression  go to state 15
+    lgh_expression   go to state 16
+    pmh_expression   go to state 17
+    mtdh_expression  go to state 18
+    powh_expression  go to state 19
+    noth_expression  go to state 20
+    $@27             go to state 21
+
+
+State 88
+
+   14 or_expression: OR $@5 . andh_expression $@6 or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+
+    $default  reduce using rule 60 ($@27)
+
+    andh_expression  go to state 120
+    eneh_expression  go to state 15
+    lgh_expression   go to state 16
+    pmh_expression   go to state 17
+    mtdh_expression  go to state 18
+    powh_expression  go to state 19
+    noth_expression  go to state 20
+    $@27             go to state 21
+
+
+State 89
+
+   19 and_expression: AND $@7 . eneh_expression $@8 and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+
+    $default  reduce using rule 60 ($@27)
+
+    eneh_expression  go to state 121
+    lgh_expression   go to state 16
+    pmh_expression   go to state 17
+    mtdh_expression  go to state 18
+    powh_expression  go to state 19
+    noth_expression  go to state 20
+    $@27             go to state 21
+
+
+State 90
+
+   23 ene_expression: EQ $@9 . lgh_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+
+    $default  reduce using rule 60 ($@27)
+
+    lgh_expression   go to state 122
+    pmh_expression   go to state 17
+    mtdh_expression  go to state 18
+    powh_expression  go to state 19
+    noth_expression  go to state 20
+    $@27             go to state 21
+
+
+State 91
+
+   25 ene_expression: NE $@10 . lgh_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+
+    $default  reduce using rule 60 ($@27)
+
+    lgh_expression   go to state 123
+    pmh_expression   go to state 17
+    mtdh_expression  go to state 18
+    powh_expression  go to state 19
+    noth_expression  go to state 20
+    $@27             go to state 21
+
+
+State 92
+
+   28 lg_expression: GT $@11 . pmh_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+
+    $default  reduce using rule 60 ($@27)
+
+    pmh_expression   go to state 124
+    mtdh_expression  go to state 18
+    powh_expression  go to state 19
+    noth_expression  go to state 20
+    $@27             go to state 21
+
+
+State 93
+
+   32 lg_expression: LT $@13 . pmh_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+
+    $default  reduce using rule 60 ($@27)
+
+    pmh_expression   go to state 125
+    mtdh_expression  go to state 18
+    powh_expression  go to state 19
+    noth_expression  go to state 20
+    $@27             go to state 21
+
+
+State 94
+
+   30 lg_expression: GE $@12 . pmh_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+
+    $default  reduce using rule 60 ($@27)
+
+    pmh_expression   go to state 126
+    mtdh_expression  go to state 18
+    powh_expression  go to state 19
+    noth_expression  go to state 20
+    $@27             go to state 21
+
+
+State 95
+
+   34 lg_expression: LE $@14 . pmh_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+
+    $default  reduce using rule 60 ($@27)
+
+    pmh_expression   go to state 127
+    mtdh_expression  go to state 18
+    powh_expression  go to state 19
+    noth_expression  go to state 20
+    $@27             go to state 21
+
+
+State 96
+
+   39 pm_expression: PLUS $@15 . mtdh_expression $@16 pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+
+    $default  reduce using rule 60 ($@27)
+
+    mtdh_expression  go to state 128
+    powh_expression  go to state 19
+    noth_expression  go to state 20
+    $@27             go to state 21
+
+
+State 97
+
+   42 pm_expression: MINUS $@17 . mtdh_expression $@18 pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+
+    $default  reduce using rule 60 ($@27)
+
+    mtdh_expression  go to state 129
+    powh_expression  go to state 19
+    noth_expression  go to state 20
+    $@27             go to state 21
+
+
+State 98
+
+   50 mtd_expression: TIMES $@21 . powh_expression $@22 mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+
+    $default  reduce using rule 60 ($@27)
+
+    powh_expression  go to state 130
+    noth_expression  go to state 20
+    $@27             go to state 21
+
+
+State 99
+
+   53 mtd_expression: DIVIDE $@23 . powh_expression $@24 mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+
+    $default  reduce using rule 60 ($@27)
+
+    powh_expression  go to state 131
+    noth_expression  go to state 20
+    $@27             go to state 21
+
+
+State 100
+
+   47 mtd_expression: MOD $@19 . powh_expression $@20 mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+
+    $default  reduce using rule 60 ($@27)
+
+    powh_expression  go to state 132
+    noth_expression  go to state 20
+    $@27             go to state 21
+
+
+State 101
+
+   58 pow_expression: POW $@25 . noth_expression $@26 pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+
+    $default  reduce using rule 60 ($@27)
+
+    noth_expression  go to state 133
+    $@27             go to state 21
+
+
+State 102
+
+   63 not_expression: . NOT $@28 not_expression
+   63               | NOT $@28 . not_expression
+   64               | . %empty  [CONSTANT, IDENTIFIER, LP]
+
+    NOT  shift, and go to state 66
+
+    $default  reduce using rule 64 (not_expression)
+
+    not_expression  go to state 134
+
+
+State 103
+
+   69 pid_expression: CONSTANT .
+
+    $default  reduce using rule 69 (pid_expression)
+
+
+State 104
+
+   67 $@30: . %empty
+   68 pid_expression: IDENTIFIER . $@30 pointer_expression
+
+    $default  reduce using rule 67 ($@30)
+
+    $@30  go to state 135
+
+
+State 105
+
+   65 $@29: . %empty
+   66 pid_expression: LP . $@29 expression RP
+
+    $default  reduce using rule 65 ($@29)
+
+    $@29  go to state 136
+
+
+State 106
+
+   61 noth_expression: $@27 not_expression pid_expression .
+
+    $default  reduce using rule 61 (noth_expression)
+
+
+State 107
+
+    1 expression: . single_expression comma_expression
+    6 single_expression: . orh_expression assign_expression
+   11 orh_expression: . andh_expression or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty  [CONSTANT, IDENTIFIER, LP, NOT]
+   61 noth_expression: . $@27 not_expression pid_expression
+   81 do_expression: . DO $@33 statement_block WHILE $@34 LP $@35 expression RP $@36 SEMICOLON
+   85 while_expression: . WHILE $@37 LP $@38 expression RP $@39 statement_block
+   98 for_expression: . FOR $@40 LP $@41 for_init_expression SEMICOLON $@42 for_condition_expression SEMICOLON $@43 for_action_expression RP $@44 statement_block
+  111 statement: . expression SEMICOLON
+  112          | . for_expression
+  113          | . do_expression
+  114          | . while_expression
+  115          | . condition_expression
+  116          | . declaration SEMICOLON
+  117 $@49: . %empty  [LBP]
+  118 statement: . $@49 statement_block
+  120          | . BREAK $@50 SEMICOLON
+  122          | . CONTINUE $@51 SEMICOLON
+  124          | . RETURN $@52 expression SEMICOLON
+  125          | . SEMICOLON
+  129          | . PRINT $@53 LP $@54 print_content RP $@55 SEMICOLON
+  132          | . INPUT $@56 LP decorated_identifier RP $@57 SEMICOLON
+  136 statement_block: LBP $@58 . statement_body RBP
+  137 statement_body: . statement statement_body
+  138               | . %empty  [RBP]
+  139 $@59: . %empty  [INT, VOID, STRUCT]
+  141 declaration: . $@59 type_defination $@60 declaration_body
+  170 condition_expression: . IF $@69 LP $@70 expression RP $@71 statement condition_tail
+
+    PRINT      shift, and go to state 1
+    INPUT      shift, and go to state 2
+    SEMICOLON  shift, and go to state 3
+    IF         shift, and go to state 4
+    WHILE      shift, and go to state 5
+    DO         shift, and go to state 6
+    FOR        shift, and go to state 7
+    CONTINUE   shift, and go to state 8
+    BREAK      shift, and go to state 9
+    RETURN     shift, and go to state 10
+
+    LBP       reduce using rule 117 ($@49)
+    RBP       reduce using rule 138 (statement_body)
+    INT       reduce using rule 139 ($@59)
+    VOID      reduce using rule 139 ($@59)
+    STRUCT    reduce using rule 139 ($@59)
+    $default  reduce using rule 60 ($@27)
+
+    expression            go to state 11
+    single_expression     go to state 12
+    orh_expression        go to state 13
+    andh_expression       go to state 14
+    eneh_expression       go to state 15
+    lgh_expression        go to state 16
+    pmh_expression        go to state 17
+    mtdh_expression       go to state 18
+    powh_expression       go to state 19
+    noth_expression       go to state 20
+    $@27                  go to state 21
+    do_expression         go to state 22
+    while_expression      go to state 23
+    for_expression        go to state 24
+    statement             go to state 25
+    $@49                  go to state 26
+    statement_body        go to state 137
+    declaration           go to state 28
+    $@59                  go to state 29
+    condition_expression  go to state 30
+
+
+State 108
+
+   76 type_defination: STRUCT $@32 . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 138
+
+
+State 109
+
+  104 high_nter_decorator: . TIMES $@46 high_nter_decorator
+  105                    | . %empty  [IDENTIFIER]
+  141 declaration: $@59 type_defination $@60 . declaration_body
+  142 declaration_body: . function_declaration
+  144                 | . argument_declaration_list $@61 SEMICOLON
+  147 function_declaration: . init_identifier LP $@62 function_argument_list RP $@63 function_defination
+  151 argument_declaration_list: . argument_declaration_unit argument_declaration_list_tail
+  155 argument_declaration_unit: . init_identifier $@65 argument_declaration_init
+  160 init_identifier: . high_nter_decorator IDENTIFIER $@67 high_ay_decorator
+
+    TIMES  shift, and go to state 139
+
+    $default  reduce using rule 105 (high_nter_decorator)
+
+    high_nter_decorator        go to state 140
+    declaration_body           go to state 141
+    function_declaration       go to state 142
+    argument_declaration_list  go to state 143
+    argument_declaration_unit  go to state 144
+    init_identifier            go to state 145
+
+
+State 110
+
+    1 expression: . single_expression comma_expression
+    6 single_expression: . orh_expression assign_expression
+   11 orh_expression: . andh_expression or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty  [CONSTANT, IDENTIFIER, LP, NOT]
+   61 noth_expression: . $@27 not_expression pid_expression
+  129 statement: PRINT $@53 LP $@54 . print_content RP $@55 SEMICOLON
+  133 print_content: . expression
+  134              | . STRING_C
+
+    STRING_C  shift, and go to state 146
+
+    $default  reduce using rule 60 ($@27)
+
+    expression         go to state 147
+    single_expression  go to state 12
+    orh_expression     go to state 13
+    andh_expression    go to state 14
+    eneh_expression    go to state 15
+    lgh_expression     go to state 16
+    pmh_expression     go to state 17
+    mtdh_expression    go to state 18
+    powh_expression    go to state 19
+    noth_expression    go to state 20
+    $@27               go to state 21
+    print_content      go to state 148
+
+
+State 111
+
+  132 statement: INPUT $@56 LP decorated_identifier . RP $@57 SEMICOLON
+
+    RP  shift, and go to state 149
+
+
+State 112
+
+  106 address_decorator: . ADDRESS
+  107                  | . %empty  [IDENTIFIER, TIMES]
+  110 decorated_identifier: $@47 . address_decorator high_nter_decorator IDENTIFIER $@48 high_ay_decorator
+
+    ADDRESS  shift, and go to state 150
+
+    $default  reduce using rule 107 (address_decorator)
+
+    address_decorator  go to state 151
+
+
+State 113
+
+    1 expression: . single_expression comma_expression
+    6 single_expression: . orh_expression assign_expression
+   11 orh_expression: . andh_expression or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+  170 condition_expression: IF $@69 LP $@70 . expression RP $@71 statement condition_tail
+
+    $default  reduce using rule 60 ($@27)
+
+    expression         go to state 152
+    single_expression  go to state 12
+    orh_expression     go to state 13
+    andh_expression    go to state 14
+    eneh_expression    go to state 15
+    lgh_expression     go to state 16
+    pmh_expression     go to state 17
+    mtdh_expression    go to state 18
+    powh_expression    go to state 19
+    noth_expression    go to state 20
+    $@27               go to state 21
+
+
+State 114
+
+    1 expression: . single_expression comma_expression
+    6 single_expression: . orh_expression assign_expression
+   11 orh_expression: . andh_expression or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+   85 while_expression: WHILE $@37 LP $@38 . expression RP $@39 statement_block
+
+    $default  reduce using rule 60 ($@27)
+
+    expression         go to state 153
+    single_expression  go to state 12
+    orh_expression     go to state 13
+    andh_expression    go to state 14
+    eneh_expression    go to state 15
+    lgh_expression     go to state 16
+    pmh_expression     go to state 17
+    mtdh_expression    go to state 18
+    powh_expression    go to state 19
+    noth_expression    go to state 20
+    $@27               go to state 21
+
+
+State 115
+
+   78 $@34: . %empty
+   81 do_expression: DO $@33 statement_block WHILE . $@34 LP $@35 expression RP $@36 SEMICOLON
+
+    $default  reduce using rule 78 ($@34)
+
+    $@34  go to state 154
+
+
+State 116
+
+    1 expression: . single_expression comma_expression
+    6 single_expression: . orh_expression assign_expression
+   11 orh_expression: . andh_expression or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty  [CONSTANT, IDENTIFIER, LP, NOT]
+   61 noth_expression: . $@27 not_expression pid_expression
+   86 for_init_expression: . declaration
+   87                    | . expression
+   88                    | . %empty  [SEMICOLON]
+   98 for_expression: FOR $@40 LP $@41 . for_init_expression SEMICOLON $@42 for_condition_expression SEMICOLON $@43 for_action_expression RP $@44 statement_block
+  139 $@59: . %empty  [INT, VOID, STRUCT]
+  141 declaration: . $@59 type_defination $@60 declaration_body
+
+    INT        reduce using rule 139 ($@59)
+    VOID       reduce using rule 139 ($@59)
+    SEMICOLON  reduce using rule 88 (for_init_expression)
+    STRUCT     reduce using rule 139 ($@59)
+    $default   reduce using rule 60 ($@27)
+
+    expression           go to state 155
+    single_expression    go to state 12
+    orh_expression       go to state 13
+    andh_expression      go to state 14
+    eneh_expression      go to state 15
+    lgh_expression       go to state 16
+    pmh_expression       go to state 17
+    mtdh_expression      go to state 18
+    powh_expression      go to state 19
+    noth_expression      go to state 20
+    $@27                 go to state 21
+    for_init_expression  go to state 156
+    declaration          go to state 157
+    $@59                 go to state 29
+
+
 State 117
 
-  137 statement: $@61 PRINT LP print_content RP SEMICOLON .
+  124 statement: RETURN $@52 expression SEMICOLON .
 
-    $default  reduce using rule 137 (statement)
+    $default  reduce using rule 124 (statement)
 
 
 State 118
 
-  139 statement: $@62 INPUT LP expression RP SEMICOLON .
+    3 $@2: . %empty
+    4 comma_expression: COMMA $@1 single_expression . $@2 comma_expression
 
-    $default  reduce using rule 139 (statement)
+    $default  reduce using rule 3 ($@2)
+
+    $@2  go to state 158
 
 
 State 119
 
-    4 assign_expression: $@2 ASSIGN orh_expression assign_expression .
+    8 $@4: . %empty
+    9 assign_expression: ASSIGN $@3 orh_expression . $@4 assign_expression
 
-    $default  reduce using rule 4 (assign_expression)
+    $default  reduce using rule 8 ($@4)
+
+    $@4  go to state 159
 
 
 State 120
 
-    8 $@4: . %empty  [OR]
-    9 or_expression: . $@4 OR andh_expression or_expression
-    9              | $@4 OR andh_expression . or_expression
-   10              | . %empty  [RP, RSB, ASSIGN, COMMA, SEMICOLON]
+   13 $@6: . %empty
+   14 or_expression: OR $@5 andh_expression . $@6 or_expression
 
-    OR        reduce using rule 8 ($@4)
-    $default  reduce using rule 10 (or_expression)
+    $default  reduce using rule 13 ($@6)
 
-    or_expression  go to state 141
-    $@4            go to state 78
+    $@6  go to state 160
 
 
 State 121
 
-   14 and_expression: $@6 AND . eneh_expression and_expression
-   16 $@7: . %empty
-   17 eneh_expression: . $@7 lgh_expression ene_expression
+   18 $@8: . %empty
+   19 and_expression: AND $@7 eneh_expression . $@8 and_expression
 
-    $default  reduce using rule 16 ($@7)
+    $default  reduce using rule 18 ($@8)
 
-    eneh_expression  go to state 142
-    $@7              go to state 80
+    $@8  go to state 161
 
 
 State 122
 
-   17 eneh_expression: $@7 lgh_expression ene_expression .
+   23 ene_expression: EQ $@9 lgh_expression .
 
-    $default  reduce using rule 17 (eneh_expression)
+    $default  reduce using rule 23 (ene_expression)
 
 
 State 123
 
-   19 ene_expression: $@8 . EQ lgh_expression ene_expression
+   25 ene_expression: NE $@10 lgh_expression .
 
-    EQ  shift, and go to state 143
+    $default  reduce using rule 25 (ene_expression)
 
 
 State 124
 
-   21 ene_expression: $@9 . NE lgh_expression ene_expression
-
-    NE  shift, and go to state 144
-
-
-State 125
-
-   24 lgh_expression: $@10 pmh_expression . lg_expression
-   25 $@11: . %empty  [GT]
-   26 lg_expression: . $@11 GT pmh_expression lg_expression
-   27 $@12: . %empty  [GE]
-   28 lg_expression: . $@12 GE pmh_expression lg_expression
-   29 $@13: . %empty  [LT]
-   30 lg_expression: . $@13 LT pmh_expression lg_expression
-   31 $@14: . %empty  [LE]
-   32 lg_expression: . $@14 LE pmh_expression lg_expression
-   33              | . %empty  [RP, RSB, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
-
-    GT        reduce using rule 25 ($@11)
-    LT        reduce using rule 29 ($@13)
-    GE        reduce using rule 27 ($@12)
-    LE        reduce using rule 31 ($@14)
-    $default  reduce using rule 33 (lg_expression)
-
-    lg_expression  go to state 145
-    $@11           go to state 146
-    $@12           go to state 147
-    $@13           go to state 148
-    $@14           go to state 149
-
-
-State 126
-
-   35 pmh_expression: $@15 . mtdh_expression pm_expression
-   41 $@18: . %empty
-   42 mtdh_expression: . $@18 powh_expression mtd_expression
-
-    $default  reduce using rule 41 ($@18)
-
-    mtdh_expression  go to state 150
-    $@18             go to state 151
-
-
-State 127
-
-   86 $@39: . %empty  [CONSTANT, IDENTIFIER, LP]
-   87 for_condition_expression: . $@39 expression for_more_condition_expression
-   88                         | . %empty  [SEMICOLON]
-  100 for_expression: $@43 FOR $@44 LP for_init_expression SEMICOLON . for_condition_expression SEMICOLON for_action_expression RP statement_block
-
-    SEMICOLON  reduce using rule 88 (for_condition_expression)
-    $default   reduce using rule 86 ($@39)
-
-    for_condition_expression  go to state 152
-    $@39                      go to state 153
-
-
-State 128
-
-   82 for_init_expression: $@37 declaration .
-
-    $default  reduce using rule 82 (for_init_expression)
-
-
-State 129
-
-   84 for_init_expression: $@38 expression . for_more_condition_expression
-   89 $@40: . %empty  [COMMA]
-   90 for_more_condition_expression: . $@40 COMMA expression for_more_condition_expression
-   91                              | . %empty  [SEMICOLON]
-
-    SEMICOLON  reduce using rule 91 (for_more_condition_expression)
-    $default   reduce using rule 89 ($@40)
-
-    for_more_condition_expression  go to state 154
-    $@40                           go to state 155
-
-
-State 130
-
-    1 $@1: . %empty
-    2 expression: . $@1 orh_expression assign_expression
-   77 do_expression: $@33 DO $@34 statement_block WHILE LP . expression RP SEMICOLON
-
-    $default  reduce using rule 1 ($@1)
-
-    expression  go to state 156
-    $@1         go to state 20
-
-
-State 131
-
-   80 while_expression: $@35 WHILE LP expression RP $@36 . statement_block
-  144 $@65: . %empty
-  145 statement_block: . $@65 LBP statement_body RBP
-
-    $default  reduce using rule 144 ($@65)
-
-    statement_block  go to state 157
-    $@65             go to state 32
-
-
-State 132
-
-  181 $@82: . %empty
-  183 condition_expression: $@81 IF LP expression RP statement . $@82 condition_tail $@83
-
-    $default  reduce using rule 181 ($@82)
-
-    $@82  go to state 158
-
-
-State 133
-
-  151 function_declaration: $@67 LP function_argument_list . RP $@68 statement_block
-
-    RP  shift, and go to state 159
-
-
-State 134
-
-  172 $@78: . %empty
-  173 function_argument: . $@78 type_defination decorated_identifier
-  175 function_argument_list: $@79 . function_argument function_argument_tail
-
-    $default  reduce using rule 172 ($@78)
-
-    function_argument  go to state 160
-    $@78               go to state 161
-
-
-State 135
-
-  153 argument_declaration: $@69 declaration_list SEMICOLON .
-
-    $default  reduce using rule 153 (argument_declaration)
-
-
-State 136
-
-  163 declaration_list: $@74 declaration_unit . declaration_list_tail
-  164 $@75: . %empty  [COMMA]
-  165 declaration_list_tail: . $@75 COMMA declaration_list
-  166                      | . %empty  [SEMICOLON]
-
-    SEMICOLON  reduce using rule 166 (declaration_list_tail)
-    $default   reduce using rule 164 ($@75)
-
-    declaration_list_tail  go to state 162
-    $@75                   go to state 163
-
-
-State 137
-
-  112 $@49: . %empty
-  113 decorated_identifier: . $@49 address_decorator high_level_pointer_decorator IDENTIFIER high_level_array_decorator
-  168 declaration_unit: $@76 . decorated_identifier declaration_init
-
-    $default  reduce using rule 112 ($@49)
-
-    decorated_identifier  go to state 164
-    $@49                  go to state 90
-
-
-State 138
-
-  113 decorated_identifier: $@49 address_decorator high_level_pointer_decorator . IDENTIFIER high_level_array_decorator
-
-    IDENTIFIER  shift, and go to state 165
-
-
-State 139
-
-  107 high_level_pointer_decorator: $@47 . TIMES high_level_pointer_decorator
-
-    TIMES  shift, and go to state 166
-
-
-State 140
-
-  110 address_decorator: $@48 ADDRESS .
-
-    $default  reduce using rule 110 (address_decorator)
-
-
-State 141
-
-    9 or_expression: $@4 OR andh_expression or_expression .
-
-    $default  reduce using rule 9 (or_expression)
-
-
-State 142
-
-   13 $@6: . %empty  [AND]
-   14 and_expression: . $@6 AND eneh_expression and_expression
-   14               | $@6 AND eneh_expression . and_expression
-   15               | . %empty  [RP, RSB, OR, ASSIGN, COMMA, SEMICOLON]
-
-    AND       reduce using rule 13 ($@6)
-    $default  reduce using rule 15 (and_expression)
-
-    and_expression  go to state 167
-    $@6             go to state 102
-
-
-State 143
-
-   19 ene_expression: $@8 EQ . lgh_expression ene_expression
-   23 $@10: . %empty
-   24 lgh_expression: . $@10 pmh_expression lg_expression
-
-    $default  reduce using rule 23 ($@10)
-
-    lgh_expression  go to state 168
-    $@10            go to state 104
-
-
-State 144
-
-   21 ene_expression: $@9 NE . lgh_expression ene_expression
-   23 $@10: . %empty
-   24 lgh_expression: . $@10 pmh_expression lg_expression
-
-    $default  reduce using rule 23 ($@10)
-
-    lgh_expression  go to state 169
-    $@10            go to state 104
-
-
-State 145
-
-   24 lgh_expression: $@10 pmh_expression lg_expression .
-
-    $default  reduce using rule 24 (lgh_expression)
-
-
-State 146
-
-   26 lg_expression: $@11 . GT pmh_expression lg_expression
-
-    GT  shift, and go to state 170
-
-
-State 147
-
-   28 lg_expression: $@12 . GE pmh_expression lg_expression
-
-    GE  shift, and go to state 171
-
-
-State 148
-
-   30 lg_expression: $@13 . LT pmh_expression lg_expression
-
-    LT  shift, and go to state 172
-
-
-State 149
-
-   32 lg_expression: $@14 . LE pmh_expression lg_expression
-
-    LE  shift, and go to state 173
-
-
-State 150
-
-   35 pmh_expression: $@15 mtdh_expression . pm_expression
-   36 $@16: . %empty  [PLUS]
-   37 pm_expression: . $@16 PLUS mtdh_expression pm_expression
-   38 $@17: . %empty  [MINUS]
-   39 pm_expression: . $@17 MINUS mtdh_expression pm_expression
-   40              | . %empty  [RP, RSB, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
-
-    PLUS      reduce using rule 36 ($@16)
-    MINUS     reduce using rule 38 ($@17)
-    $default  reduce using rule 40 (pm_expression)
-
-    pm_expression  go to state 174
-    $@16           go to state 175
-    $@17           go to state 176
-
-
-State 151
-
-   42 mtdh_expression: $@18 . powh_expression mtd_expression
-   50 $@22: . %empty
-   51 powh_expression: . $@22 noth_expression pow_expression
-
-    $default  reduce using rule 50 ($@22)
-
-    powh_expression  go to state 177
-    $@22             go to state 178
-
-
-State 152
-
-  100 for_expression: $@43 FOR $@44 LP for_init_expression SEMICOLON for_condition_expression . SEMICOLON for_action_expression RP statement_block
-
-    SEMICOLON  shift, and go to state 179
-
-
-State 153
-
-    1 $@1: . %empty
-    2 expression: . $@1 orh_expression assign_expression
-   87 for_condition_expression: $@39 . expression for_more_condition_expression
-
-    $default  reduce using rule 1 ($@1)
-
-    expression  go to state 180
-    $@1         go to state 20
-
-
-State 154
-
-   84 for_init_expression: $@38 expression for_more_condition_expression .
-
-    $default  reduce using rule 84 (for_init_expression)
-
-
-State 155
-
-   90 for_more_condition_expression: $@40 . COMMA expression for_more_condition_expression
-
-    COMMA  shift, and go to state 181
-
-
-State 156
-
-   77 do_expression: $@33 DO $@34 statement_block WHILE LP expression . RP SEMICOLON
-
-    RP  shift, and go to state 182
-
-
-State 157
-
-   80 while_expression: $@35 WHILE LP expression RP $@36 statement_block .
-
-    $default  reduce using rule 80 (while_expression)
-
-
-State 158
-
-  183 condition_expression: $@81 IF LP expression RP statement $@82 . condition_tail $@83
-  184 condition_tail: . ELSE statement
-  185               | . %empty  [$end, CONSTANT, PRINT, INPUT, IDENTIFIER, LP, LBP, RBP, INT, VOID, SEMICOLON, IF, WHILE, DO, FOR, CONTINUE, BREAK, RETURN, STRUCT]
-
-    ELSE  shift, and go to state 183
-
-    $default  reduce using rule 185 (condition_tail)
-
-    condition_tail  go to state 184
-
-    Conflict between rule 185 and token ELSE resolved as shift (NONE_ELSE < ELSE).
-
-
-State 159
-
-  150 $@68: . %empty
-  151 function_declaration: $@67 LP function_argument_list RP . $@68 statement_block
-
-    $default  reduce using rule 150 ($@68)
-
-    $@68  go to state 185
-
-
-State 160
-
-  175 function_argument_list: $@79 function_argument . function_argument_tail
-  177 $@80: . %empty  [COMMA]
-  178 function_argument_tail: . $@80 COMMA function_argument_list
-  179                       | . %empty  [RP]
-
-    RP        reduce using rule 179 (function_argument_tail)
-    $default  reduce using rule 177 ($@80)
-
-    function_argument_tail  go to state 186
-    $@80                    go to state 187
-
-
-State 161
-
-   69 $@30: . %empty  [INT]
-   70 type_defination: . $@30 INT
-   71 $@31: . %empty  [VOID]
-   72 type_defination: . $@31 VOID
-   73 $@32: . %empty  [STRUCT]
-   74 type_defination: . $@32 STRUCT IDENTIFIER
-  173 function_argument: $@78 . type_defination decorated_identifier
-
-    VOID      reduce using rule 71 ($@31)
-    STRUCT    reduce using rule 73 ($@32)
-    $default  reduce using rule 69 ($@30)
-
-    type_defination  go to state 188
-    $@30             go to state 67
-    $@31             go to state 68
-    $@32             go to state 69
-
-
-State 162
-
-  163 declaration_list: $@74 declaration_unit declaration_list_tail .
-
-    $default  reduce using rule 163 (declaration_list)
-
-
-State 163
-
-  165 declaration_list_tail: $@75 . COMMA declaration_list
-
-    COMMA  shift, and go to state 189
-
-
-State 164
-
-  168 declaration_unit: $@76 decorated_identifier . declaration_init
-  169 $@77: . %empty  [ASSIGN]
-  170 declaration_init: . $@77 ASSIGN expression
-  171                 | . %empty  [COMMA, SEMICOLON]
-
-    ASSIGN    reduce using rule 169 ($@77)
-    $default  reduce using rule 171 (declaration_init)
-
-    declaration_init  go to state 190
-    $@77              go to state 191
-
-
-State 165
-
-  103 $@46: . %empty  [LSB]
-  104 high_level_array_decorator: . $@46 array_decorator high_level_array_decorator
-  105                           | . %empty  [IDENTIFIER, LP, RP, ADDRESS, TIMES, ASSIGN, COMMA, SEMICOLON]
-  113 decorated_identifier: $@49 address_decorator high_level_pointer_decorator IDENTIFIER . high_level_array_decorator
-
-    LSB       reduce using rule 103 ($@46)
-    $default  reduce using rule 105 (high_level_array_decorator)
-
-    high_level_array_decorator  go to state 192
-    $@46                        go to state 193
-
-
-State 166
-
-  106 $@47: . %empty  [TIMES]
-  107 high_level_pointer_decorator: . $@47 TIMES high_level_pointer_decorator
-  107                             | $@47 TIMES . high_level_pointer_decorator
-  108                             | . %empty  [IDENTIFIER]
-
-    IDENTIFIER  reduce using rule 108 (high_level_pointer_decorator)
-    $default    reduce using rule 106 ($@47)
-
-    high_level_pointer_decorator  go to state 194
-    $@47                          go to state 139
-
-
-State 167
-
-   14 and_expression: $@6 AND eneh_expression and_expression .
-
-    $default  reduce using rule 14 (and_expression)
-
-
-State 168
-
-   18 $@8: . %empty  [EQ]
-   19 ene_expression: . $@8 EQ lgh_expression ene_expression
-   19               | $@8 EQ lgh_expression . ene_expression
-   20 $@9: . %empty  [NE]
-   21 ene_expression: . $@9 NE lgh_expression ene_expression
-   22               | . %empty  [RP, RSB, AND, OR, ASSIGN, COMMA, SEMICOLON]
-
-    EQ        reduce using rule 18 ($@8)
-    NE        reduce using rule 20 ($@9)
-    $default  reduce using rule 22 (ene_expression)
-
-    ene_expression  go to state 195
-    $@8             go to state 123
-    $@9             go to state 124
-
-
-State 169
-
-   18 $@8: . %empty  [EQ]
-   19 ene_expression: . $@8 EQ lgh_expression ene_expression
-   20 $@9: . %empty  [NE]
-   21 ene_expression: . $@9 NE lgh_expression ene_expression
-   21               | $@9 NE lgh_expression . ene_expression
-   22               | . %empty  [RP, RSB, AND, OR, ASSIGN, COMMA, SEMICOLON]
-
-    EQ        reduce using rule 18 ($@8)
-    NE        reduce using rule 20 ($@9)
-    $default  reduce using rule 22 (ene_expression)
-
-    ene_expression  go to state 196
-    $@8             go to state 123
-    $@9             go to state 124
-
-
-State 170
-
-   26 lg_expression: $@11 GT . pmh_expression lg_expression
-   34 $@15: . %empty
-   35 pmh_expression: . $@15 mtdh_expression pm_expression
-
-    $default  reduce using rule 34 ($@15)
-
-    pmh_expression  go to state 197
-    $@15            go to state 126
-
-
-State 171
-
-   28 lg_expression: $@12 GE . pmh_expression lg_expression
-   34 $@15: . %empty
-   35 pmh_expression: . $@15 mtdh_expression pm_expression
-
-    $default  reduce using rule 34 ($@15)
-
-    pmh_expression  go to state 198
-    $@15            go to state 126
-
-
-State 172
-
-   30 lg_expression: $@13 LT . pmh_expression lg_expression
-   34 $@15: . %empty
-   35 pmh_expression: . $@15 mtdh_expression pm_expression
-
-    $default  reduce using rule 34 ($@15)
-
-    pmh_expression  go to state 199
-    $@15            go to state 126
-
-
-State 173
-
-   32 lg_expression: $@14 LE . pmh_expression lg_expression
-   34 $@15: . %empty
-   35 pmh_expression: . $@15 mtdh_expression pm_expression
-
-    $default  reduce using rule 34 ($@15)
-
-    pmh_expression  go to state 200
-    $@15            go to state 126
-
-
-State 174
-
-   35 pmh_expression: $@15 mtdh_expression pm_expression .
-
-    $default  reduce using rule 35 (pmh_expression)
-
-
-State 175
-
-   37 pm_expression: $@16 . PLUS mtdh_expression pm_expression
-
-    PLUS  shift, and go to state 201
-
-
-State 176
-
-   39 pm_expression: $@17 . MINUS mtdh_expression pm_expression
-
-    MINUS  shift, and go to state 202
-
-
-State 177
-
-   42 mtdh_expression: $@18 powh_expression . mtd_expression
-   43 $@19: . %empty  [MOD]
-   44 mtd_expression: . $@19 MOD powh_expression mtd_expression
-   45 $@20: . %empty  [TIMES]
-   46 mtd_expression: . $@20 TIMES powh_expression mtd_expression
-   47 $@21: . %empty  [DIVIDE]
-   48 mtd_expression: . $@21 DIVIDE powh_expression mtd_expression
-   49               | . %empty  [RP, RSB, PLUS, MINUS, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
-
-    TIMES     reduce using rule 45 ($@20)
-    DIVIDE    reduce using rule 47 ($@21)
-    MOD       reduce using rule 43 ($@19)
-    $default  reduce using rule 49 (mtd_expression)
-
-    mtd_expression  go to state 203
-    $@19            go to state 204
-    $@20            go to state 205
-    $@21            go to state 206
-
-
-State 178
-
-   51 powh_expression: $@22 . noth_expression pow_expression
-   55 $@24: . %empty
-   56 noth_expression: . $@24 pid_expression not_expression
-
-    $default  reduce using rule 55 ($@24)
-
-    noth_expression  go to state 207
-    $@24             go to state 208
-
-
-State 179
-
-   92 $@41: . %empty  [CONSTANT, IDENTIFIER, LP]
-   93 for_action_expression: . $@41 expression for_more_action_expression
-   94                      | . %empty  [RP]
-  100 for_expression: $@43 FOR $@44 LP for_init_expression SEMICOLON for_condition_expression SEMICOLON . for_action_expression RP statement_block
-
-    RP        reduce using rule 94 (for_action_expression)
-    $default  reduce using rule 92 ($@41)
-
-    for_action_expression  go to state 209
-    $@41                   go to state 210
-
-
-State 180
-
-   87 for_condition_expression: $@39 expression . for_more_condition_expression
-   89 $@40: . %empty  [COMMA]
-   90 for_more_condition_expression: . $@40 COMMA expression for_more_condition_expression
-   91                              | . %empty  [SEMICOLON]
-
-    SEMICOLON  reduce using rule 91 (for_more_condition_expression)
-    $default   reduce using rule 89 ($@40)
-
-    for_more_condition_expression  go to state 211
-    $@40                           go to state 155
-
-
-State 181
-
-    1 $@1: . %empty
-    2 expression: . $@1 orh_expression assign_expression
-   90 for_more_condition_expression: $@40 COMMA . expression for_more_condition_expression
-
-    $default  reduce using rule 1 ($@1)
-
-    expression  go to state 212
-    $@1         go to state 20
-
-
-State 182
-
-   77 do_expression: $@33 DO $@34 statement_block WHILE LP expression RP . SEMICOLON
-
-    SEMICOLON  shift, and go to state 213
-
-
-State 183
-
-  114 $@50: . %empty  [CONSTANT, IDENTIFIER, LP]
-  115 statement: . $@50 expression SEMICOLON
-  116 $@51: . %empty  [FOR]
-  117 statement: . $@51 for_expression
-  118 $@52: . %empty  [DO]
-  119 statement: . $@52 do_expression
-  120 $@53: . %empty  [WHILE]
-  121 statement: . $@53 while_expression
-  122 $@54: . %empty  [IF]
-  123 statement: . $@54 condition_expression
-  124 $@55: . %empty  [INT, VOID, STRUCT]
-  125 statement: . $@55 declaration SEMICOLON
-  126 $@56: . %empty  [LBP]
-  127 statement: . $@56 statement_block
-  128 $@57: . %empty  [BREAK]
-  129 statement: . $@57 BREAK SEMICOLON
-  130 $@58: . %empty  [CONTINUE]
-  131 statement: . $@58 CONTINUE SEMICOLON
-  132 $@59: . %empty  [RETURN]
-  133 statement: . $@59 RETURN expression SEMICOLON
-  134 $@60: . %empty  [SEMICOLON]
-  135 statement: . $@60 SEMICOLON
-  136 $@61: . %empty  [PRINT]
-  137 statement: . $@61 PRINT LP print_content RP SEMICOLON
-  138 $@62: . %empty  [INPUT]
-  139 statement: . $@62 INPUT LP expression RP SEMICOLON
-  184 condition_tail: ELSE . statement
-
-    PRINT      reduce using rule 136 ($@61)
-    INPUT      reduce using rule 138 ($@62)
-    LBP        reduce using rule 126 ($@56)
-    INT        reduce using rule 124 ($@55)
-    VOID       reduce using rule 124 ($@55)
-    SEMICOLON  reduce using rule 134 ($@60)
-    IF         reduce using rule 122 ($@54)
-    WHILE      reduce using rule 120 ($@53)
-    DO         reduce using rule 118 ($@52)
-    FOR        reduce using rule 116 ($@51)
-    CONTINUE   reduce using rule 130 ($@58)
-    BREAK      reduce using rule 128 ($@57)
-    RETURN     reduce using rule 132 ($@59)
-    STRUCT     reduce using rule 124 ($@55)
-    $default   reduce using rule 114 ($@50)
-
-    statement  go to state 214
-    $@50       go to state 5
-    $@51       go to state 6
-    $@52       go to state 7
-    $@53       go to state 8
-    $@54       go to state 9
-    $@55       go to state 10
-    $@56       go to state 11
-    $@57       go to state 12
-    $@58       go to state 13
-    $@59       go to state 14
-    $@60       go to state 15
-    $@61       go to state 16
-    $@62       go to state 17
-
-
-State 184
-
-  182 $@83: . %empty
-  183 condition_expression: $@81 IF LP expression RP statement $@82 condition_tail . $@83
-
-    $default  reduce using rule 182 ($@83)
-
-    $@83  go to state 215
-
-
-State 185
-
-  144 $@65: . %empty
-  145 statement_block: . $@65 LBP statement_body RBP
-  151 function_declaration: $@67 LP function_argument_list RP $@68 . statement_block
-
-    $default  reduce using rule 144 ($@65)
-
-    statement_block  go to state 216
-    $@65             go to state 32
-
-
-State 186
-
-  175 function_argument_list: $@79 function_argument function_argument_tail .
-
-    $default  reduce using rule 175 (function_argument_list)
-
-
-State 187
-
-  178 function_argument_tail: $@80 . COMMA function_argument_list
-
-    COMMA  shift, and go to state 217
-
-
-State 188
-
-  112 $@49: . %empty
-  113 decorated_identifier: . $@49 address_decorator high_level_pointer_decorator IDENTIFIER high_level_array_decorator
-  173 function_argument: $@78 type_defination . decorated_identifier
-
-    $default  reduce using rule 112 ($@49)
-
-    decorated_identifier  go to state 218
-    $@49                  go to state 90
-
-
-State 189
-
-  162 $@74: . %empty
-  163 declaration_list: . $@74 declaration_unit declaration_list_tail
-  165 declaration_list_tail: $@75 COMMA . declaration_list
-
-    $default  reduce using rule 162 ($@74)
-
-    declaration_list  go to state 219
-    $@74              go to state 113
-
-
-State 190
-
-  168 declaration_unit: $@76 decorated_identifier declaration_init .
-
-    $default  reduce using rule 168 (declaration_unit)
-
-
-State 191
-
-  170 declaration_init: $@77 . ASSIGN expression
-
-    ASSIGN  shift, and go to state 220
-
-
-State 192
-
-  113 decorated_identifier: $@49 address_decorator high_level_pointer_decorator IDENTIFIER high_level_array_decorator .
-
-    $default  reduce using rule 113 (decorated_identifier)
-
-
-State 193
-
-  101 $@45: . %empty
-  102 array_decorator: . $@45 LSB expression RSB
-  104 high_level_array_decorator: $@46 . array_decorator high_level_array_decorator
-
-    $default  reduce using rule 101 ($@45)
-
-    array_decorator  go to state 221
-    $@45             go to state 222
-
-
-State 194
-
-  107 high_level_pointer_decorator: $@47 TIMES high_level_pointer_decorator .
-
-    $default  reduce using rule 107 (high_level_pointer_decorator)
-
-
-State 195
-
-   19 ene_expression: $@8 EQ lgh_expression ene_expression .
-
-    $default  reduce using rule 19 (ene_expression)
-
-
-State 196
-
-   21 ene_expression: $@9 NE lgh_expression ene_expression .
-
-    $default  reduce using rule 21 (ene_expression)
-
-
-State 197
-
-   25 $@11: . %empty  [GT]
-   26 lg_expression: . $@11 GT pmh_expression lg_expression
-   26              | $@11 GT pmh_expression . lg_expression
-   27 $@12: . %empty  [GE]
-   28 lg_expression: . $@12 GE pmh_expression lg_expression
-   29 $@13: . %empty  [LT]
-   30 lg_expression: . $@13 LT pmh_expression lg_expression
-   31 $@14: . %empty  [LE]
-   32 lg_expression: . $@14 LE pmh_expression lg_expression
-   33              | . %empty  [RP, RSB, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
-
-    GT        reduce using rule 25 ($@11)
-    LT        reduce using rule 29 ($@13)
-    GE        reduce using rule 27 ($@12)
-    LE        reduce using rule 31 ($@14)
-    $default  reduce using rule 33 (lg_expression)
-
-    lg_expression  go to state 223
-    $@11           go to state 146
-    $@12           go to state 147
-    $@13           go to state 148
-    $@14           go to state 149
-
-
-State 198
-
-   25 $@11: . %empty  [GT]
-   26 lg_expression: . $@11 GT pmh_expression lg_expression
-   27 $@12: . %empty  [GE]
-   28 lg_expression: . $@12 GE pmh_expression lg_expression
-   28              | $@12 GE pmh_expression . lg_expression
-   29 $@13: . %empty  [LT]
-   30 lg_expression: . $@13 LT pmh_expression lg_expression
-   31 $@14: . %empty  [LE]
-   32 lg_expression: . $@14 LE pmh_expression lg_expression
-   33              | . %empty  [RP, RSB, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
-
-    GT        reduce using rule 25 ($@11)
-    LT        reduce using rule 29 ($@13)
-    GE        reduce using rule 27 ($@12)
-    LE        reduce using rule 31 ($@14)
-    $default  reduce using rule 33 (lg_expression)
-
-    lg_expression  go to state 224
-    $@11           go to state 146
-    $@12           go to state 147
-    $@13           go to state 148
-    $@14           go to state 149
-
-
-State 199
-
-   25 $@11: . %empty  [GT]
-   26 lg_expression: . $@11 GT pmh_expression lg_expression
-   27 $@12: . %empty  [GE]
-   28 lg_expression: . $@12 GE pmh_expression lg_expression
-   29 $@13: . %empty  [LT]
-   30 lg_expression: . $@13 LT pmh_expression lg_expression
-   30              | $@13 LT pmh_expression . lg_expression
-   31 $@14: . %empty  [LE]
-   32 lg_expression: . $@14 LE pmh_expression lg_expression
-   33              | . %empty  [RP, RSB, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
-
-    GT        reduce using rule 25 ($@11)
-    LT        reduce using rule 29 ($@13)
-    GE        reduce using rule 27 ($@12)
-    LE        reduce using rule 31 ($@14)
-    $default  reduce using rule 33 (lg_expression)
-
-    lg_expression  go to state 225
-    $@11           go to state 146
-    $@12           go to state 147
-    $@13           go to state 148
-    $@14           go to state 149
-
-
-State 200
-
-   25 $@11: . %empty  [GT]
-   26 lg_expression: . $@11 GT pmh_expression lg_expression
-   27 $@12: . %empty  [GE]
-   28 lg_expression: . $@12 GE pmh_expression lg_expression
-   29 $@13: . %empty  [LT]
-   30 lg_expression: . $@13 LT pmh_expression lg_expression
-   31 $@14: . %empty  [LE]
-   32 lg_expression: . $@14 LE pmh_expression lg_expression
-   32              | $@14 LE pmh_expression . lg_expression
-   33              | . %empty  [RP, RSB, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
-
-    GT        reduce using rule 25 ($@11)
-    LT        reduce using rule 29 ($@13)
-    GE        reduce using rule 27 ($@12)
-    LE        reduce using rule 31 ($@14)
-    $default  reduce using rule 33 (lg_expression)
-
-    lg_expression  go to state 226
-    $@11           go to state 146
-    $@12           go to state 147
-    $@13           go to state 148
-    $@14           go to state 149
-
-
-State 201
-
-   37 pm_expression: $@16 PLUS . mtdh_expression pm_expression
-   41 $@18: . %empty
-   42 mtdh_expression: . $@18 powh_expression mtd_expression
-
-    $default  reduce using rule 41 ($@18)
-
-    mtdh_expression  go to state 227
-    $@18             go to state 151
-
-
-State 202
-
-   39 pm_expression: $@17 MINUS . mtdh_expression pm_expression
-   41 $@18: . %empty
-   42 mtdh_expression: . $@18 powh_expression mtd_expression
-
-    $default  reduce using rule 41 ($@18)
-
-    mtdh_expression  go to state 228
-    $@18             go to state 151
-
-
-State 203
-
-   42 mtdh_expression: $@18 powh_expression mtd_expression .
-
-    $default  reduce using rule 42 (mtdh_expression)
-
-
-State 204
-
-   44 mtd_expression: $@19 . MOD powh_expression mtd_expression
-
-    MOD  shift, and go to state 229
-
-
-State 205
-
-   46 mtd_expression: $@20 . TIMES powh_expression mtd_expression
-
-    TIMES  shift, and go to state 230
-
-
-State 206
-
-   48 mtd_expression: $@21 . DIVIDE powh_expression mtd_expression
-
-    DIVIDE  shift, and go to state 231
-
-
-State 207
-
-   51 powh_expression: $@22 noth_expression . pow_expression
-   52 $@23: . %empty  [POW]
-   53 pow_expression: . $@23 POW noth_expression pow_expression
-   54               | . %empty  [RP, RSB, TIMES, DIVIDE, MOD, PLUS, MINUS, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
-
-    POW       reduce using rule 52 ($@23)
-    $default  reduce using rule 54 (pow_expression)
-
-    pow_expression  go to state 232
-    $@23            go to state 233
-
-
-State 208
-
-   56 noth_expression: $@24 . pid_expression not_expression
-   60 $@26: . %empty  [LP]
-   61 pid_expression: . $@26 LP expression RP
-   62 $@27: . %empty  [IDENTIFIER]
-   63 pid_expression: . $@27 IDENTIFIER pointer_expression
-   64 $@28: . %empty  [CONSTANT]
-   65 pid_expression: . $@28 CONSTANT
-
-    CONSTANT    reduce using rule 64 ($@28)
-    IDENTIFIER  reduce using rule 62 ($@27)
-    $default    reduce using rule 60 ($@26)
-
-    pid_expression  go to state 234
-    $@26            go to state 235
-    $@27            go to state 236
-    $@28            go to state 237
-
-
-State 209
-
-  100 for_expression: $@43 FOR $@44 LP for_init_expression SEMICOLON for_condition_expression SEMICOLON for_action_expression . RP statement_block
-
-    RP  shift, and go to state 238
-
-
-State 210
-
-    1 $@1: . %empty
-    2 expression: . $@1 orh_expression assign_expression
-   93 for_action_expression: $@41 . expression for_more_action_expression
-
-    $default  reduce using rule 1 ($@1)
-
-    expression  go to state 239
-    $@1         go to state 20
-
-
-State 211
-
-   87 for_condition_expression: $@39 expression for_more_condition_expression .
-
-    $default  reduce using rule 87 (for_condition_expression)
-
-
-State 212
-
-   89 $@40: . %empty  [COMMA]
-   90 for_more_condition_expression: . $@40 COMMA expression for_more_condition_expression
-   90                              | $@40 COMMA expression . for_more_condition_expression
-   91                              | . %empty  [SEMICOLON]
-
-    SEMICOLON  reduce using rule 91 (for_more_condition_expression)
-    $default   reduce using rule 89 ($@40)
-
-    for_more_condition_expression  go to state 240
-    $@40                           go to state 155
-
-
-State 213
-
-   77 do_expression: $@33 DO $@34 statement_block WHILE LP expression RP SEMICOLON .
-
-    $default  reduce using rule 77 (do_expression)
-
-
-State 214
-
-  184 condition_tail: ELSE statement .
-
-    $default  reduce using rule 184 (condition_tail)
-
-
-State 215
-
-  183 condition_expression: $@81 IF LP expression RP statement $@82 condition_tail $@83 .
-
-    $default  reduce using rule 183 (condition_expression)
-
-
-State 216
-
-  151 function_declaration: $@67 LP function_argument_list RP $@68 statement_block .
-
-    $default  reduce using rule 151 (function_declaration)
-
-
-State 217
-
-  174 $@79: . %empty  [INT, VOID, STRUCT]
-  175 function_argument_list: . $@79 function_argument function_argument_tail
-  176                       | . %empty  [RP]
-  178 function_argument_tail: $@80 COMMA . function_argument_list
-
-    RP        reduce using rule 176 (function_argument_list)
-    $default  reduce using rule 174 ($@79)
-
-    function_argument_list  go to state 241
-    $@79                    go to state 134
-
-
-State 218
-
-  173 function_argument: $@78 type_defination decorated_identifier .
-
-    $default  reduce using rule 173 (function_argument)
-
-
-State 219
-
-  165 declaration_list_tail: $@75 COMMA declaration_list .
-
-    $default  reduce using rule 165 (declaration_list_tail)
-
-
-State 220
-
-    1 $@1: . %empty
-    2 expression: . $@1 orh_expression assign_expression
-  170 declaration_init: $@77 ASSIGN . expression
-
-    $default  reduce using rule 1 ($@1)
-
-    expression  go to state 242
-    $@1         go to state 20
-
-
-State 221
-
-  103 $@46: . %empty  [LSB]
-  104 high_level_array_decorator: . $@46 array_decorator high_level_array_decorator
-  104                           | $@46 array_decorator . high_level_array_decorator
-  105                           | . %empty  [IDENTIFIER, LP, RP, ADDRESS, TIMES, ASSIGN, COMMA, SEMICOLON]
-
-    LSB       reduce using rule 103 ($@46)
-    $default  reduce using rule 105 (high_level_array_decorator)
-
-    high_level_array_decorator  go to state 243
-    $@46                        go to state 193
-
-
-State 222
-
-  102 array_decorator: $@45 . LSB expression RSB
-
-    LSB  shift, and go to state 244
-
-
-State 223
-
-   26 lg_expression: $@11 GT pmh_expression lg_expression .
-
-    $default  reduce using rule 26 (lg_expression)
-
-
-State 224
-
-   28 lg_expression: $@12 GE pmh_expression lg_expression .
+   28 lg_expression: GT $@11 pmh_expression .
 
     $default  reduce using rule 28 (lg_expression)
 
 
-State 225
+State 125
 
-   30 lg_expression: $@13 LT pmh_expression lg_expression .
-
-    $default  reduce using rule 30 (lg_expression)
-
-
-State 226
-
-   32 lg_expression: $@14 LE pmh_expression lg_expression .
+   32 lg_expression: LT $@13 pmh_expression .
 
     $default  reduce using rule 32 (lg_expression)
 
 
-State 227
+State 126
 
-   36 $@16: . %empty  [PLUS]
-   37 pm_expression: . $@16 PLUS mtdh_expression pm_expression
-   37              | $@16 PLUS mtdh_expression . pm_expression
-   38 $@17: . %empty  [MINUS]
-   39 pm_expression: . $@17 MINUS mtdh_expression pm_expression
-   40              | . %empty  [RP, RSB, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
+   30 lg_expression: GE $@12 pmh_expression .
 
-    PLUS      reduce using rule 36 ($@16)
-    MINUS     reduce using rule 38 ($@17)
-    $default  reduce using rule 40 (pm_expression)
-
-    pm_expression  go to state 245
-    $@16           go to state 175
-    $@17           go to state 176
+    $default  reduce using rule 30 (lg_expression)
 
 
-State 228
+State 127
 
-   36 $@16: . %empty  [PLUS]
-   37 pm_expression: . $@16 PLUS mtdh_expression pm_expression
-   38 $@17: . %empty  [MINUS]
-   39 pm_expression: . $@17 MINUS mtdh_expression pm_expression
-   39              | $@17 MINUS mtdh_expression . pm_expression
-   40              | . %empty  [RP, RSB, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
+   34 lg_expression: LE $@14 pmh_expression .
 
-    PLUS      reduce using rule 36 ($@16)
-    MINUS     reduce using rule 38 ($@17)
-    $default  reduce using rule 40 (pm_expression)
-
-    pm_expression  go to state 246
-    $@16           go to state 175
-    $@17           go to state 176
+    $default  reduce using rule 34 (lg_expression)
 
 
-State 229
+State 128
 
-   44 mtd_expression: $@19 MOD . powh_expression mtd_expression
-   50 $@22: . %empty
-   51 powh_expression: . $@22 noth_expression pow_expression
+   38 $@16: . %empty
+   39 pm_expression: PLUS $@15 mtdh_expression . $@16 pm_expression
 
-    $default  reduce using rule 50 ($@22)
+    $default  reduce using rule 38 ($@16)
 
-    powh_expression  go to state 247
-    $@22             go to state 178
+    $@16  go to state 162
 
 
-State 230
+State 129
 
-   46 mtd_expression: $@20 TIMES . powh_expression mtd_expression
-   50 $@22: . %empty
-   51 powh_expression: . $@22 noth_expression pow_expression
+   41 $@18: . %empty
+   42 pm_expression: MINUS $@17 mtdh_expression . $@18 pm_expression
 
-    $default  reduce using rule 50 ($@22)
+    $default  reduce using rule 41 ($@18)
 
-    powh_expression  go to state 248
-    $@22             go to state 178
+    $@18  go to state 163
 
 
-State 231
+State 130
 
-   48 mtd_expression: $@21 DIVIDE . powh_expression mtd_expression
-   50 $@22: . %empty
-   51 powh_expression: . $@22 noth_expression pow_expression
+   49 $@22: . %empty
+   50 mtd_expression: TIMES $@21 powh_expression . $@22 mtd_expression
 
-    $default  reduce using rule 50 ($@22)
+    $default  reduce using rule 49 ($@22)
 
-    powh_expression  go to state 249
-    $@22             go to state 178
+    $@22  go to state 164
 
 
-State 232
+State 131
 
-   51 powh_expression: $@22 noth_expression pow_expression .
+   52 $@24: . %empty
+   53 mtd_expression: DIVIDE $@23 powh_expression . $@24 mtd_expression
 
-    $default  reduce using rule 51 (powh_expression)
+    $default  reduce using rule 52 ($@24)
 
-
-State 233
-
-   53 pow_expression: $@23 . POW noth_expression pow_expression
-
-    POW  shift, and go to state 250
+    $@24  go to state 165
 
 
-State 234
+State 132
 
-   56 noth_expression: $@24 pid_expression . not_expression
-   57 $@25: . %empty  [NOT]
-   58 not_expression: . $@25 NOT pid_expression not_expression
-   59               | . %empty  [RP, RSB, POW, TIMES, DIVIDE, MOD, PLUS, MINUS, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
+   46 $@20: . %empty
+   47 mtd_expression: MOD $@19 powh_expression . $@20 mtd_expression
 
-    NOT       reduce using rule 57 ($@25)
-    $default  reduce using rule 59 (not_expression)
+    $default  reduce using rule 46 ($@20)
 
-    not_expression  go to state 251
-    $@25            go to state 252
+    $@20  go to state 166
 
 
-State 235
+State 133
 
-   61 pid_expression: $@26 . LP expression RP
+   57 $@26: . %empty
+   58 pow_expression: POW $@25 noth_expression . $@26 pow_expression
 
-    LP  shift, and go to state 253
+    $default  reduce using rule 57 ($@26)
 
-
-State 236
-
-   63 pid_expression: $@27 . IDENTIFIER pointer_expression
-
-    IDENTIFIER  shift, and go to state 254
+    $@26  go to state 167
 
 
-State 237
+State 134
 
-   65 pid_expression: $@28 . CONSTANT
+   63 not_expression: NOT $@28 not_expression .
 
-    CONSTANT  shift, and go to state 255
-
-
-State 238
-
-  100 for_expression: $@43 FOR $@44 LP for_init_expression SEMICOLON for_condition_expression SEMICOLON for_action_expression RP . statement_block
-  144 $@65: . %empty
-  145 statement_block: . $@65 LBP statement_body RBP
-
-    $default  reduce using rule 144 ($@65)
-
-    statement_block  go to state 256
-    $@65             go to state 32
+    $default  reduce using rule 63 (not_expression)
 
 
-State 239
+State 135
 
-   93 for_action_expression: $@41 expression . for_more_action_expression
-   95 $@42: . %empty  [COMMA]
-   96 for_more_action_expression: . $@42 COMMA expression
-   97                           | . %empty  [RP]
+   68 pid_expression: IDENTIFIER $@30 . pointer_expression
+   71 pointer_expression: . POINTER IDENTIFIER $@31 pointer_expression
+   72                   | . %empty  [RP, RSB, POW, TIMES, DIVIDE, MOD, PLUS, MINUS, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
 
-    RP        reduce using rule 97 (for_more_action_expression)
+    POINTER  shift, and go to state 168
+
+    $default  reduce using rule 72 (pointer_expression)
+
+    pointer_expression  go to state 169
+
+
+State 136
+
+    1 expression: . single_expression comma_expression
+    6 single_expression: . orh_expression assign_expression
+   11 orh_expression: . andh_expression or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+   66 pid_expression: LP $@29 . expression RP
+
+    $default  reduce using rule 60 ($@27)
+
+    expression         go to state 170
+    single_expression  go to state 12
+    orh_expression     go to state 13
+    andh_expression    go to state 14
+    eneh_expression    go to state 15
+    lgh_expression     go to state 16
+    pmh_expression     go to state 17
+    mtdh_expression    go to state 18
+    powh_expression    go to state 19
+    noth_expression    go to state 20
+    $@27               go to state 21
+
+
+State 137
+
+  136 statement_block: LBP $@58 statement_body . RBP
+
+    RBP  shift, and go to state 171
+
+
+State 138
+
+   76 type_defination: STRUCT $@32 IDENTIFIER .
+
+    $default  reduce using rule 76 (type_defination)
+
+
+State 139
+
+  103 $@46: . %empty
+  104 high_nter_decorator: TIMES . $@46 high_nter_decorator
+
+    $default  reduce using rule 103 ($@46)
+
+    $@46  go to state 172
+
+
+State 140
+
+  160 init_identifier: high_nter_decorator . IDENTIFIER $@67 high_ay_decorator
+
+    IDENTIFIER  shift, and go to state 173
+
+
+State 141
+
+  141 declaration: $@59 type_defination $@60 declaration_body .
+
+    $default  reduce using rule 141 (declaration)
+
+
+State 142
+
+  142 declaration_body: function_declaration .
+
+    $default  reduce using rule 142 (declaration_body)
+
+
+State 143
+
+  143 $@61: . %empty
+  144 declaration_body: argument_declaration_list . $@61 SEMICOLON
+
+    $default  reduce using rule 143 ($@61)
+
+    $@61  go to state 174
+
+
+State 144
+
+  151 argument_declaration_list: argument_declaration_unit . argument_declaration_list_tail
+  152 argument_declaration_list_tail: . COMMA argument_declaration_list
+  153                               | . %empty  [SEMICOLON]
+
+    COMMA  shift, and go to state 175
+
+    $default  reduce using rule 153 (argument_declaration_list_tail)
+
+    argument_declaration_list_tail  go to state 176
+
+
+State 145
+
+  147 function_declaration: init_identifier . LP $@62 function_argument_list RP $@63 function_defination
+  154 $@65: . %empty  [ASSIGN, COMMA, SEMICOLON]
+  155 argument_declaration_unit: init_identifier . $@65 argument_declaration_init
+
+    LP  shift, and go to state 177
+
+    $default  reduce using rule 154 ($@65)
+
+    $@65  go to state 178
+
+
+State 146
+
+  134 print_content: STRING_C .
+
+    $default  reduce using rule 134 (print_content)
+
+
+State 147
+
+  133 print_content: expression .
+
+    $default  reduce using rule 133 (print_content)
+
+
+State 148
+
+  129 statement: PRINT $@53 LP $@54 print_content . RP $@55 SEMICOLON
+
+    RP  shift, and go to state 179
+
+
+State 149
+
+  131 $@57: . %empty
+  132 statement: INPUT $@56 LP decorated_identifier RP . $@57 SEMICOLON
+
+    $default  reduce using rule 131 ($@57)
+
+    $@57  go to state 180
+
+
+State 150
+
+  106 address_decorator: ADDRESS .
+
+    $default  reduce using rule 106 (address_decorator)
+
+
+State 151
+
+  104 high_nter_decorator: . TIMES $@46 high_nter_decorator
+  105                    | . %empty  [IDENTIFIER]
+  110 decorated_identifier: $@47 address_decorator . high_nter_decorator IDENTIFIER $@48 high_ay_decorator
+
+    TIMES  shift, and go to state 139
+
+    $default  reduce using rule 105 (high_nter_decorator)
+
+    high_nter_decorator  go to state 181
+
+
+State 152
+
+  170 condition_expression: IF $@69 LP $@70 expression . RP $@71 statement condition_tail
+
+    RP  shift, and go to state 182
+
+
+State 153
+
+   85 while_expression: WHILE $@37 LP $@38 expression . RP $@39 statement_block
+
+    RP  shift, and go to state 183
+
+
+State 154
+
+   81 do_expression: DO $@33 statement_block WHILE $@34 . LP $@35 expression RP $@36 SEMICOLON
+
+    LP  shift, and go to state 184
+
+
+State 155
+
+   87 for_init_expression: expression .
+
+    $default  reduce using rule 87 (for_init_expression)
+
+
+State 156
+
+   98 for_expression: FOR $@40 LP $@41 for_init_expression . SEMICOLON $@42 for_condition_expression SEMICOLON $@43 for_action_expression RP $@44 statement_block
+
+    SEMICOLON  shift, and go to state 185
+
+
+State 157
+
+   86 for_init_expression: declaration .
+
+    $default  reduce using rule 86 (for_init_expression)
+
+
+State 158
+
+    4 comma_expression: . COMMA $@1 single_expression $@2 comma_expression
+    4                 | COMMA $@1 single_expression $@2 . comma_expression
+    5                 | . %empty  [RP, RSB, SEMICOLON]
+
+    COMMA  shift, and go to state 41
+
+    $default  reduce using rule 5 (comma_expression)
+
+    comma_expression  go to state 186
+
+
+State 159
+
+    9 assign_expression: . ASSIGN $@3 orh_expression $@4 assign_expression
+    9                  | ASSIGN $@3 orh_expression $@4 . assign_expression
+   10                  | . %empty  [RP, RSB, COMMA, SEMICOLON]
+
+    ASSIGN  shift, and go to state 43
+
+    $default  reduce using rule 10 (assign_expression)
+
+    assign_expression  go to state 187
+
+
+State 160
+
+   14 or_expression: . OR $@5 andh_expression $@6 or_expression
+   14              | OR $@5 andh_expression $@6 . or_expression
+   15              | . %empty  [RP, RSB, ASSIGN, COMMA, SEMICOLON]
+
+    OR  shift, and go to state 45
+
+    $default  reduce using rule 15 (or_expression)
+
+    or_expression  go to state 188
+
+
+State 161
+
+   19 and_expression: . AND $@7 eneh_expression $@8 and_expression
+   19               | AND $@7 eneh_expression $@8 . and_expression
+   20               | . %empty  [RP, RSB, OR, ASSIGN, COMMA, SEMICOLON]
+
+    AND  shift, and go to state 47
+
+    $default  reduce using rule 20 (and_expression)
+
+    and_expression  go to state 189
+
+
+State 162
+
+   39 pm_expression: . PLUS $@15 mtdh_expression $@16 pm_expression
+   39              | PLUS $@15 mtdh_expression $@16 . pm_expression
+   42              | . MINUS $@17 mtdh_expression $@18 pm_expression
+   43              | . %empty  [RP, RSB, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
+
+    PLUS   shift, and go to state 57
+    MINUS  shift, and go to state 58
+
+    $default  reduce using rule 43 (pm_expression)
+
+    pm_expression  go to state 190
+
+
+State 163
+
+   39 pm_expression: . PLUS $@15 mtdh_expression $@16 pm_expression
+   42              | . MINUS $@17 mtdh_expression $@18 pm_expression
+   42              | MINUS $@17 mtdh_expression $@18 . pm_expression
+   43              | . %empty  [RP, RSB, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
+
+    PLUS   shift, and go to state 57
+    MINUS  shift, and go to state 58
+
+    $default  reduce using rule 43 (pm_expression)
+
+    pm_expression  go to state 191
+
+
+State 164
+
+   47 mtd_expression: . MOD $@19 powh_expression $@20 mtd_expression
+   50               | . TIMES $@21 powh_expression $@22 mtd_expression
+   50               | TIMES $@21 powh_expression $@22 . mtd_expression
+   53               | . DIVIDE $@23 powh_expression $@24 mtd_expression
+   54               | . %empty  [RP, RSB, PLUS, MINUS, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
+
+    TIMES   shift, and go to state 60
+    DIVIDE  shift, and go to state 61
+    MOD     shift, and go to state 62
+
+    $default  reduce using rule 54 (mtd_expression)
+
+    mtd_expression  go to state 192
+
+
+State 165
+
+   47 mtd_expression: . MOD $@19 powh_expression $@20 mtd_expression
+   50               | . TIMES $@21 powh_expression $@22 mtd_expression
+   53               | . DIVIDE $@23 powh_expression $@24 mtd_expression
+   53               | DIVIDE $@23 powh_expression $@24 . mtd_expression
+   54               | . %empty  [RP, RSB, PLUS, MINUS, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
+
+    TIMES   shift, and go to state 60
+    DIVIDE  shift, and go to state 61
+    MOD     shift, and go to state 62
+
+    $default  reduce using rule 54 (mtd_expression)
+
+    mtd_expression  go to state 193
+
+
+State 166
+
+   47 mtd_expression: . MOD $@19 powh_expression $@20 mtd_expression
+   47               | MOD $@19 powh_expression $@20 . mtd_expression
+   50               | . TIMES $@21 powh_expression $@22 mtd_expression
+   53               | . DIVIDE $@23 powh_expression $@24 mtd_expression
+   54               | . %empty  [RP, RSB, PLUS, MINUS, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
+
+    TIMES   shift, and go to state 60
+    DIVIDE  shift, and go to state 61
+    MOD     shift, and go to state 62
+
+    $default  reduce using rule 54 (mtd_expression)
+
+    mtd_expression  go to state 194
+
+
+State 167
+
+   58 pow_expression: . POW $@25 noth_expression $@26 pow_expression
+   58               | POW $@25 noth_expression $@26 . pow_expression
+   59               | . %empty  [RP, RSB, TIMES, DIVIDE, MOD, PLUS, MINUS, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
+
+    POW  shift, and go to state 64
+
+    $default  reduce using rule 59 (pow_expression)
+
+    pow_expression  go to state 195
+
+
+State 168
+
+   71 pointer_expression: POINTER . IDENTIFIER $@31 pointer_expression
+
+    IDENTIFIER  shift, and go to state 196
+
+
+State 169
+
+   68 pid_expression: IDENTIFIER $@30 pointer_expression .
+
+    $default  reduce using rule 68 (pid_expression)
+
+
+State 170
+
+   66 pid_expression: LP $@29 expression . RP
+
+    RP  shift, and go to state 197
+
+
+State 171
+
+  136 statement_block: LBP $@58 statement_body RBP .
+
+    $default  reduce using rule 136 (statement_block)
+
+
+State 172
+
+  104 high_nter_decorator: . TIMES $@46 high_nter_decorator
+  104                    | TIMES $@46 . high_nter_decorator
+  105                    | . %empty  [IDENTIFIER]
+
+    TIMES  shift, and go to state 139
+
+    $default  reduce using rule 105 (high_nter_decorator)
+
+    high_nter_decorator  go to state 198
+
+
+State 173
+
+  159 $@67: . %empty
+  160 init_identifier: high_nter_decorator IDENTIFIER . $@67 high_ay_decorator
+
+    $default  reduce using rule 159 ($@67)
+
+    $@67  go to state 199
+
+
+State 174
+
+  144 declaration_body: argument_declaration_list $@61 . SEMICOLON
+
+    SEMICOLON  shift, and go to state 200
+
+
+State 175
+
+  104 high_nter_decorator: . TIMES $@46 high_nter_decorator
+  105                    | . %empty  [IDENTIFIER]
+  151 argument_declaration_list: . argument_declaration_unit argument_declaration_list_tail
+  152 argument_declaration_list_tail: COMMA . argument_declaration_list
+  155 argument_declaration_unit: . init_identifier $@65 argument_declaration_init
+  160 init_identifier: . high_nter_decorator IDENTIFIER $@67 high_ay_decorator
+
+    TIMES  shift, and go to state 139
+
+    $default  reduce using rule 105 (high_nter_decorator)
+
+    high_nter_decorator        go to state 140
+    argument_declaration_list  go to state 201
+    argument_declaration_unit  go to state 144
+    init_identifier            go to state 202
+
+
+State 176
+
+  151 argument_declaration_list: argument_declaration_unit argument_declaration_list_tail .
+
+    $default  reduce using rule 151 (argument_declaration_list)
+
+
+State 177
+
+  145 $@62: . %empty
+  147 function_declaration: init_identifier LP . $@62 function_argument_list RP $@63 function_defination
+
+    $default  reduce using rule 145 ($@62)
+
+    $@62  go to state 203
+
+
+State 178
+
+  155 argument_declaration_unit: init_identifier $@65 . argument_declaration_init
+  157 argument_declaration_init: . ASSIGN $@66 single_expression
+  158                          | . %empty  [COMMA, SEMICOLON]
+
+    ASSIGN  shift, and go to state 204
+
+    $default  reduce using rule 158 (argument_declaration_init)
+
+    argument_declaration_init  go to state 205
+
+
+State 179
+
+  128 $@55: . %empty
+  129 statement: PRINT $@53 LP $@54 print_content RP . $@55 SEMICOLON
+
+    $default  reduce using rule 128 ($@55)
+
+    $@55  go to state 206
+
+
+State 180
+
+  132 statement: INPUT $@56 LP decorated_identifier RP $@57 . SEMICOLON
+
+    SEMICOLON  shift, and go to state 207
+
+
+State 181
+
+  110 decorated_identifier: $@47 address_decorator high_nter_decorator . IDENTIFIER $@48 high_ay_decorator
+
+    IDENTIFIER  shift, and go to state 208
+
+
+State 182
+
+  169 $@71: . %empty
+  170 condition_expression: IF $@69 LP $@70 expression RP . $@71 statement condition_tail
+
+    $default  reduce using rule 169 ($@71)
+
+    $@71  go to state 209
+
+
+State 183
+
+   84 $@39: . %empty
+   85 while_expression: WHILE $@37 LP $@38 expression RP . $@39 statement_block
+
+    $default  reduce using rule 84 ($@39)
+
+    $@39  go to state 210
+
+
+State 184
+
+   79 $@35: . %empty
+   81 do_expression: DO $@33 statement_block WHILE $@34 LP . $@35 expression RP $@36 SEMICOLON
+
+    $default  reduce using rule 79 ($@35)
+
+    $@35  go to state 211
+
+
+State 185
+
+   95 $@42: . %empty
+   98 for_expression: FOR $@40 LP $@41 for_init_expression SEMICOLON . $@42 for_condition_expression SEMICOLON $@43 for_action_expression RP $@44 statement_block
+
     $default  reduce using rule 95 ($@42)
 
-    for_more_action_expression  go to state 257
-    $@42                        go to state 258
+    $@42  go to state 212
 
 
-State 240
+State 186
 
-   90 for_more_condition_expression: $@40 COMMA expression for_more_condition_expression .
+    4 comma_expression: COMMA $@1 single_expression $@2 comma_expression .
 
-    $default  reduce using rule 90 (for_more_condition_expression)
-
-
-State 241
-
-  178 function_argument_tail: $@80 COMMA function_argument_list .
-
-    $default  reduce using rule 178 (function_argument_tail)
+    $default  reduce using rule 4 (comma_expression)
 
 
-State 242
+State 187
 
-  170 declaration_init: $@77 ASSIGN expression .
+    9 assign_expression: ASSIGN $@3 orh_expression $@4 assign_expression .
 
-    $default  reduce using rule 170 (declaration_init)
-
-
-State 243
-
-  104 high_level_array_decorator: $@46 array_decorator high_level_array_decorator .
-
-    $default  reduce using rule 104 (high_level_array_decorator)
+    $default  reduce using rule 9 (assign_expression)
 
 
-State 244
+State 188
 
-    1 $@1: . %empty
-    2 expression: . $@1 orh_expression assign_expression
-  102 array_decorator: $@45 LSB . expression RSB
+   14 or_expression: OR $@5 andh_expression $@6 or_expression .
 
-    $default  reduce using rule 1 ($@1)
-
-    expression  go to state 259
-    $@1         go to state 20
+    $default  reduce using rule 14 (or_expression)
 
 
-State 245
+State 189
 
-   37 pm_expression: $@16 PLUS mtdh_expression pm_expression .
+   19 and_expression: AND $@7 eneh_expression $@8 and_expression .
 
-    $default  reduce using rule 37 (pm_expression)
+    $default  reduce using rule 19 (and_expression)
 
 
-State 246
+State 190
 
-   39 pm_expression: $@17 MINUS mtdh_expression pm_expression .
+   39 pm_expression: PLUS $@15 mtdh_expression $@16 pm_expression .
 
     $default  reduce using rule 39 (pm_expression)
 
 
+State 191
+
+   42 pm_expression: MINUS $@17 mtdh_expression $@18 pm_expression .
+
+    $default  reduce using rule 42 (pm_expression)
+
+
+State 192
+
+   50 mtd_expression: TIMES $@21 powh_expression $@22 mtd_expression .
+
+    $default  reduce using rule 50 (mtd_expression)
+
+
+State 193
+
+   53 mtd_expression: DIVIDE $@23 powh_expression $@24 mtd_expression .
+
+    $default  reduce using rule 53 (mtd_expression)
+
+
+State 194
+
+   47 mtd_expression: MOD $@19 powh_expression $@20 mtd_expression .
+
+    $default  reduce using rule 47 (mtd_expression)
+
+
+State 195
+
+   58 pow_expression: POW $@25 noth_expression $@26 pow_expression .
+
+    $default  reduce using rule 58 (pow_expression)
+
+
+State 196
+
+   70 $@31: . %empty
+   71 pointer_expression: POINTER IDENTIFIER . $@31 pointer_expression
+
+    $default  reduce using rule 70 ($@31)
+
+    $@31  go to state 213
+
+
+State 197
+
+   66 pid_expression: LP $@29 expression RP .
+
+    $default  reduce using rule 66 (pid_expression)
+
+
+State 198
+
+  104 high_nter_decorator: TIMES $@46 high_nter_decorator .
+
+    $default  reduce using rule 104 (high_nter_decorator)
+
+
+State 199
+
+  100 array_decorator: . LSB $@45 expression RSB
+  101 high_ay_decorator: . array_decorator high_ay_decorator
+  102                  | . %empty  [LP, RP, ASSIGN, COMMA, SEMICOLON]
+  160 init_identifier: high_nter_decorator IDENTIFIER $@67 . high_ay_decorator
+
+    LSB  shift, and go to state 214
+
+    $default  reduce using rule 102 (high_ay_decorator)
+
+    array_decorator    go to state 215
+    high_ay_decorator  go to state 216
+
+
+State 200
+
+  144 declaration_body: argument_declaration_list $@61 SEMICOLON .
+
+    $default  reduce using rule 144 (declaration_body)
+
+
+State 201
+
+  152 argument_declaration_list_tail: COMMA argument_declaration_list .
+
+    $default  reduce using rule 152 (argument_declaration_list_tail)
+
+
+State 202
+
+  154 $@65: . %empty
+  155 argument_declaration_unit: init_identifier . $@65 argument_declaration_init
+
+    $default  reduce using rule 154 ($@65)
+
+    $@65  go to state 178
+
+
+State 203
+
+  147 function_declaration: init_identifier LP $@62 . function_argument_list RP $@63 function_defination
+  161 $@68: . %empty  [INT, VOID, STRUCT]
+  162 function_argument: . $@68 type_defination init_identifier argument_declaration_init
+  163 function_argument_list: . function_argument function_argument_tail
+  164                       | . %empty  [RP]
+
+    RP        reduce using rule 164 (function_argument_list)
+    $default  reduce using rule 161 ($@68)
+
+    function_argument       go to state 217
+    $@68                    go to state 218
+    function_argument_list  go to state 219
+
+
+State 204
+
+  156 $@66: . %empty
+  157 argument_declaration_init: ASSIGN . $@66 single_expression
+
+    $default  reduce using rule 156 ($@66)
+
+    $@66  go to state 220
+
+
+State 205
+
+  155 argument_declaration_unit: init_identifier $@65 argument_declaration_init .
+
+    $default  reduce using rule 155 (argument_declaration_unit)
+
+
+State 206
+
+  129 statement: PRINT $@53 LP $@54 print_content RP $@55 . SEMICOLON
+
+    SEMICOLON  shift, and go to state 221
+
+
+State 207
+
+  132 statement: INPUT $@56 LP decorated_identifier RP $@57 SEMICOLON .
+
+    $default  reduce using rule 132 (statement)
+
+
+State 208
+
+  109 $@48: . %empty
+  110 decorated_identifier: $@47 address_decorator high_nter_decorator IDENTIFIER . $@48 high_ay_decorator
+
+    $default  reduce using rule 109 ($@48)
+
+    $@48  go to state 222
+
+
+State 209
+
+    1 expression: . single_expression comma_expression
+    6 single_expression: . orh_expression assign_expression
+   11 orh_expression: . andh_expression or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty  [CONSTANT, IDENTIFIER, LP, NOT]
+   61 noth_expression: . $@27 not_expression pid_expression
+   81 do_expression: . DO $@33 statement_block WHILE $@34 LP $@35 expression RP $@36 SEMICOLON
+   85 while_expression: . WHILE $@37 LP $@38 expression RP $@39 statement_block
+   98 for_expression: . FOR $@40 LP $@41 for_init_expression SEMICOLON $@42 for_condition_expression SEMICOLON $@43 for_action_expression RP $@44 statement_block
+  111 statement: . expression SEMICOLON
+  112          | . for_expression
+  113          | . do_expression
+  114          | . while_expression
+  115          | . condition_expression
+  116          | . declaration SEMICOLON
+  117 $@49: . %empty  [LBP]
+  118 statement: . $@49 statement_block
+  120          | . BREAK $@50 SEMICOLON
+  122          | . CONTINUE $@51 SEMICOLON
+  124          | . RETURN $@52 expression SEMICOLON
+  125          | . SEMICOLON
+  129          | . PRINT $@53 LP $@54 print_content RP $@55 SEMICOLON
+  132          | . INPUT $@56 LP decorated_identifier RP $@57 SEMICOLON
+  139 $@59: . %empty  [INT, VOID, STRUCT]
+  141 declaration: . $@59 type_defination $@60 declaration_body
+  170 condition_expression: . IF $@69 LP $@70 expression RP $@71 statement condition_tail
+  170                     | IF $@69 LP $@70 expression RP $@71 . statement condition_tail
+
+    PRINT      shift, and go to state 1
+    INPUT      shift, and go to state 2
+    SEMICOLON  shift, and go to state 3
+    IF         shift, and go to state 4
+    WHILE      shift, and go to state 5
+    DO         shift, and go to state 6
+    FOR        shift, and go to state 7
+    CONTINUE   shift, and go to state 8
+    BREAK      shift, and go to state 9
+    RETURN     shift, and go to state 10
+
+    LBP       reduce using rule 117 ($@49)
+    INT       reduce using rule 139 ($@59)
+    VOID      reduce using rule 139 ($@59)
+    STRUCT    reduce using rule 139 ($@59)
+    $default  reduce using rule 60 ($@27)
+
+    expression            go to state 11
+    single_expression     go to state 12
+    orh_expression        go to state 13
+    andh_expression       go to state 14
+    eneh_expression       go to state 15
+    lgh_expression        go to state 16
+    pmh_expression        go to state 17
+    mtdh_expression       go to state 18
+    powh_expression       go to state 19
+    noth_expression       go to state 20
+    $@27                  go to state 21
+    do_expression         go to state 22
+    while_expression      go to state 23
+    for_expression        go to state 24
+    statement             go to state 223
+    $@49                  go to state 26
+    declaration           go to state 28
+    $@59                  go to state 29
+    condition_expression  go to state 30
+
+
+State 210
+
+   85 while_expression: WHILE $@37 LP $@38 expression RP $@39 . statement_block
+  136 statement_block: . LBP $@58 statement_body RBP
+
+    LBP  shift, and go to state 69
+
+    statement_block  go to state 224
+
+
+State 211
+
+    1 expression: . single_expression comma_expression
+    6 single_expression: . orh_expression assign_expression
+   11 orh_expression: . andh_expression or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+   81 do_expression: DO $@33 statement_block WHILE $@34 LP $@35 . expression RP $@36 SEMICOLON
+
+    $default  reduce using rule 60 ($@27)
+
+    expression         go to state 225
+    single_expression  go to state 12
+    orh_expression     go to state 13
+    andh_expression    go to state 14
+    eneh_expression    go to state 15
+    lgh_expression     go to state 16
+    pmh_expression     go to state 17
+    mtdh_expression    go to state 18
+    powh_expression    go to state 19
+    noth_expression    go to state 20
+    $@27               go to state 21
+
+
+State 212
+
+    1 expression: . single_expression comma_expression
+    6 single_expression: . orh_expression assign_expression
+   11 orh_expression: . andh_expression or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty  [CONSTANT, IDENTIFIER, LP, NOT]
+   61 noth_expression: . $@27 not_expression pid_expression
+   89 for_condition_expression: . expression
+   90                         | . %empty  [SEMICOLON]
+   98 for_expression: FOR $@40 LP $@41 for_init_expression SEMICOLON $@42 . for_condition_expression SEMICOLON $@43 for_action_expression RP $@44 statement_block
+
+    SEMICOLON  reduce using rule 90 (for_condition_expression)
+    $default   reduce using rule 60 ($@27)
+
+    expression                go to state 226
+    single_expression         go to state 12
+    orh_expression            go to state 13
+    andh_expression           go to state 14
+    eneh_expression           go to state 15
+    lgh_expression            go to state 16
+    pmh_expression            go to state 17
+    mtdh_expression           go to state 18
+    powh_expression           go to state 19
+    noth_expression           go to state 20
+    $@27                      go to state 21
+    for_condition_expression  go to state 227
+
+
+State 213
+
+   71 pointer_expression: . POINTER IDENTIFIER $@31 pointer_expression
+   71                   | POINTER IDENTIFIER $@31 . pointer_expression
+   72                   | . %empty  [RP, RSB, POW, TIMES, DIVIDE, MOD, PLUS, MINUS, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
+
+    POINTER  shift, and go to state 168
+
+    $default  reduce using rule 72 (pointer_expression)
+
+    pointer_expression  go to state 228
+
+
+State 214
+
+   99 $@45: . %empty
+  100 array_decorator: LSB . $@45 expression RSB
+
+    $default  reduce using rule 99 ($@45)
+
+    $@45  go to state 229
+
+
+State 215
+
+  100 array_decorator: . LSB $@45 expression RSB
+  101 high_ay_decorator: . array_decorator high_ay_decorator
+  101                  | array_decorator . high_ay_decorator
+  102                  | . %empty  [LP, RP, ASSIGN, COMMA, SEMICOLON]
+
+    LSB  shift, and go to state 214
+
+    $default  reduce using rule 102 (high_ay_decorator)
+
+    array_decorator    go to state 215
+    high_ay_decorator  go to state 230
+
+
+State 216
+
+  160 init_identifier: high_nter_decorator IDENTIFIER $@67 high_ay_decorator .
+
+    $default  reduce using rule 160 (init_identifier)
+
+
+State 217
+
+  163 function_argument_list: function_argument . function_argument_tail
+  165 function_argument_tail: . COMMA function_argument_list
+  166                       | . %empty  [RP]
+
+    COMMA  shift, and go to state 231
+
+    $default  reduce using rule 166 (function_argument_tail)
+
+    function_argument_tail  go to state 232
+
+
+State 218
+
+   73 type_defination: . INT
+   74                | . VOID
+   76                | . STRUCT $@32 IDENTIFIER
+  162 function_argument: $@68 . type_defination init_identifier argument_declaration_init
+
+    INT     shift, and go to state 73
+    VOID    shift, and go to state 74
+    STRUCT  shift, and go to state 75
+
+    type_defination  go to state 233
+
+
+State 219
+
+  147 function_declaration: init_identifier LP $@62 function_argument_list . RP $@63 function_defination
+
+    RP  shift, and go to state 234
+
+
+State 220
+
+    6 single_expression: . orh_expression assign_expression
+   11 orh_expression: . andh_expression or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+  157 argument_declaration_init: ASSIGN $@66 . single_expression
+
+    $default  reduce using rule 60 ($@27)
+
+    single_expression  go to state 235
+    orh_expression     go to state 13
+    andh_expression    go to state 14
+    eneh_expression    go to state 15
+    lgh_expression     go to state 16
+    pmh_expression     go to state 17
+    mtdh_expression    go to state 18
+    powh_expression    go to state 19
+    noth_expression    go to state 20
+    $@27               go to state 21
+
+
+State 221
+
+  129 statement: PRINT $@53 LP $@54 print_content RP $@55 SEMICOLON .
+
+    $default  reduce using rule 129 (statement)
+
+
+State 222
+
+  100 array_decorator: . LSB $@45 expression RSB
+  101 high_ay_decorator: . array_decorator high_ay_decorator
+  102                  | . %empty  [RP]
+  110 decorated_identifier: $@47 address_decorator high_nter_decorator IDENTIFIER $@48 . high_ay_decorator
+
+    LSB  shift, and go to state 214
+
+    $default  reduce using rule 102 (high_ay_decorator)
+
+    array_decorator    go to state 215
+    high_ay_decorator  go to state 236
+
+
+State 223
+
+  170 condition_expression: IF $@69 LP $@70 expression RP $@71 statement . condition_tail
+  172 condition_tail: . ELSE $@72 statement
+  173               | . %empty  [$end, CONSTANT, PRINT, INPUT, IDENTIFIER, LP, LBP, RBP, NOT, INT, VOID, SEMICOLON, IF, WHILE, DO, FOR, CONTINUE, BREAK, RETURN, STRUCT]
+
+    ELSE  shift, and go to state 237
+
+    $default  reduce using rule 173 (condition_tail)
+
+    condition_tail  go to state 238
+
+    Conflict between rule 173 and token ELSE resolved as shift (NONE_ELSE < ELSE).
+
+
+State 224
+
+   85 while_expression: WHILE $@37 LP $@38 expression RP $@39 statement_block .
+
+    $default  reduce using rule 85 (while_expression)
+
+
+State 225
+
+   81 do_expression: DO $@33 statement_block WHILE $@34 LP $@35 expression . RP $@36 SEMICOLON
+
+    RP  shift, and go to state 239
+
+
+State 226
+
+   89 for_condition_expression: expression .
+
+    $default  reduce using rule 89 (for_condition_expression)
+
+
+State 227
+
+   98 for_expression: FOR $@40 LP $@41 for_init_expression SEMICOLON $@42 for_condition_expression . SEMICOLON $@43 for_action_expression RP $@44 statement_block
+
+    SEMICOLON  shift, and go to state 240
+
+
+State 228
+
+   71 pointer_expression: POINTER IDENTIFIER $@31 pointer_expression .
+
+    $default  reduce using rule 71 (pointer_expression)
+
+
+State 229
+
+    1 expression: . single_expression comma_expression
+    6 single_expression: . orh_expression assign_expression
+   11 orh_expression: . andh_expression or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty
+   61 noth_expression: . $@27 not_expression pid_expression
+  100 array_decorator: LSB $@45 . expression RSB
+
+    $default  reduce using rule 60 ($@27)
+
+    expression         go to state 241
+    single_expression  go to state 12
+    orh_expression     go to state 13
+    andh_expression    go to state 14
+    eneh_expression    go to state 15
+    lgh_expression     go to state 16
+    pmh_expression     go to state 17
+    mtdh_expression    go to state 18
+    powh_expression    go to state 19
+    noth_expression    go to state 20
+    $@27               go to state 21
+
+
+State 230
+
+  101 high_ay_decorator: array_decorator high_ay_decorator .
+
+    $default  reduce using rule 101 (high_ay_decorator)
+
+
+State 231
+
+  161 $@68: . %empty  [INT, VOID, STRUCT]
+  162 function_argument: . $@68 type_defination init_identifier argument_declaration_init
+  163 function_argument_list: . function_argument function_argument_tail
+  164                       | . %empty  [RP]
+  165 function_argument_tail: COMMA . function_argument_list
+
+    RP        reduce using rule 164 (function_argument_list)
+    $default  reduce using rule 161 ($@68)
+
+    function_argument       go to state 217
+    $@68                    go to state 218
+    function_argument_list  go to state 242
+
+
+State 232
+
+  163 function_argument_list: function_argument function_argument_tail .
+
+    $default  reduce using rule 163 (function_argument_list)
+
+
+State 233
+
+  104 high_nter_decorator: . TIMES $@46 high_nter_decorator
+  105                    | . %empty  [IDENTIFIER]
+  160 init_identifier: . high_nter_decorator IDENTIFIER $@67 high_ay_decorator
+  162 function_argument: $@68 type_defination . init_identifier argument_declaration_init
+
+    TIMES  shift, and go to state 139
+
+    $default  reduce using rule 105 (high_nter_decorator)
+
+    high_nter_decorator  go to state 140
+    init_identifier      go to state 243
+
+
+State 234
+
+  146 $@63: . %empty
+  147 function_declaration: init_identifier LP $@62 function_argument_list RP . $@63 function_defination
+
+    $default  reduce using rule 146 ($@63)
+
+    $@63  go to state 244
+
+
+State 235
+
+  157 argument_declaration_init: ASSIGN $@66 single_expression .
+
+    $default  reduce using rule 157 (argument_declaration_init)
+
+
+State 236
+
+  110 decorated_identifier: $@47 address_decorator high_nter_decorator IDENTIFIER $@48 high_ay_decorator .
+
+    $default  reduce using rule 110 (decorated_identifier)
+
+
+State 237
+
+  171 $@72: . %empty
+  172 condition_tail: ELSE . $@72 statement
+
+    $default  reduce using rule 171 ($@72)
+
+    $@72  go to state 245
+
+
+State 238
+
+  170 condition_expression: IF $@69 LP $@70 expression RP $@71 statement condition_tail .
+
+    $default  reduce using rule 170 (condition_expression)
+
+
+State 239
+
+   80 $@36: . %empty
+   81 do_expression: DO $@33 statement_block WHILE $@34 LP $@35 expression RP . $@36 SEMICOLON
+
+    $default  reduce using rule 80 ($@36)
+
+    $@36  go to state 246
+
+
+State 240
+
+   96 $@43: . %empty
+   98 for_expression: FOR $@40 LP $@41 for_init_expression SEMICOLON $@42 for_condition_expression SEMICOLON . $@43 for_action_expression RP $@44 statement_block
+
+    $default  reduce using rule 96 ($@43)
+
+    $@43  go to state 247
+
+
+State 241
+
+  100 array_decorator: LSB $@45 expression . RSB
+
+    RSB  shift, and go to state 248
+
+
+State 242
+
+  165 function_argument_tail: COMMA function_argument_list .
+
+    $default  reduce using rule 165 (function_argument_tail)
+
+
+State 243
+
+  157 argument_declaration_init: . ASSIGN $@66 single_expression
+  158                          | . %empty  [RP, COMMA]
+  162 function_argument: $@68 type_defination init_identifier . argument_declaration_init
+
+    ASSIGN  shift, and go to state 204
+
+    $default  reduce using rule 158 (argument_declaration_init)
+
+    argument_declaration_init  go to state 249
+
+
+State 244
+
+  147 function_declaration: init_identifier LP $@62 function_argument_list RP $@63 . function_defination
+  148 $@64: . %empty  [LBP]
+  149 function_defination: . $@64 statement_block
+  150                    | . SEMICOLON
+
+    SEMICOLON  shift, and go to state 250
+
+    $default  reduce using rule 148 ($@64)
+
+    function_defination  go to state 251
+    $@64                 go to state 252
+
+
+State 245
+
+    1 expression: . single_expression comma_expression
+    6 single_expression: . orh_expression assign_expression
+   11 orh_expression: . andh_expression or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty  [CONSTANT, IDENTIFIER, LP, NOT]
+   61 noth_expression: . $@27 not_expression pid_expression
+   81 do_expression: . DO $@33 statement_block WHILE $@34 LP $@35 expression RP $@36 SEMICOLON
+   85 while_expression: . WHILE $@37 LP $@38 expression RP $@39 statement_block
+   98 for_expression: . FOR $@40 LP $@41 for_init_expression SEMICOLON $@42 for_condition_expression SEMICOLON $@43 for_action_expression RP $@44 statement_block
+  111 statement: . expression SEMICOLON
+  112          | . for_expression
+  113          | . do_expression
+  114          | . while_expression
+  115          | . condition_expression
+  116          | . declaration SEMICOLON
+  117 $@49: . %empty  [LBP]
+  118 statement: . $@49 statement_block
+  120          | . BREAK $@50 SEMICOLON
+  122          | . CONTINUE $@51 SEMICOLON
+  124          | . RETURN $@52 expression SEMICOLON
+  125          | . SEMICOLON
+  129          | . PRINT $@53 LP $@54 print_content RP $@55 SEMICOLON
+  132          | . INPUT $@56 LP decorated_identifier RP $@57 SEMICOLON
+  139 $@59: . %empty  [INT, VOID, STRUCT]
+  141 declaration: . $@59 type_defination $@60 declaration_body
+  170 condition_expression: . IF $@69 LP $@70 expression RP $@71 statement condition_tail
+  172 condition_tail: ELSE $@72 . statement
+
+    PRINT      shift, and go to state 1
+    INPUT      shift, and go to state 2
+    SEMICOLON  shift, and go to state 3
+    IF         shift, and go to state 4
+    WHILE      shift, and go to state 5
+    DO         shift, and go to state 6
+    FOR        shift, and go to state 7
+    CONTINUE   shift, and go to state 8
+    BREAK      shift, and go to state 9
+    RETURN     shift, and go to state 10
+
+    LBP       reduce using rule 117 ($@49)
+    INT       reduce using rule 139 ($@59)
+    VOID      reduce using rule 139 ($@59)
+    STRUCT    reduce using rule 139 ($@59)
+    $default  reduce using rule 60 ($@27)
+
+    expression            go to state 11
+    single_expression     go to state 12
+    orh_expression        go to state 13
+    andh_expression       go to state 14
+    eneh_expression       go to state 15
+    lgh_expression        go to state 16
+    pmh_expression        go to state 17
+    mtdh_expression       go to state 18
+    powh_expression       go to state 19
+    noth_expression       go to state 20
+    $@27                  go to state 21
+    do_expression         go to state 22
+    while_expression      go to state 23
+    for_expression        go to state 24
+    statement             go to state 253
+    $@49                  go to state 26
+    declaration           go to state 28
+    $@59                  go to state 29
+    condition_expression  go to state 30
+
+
+State 246
+
+   81 do_expression: DO $@33 statement_block WHILE $@34 LP $@35 expression RP $@36 . SEMICOLON
+
+    SEMICOLON  shift, and go to state 254
+
+
 State 247
 
-   43 $@19: . %empty  [MOD]
-   44 mtd_expression: . $@19 MOD powh_expression mtd_expression
-   44               | $@19 MOD powh_expression . mtd_expression
-   45 $@20: . %empty  [TIMES]
-   46 mtd_expression: . $@20 TIMES powh_expression mtd_expression
-   47 $@21: . %empty  [DIVIDE]
-   48 mtd_expression: . $@21 DIVIDE powh_expression mtd_expression
-   49               | . %empty  [RP, RSB, PLUS, MINUS, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
+    1 expression: . single_expression comma_expression
+    6 single_expression: . orh_expression assign_expression
+   11 orh_expression: . andh_expression or_expression
+   16 andh_expression: . eneh_expression and_expression
+   21 eneh_expression: . lgh_expression ene_expression
+   26 lgh_expression: . pmh_expression lg_expression
+   36 pmh_expression: . mtdh_expression pm_expression
+   44 mtdh_expression: . powh_expression mtd_expression
+   55 powh_expression: . noth_expression pow_expression
+   60 $@27: . %empty  [CONSTANT, IDENTIFIER, LP, NOT]
+   61 noth_expression: . $@27 not_expression pid_expression
+   91 for_action_expression: . expression
+   92                      | . %empty  [RP]
+   98 for_expression: FOR $@40 LP $@41 for_init_expression SEMICOLON $@42 for_condition_expression SEMICOLON $@43 . for_action_expression RP $@44 statement_block
 
-    TIMES     reduce using rule 45 ($@20)
-    DIVIDE    reduce using rule 47 ($@21)
-    MOD       reduce using rule 43 ($@19)
-    $default  reduce using rule 49 (mtd_expression)
+    RP        reduce using rule 92 (for_action_expression)
+    $default  reduce using rule 60 ($@27)
 
-    mtd_expression  go to state 260
-    $@19            go to state 204
-    $@20            go to state 205
-    $@21            go to state 206
+    expression             go to state 255
+    single_expression      go to state 12
+    orh_expression         go to state 13
+    andh_expression        go to state 14
+    eneh_expression        go to state 15
+    lgh_expression         go to state 16
+    pmh_expression         go to state 17
+    mtdh_expression        go to state 18
+    powh_expression        go to state 19
+    noth_expression        go to state 20
+    $@27                   go to state 21
+    for_action_expression  go to state 256
 
 
 State 248
 
-   43 $@19: . %empty  [MOD]
-   44 mtd_expression: . $@19 MOD powh_expression mtd_expression
-   45 $@20: . %empty  [TIMES]
-   46 mtd_expression: . $@20 TIMES powh_expression mtd_expression
-   46               | $@20 TIMES powh_expression . mtd_expression
-   47 $@21: . %empty  [DIVIDE]
-   48 mtd_expression: . $@21 DIVIDE powh_expression mtd_expression
-   49               | . %empty  [RP, RSB, PLUS, MINUS, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
+  100 array_decorator: LSB $@45 expression RSB .
 
-    TIMES     reduce using rule 45 ($@20)
-    DIVIDE    reduce using rule 47 ($@21)
-    MOD       reduce using rule 43 ($@19)
-    $default  reduce using rule 49 (mtd_expression)
-
-    mtd_expression  go to state 261
-    $@19            go to state 204
-    $@20            go to state 205
-    $@21            go to state 206
+    $default  reduce using rule 100 (array_decorator)
 
 
 State 249
 
-   43 $@19: . %empty  [MOD]
-   44 mtd_expression: . $@19 MOD powh_expression mtd_expression
-   45 $@20: . %empty  [TIMES]
-   46 mtd_expression: . $@20 TIMES powh_expression mtd_expression
-   47 $@21: . %empty  [DIVIDE]
-   48 mtd_expression: . $@21 DIVIDE powh_expression mtd_expression
-   48               | $@21 DIVIDE powh_expression . mtd_expression
-   49               | . %empty  [RP, RSB, PLUS, MINUS, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
+  162 function_argument: $@68 type_defination init_identifier argument_declaration_init .
 
-    TIMES     reduce using rule 45 ($@20)
-    DIVIDE    reduce using rule 47 ($@21)
-    MOD       reduce using rule 43 ($@19)
-    $default  reduce using rule 49 (mtd_expression)
-
-    mtd_expression  go to state 262
-    $@19            go to state 204
-    $@20            go to state 205
-    $@21            go to state 206
+    $default  reduce using rule 162 (function_argument)
 
 
 State 250
 
-   53 pow_expression: $@23 POW . noth_expression pow_expression
-   55 $@24: . %empty
-   56 noth_expression: . $@24 pid_expression not_expression
+  150 function_defination: SEMICOLON .
 
-    $default  reduce using rule 55 ($@24)
-
-    noth_expression  go to state 263
-    $@24             go to state 208
+    $default  reduce using rule 150 (function_defination)
 
 
 State 251
 
-   56 noth_expression: $@24 pid_expression not_expression .
+  147 function_declaration: init_identifier LP $@62 function_argument_list RP $@63 function_defination .
 
-    $default  reduce using rule 56 (noth_expression)
+    $default  reduce using rule 147 (function_declaration)
 
 
 State 252
 
-   58 not_expression: $@25 . NOT pid_expression not_expression
+  136 statement_block: . LBP $@58 statement_body RBP
+  149 function_defination: $@64 . statement_block
 
-    NOT  shift, and go to state 264
+    LBP  shift, and go to state 69
+
+    statement_block  go to state 257
 
 
 State 253
 
-    1 $@1: . %empty
-    2 expression: . $@1 orh_expression assign_expression
-   61 pid_expression: $@26 LP . expression RP
+  172 condition_tail: ELSE $@72 statement .
 
-    $default  reduce using rule 1 ($@1)
-
-    expression  go to state 265
-    $@1         go to state 20
+    $default  reduce using rule 172 (condition_tail)
 
 
 State 254
 
-   63 pid_expression: $@27 IDENTIFIER . pointer_expression
-   66 $@29: . %empty  [POINTER]
-   67 pointer_expression: . $@29 POINTER IDENTIFIER pointer_expression
-   68                   | . %empty  [RP, RSB, NOT, POW, TIMES, DIVIDE, MOD, PLUS, MINUS, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
+   81 do_expression: DO $@33 statement_block WHILE $@34 LP $@35 expression RP $@36 SEMICOLON .
 
-    POINTER   reduce using rule 66 ($@29)
-    $default  reduce using rule 68 (pointer_expression)
-
-    pointer_expression  go to state 266
-    $@29                go to state 267
+    $default  reduce using rule 81 (do_expression)
 
 
 State 255
 
-   65 pid_expression: $@28 CONSTANT .
+   91 for_action_expression: expression .
 
-    $default  reduce using rule 65 (pid_expression)
+    $default  reduce using rule 91 (for_action_expression)
 
 
 State 256
 
-  100 for_expression: $@43 FOR $@44 LP for_init_expression SEMICOLON for_condition_expression SEMICOLON for_action_expression RP statement_block .
+   98 for_expression: FOR $@40 LP $@41 for_init_expression SEMICOLON $@42 for_condition_expression SEMICOLON $@43 for_action_expression . RP $@44 statement_block
 
-    $default  reduce using rule 100 (for_expression)
+    RP  shift, and go to state 258
 
 
 State 257
 
-   93 for_action_expression: $@41 expression for_more_action_expression .
+  149 function_defination: $@64 statement_block .
 
-    $default  reduce using rule 93 (for_action_expression)
+    $default  reduce using rule 149 (function_defination)
 
 
 State 258
 
-   96 for_more_action_expression: $@42 . COMMA expression
+   97 $@44: . %empty
+   98 for_expression: FOR $@40 LP $@41 for_init_expression SEMICOLON $@42 for_condition_expression SEMICOLON $@43 for_action_expression RP . $@44 statement_block
 
-    COMMA  shift, and go to state 268
+    $default  reduce using rule 97 ($@44)
+
+    $@44  go to state 259
 
 
 State 259
 
-  102 array_decorator: $@45 LSB expression . RSB
+   98 for_expression: FOR $@40 LP $@41 for_init_expression SEMICOLON $@42 for_condition_expression SEMICOLON $@43 for_action_expression RP $@44 . statement_block
+  136 statement_block: . LBP $@58 statement_body RBP
 
-    RSB  shift, and go to state 269
+    LBP  shift, and go to state 69
+
+    statement_block  go to state 260
 
 
 State 260
 
-   44 mtd_expression: $@19 MOD powh_expression mtd_expression .
+   98 for_expression: FOR $@40 LP $@41 for_init_expression SEMICOLON $@42 for_condition_expression SEMICOLON $@43 for_action_expression RP $@44 statement_block .
 
-    $default  reduce using rule 44 (mtd_expression)
-
-
-State 261
-
-   46 mtd_expression: $@20 TIMES powh_expression mtd_expression .
-
-    $default  reduce using rule 46 (mtd_expression)
-
-
-State 262
-
-   48 mtd_expression: $@21 DIVIDE powh_expression mtd_expression .
-
-    $default  reduce using rule 48 (mtd_expression)
-
-
-State 263
-
-   52 $@23: . %empty  [POW]
-   53 pow_expression: . $@23 POW noth_expression pow_expression
-   53               | $@23 POW noth_expression . pow_expression
-   54               | . %empty  [RP, RSB, TIMES, DIVIDE, MOD, PLUS, MINUS, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
-
-    POW       reduce using rule 52 ($@23)
-    $default  reduce using rule 54 (pow_expression)
-
-    pow_expression  go to state 270
-    $@23            go to state 233
-
-
-State 264
-
-   58 not_expression: $@25 NOT . pid_expression not_expression
-   60 $@26: . %empty  [LP]
-   61 pid_expression: . $@26 LP expression RP
-   62 $@27: . %empty  [IDENTIFIER]
-   63 pid_expression: . $@27 IDENTIFIER pointer_expression
-   64 $@28: . %empty  [CONSTANT]
-   65 pid_expression: . $@28 CONSTANT
-
-    CONSTANT    reduce using rule 64 ($@28)
-    IDENTIFIER  reduce using rule 62 ($@27)
-    $default    reduce using rule 60 ($@26)
-
-    pid_expression  go to state 271
-    $@26            go to state 235
-    $@27            go to state 236
-    $@28            go to state 237
-
-
-State 265
-
-   61 pid_expression: $@26 LP expression . RP
-
-    RP  shift, and go to state 272
-
-
-State 266
-
-   63 pid_expression: $@27 IDENTIFIER pointer_expression .
-
-    $default  reduce using rule 63 (pid_expression)
-
-
-State 267
-
-   67 pointer_expression: $@29 . POINTER IDENTIFIER pointer_expression
-
-    POINTER  shift, and go to state 273
-
-
-State 268
-
-    1 $@1: . %empty
-    2 expression: . $@1 orh_expression assign_expression
-   96 for_more_action_expression: $@42 COMMA . expression
-
-    $default  reduce using rule 1 ($@1)
-
-    expression  go to state 274
-    $@1         go to state 20
-
-
-State 269
-
-  102 array_decorator: $@45 LSB expression RSB .
-
-    $default  reduce using rule 102 (array_decorator)
-
-
-State 270
-
-   53 pow_expression: $@23 POW noth_expression pow_expression .
-
-    $default  reduce using rule 53 (pow_expression)
-
-
-State 271
-
-   57 $@25: . %empty  [NOT]
-   58 not_expression: . $@25 NOT pid_expression not_expression
-   58               | $@25 NOT pid_expression . not_expression
-   59               | . %empty  [RP, RSB, POW, TIMES, DIVIDE, MOD, PLUS, MINUS, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
-
-    NOT       reduce using rule 57 ($@25)
-    $default  reduce using rule 59 (not_expression)
-
-    not_expression  go to state 275
-    $@25            go to state 252
-
-
-State 272
-
-   61 pid_expression: $@26 LP expression RP .
-
-    $default  reduce using rule 61 (pid_expression)
-
-
-State 273
-
-   67 pointer_expression: $@29 POINTER . IDENTIFIER pointer_expression
-
-    IDENTIFIER  shift, and go to state 276
-
-
-State 274
-
-   96 for_more_action_expression: $@42 COMMA expression .
-
-    $default  reduce using rule 96 (for_more_action_expression)
-
-
-State 275
-
-   58 not_expression: $@25 NOT pid_expression not_expression .
-
-    $default  reduce using rule 58 (not_expression)
-
-
-State 276
-
-   66 $@29: . %empty  [POINTER]
-   67 pointer_expression: . $@29 POINTER IDENTIFIER pointer_expression
-   67                   | $@29 POINTER IDENTIFIER . pointer_expression
-   68                   | . %empty  [RP, RSB, NOT, POW, TIMES, DIVIDE, MOD, PLUS, MINUS, GT, LT, GE, LE, EQ, NE, AND, OR, ASSIGN, COMMA, SEMICOLON]
-
-    POINTER   reduce using rule 66 ($@29)
-    $default  reduce using rule 68 (pointer_expression)
-
-    pointer_expression  go to state 277
-    $@29                go to state 267
-
-
-State 277
-
-   67 pointer_expression: $@29 POINTER IDENTIFIER pointer_expression .
-
-    $default  reduce using rule 67 (pointer_expression)
+    $default  reduce using rule 98 (for_expression)
