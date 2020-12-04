@@ -8,6 +8,7 @@
 #define NAME_OUTPUT_LENGTH 15
 #define ATTR_OUTPUT_LENGTH 10
 
+int yywarp(void);
 void move();
 char* outputTitle();
 void appentLexOutputFile(FILE* file, char* type, char* name, char* attribute);
@@ -21,24 +22,6 @@ void printItem(char* type, char* name, char* attribute);
 \"(\\.|[^\\"\n])*\"				{ appentLexOutputFile("STRING_C", yytext, yytext); return(STRING_C); }
 "print"							{ appentLexOutputFile("PRINT", yytext, ""); return(PRINT); }
 "input"							{ appentLexOutputFile("INPUT", yytext, ""); return(INPUT); }
-[a-zA-Z_]([0-9]|[a-zA-Z_]|$)*   {
-	{
-		if (search(yytext)) {
-			printf("Exist at line %d.\n", yylineno);
-		}
-		else {
-			int position = add(yytext);
-			char* attr;
-			itoa(position, attr, 10);
-			char* attribute;
-			strcpy(attribute, "0x");
-			strcat(attribute, attr);
-			appentLexOutputFile("IDENTIFER", yytext, );
-		}
-	}
-	yyval.str=yytext;
-	return(IDENTIFER);
-}
 
 "("			{ appentLexOutputFile("LP", yytext, ""); return(LP); }
 ")"			{ appentLexOutputFile("RP", yytext, ""); return(RP); }
@@ -77,6 +60,25 @@ void printItem(char* type, char* name, char* attribute);
 "break"		{ appentLexOutputFile("BREAK", yytext, ""); return(BREAK); }
 "return"	{ appentLexOutputFile("RETURN", yytext, ""); return(RETURN); }
 "struct"	{ appentLexOutputFile("STRUCT", yytext, ""); return(STRUCT); }
+
+[a-zA-Z_]([0-9]|[a-zA-Z_]|$)*   {
+	{
+		if (search(yytext)) {
+			printf("Exist at line %d.\n", yylineno);
+		}
+		else {
+			int position = add(yytext);
+			char* attr;
+			itoa(position, attr, 10);
+			char* attribute;
+			strcpy(attribute, "0x");
+			strcat(attribute, attr);
+			appentLexOutputFile("IDENTIFER", yytext, );
+		}
+	}
+	yyval.str=yytext;
+	return(IDENTIFER);
+}
 %%
 
 int yywrap(void) {

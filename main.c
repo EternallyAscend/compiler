@@ -1,108 +1,48 @@
+//
+// Created by MagicBook on 2020/12/01.
+//
+
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "table.h"
 
-int main() {
-    char* name = "name";
-    printf("%s\n", name);
-    printf("%d\n", NULL == name);
-    printf("%d\n", getNameHash(name, 11));
-    launchTable();
-    printf("%d\n", nextSize(2));
-    printf("%d\n", nextSize(7));
-    printf("%d\n", nextSize(9));
-    printf("0x%d\n", add("PUBLIC", 1));
-    push();
-    push();
-    printf("0x%d\n", add("tom", 1));
-    printf("0x%d\n", add("Symbian", 1));
-    if (NULL == pull("tom")) {
-        printf("Not found tom.\n");
-    }
-    else {
-        printf("%s\n", pull("tom")->name);
-    }
-    if (NULL == pull("Symbian")) {
-        printf("Not found Symbian.\n");
-    }
-    else {
-        printf("%s\n", pull("Symbian")->name);
-    }
-    if (NULL == pull("value9")) {
-        printf("Not found value9.\n");
-    }
-    else {
-        printf("%s\n", pull("value9")->name);
-    }
-    pop();
-    push();
-    printf("0x%d\n", add("value0", 1));
-    push();
-    printf("0x%d\n", add("value1", 1));
-    printf("0x%d\n", add("value2", 1));
-    pop();
-    printf("0x%d\n", add("value3", 1));
-    pop();
-    push();
-    push();
-    push();
-    push();
-    push();
-    push();
-    push();
-    if (NULL == pull("PUBLIC")) {
-        printf("Not found PUBLIC.\n");
-    }
-    else {
-        printf("%s\n", pull("PUBLIC")->name);
-    }
-    if (NULL == pull("public")) {
-        printf("Not found public.\n");
-    }
-    else {
-        printf("%s\n", pull("public")->name);
-    }
-    printf("0x%d\n", add("value4", 1));
-    printf("0x%d\n", add("value5", 1));
-    if (NULL == pull("value5")) {
-        printf("Not found value5.\n");
-    }
-    else {
-        printf("%s\n", pull("value5")->name);
-    }
-    pop();
-    pop();
-    pop();
-    pop();
-    pop();
-    pop();
-    pop();
-    printf("0x%d\n", add("value6", 1));
-    printf("0x%d\n", add("value7", 1));
-    printf("0x%d\n", add("value8", 1));
-    printf("0x%d\n", add("value9", 1));
-//    printf("0x%p\n", NULL);
-    if (NULL == pull("tom")) {
-        printf("Not found tom.\n");
-    }
-    else {
-        printf("%s\n", pull("tom")->name);
-    }
-    if (NULL == pull("Symbian")) {
-        printf("Not found Symbian.\n");
-    }
-    else {
-        printf("%s\n", pull("Symbian")->name);
-    }
-    if (NULL == pull("value9")) {
-        printf("Not found value9.\n");
-    }
-    else {
-        printf("%s\n", pull("value9")->name);
-    }
-    printf("Before POP.\n");
-    pop();
-    printf("After POP.\n");
-    stopTable();
-    return 0;
+int main(void) {
+	launchTable();
+	printf("0x%d\n", addWord("Global"));
+	pushScope(1);
+	printf("0x%d\n", addWord("Global"));
+	struct Word* word = getWordInfoFunction("Global");
+	printf("%s %d %d %d 0x%d\n", word->name, word->type, word->store, word->position, word->symbolPosition);
+	free(word);
+	pushScope(1);
+	printf("0x%d\n", addWord("Tom"));
+	printf("%d\n", searchWord("Tom"));
+	printf("%d\n", searchWord("tom"));
+	word = getWordInfoFunction("Global");
+	printf("%s %d %d %d 0x%d\n", word->name, word->type, word->store, word->position, word->symbolPosition);
+	free(word);
+	setType("Tom", 5);
+	setType("Global", 6);
+	printf("%d\n", searchWord("Global"));
+	printf("%d\n", searchWordGlobal("Global"));
+	word = getWordInfoFunction("Global");
+	printf("%s %d %d %d 0x%d\n", word->name, word->type, word->store, word->position, word->symbolPosition);
+	free(word);
+	printf("Scope: %d\n", popScope());
+	printf("Scope: %d\n", popScope());
+	restartTable();
+	pushScope(0);
+	printf("%d\n", searchWord("tom"));
+	printf("%d\n", searchWord("Global"));
+	printf("%d\n", searchWordGlobal("Global"));
+	word = getWordInfo("Global");
+	printf("%s %d %d %d 0x%d\n", word->name, word->type, word->store, word->position, word->symbolPosition);
+	free(word);
+	printf("After.\n");
+	popScope();
+	printf("%d\n", searchWord("Global"));
+	printf("%d\n", searchWordGlobal("Global"));
+	stopTable();
+	return 0;
 }

@@ -33,14 +33,15 @@ FILE* generateLEX() {
             lex = -lex;
         }
         char* lexName = getFileName(lex, "-lex.txt");
-        int err = fopen_s(&lexFile, lexName, "a+");
+//        int err = fopen_s(&lexFile, lexName, "a+");
+	lexFile = fopen(lexName, "a+");
         free(lexName);
 //        printf("%s\n", getFileName(lex, "-lex.txt"));
 //        int err = fopen_s(&lexFile, getFileName(lex, "-lex.txt"), "a+");
-        if (0 != err) {
+/*        if (0 != err) {
             printf("%d\n", err);
             exit(-1);
-        }
+        }*/
 //        lexFile = fopen(getFileName(lex, "lex.txt"), "w");
         return lexFile;
     }
@@ -56,14 +57,15 @@ FILE* generateYACC() {
             yacc = -yacc;
         }
         char* yaccName = getFileName(yacc, "-yacc.txt");
-        int err = fopen_s(&yaccFile, yaccName, "a+");
-        free(yaccName);
+//        int err = fopen_s(&yaccFile, yaccName, "a+");
+	yaccFile = fopen(yaccName, "a+");
+	free(yaccName);
 //        printf("%s\n", getFileName(yacc, "-yacc.txt"));
 //        int err = fopen_s(&yaccFile, getFileName(yacc, "-yacc.txt"), "a+");
-        if (0 != err) {
+/*        if (0 != err) {
             printf("%d\n", err);
             exit(-1);
-        }
+        }*/
 //        yaccFile = fopen(getFileName(yacc, "yacc.txt"), "w");
         return yaccFile;
     }
