@@ -12,9 +12,9 @@
 #define NON_TERMINAL 0
 
 typedef struct GrammerTree{
-    struct GrammerTree *parent = NULL;
+    struct GrammerTree *parent;
     struct GrammerTree *child[MAX_CHILDREN_NUM];
-    int size = 0;
+    int size;
     int index;
     int isTerminal;
     char word[MAX_SENTENCE_LENGTH];
@@ -30,6 +30,8 @@ int push_child(grammerTree* parent, grammerTree* node){
 
 grammerTree* createGrammerNode(int isTerminal, const char* word, const char* grammer, int index) {
     grammerTree* newNode = (grammerTree*)(malloc(sizeof(grammerTree)));
+    newNode->size = 0;
+    newNode->parent = NULL;
     newNode->index = index;
     newNode->isTerminal = isTerminal;
     strcpy(newNode->word, word);

@@ -2,15 +2,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "grammerTree.h"
-#include "y.tab.c"
+#include "y.tab.h"
 
+#ifndef __cplusplus
 extern "C" 
 
 {
+#endif
+
     void yyerror(const char *s);
     extern int yylex(void);
     extern char* yytext;
+
+#ifndef __cplusplus
 };
+#endif
 
 int word_pos = 0;
 grammerTree* root;
@@ -23,7 +29,7 @@ void extendTree(int isTerminal, const char* word, const char* grammer);
 void backToParent();
 void extendOptTree(const char* opt);
 void extendTerminal(const char* word, const char* grammer);
-void broToParent();
+void broToParent(int num);
 void connectParentChild();
 
 void saveNode();
@@ -283,7 +289,7 @@ pid_expression
 pointer_expression
     : POINTER IDENTIFIER {
         extendOptTree("->");
-        extendTerminal(TERMINAL, $<str>2);
+        extendTerminal("IDENTIFIER", $<str>2);
         backToParent();
     } pointer_expression 
     |
@@ -507,12 +513,12 @@ declaration
 declaration_body
     : function_declaration {
         extendTree(NON_TERMINAL, "", "function declaration");
-        broToParent();
+        broToParent(-1);
         connectParentChild();
     }
     | argument_declaration_list {
         extendTree(NON_TERMINAL, "", "argument declaration list");
-        broToParent();
+        broToParent(-1);
         connectParentChild();
     } SEMICOLON
     ;
@@ -609,81 +615,69 @@ condition_tail
 
 %%
 
-%{
-    // void print_non_terminal_symbol(int word_pos, const char* sentence, child* childSymbol){
-    //     printf("%s", sentence);
-    //     printf(":%d", word_pos);
-    //     printf("/t/tchild:");
-    //     for (int i = 0; i < childSymbol.size; i++) {
-    //         printf(" %d", childSymbol.vector[i]);
-    //     }
-    // }
 
-    // void print_terminal_symbol(int word_pos, const char* word){
-    //     printf("%s", word);
-    //     printf(":%d", word_pos);
-    // }
+   
+void extendTree(int isTerminal, const char* word, const char* grammer) {
+    tempPointer = createGrammerNode(isTerminal, word, grammer, word_pos++); 
+    push_child(curNode, tempPointer); 
+    if (isTerminal == NON_TERMINAL) curNode = tempPointer;
+}
 
-    void extendTree(int isTerminal, const char* word, const char* grammer) {
-        tempPointer = createGrammerNode(isTerminal, word, grammer, word_pos++); 
-        push_child(curNode, tempPointer); 
-        if (isTerminal == NON_TERMINAL) curNode = tempPointer;
+void backToParent() {
+    if (curNode->parent == NULL) return;
+    curNode = curNode->parent;
+}
+
+void saveNode() {
+    stack[stackContentSize++] = curNode;
+}
+
+void loadNode() {
+    if (stackContentSize <= 0) return;
+    curNode = stack[--stackContentSize];
+}
+
+void extendOptTree(const char* opt) {
+    extendTree(NON_TERMINAL, opt, "expression");
+    adjustOptNode(curNode);
+}
+
+void extendTerminal(const char* word, const char* grammer) {
+    extendTree(TERMINAL, word, grammer);
+}
+
+void broToParent(int num = -1) {
+    grammerTree* parent = curNode->parent;
+    selfPos = findSelfPos(curNode);
+    if (num == -1) i = 0;
+    else i =  selfPos - num;
+    for (int n = i; n < selfPos; n++) {
+        push_child(curNode, parent->child[n]);
     }
+    parent->child[i++] = curNode;
+    parent->size = i;
+}
 
-    void backToParent() {
-        if (curNode->parent == NULL) return;
-        curNode = curNode->parent;
+void connectParentChild() {
+    grammerTree* parent = curNode->parent;
+    grammerTree* child[] = curNode->child;
+    for (int i = 0; i < curNode->size; i++) {
+        push_child(parent, child[i]);
     }
+    freeGrammerNode(curNode);
+    curNode = parent;
+}
 
-    void saveNode() {
-        stack[stackContentSize++] = curNode;
-    }
+int main(void) { 
+    root = createGrammerNode(NON_TERMINAL, "start", -1, word_pos++);
+    curNode = root;
+    tempPointer = NULL;
+    yyparse();
+    generateYACC();
+    printGrammerTree(root);
+    closeYACC();
+    freeGrammerTree(root);
+    return 0; 
+}   
 
-    void loadNode() {
-        if (stackContentSize <= 0) return;
-        curNode = stack[--stackContentSize];
-    }
 
-    void extendOptTree(const char* opt) {
-        extendTree(NON_TERMINAL, opt, "expression");
-        adjustOptNode(curNode);
-    }
-
-    void extendTerminal(const char* word, const char* grammer) {
-        extendTree(TERMINAL, word, grammer);
-    }
-
-    void broToParent(int num = -1) {
-        grammerTree* parent = curNode->parent;
-        selfPos = findSelfPos(curNode);
-        if (num == -1) i = 0;
-        else i =  selfPos - num
-        for (int n = i; n < selfPos; n++) {
-            push_child(curNode, parent->child[n]);
-        }
-        parent->child[i++] = curNode;
-        parent->size = i;
-    }
-
-    void connectParentChild() {
-        grammerTree* parent = curNode->parent;
-        grammerTree* child[] = curNode->child;
-        for (int i = 0; i < curNode->size; i++) {
-            push_child(parent, child[i]);
-        }
-        freeGrammerNode(curNode);
-        curNode = parent;
-    }
-
-    int main(void) { 
-        root = createGrammerNode(NONTERMINAL, "start", -1);
-        curNode = root;
-        tempPointer = NULL;
-        yyparse();
-        generateYACC();
-        printGrammerTree(root);
-        closeYACC();
-        freeGrammerTree(root);
-        return 0; 
-    }   
-%}

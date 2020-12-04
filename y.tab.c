@@ -71,7 +71,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "grammerTree.h"
-#include "y.tab.c"
+#include "y.tab.h"
 
 extern "C" 
 
@@ -1967,7 +1967,7 @@ yyreduce:
 #line 284 "combine.y"
                          {
         extendOptTree("->");
-        extendTerminal(TERMINAL, (yyvsp[0].str));
+        extendTerminal("IDENTIFIER", (yyvsp[0].str));
         backToParent();
     }
 #line 1974 "y.tab.c"
@@ -2703,20 +2703,7 @@ yyreturn:
 
 
 %{
-    // void print_non_terminal_symbol(int word_pos, const char* sentence, child* childSymbol){
-    //     printf("%s", sentence);
-    //     printf(":%d", word_pos);
-    //     printf("/t/tchild:");
-    //     for (int i = 0; i < childSymbol.size; i++) {
-    //         printf(" %d", childSymbol.vector[i]);
-    //     }
-    // }
-
-    // void print_terminal_symbol(int word_pos, const char* word){
-    //     printf("%s", word);
-    //     printf(":%d", word_pos);
-    // }
-
+   
     void extendTree(int isTerminal, const char* word, const char* grammer) {
         tempPointer = createGrammerNode(isTerminal, word, grammer, word_pos++); 
         push_child(curNode, tempPointer); 
