@@ -1,3 +1,6 @@
+#ifndef GRAMMERTREE_H
+#define GRAMMERTREE_H
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -86,3 +89,5 @@ void adjustOptNode(grammerTree* optNode) {
     node->parent = optNode;
     optNode->size++;
 }
+
+#endif // GRAMMERTREE_H

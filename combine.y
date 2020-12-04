@@ -31,58 +31,64 @@ void loadNode();
 
 %}
 
+%union
 
-%token CONSTANT STRING_C PRINT INPUT // Constant "String" print input
-%token IDENTIFIER // Idenfifier
+{
+    char* str;
+}
 
-%token LP RP LSB RSB LBP RBP // () [] {  }
-%token POINTER // ->
-%token ADDRESS // &
-%token NOT // !
-%token POW // ^
-%token TIMES DIVIDE MOD // * / %
-%token PLUS MINUS // + -
-%token GT LT GE LE // > < >= <=
-%token EQ NE // == !=
-%token AND // &&
-%token OR // ||
-%token ASSIGN // =
+%token<str> CONSTANT STRING_C PRINT INPUT // Constant "String" print input
+%token<str> IDENTIFIER // Idenfifier
 
-%token INT VOID // int void
-%token COMMA SEMICOLON // , ;
-%token IF ELSE // if else
-%token WHILE DO FOR CONTINUE BREAK // while do for continue break
-%token RETURN // return
-%token STRUCT // struct
+%token<str> LP RP LSB RSB LBP RBP // () [] {  }
+%token<str> POINTER // ->
+%token<str> ADDRESS // &
+%token<str> NOT // !
+%token<str> POW // ^
+%token<str> TIMES DIVIDE MOD // * / %
+%token<str> PLUS MINUS // + -
+%token<str> GT LT GE LE // > < >= <=
+%token<str> EQ NE // == !=
+%token<str> AND // &&
+%token<str> OR // ||
+%token<str> ASSIGN // =
 
+%token<str> INT VOID // int void
+%token<str> COMMA SEMICOLON // , ;
+%token<str> IF ELSE // if else
+%token<str> WHILE DO FOR CONTINUE BREAK // while do for continue break
+%token<str> RETURN // return
+%token<str> STRUCT // struct
+/*
 // expression
-%type expression assign_expression orh_expression or_expression andh_expression and_expression
-%type eneh_expression ene_expression lgh_expression lg_expression pmh_expression pm_expression
-%type mtd_expression mtdh_expression pow_expression powh_expression not_expression noth_expression
-%type pid_expression pointer_expression
+%type<str> expression assign_expression orh_expression or_expression andh_expression and_expression
+%type<str> eneh_expression ene_expression lgh_expression lg_expression pmh_expression pm_expression
+%type<str> mtd_expression mtdh_expression pow_expression powh_expression not_expression noth_expression
+%type<str> pid_expression pointer_expression
 
 //type of argument
-%type type_defination
+%type<str> type_defination
 
 //for-loop while-loop
-%type for_expression while_expression do_expression
-%type for_action_expression for_condition_expression for_init_expression
+%type<str> for_expression while_expression do_expression
+%type<str> for_action_expression for_condition_expression for_init_expression
 //decorated_identifier eg: **a[3]
-%type decorated_identifier address_decorator array_decorator high_ay_decorator high_nter_decorator
+%type<str> decorated_identifier address_decorator array_decorator high_ay_decorator high_nter_decorator
 
 //statement
-%type statement statement_body statement_block
+%type<str> statement statement_body statement_block
 
 //declaration of argument and function
-%type declaration function_declaration
-%type argument_declaration_unit argument_declaration_list argument_declaration_list_tail argument_declaration_init
-%type function_argument function_argument_list function_argument_tail
+%type<str> declaration function_declaration
+%type<str> argument_declaration_unit argument_declaration_list argument_declaration_list_tail argument_declaration_init
+%type<str> function_argument function_argument_list function_argument_tail
 
 //condition
-%type condition_expression condition_tail
+%type<str> condition_expression condition_tail
 
 //output
-%type print_content
+%type<str> print_content
+*/
 
 %nonassoc NONE_ELSE
 %nonassoc ELSE
@@ -265,19 +271,19 @@ pid_expression
     }
     | IDENTIFIER {
         //saveNode();
-        extendTree(TERMINAL, $1, "identifier");
+        extendTree(TERMINAL, $<str>1, "identifier");
     } pointer_expression {
         //loadNode();
     }
     | CONSTANT { 
-        extendTree(TERMINAL, $1, "identifier");
+        extendTree(TERMINAL, $<str>1, "identifier");
     }
     ;
 
 pointer_expression
     : POINTER IDENTIFIER {
         extendOptTree("->");
-        extendTree(TERMINAL, $2);
+        extendTerminal(TERMINAL, $<str>2);
         backToParent();
     } pointer_expression 
     |
@@ -293,7 +299,7 @@ type_defination
     | STRUCT {
         extendTree(NON_TERMINAL, "struct", "type");
     } IDENTIFIER {  
-        extendTerminal($3, "identifier");
+        extendTerminal($<str>3, "identifier");
         backToParent();
     }
     ;
@@ -425,7 +431,7 @@ decorated_identifier
     : {
         saveNode();
     } address_decorator high_nter_decorator IDENTIFIER {
-        extendTerminal($4, "identifier");
+        extendTerminal($<str>4, "identifier");
     } high_ay_decorator {
         loadNode();
     }
@@ -472,7 +478,7 @@ statement
 print_content
     : expression
     | STRING_C {
-        extendTerminal($1, "string");
+        extendTerminal($<str>1, "string");
     }
     ;
 
@@ -541,7 +547,7 @@ argument_declaration_list_tail
 argument_declaration_unit
     : init_identifier {
         extendTree(NON_TERMINAL, "", "argument declaration unit");
-        broToParent(1)
+        broToParent(1);
     } argument_declaration_init {
         backToParent();
     }
@@ -558,7 +564,7 @@ argument_declaration_init
 
 init_identifier
     : high_nter_decorator IDENTIFIER {
-        extendTerminal($2, "identifier");
+        extendTerminal($<str>2, "identifier");
     } high_ay_decorator {
         loadNode();
     }
@@ -649,7 +655,7 @@ condition_tail
 
     void broToParent(int num = -1) {
         grammerTree* parent = curNode->parent;
-        selfPos = findSelfPos(curNode)
+        selfPos = findSelfPos(curNode);
         if (num == -1) i = 0;
         else i =  selfPos - num
         for (int n = i; n < selfPos; n++) {
@@ -669,19 +675,6 @@ condition_tail
         curNode = parent;
     }
 
-    // void adjustOptNode(grammerTree* optNode) {
-    //     grammerTree* parent = optNode->parent;
-    //     int pos;
-    //     if((pos = findSelfPos(optNode)) == -1) return;
-    //     grammerTree* node = parent->child[pos - 1];
-    //     parent->child[pos - 1] = optNode;
-    //     parent->size--;
-    //     optNode->child[1] = optNode->child[0];
-    //     optNode->child[0] = node;
-    //     node->parent = optNode;
-    //     optNode->size++;
-    // }
-
     int main(void) { 
         root = createGrammerNode(NONTERMINAL, "start", -1);
         curNode = root;
@@ -692,8 +685,5 @@ condition_tail
         closeYACC();
         freeGrammerTree(root);
         return 0; 
-        // grammerItem grammerHead
-        // grammerItem* grammerStackTail;
-        // int size = 0;
     }   
 %}

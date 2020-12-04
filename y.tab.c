@@ -236,7 +236,16 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+union YYSTYPE
+{
+#line 36 "combine.y"
+
+    char* str;
+
+#line 246 "y.tab.c"
+
+};
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -613,24 +622,24 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    95,    95,    99,   101,    99,   104,   108,   112,   114,
-     112,   117,   121,   125,   127,   125,   130,   134,   138,   140,
-     138,   143,   147,   151,   151,   156,   156,   164,   168,   168,
-     173,   173,   178,   178,   183,   183,   188,   192,   196,   198,
-     196,   201,   203,   201,   206,   210,   214,   216,   214,   219,
-     221,   219,   224,   226,   224,   229,   233,   237,   239,   237,
-     242,   246,   246,   254,   254,   257,   261,   261,   266,   266,
-     272,   278,   278,   283,   287,   290,   293,   293,   302,   307,
-     310,   312,   302,   318,   321,   323,   318,   359,   360,   361,
-     365,   366,   370,   371,   375,   379,   382,   385,   388,   375,
-     398,   398,   406,   407,   411,   411,   414,   418,   421,   425,
-     427,   425,   435,   437,   438,   439,   440,   441,   442,   442,
-     443,   443,   446,   446,   449,   449,   454,   455,   457,   459,
-     455,   463,   465,   463,   473,   474,   480,   480,   488,   489,
-     493,   495,   493,   502,   507,   507,   515,   517,   515,   524,
-     524,   529,   533,   537,   538,   542,   542,   551,   551,   556,
-     560,   560,   568,   568,   577,   578,   582,   583,   587,   589,
-     591,   587,   598,   598,   601
+       0,   101,   101,   105,   107,   105,   110,   114,   118,   120,
+     118,   123,   127,   131,   133,   131,   136,   140,   144,   146,
+     144,   149,   153,   157,   157,   162,   162,   170,   174,   174,
+     179,   179,   184,   184,   189,   189,   194,   198,   202,   204,
+     202,   207,   209,   207,   212,   216,   220,   222,   220,   225,
+     227,   225,   230,   232,   230,   235,   239,   243,   245,   243,
+     248,   252,   252,   260,   260,   263,   267,   267,   272,   272,
+     278,   284,   284,   289,   293,   296,   299,   299,   308,   313,
+     316,   318,   308,   324,   327,   329,   324,   365,   366,   367,
+     371,   372,   376,   377,   381,   385,   388,   391,   394,   381,
+     404,   404,   412,   413,   417,   417,   420,   424,   427,   431,
+     433,   431,   441,   443,   444,   445,   446,   447,   448,   448,
+     449,   449,   452,   452,   455,   455,   460,   461,   463,   465,
+     461,   469,   471,   469,   479,   480,   486,   486,   494,   495,
+     499,   501,   499,   508,   513,   513,   521,   523,   521,   530,
+     530,   535,   539,   543,   544,   548,   548,   557,   557,   562,
+     566,   566,   574,   574,   583,   584,   588,   589,   593,   595,
+     597,   593,   604,   604,   607
 };
 #endif
 
@@ -1628,837 +1637,837 @@ yyreduce:
   switch (yyn)
     {
   case 3:
-#line 99 "combine.y"
+#line 105 "combine.y"
             {
         extendOptTree(",");
     }
-#line 1636 "y.tab.c"
+#line 1645 "y.tab.c"
     break;
 
   case 4:
-#line 101 "combine.y"
+#line 107 "combine.y"
                         {
         backToParent();
     }
-#line 1644 "y.tab.c"
+#line 1653 "y.tab.c"
     break;
 
   case 6:
-#line 104 "combine.y"
+#line 110 "combine.y"
       {}
-#line 1650 "y.tab.c"
+#line 1659 "y.tab.c"
     break;
 
   case 8:
-#line 112 "combine.y"
+#line 118 "combine.y"
              { 
         extendOptTree("=");
     }
-#line 1658 "y.tab.c"
+#line 1667 "y.tab.c"
     break;
 
   case 9:
-#line 114 "combine.y"
+#line 120 "combine.y"
                      { 
         backToParent();
     }
-#line 1666 "y.tab.c"
+#line 1675 "y.tab.c"
     break;
 
   case 13:
-#line 125 "combine.y"
+#line 131 "combine.y"
          { 
         extendOptTree("||");
     }
-#line 1674 "y.tab.c"
+#line 1683 "y.tab.c"
     break;
 
   case 14:
-#line 127 "combine.y"
+#line 133 "combine.y"
                       {
         backToParent();
     }
-#line 1682 "y.tab.c"
+#line 1691 "y.tab.c"
     break;
 
   case 18:
-#line 138 "combine.y"
+#line 144 "combine.y"
           {  
         extendOptTree("&&");
     }
-#line 1690 "y.tab.c"
+#line 1699 "y.tab.c"
     break;
 
   case 19:
-#line 140 "combine.y"
+#line 146 "combine.y"
                       {
         backToParent();
     }
-#line 1698 "y.tab.c"
+#line 1707 "y.tab.c"
     break;
 
   case 23:
-#line 151 "combine.y"
+#line 157 "combine.y"
          {  
         extendOptTree("==");
     }
-#line 1706 "y.tab.c"
+#line 1715 "y.tab.c"
     break;
 
   case 24:
-#line 153 "combine.y"
+#line 159 "combine.y"
                      {
         backToParent();
     }
-#line 1714 "y.tab.c"
+#line 1723 "y.tab.c"
     break;
 
   case 25:
-#line 156 "combine.y"
+#line 162 "combine.y"
          {  
         extendOptTree("!=");
     }
-#line 1722 "y.tab.c"
+#line 1731 "y.tab.c"
     break;
 
   case 26:
-#line 158 "combine.y"
+#line 164 "combine.y"
                      {
         backToParent();
     }
-#line 1730 "y.tab.c"
+#line 1739 "y.tab.c"
     break;
 
   case 28:
-#line 168 "combine.y"
+#line 174 "combine.y"
          {  
         extendOptTree(">");
     }
-#line 1738 "y.tab.c"
+#line 1747 "y.tab.c"
     break;
 
   case 29:
-#line 170 "combine.y"
+#line 176 "combine.y"
                      {
         backToParent();
     }
-#line 1746 "y.tab.c"
+#line 1755 "y.tab.c"
     break;
 
   case 30:
-#line 173 "combine.y"
+#line 179 "combine.y"
          {  
         extendOptTree(">=");
     }
-#line 1754 "y.tab.c"
+#line 1763 "y.tab.c"
     break;
 
   case 31:
-#line 175 "combine.y"
+#line 181 "combine.y"
                      {
         backToParent();
     }
-#line 1762 "y.tab.c"
+#line 1771 "y.tab.c"
     break;
 
   case 32:
-#line 178 "combine.y"
+#line 184 "combine.y"
          {  
         extendOptTree("<");
     }
-#line 1770 "y.tab.c"
+#line 1779 "y.tab.c"
     break;
 
   case 33:
-#line 180 "combine.y"
+#line 186 "combine.y"
                      {
         backToParent();
     }
-#line 1778 "y.tab.c"
+#line 1787 "y.tab.c"
     break;
 
   case 34:
-#line 183 "combine.y"
+#line 189 "combine.y"
          {  
         extendOptTree("<=");
     }
-#line 1786 "y.tab.c"
+#line 1795 "y.tab.c"
     break;
 
   case 35:
-#line 185 "combine.y"
+#line 191 "combine.y"
                      {
         backToParent();
     }
-#line 1794 "y.tab.c"
+#line 1803 "y.tab.c"
     break;
 
   case 38:
-#line 196 "combine.y"
+#line 202 "combine.y"
            { 
         extendOptTree("+");
     }
-#line 1802 "y.tab.c"
+#line 1811 "y.tab.c"
     break;
 
   case 39:
-#line 198 "combine.y"
+#line 204 "combine.y"
                       {
         backToParent();
     }
-#line 1810 "y.tab.c"
+#line 1819 "y.tab.c"
     break;
 
   case 41:
-#line 201 "combine.y"
+#line 207 "combine.y"
             { 
         extendOptTree("-");
     }
-#line 1818 "y.tab.c"
+#line 1827 "y.tab.c"
     break;
 
   case 42:
-#line 203 "combine.y"
+#line 209 "combine.y"
                       {
         backToParent();
     }
-#line 1826 "y.tab.c"
+#line 1835 "y.tab.c"
     break;
 
   case 46:
-#line 214 "combine.y"
+#line 220 "combine.y"
           { 
         extendOptTree("%");
     }
-#line 1834 "y.tab.c"
+#line 1843 "y.tab.c"
     break;
 
   case 47:
-#line 216 "combine.y"
+#line 222 "combine.y"
                       {
         backToParent();
     }
-#line 1842 "y.tab.c"
+#line 1851 "y.tab.c"
     break;
 
   case 49:
-#line 219 "combine.y"
+#line 225 "combine.y"
             { 
         extendOptTree("*");
     }
-#line 1850 "y.tab.c"
+#line 1859 "y.tab.c"
     break;
 
   case 50:
-#line 221 "combine.y"
+#line 227 "combine.y"
                       {
         backToParent();
     }
-#line 1858 "y.tab.c"
+#line 1867 "y.tab.c"
     break;
 
   case 52:
-#line 224 "combine.y"
+#line 230 "combine.y"
              { 
         extendOptTree("/");
     }
-#line 1866 "y.tab.c"
+#line 1875 "y.tab.c"
     break;
 
   case 53:
-#line 226 "combine.y"
+#line 232 "combine.y"
                       {
         backToParent();
     }
-#line 1874 "y.tab.c"
+#line 1883 "y.tab.c"
     break;
 
   case 57:
-#line 237 "combine.y"
+#line 243 "combine.y"
           { 
         extendOptTree("^");
     }
-#line 1882 "y.tab.c"
+#line 1891 "y.tab.c"
     break;
 
   case 58:
-#line 239 "combine.y"
+#line 245 "combine.y"
                       {
         backToParent();
     }
-#line 1890 "y.tab.c"
+#line 1899 "y.tab.c"
     break;
 
   case 61:
-#line 246 "combine.y"
+#line 252 "combine.y"
       {
         saveNode();
     }
-#line 1898 "y.tab.c"
+#line 1907 "y.tab.c"
     break;
 
   case 62:
-#line 248 "combine.y"
+#line 254 "combine.y"
                                     {
         loadNode();
     }
-#line 1906 "y.tab.c"
+#line 1915 "y.tab.c"
     break;
 
   case 63:
-#line 254 "combine.y"
+#line 260 "combine.y"
           { 
         extendTree(NON_TERMINAL, "!", "expression");
     }
-#line 1914 "y.tab.c"
+#line 1923 "y.tab.c"
     break;
 
   case 66:
-#line 261 "combine.y"
+#line 267 "combine.y"
          { 
         extendTree(NON_TERMINAL, "()", "expression");
     }
-#line 1922 "y.tab.c"
+#line 1931 "y.tab.c"
     break;
 
   case 67:
-#line 263 "combine.y"
+#line 269 "combine.y"
                     { 
         backToParent();
-    }
-#line 1930 "y.tab.c"
-    break;
-
-  case 68:
-#line 266 "combine.y"
-                 {
-        //saveNode();
-        extendTree(TERMINAL, yyvsp[0], "identifier");
     }
 #line 1939 "y.tab.c"
     break;
 
+  case 68:
+#line 272 "combine.y"
+                 {
+        //saveNode();
+        extendTree(TERMINAL, (yyvsp[0].str), "identifier");
+    }
+#line 1948 "y.tab.c"
+    break;
+
   case 69:
-#line 269 "combine.y"
+#line 275 "combine.y"
                          {
         //loadNode();
     }
-#line 1947 "y.tab.c"
+#line 1956 "y.tab.c"
     break;
 
   case 70:
-#line 272 "combine.y"
+#line 278 "combine.y"
                { 
-        extendTree(TERMINAL, yyvsp[0], "identifier");
+        extendTree(TERMINAL, (yyvsp[0].str), "identifier");
     }
-#line 1955 "y.tab.c"
+#line 1964 "y.tab.c"
     break;
 
   case 71:
-#line 278 "combine.y"
+#line 284 "combine.y"
                          {
         extendOptTree("->");
-        extendTree(TERMINAL, yyvsp[0]);
+        extendTerminal(TERMINAL, (yyvsp[0].str));
         backToParent();
     }
-#line 1965 "y.tab.c"
+#line 1974 "y.tab.c"
     break;
 
   case 74:
-#line 287 "combine.y"
+#line 293 "combine.y"
           { 
         extendTerminal("int", "type");
     }
-#line 1973 "y.tab.c"
+#line 1982 "y.tab.c"
     break;
 
   case 75:
-#line 290 "combine.y"
+#line 296 "combine.y"
            { 
         extendTerminal("void", "type");
     }
-#line 1981 "y.tab.c"
+#line 1990 "y.tab.c"
     break;
 
   case 76:
-#line 293 "combine.y"
+#line 299 "combine.y"
              {
         extendTree(NON_TERMINAL, "struct", "type");
-    }
-#line 1989 "y.tab.c"
-    break;
-
-  case 77:
-#line 295 "combine.y"
-                 {  
-        extendTerminal(yyvsp[0], "identifier");
-        backToParent();
     }
 #line 1998 "y.tab.c"
     break;
 
+  case 77:
+#line 301 "combine.y"
+                 {  
+        extendTerminal((yyvsp[0].str), "identifier");
+        backToParent();
+    }
+#line 2007 "y.tab.c"
+    break;
+
   case 78:
-#line 302 "combine.y"
+#line 308 "combine.y"
          { 
         /*establish local scope*/ ;
         saveNode();
         extendTree(NON_TERMINAL, "", "do while loop");
         extendTree(NON_TERMINAL, "do", "loop body");
     }
-#line 2009 "y.tab.c"
+#line 2018 "y.tab.c"
     break;
 
   case 79:
-#line 307 "combine.y"
+#line 313 "combine.y"
                             {
         backToParent();
         extendTree(NON_TERMINAL, "while", "loop condition");
     }
-#line 2018 "y.tab.c"
+#line 2027 "y.tab.c"
     break;
 
   case 80:
-#line 310 "combine.y"
+#line 316 "combine.y"
          {  
         extendTree(NON_TERMINAL, "()", "expression");
     }
-#line 2026 "y.tab.c"
+#line 2035 "y.tab.c"
     break;
 
   case 81:
-#line 312 "combine.y"
+#line 318 "combine.y"
                     { 
         loadNode();
-    }
-#line 2034 "y.tab.c"
-    break;
-
-  case 83:
-#line 318 "combine.y"
-            {  
-        saveNode();
-        extendTree(NON_TERMINAL, "while", "while loop");
     }
 #line 2043 "y.tab.c"
     break;
 
+  case 83:
+#line 324 "combine.y"
+            {  
+        saveNode();
+        extendTree(NON_TERMINAL, "while", "while loop");
+    }
+#line 2052 "y.tab.c"
+    break;
+
   case 84:
-#line 321 "combine.y"
+#line 327 "combine.y"
          { 
         extendTree(NON_TERMINAL, "()", "expression"); 
     }
-#line 2051 "y.tab.c"
+#line 2060 "y.tab.c"
     break;
 
   case 85:
-#line 323 "combine.y"
+#line 329 "combine.y"
                     { 
         backToParent(); 
         /*establish local scope*/ ;
         extendTree(NON_TERMINAL, "", "loop body");
     }
-#line 2061 "y.tab.c"
+#line 2070 "y.tab.c"
     break;
 
   case 86:
-#line 327 "combine.y"
+#line 333 "combine.y"
                       {
         loadNode();
     }
-#line 2069 "y.tab.c"
+#line 2078 "y.tab.c"
     break;
 
   case 94:
-#line 375 "combine.y"
+#line 381 "combine.y"
           { 
         /*establish local scope*/ ;
         saveNode();
         extendTree(NON_TERMINAL, "for", "for loop");
     }
-#line 2079 "y.tab.c"
+#line 2088 "y.tab.c"
     break;
 
   case 95:
-#line 379 "combine.y"
+#line 385 "combine.y"
          {  
         extendTree(NON_TERMINAL, "()", "for expression");
         extendTree(NON_TERMINAL, "", "for init expression");
     }
-#line 2088 "y.tab.c"
+#line 2097 "y.tab.c"
     break;
 
   case 96:
-#line 382 "combine.y"
+#line 388 "combine.y"
                                     {
         backToParent();
         extendTree(NON_TERMINAL, "", "for condition");
     }
-#line 2097 "y.tab.c"
+#line 2106 "y.tab.c"
     break;
 
   case 97:
-#line 385 "combine.y"
+#line 391 "combine.y"
                                          {
         backToParent();
         extendTree(NON_TERMINAL, "", "for action");
     }
-#line 2106 "y.tab.c"
+#line 2115 "y.tab.c"
     break;
 
   case 98:
-#line 388 "combine.y"
+#line 394 "combine.y"
                                {  
         backToParent();
         backToParent();
         extendTree(NON_TERMINAL, "", "loop body");
     }
-#line 2116 "y.tab.c"
+#line 2125 "y.tab.c"
     break;
 
   case 99:
-#line 392 "combine.y"
+#line 398 "combine.y"
                       {
         loadNode();
     }
-#line 2124 "y.tab.c"
+#line 2133 "y.tab.c"
     break;
 
   case 100:
-#line 398 "combine.y"
+#line 404 "combine.y"
           { 
         extendOptTree("[]"); 
     }
-#line 2132 "y.tab.c"
+#line 2141 "y.tab.c"
     break;
 
   case 101:
-#line 400 "combine.y"
+#line 406 "combine.y"
                      {
         backToParent();
     }
-#line 2140 "y.tab.c"
+#line 2149 "y.tab.c"
     break;
 
   case 104:
-#line 411 "combine.y"
+#line 417 "combine.y"
             {
         extendTree(NON_TERMINAL, "*", "pointer");
     }
-#line 2148 "y.tab.c"
+#line 2157 "y.tab.c"
     break;
 
   case 107:
-#line 418 "combine.y"
+#line 424 "combine.y"
               {
         extendTree(NON_TERMINAL, "&", "address");
     }
-#line 2156 "y.tab.c"
+#line 2165 "y.tab.c"
     break;
 
   case 109:
-#line 425 "combine.y"
+#line 431 "combine.y"
       {
         saveNode();
     }
-#line 2164 "y.tab.c"
+#line 2173 "y.tab.c"
     break;
 
   case 110:
-#line 427 "combine.y"
+#line 433 "combine.y"
                                                        {
-        extendTerminal(yyvsp[0], "identifier");
+        extendTerminal((yyvsp[0].str), "identifier");
     }
-#line 2172 "y.tab.c"
+#line 2181 "y.tab.c"
     break;
 
   case 111:
-#line 429 "combine.y"
+#line 435 "combine.y"
                         {
         loadNode();
     }
-#line 2180 "y.tab.c"
+#line 2189 "y.tab.c"
     break;
 
   case 118:
-#line 442 "combine.y"
+#line 448 "combine.y"
       { /*establish local scope*/ ; }
-#line 2186 "y.tab.c"
+#line 2195 "y.tab.c"
     break;
 
   case 120:
-#line 443 "combine.y"
+#line 449 "combine.y"
             {
         extendTerminal("break", "break");
     }
-#line 2194 "y.tab.c"
+#line 2203 "y.tab.c"
     break;
 
   case 122:
-#line 446 "combine.y"
+#line 452 "combine.y"
                {
         extendTerminal("continue", "continue");
     }
-#line 2202 "y.tab.c"
+#line 2211 "y.tab.c"
     break;
 
   case 124:
-#line 449 "combine.y"
+#line 455 "combine.y"
              {
         extendTree(NON_TERMINAL, "return", "return");
     }
-#line 2210 "y.tab.c"
+#line 2219 "y.tab.c"
     break;
 
   case 125:
-#line 451 "combine.y"
+#line 457 "combine.y"
                            {
         backToParent();
     }
-#line 2218 "y.tab.c"
+#line 2227 "y.tab.c"
     break;
 
   case 127:
-#line 455 "combine.y"
+#line 461 "combine.y"
             {
         extendTree(NON_TERMINAL, "print", "print");
     }
-#line 2226 "y.tab.c"
+#line 2235 "y.tab.c"
     break;
 
   case 128:
-#line 457 "combine.y"
+#line 463 "combine.y"
          {
         extendTree(NON_TERMINAL, "", "print_content");
-    }
-#line 2234 "y.tab.c"
-    break;
-
-  case 129:
-#line 459 "combine.y"
-                       {
-        backToParent();
-        backToParent();
     }
 #line 2243 "y.tab.c"
     break;
 
+  case 129:
+#line 465 "combine.y"
+                       {
+        backToParent();
+        backToParent();
+    }
+#line 2252 "y.tab.c"
+    break;
+
   case 131:
-#line 463 "combine.y"
+#line 469 "combine.y"
             {
         extendTree(NON_TERMINAL, "input", "input");
     }
-#line 2251 "y.tab.c"
+#line 2260 "y.tab.c"
     break;
 
   case 132:
-#line 465 "combine.y"
+#line 471 "combine.y"
                                  {
         backToParent();
     }
-#line 2259 "y.tab.c"
+#line 2268 "y.tab.c"
     break;
 
   case 135:
-#line 474 "combine.y"
+#line 480 "combine.y"
                {
-        extendTerminal(yyvsp[0], "string");
+        extendTerminal((yyvsp[0].str), "string");
     }
-#line 2267 "y.tab.c"
+#line 2276 "y.tab.c"
     break;
 
   case 136:
-#line 480 "combine.y"
+#line 486 "combine.y"
           {
         extendTree(NON_TERMINAL, "{}", "statement body");
     }
-#line 2275 "y.tab.c"
+#line 2284 "y.tab.c"
     break;
 
   case 137:
-#line 482 "combine.y"
+#line 488 "combine.y"
                          {
         backToParent();
     }
-#line 2283 "y.tab.c"
+#line 2292 "y.tab.c"
     break;
 
   case 140:
-#line 493 "combine.y"
+#line 499 "combine.y"
       {
         extendTree(NON_TERMINAL, "", "declaration");
-    }
-#line 2291 "y.tab.c"
-    break;
-
-  case 141:
-#line 495 "combine.y"
-                      {
-        extendTree(NON_TERMINAL, "", "declaration body");
-        saveNode();
     }
 #line 2300 "y.tab.c"
     break;
 
+  case 141:
+#line 501 "combine.y"
+                      {
+        extendTree(NON_TERMINAL, "", "declaration body");
+        saveNode();
+    }
+#line 2309 "y.tab.c"
+    break;
+
   case 143:
-#line 502 "combine.y"
+#line 508 "combine.y"
                            {
         extendTree(NON_TERMINAL, "", "function declaration");
         broToParent();
         connectParentChild();
     }
-#line 2310 "y.tab.c"
+#line 2319 "y.tab.c"
     break;
 
   case 144:
-#line 507 "combine.y"
+#line 513 "combine.y"
                                 {
         extendTree(NON_TERMINAL, "", "argument declaration list");
         broToParent();
         connectParentChild();
     }
-#line 2320 "y.tab.c"
+#line 2329 "y.tab.c"
     break;
 
   case 146:
-#line 515 "combine.y"
+#line 521 "combine.y"
                          {
         extendTree(NON_TERMINAL, "()", "function argument list");
-    }
-#line 2328 "y.tab.c"
-    break;
-
-  case 147:
-#line 517 "combine.y"
-                                {
-        backToParent();
-        // establish local scope
     }
 #line 2337 "y.tab.c"
     break;
 
+  case 147:
+#line 523 "combine.y"
+                                {
+        backToParent();
+        // establish local scope
+    }
+#line 2346 "y.tab.c"
+    break;
+
   case 149:
-#line 524 "combine.y"
+#line 530 "combine.y"
       {
         extendTree(NON_TERMINAL, "", "function defination");
     }
-#line 2345 "y.tab.c"
+#line 2354 "y.tab.c"
     break;
 
   case 150:
-#line 526 "combine.y"
+#line 532 "combine.y"
                       {
         backToParent();
-    }
-#line 2353 "y.tab.c"
-    break;
-
-  case 155:
-#line 542 "combine.y"
-                      {
-        extendTree(NON_TERMINAL, "", "argument declaration unit");
-        broToParent(1)
     }
 #line 2362 "y.tab.c"
     break;
 
+  case 155:
+#line 548 "combine.y"
+                      {
+        extendTree(NON_TERMINAL, "", "argument declaration unit");
+        broToParent(1);
+    }
+#line 2371 "y.tab.c"
+    break;
+
   case 156:
-#line 545 "combine.y"
+#line 551 "combine.y"
                                 {
         backToParent();
     }
-#line 2370 "y.tab.c"
+#line 2379 "y.tab.c"
     break;
 
   case 157:
-#line 551 "combine.y"
+#line 557 "combine.y"
              {
         extendOptTree("=");
     }
-#line 2378 "y.tab.c"
+#line 2387 "y.tab.c"
     break;
 
   case 158:
-#line 553 "combine.y"
+#line 559 "combine.y"
                         {
         backToParent();
     }
-#line 2386 "y.tab.c"
+#line 2395 "y.tab.c"
     break;
 
   case 160:
-#line 560 "combine.y"
+#line 566 "combine.y"
                                      {
-        extendTerminal(yyvsp[0], "identifier");
+        extendTerminal((yyvsp[0].str), "identifier");
     }
-#line 2394 "y.tab.c"
+#line 2403 "y.tab.c"
     break;
 
   case 161:
-#line 562 "combine.y"
+#line 568 "combine.y"
                         {
         loadNode();
-    }
-#line 2402 "y.tab.c"
-    break;
-
-  case 162:
-#line 568 "combine.y"
-      {
-        extendTree(NON_TERMINAL, "", "function argument unit");
-        saveNode();
     }
 #line 2411 "y.tab.c"
     break;
 
+  case 162:
+#line 574 "combine.y"
+      {
+        extendTree(NON_TERMINAL, "", "function argument unit");
+        saveNode();
+    }
+#line 2420 "y.tab.c"
+    break;
+
   case 163:
-#line 571 "combine.y"
+#line 577 "combine.y"
                                                                 {
         backToParent();
     }
-#line 2419 "y.tab.c"
+#line 2428 "y.tab.c"
     break;
 
   case 168:
-#line 587 "combine.y"
+#line 593 "combine.y"
          { 
         extendTree(NON_TERMINAL, "if", "if expression");
     }
-#line 2427 "y.tab.c"
+#line 2436 "y.tab.c"
     break;
 
   case 169:
-#line 589 "combine.y"
+#line 595 "combine.y"
          {
         extendTree(NON_TERMINAL, "()", "if condition");
-    }
-#line 2435 "y.tab.c"
-    break;
-
-  case 170:
-#line 591 "combine.y"
-                    {
-        backToParent();
-        extendTree(NON_TERMINAL, "", "if statement");
     }
 #line 2444 "y.tab.c"
     break;
 
+  case 170:
+#line 597 "combine.y"
+                    {
+        backToParent();
+        extendTree(NON_TERMINAL, "", "if statement");
+    }
+#line 2453 "y.tab.c"
+    break;
+
   case 172:
-#line 598 "combine.y"
+#line 604 "combine.y"
            {
         extendTree(NON_TERMINAL, "else", "else statement");
     }
-#line 2452 "y.tab.c"
+#line 2461 "y.tab.c"
     break;
 
   case 174:
-#line 601 "combine.y"
+#line 607 "combine.y"
       {}
-#line 2458 "y.tab.c"
+#line 2467 "y.tab.c"
     break;
 
 
-#line 2462 "y.tab.c"
+#line 2471 "y.tab.c"
 
       default: break;
     }
@@ -2690,7 +2699,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 604 "combine.y"
+#line 610 "combine.y"
 
 
 %{
@@ -2739,7 +2748,7 @@ yyreturn:
 
     void broToParent(int num = -1) {
         grammerTree* parent = curNode->parent;
-        selfPos = findSelfPos(curNode)
+        selfPos = findSelfPos(curNode);
         if (num == -1) i = 0;
         else i =  selfPos - num
         for (int n = i; n < selfPos; n++) {
@@ -2759,19 +2768,6 @@ yyreturn:
         curNode = parent;
     }
 
-    // void adjustOptNode(grammerTree* optNode) {
-    //     grammerTree* parent = optNode->parent;
-    //     int pos;
-    //     if((pos = findSelfPos(optNode)) == -1) return;
-    //     grammerTree* node = parent->child[pos - 1];
-    //     parent->child[pos - 1] = optNode;
-    //     parent->size--;
-    //     optNode->child[1] = optNode->child[0];
-    //     optNode->child[0] = node;
-    //     node->parent = optNode;
-    //     optNode->size++;
-    // }
-
     int main(void) { 
         root = createGrammerNode(NONTERMINAL, "start", -1);
         curNode = root;
@@ -2782,8 +2778,5 @@ yyreturn:
         closeYACC();
         freeGrammerTree(root);
         return 0; 
-        // grammerItem grammerHead
-        // grammerItem* grammerStackTail;
-        // int size = 0;
     }   
 %}
