@@ -28,11 +28,11 @@ int push_child(grammerTree* parent, grammerTree* node){
     return parent->size++;
 }
 
-grammerTree* createGrammerNode(int isTerminal, const char* word, const char* grammer, int index) {
+grammerTree* createGrammerNode(int isTerminal, const char* word, const char* grammer) {
     grammerTree* newNode = (grammerTree*)(malloc(sizeof(grammerTree)));
     newNode->size = 0;
     newNode->parent = NULL;
-    newNode->index = index;
+    newNode->index = -1;
     newNode->isTerminal = isTerminal;
     strcpy(newNode->word, word);
     strcpy(newNode->grammer, grammer);
@@ -55,6 +55,8 @@ void freeGrammerTree(grammerTree* root) {
 }
 
 void printGrammerNode(grammerTree* node) {
+    static int word_pos = 0;
+    node->index = word_pos++;
     char str[MAX_OUTPUT_LENGTH];
     sprintf(str, "%-8d: \t%-32s\t%-32s\t", node->index, node->grammer, node->word);
     char child[24] = "child: ";

@@ -18,7 +18,6 @@ extern "C"
 };
 #endif
 
-int word_pos = 0;
 grammerTree* root;
 grammerTree* curNode;
 grammerTree* tempPointer;
@@ -445,7 +444,6 @@ decorated_identifier
 
 statement
     : expression SEMICOLON
-    //| function { print_non_terminal_symbol(word_pos++, ""); }
     | for_expression
     | do_expression
     | while_expression
@@ -554,6 +552,7 @@ argument_declaration_unit
     : init_identifier {
         extendTree(NON_TERMINAL, "", "argument declaration unit");
         broToParent(1);
+    } argument_declaration_init {
         backToParent();
     }
     ; 
@@ -617,7 +616,7 @@ condition_tail
 
    
 void extendTree(int isTerminal, const char* word, const char* grammer) {
-    tempPointer = createGrammerNode(isTerminal, word, grammer, word_pos++); 
+    tempPointer = createGrammerNode(isTerminal, word, grammer); 
     push_child(curNode, tempPointer); 
     if (isTerminal == NON_TERMINAL) curNode = tempPointer;
 }
@@ -668,7 +667,7 @@ void connectParentChild() {
 }
 
 int main(void) { 
-    root = createGrammerNode(NON_TERMINAL, "start", -1, word_pos++);
+    root = createGrammerNode(NON_TERMINAL, "start", -1);
     curNode = root;
     tempPointer = NULL;
     yyparse();
