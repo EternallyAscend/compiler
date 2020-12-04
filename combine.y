@@ -4,7 +4,7 @@
 #include "grammerTree.h"
 #include "y.tab.h"
 
-#ifndef __cplusplus
+#ifdef __cplusplus
 extern "C" 
 
 {
@@ -14,7 +14,7 @@ extern "C"
     extern int yylex(void);
     extern char* yytext;
 
-#ifndef __cplusplus
+#ifdef __cplusplus
 };
 #endif
 
@@ -644,8 +644,9 @@ void extendTerminal(const char* word, const char* grammer) {
     extendTree(TERMINAL, word, grammer);
 }
 
-void broToParent(int num = -1) {
+void broToParent(int num) {
     grammerTree* parent = curNode->parent;
+    int i, selfPos;
     selfPos = findSelfPos(curNode);
     if (num == -1) i = 0;
     else i =  selfPos - num;
@@ -658,7 +659,7 @@ void broToParent(int num = -1) {
 
 void connectParentChild() {
     grammerTree* parent = curNode->parent;
-    grammerTree* child[] = curNode->child;
+    grammerTree** child = curNode->child;
     for (int i = 0; i < curNode->size; i++) {
         push_child(parent, child[i]);
     }
@@ -667,7 +668,7 @@ void connectParentChild() {
 }
 
 int main(void) { 
-    root = createGrammerNode(NON_TERMINAL, "start", -1);
+    root = createGrammerNode(NON_TERMINAL, "", "start");
     curNode = root;
     tempPointer = NULL;
     yyparse();
