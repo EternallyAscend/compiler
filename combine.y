@@ -554,7 +554,6 @@ argument_declaration_unit
     : init_identifier {
         extendTree(NON_TERMINAL, "", "argument declaration unit");
         broToParent(1);
-    } argument_declaration_init {
         backToParent();
     }
     ; 
