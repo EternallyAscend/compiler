@@ -14,7 +14,8 @@ extern "C"
     extern FILE* yyin;
     void yyerror(const char *s);
     extern int yylex(void);
-    extern char* yytext;
+    extern char* name;
+    extern int yylineno;
 
 #ifdef __cplusplus
 };
@@ -35,6 +36,10 @@ void connectParentChild();
 
 void saveNode();
 void loadNode();
+
+void appendLexOutputIDFile(const char* type, const char* name, const char* attribute);
+void declarationId(const char* name);
+void useId(const char* name);
 
 %}
 
@@ -445,6 +450,7 @@ decorated_identifier
     : {
         saveNode();
     } address_decorator high_nter_decorator IDENTIFIER {
+        useId($<str>4);
         extendTerminal($<str>4, "identifier");
     } high_ay_decorator {
         loadNode();
@@ -585,6 +591,7 @@ argument_declaration_init
 
 init_identifier
     : high_nter_decorator IDENTIFIER {
+        declarationId($<str>2);
         extendTerminal($<str>2, "identifier");
     } high_ay_decorator {
         loadNode();
@@ -691,6 +698,44 @@ void connectParentChild() {
     }
     freeGrammerNode(curNode);
     curNode = parent;
+}
+
+void useId(const char* name) {
+    char* attribute = (char*)malloc(sizeof(char)*64);
+	if (searchWordGlobal(name)) {
+		struct Word* word = getWordInfo(name);
+		sprintf(attribute, "0x%x", word->symbolPosition);
+		free(word);
+	}
+	else {
+		printf("not defined.\n");
+		sprintf(attribute, "undefined");
+	}
+	appendLexOutputIDFile("IDENTIFIER", name, attribute);
+	free(attribute);
+}
+
+void declarationId(const char* name) {
+    char* attribute = (char*)malloc(sizeof(char)*64);
+	if (searchWord(name)) {
+		printf("Exist at line %d.\n", yylineno);
+		printf("mutidefined.\n");
+		sprintf(attribute, "mutidefined");
+	}
+	else {
+		unsigned int position = addWord(name);
+		sprintf(attribute, "0x%x", position);
+	}
+	appendLexOutputIDFile("IDENTIFIER", name, attribute);
+	free(attribute);
+}
+
+void appendLexOutputIDFile(const char* type, const char* name, const char* attribute) {
+	char* result = (char*)malloc(sizeof(char)*64);
+	sprintf(result, "%-15s%-15s%-15s\n", type, name, attribute);
+	appendLEX(result);
+	// printf("%s", result);
+	free(result);
 }
 
 int main(int arg, char* argv[]) {

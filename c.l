@@ -70,19 +70,19 @@ struct			{ appendLexOutputFile("STRUCT", yytext, ""); return(STRUCT); }
 
 [a-zA-Z_]([0-9]|[a-zA-Z_]|$)*   {
 	{
-		char* attribute = (char*)malloc(sizeof(char)*64);
-		if (searchWord(yytext)) {
-			// printf("Exist at line %d.\n", yylineno);
-			struct Word* word = getWordInfo(yytext);
-			sprintf(attribute, "0x%x", word->symbolPosition);
-			free(word);
-		}
-		else {
-			unsigned int position = addWord(yytext);
-			sprintf(attribute, "0x%x", position);
-		}
-		appendLexOutputFile("IDENTIFIER", yytext, attribute);
-		free(attribute);
+		// char* attribute = (char*)malloc(sizeof(char)*64);
+		// if (searchWord(yytext)) {
+		// 	// printf("Exist at line %d.\n", yylineno);
+		// 	struct Word* word = getWordInfo(yytext);
+		// 	sprintf(attribute, "0x%x", word->symbolPosition);
+		// 	free(word);
+		// }
+		// else {
+		// 	unsigned int position = addWord(yytext);
+		// 	sprintf(attribute, "0x%x", position);
+		// }
+		// appendLexOutputFile("IDENTIFIER", yytext, attribute);
+		// free(attribute);
 	}
 	yylval.str=yytext;
 	return(IDENTIFIER);

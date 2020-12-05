@@ -24,11 +24,11 @@ extern "C" {
 
 	int popScope();
 
-	int addWord(char* name);
+	int addWord(const char* name);
 
-	int searchWord(char* name);
+	int searchWord(const char* name);
 
-	int searchWordGlobal(char* name);
+	int searchWordGlobal(const char* name);
 
 	int setType(char* name, int type);
 
@@ -42,9 +42,9 @@ extern "C" {
 
 	int restartTable();
 
-	struct Word* getWordInfo(char* name);
+	struct Word* getWordInfo(const char* name);
 
-	struct Word* getWordInfoFunction(char* name);
+	struct Word* getWordInfoFunction(const char* name);
 
 #ifdef __cplusplus
 }

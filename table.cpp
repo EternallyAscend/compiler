@@ -47,7 +47,7 @@ int popScope() {
 	}
 }
 
-int addWord(char* name) {
+int addWord(const char* name) {
 	if (NULL == symbolTable) {
 		return 0;
 	}
@@ -56,7 +56,7 @@ int addWord(char* name) {
 	}
 }
 
-int searchWord(char* name) {
+int searchWord(const char* name) {
 	if (NULL == symbolTable) {
 		return 0;
 	}
@@ -65,7 +65,7 @@ int searchWord(char* name) {
 	}
 }
 
-int searchWordGlobal(char* name) {
+int searchWordGlobal(const char* name) {
 	if (NULL == symbolTable) {
 		return 0;
 	}
@@ -74,7 +74,7 @@ int searchWordGlobal(char* name) {
 	}
 }
 
-int setType(char* name, int type) {
+int setType(const char* name, int type) {
 	if (NULL == symbolTable) {
 		return 0;
 	}
@@ -128,7 +128,7 @@ int restartTable() {
 	}
 }
 
-struct Word* getWordInfo(char* name) {
+struct Word* getWordInfo(const char* name) {
 	if (NULL == symbolTable) {
 		return NULL;
 	}
@@ -137,7 +137,7 @@ struct Word* getWordInfo(char* name) {
 	}
 }
 
-struct Word* getWordInfoFunction(char* name) {
+struct Word* getWordInfoFunction(const char* name) {
 	if (NULL == symbolTable) {
 		return NULL;
 	}
