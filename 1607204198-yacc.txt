@@ -1,0 +1,104 @@
+0   : 	type      	int               	child: 
+1   : 	identifier	main              	child: 
+2   : 	type      	int               	child: 
+3   : 	identifier	cursor            	child: 
+4   : 	function argument unit	                  	child:  2 3
+5   : 	function argument list	()                	child:  4
+6   : 	identifier	cursor            	child: 
+7   : 	const     	0                 	child: 
+8   : 	expression	=                 	child:  6 7
+9   : 	identifier	cursor            	child: 
+10  : 	identifier	cursor            	child: 
+11  : 	identifier	cursor            	child: 
+12  : 	expression	^                 	child:  10 11
+13  : 	expression	=                 	child:  9 12
+14  : 	statement body	{}                	child:  13
+15  : 	loop body 	do                	child:  14
+16  : 	identifier	cursor            	child: 
+17  : 	identifier	cursor            	child: 
+18  : 	const     	2                 	child: 
+19  : 	expression	/                 	child:  17 18
+20  : 	expression	!=                	child:  16 19
+21  : 	expression	()                	child:  20
+22  : 	loop condition	while             	child:  21
+23  : 	do while loop	                  	child:  15 22
+24  : 	identifier	cursor            	child: 
+25  : 	identifier	cursor            	child: 
+26  : 	expression	==                	child:  24 25
+27  : 	if condition	()                	child:  26
+28  : 	identifier	cursor            	child: 
+29  : 	const     	10010             	child: 
+30  : 	expression	=                 	child:  28 29
+31  : 	statement body	{}                	child:  30
+32  : 	identifier	cursor            	child: 
+33  : 	const     	10086             	child: 
+34  : 	expression	==                	child:  32 33
+35  : 	if condition	()                	child:  34
+36  : 	identifier	cursor            	child: 
+37  : 	const     	10010             	child: 
+38  : 	const     	110               	child: 
+39  : 	expression	*                 	child:  37 38
+40  : 	expression	=                 	child:  36 39
+41  : 	statement body	{}                	child:  40
+42  : 	identifier	cursor            	child: 
+43  : 	const     	911               	child: 
+44  : 	expression	==                	child:  42 43
+45  : 	if condition	()                	child:  44
+46  : 	identifier	cursor            	child: 
+47  : 	const     	731               	child: 
+48  : 	expression	=                 	child:  46 47
+49  : 	statement body	{}                	child:  48
+50  : 	for init expression	                  	child: 
+51  : 	identifier	cursor            	child: 
+52  : 	const     	10                	child: 
+53  : 	expression	>                 	child:  51 52
+54  : 	for condition	                  	child:  53
+55  : 	identifier	cursor            	child: 
+56  : 	identifier	cursor            	child: 
+57  : 	const     	1                 	child: 
+58  : 	expression	+                 	child:  56 57
+59  : 	expression	=                 	child:  55 58
+60  : 	for action	                  	child:  59
+61  : 	for expression	()                	child:  50 54 60
+62  : 	identifier	cursor            	child: 
+63  : 	print_content	                  	child:  62
+64  : 	print     	print             	child:  63
+65  : 	statement body	{}                	child:  64
+66  : 	loop body 	                  	child:  65
+67  : 	for loop  	for               	child:  61 66
+68  : 	identifier	cursor            	child: 
+69  : 	identifier	cursor            	child: 
+70  : 	const     	1                 	child: 
+71  : 	expression	+                 	child:  69 70
+72  : 	expression	=                 	child:  68 71
+73  : 	expression	()                	child:  72
+74  : 	identifier	cursor            	child: 
+75  : 	identifier	cursor            	child: 
+76  : 	const     	1                 	child: 
+77  : 	expression	+                 	child:  75 76
+78  : 	expression	=                 	child:  74 77
+79  : 	statement body	{}                	child:  78
+80  : 	loop body 	                  	child:  79
+81  : 	while loop	while             	child:  73 80
+82  : 	identifier	cursor            	child: 
+83  : 	identifier	cursor            	child: 
+84  : 	expression	!                 	child:  83
+85  : 	identifier	cursor            	child: 
+86  : 	expression	&&                	child:  84 85
+87  : 	expression	||                	child:  82 86
+88  : 	return    	return            	child:  87
+89  : 	else statement	else              	child:  67 81 88
+90  : 	if statement	                  	child:  49 89
+91  : 	function declaration	                  	child:  45 90
+92  : 	if expression	if                	child:  91
+93  : 	else statement	else              	child:  92
+94  : 	if statement	                  	child:  41 93
+95  : 	if expression	if                	child:  35 94
+96  : 	else statement	else              	child:  95
+97  : 	if statement	                  	child:  31 96
+98  : 	if expression	if                	child:  27 97
+99  : 	statement body	{}                	child:  8 23 98
+100 : 	function defination	                  	child:  99
+101 : 	declaration body	                  	child:  1 5 100
+102 : 	declaration	                  	child:  0 101
+103 : 	start     	                  	child:  102
