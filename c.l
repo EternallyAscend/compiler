@@ -106,7 +106,7 @@ void appentLexOutputFile(const char* type, const char* name, const char* attribu
 	char* result = (char*)malloc(sizeof(char)*64);
 	sprintf(result, "%-15s%-15s%-15s\n", type, name, attribute);
 	appendLEX(result);
-	printf("%s", result);
+	// printf("%s", result);
 	free(result);
 }
 
