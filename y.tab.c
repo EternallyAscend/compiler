@@ -67,6 +67,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "file.h"
+#include "table.h"
 #include "grammerTree.h"
 #include "y.tab.h"
 
@@ -101,7 +102,7 @@ void saveNode();
 void loadNode();
 
 
-#line 105 "y.tab.c" /* yacc.c:339  */
+#line 106 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -231,11 +232,11 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 42 "c.y" /* yacc.c:355  */
+#line 43 "c.y" /* yacc.c:355  */
 
     char* str;
 
-#line 239 "y.tab.c" /* yacc.c:355  */
+#line 240 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -252,7 +253,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 256 "y.tab.c" /* yacc.c:358  */
+#line 257 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -554,24 +555,24 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   107,   107,   111,   113,   111,   116,   120,   124,   126,
-     124,   129,   133,   137,   139,   137,   142,   146,   150,   152,
-     150,   155,   159,   163,   163,   168,   168,   176,   180,   180,
-     185,   185,   190,   190,   195,   195,   200,   204,   208,   210,
-     208,   213,   215,   213,   218,   222,   226,   228,   226,   231,
-     233,   231,   236,   238,   236,   241,   245,   249,   251,   249,
-     254,   258,   258,   266,   266,   269,   273,   273,   278,   278,
-     284,   290,   290,   295,   299,   302,   305,   305,   314,   319,
-     322,   324,   314,   330,   333,   335,   330,   371,   372,   373,
-     377,   378,   382,   383,   387,   391,   394,   397,   400,   387,
-     410,   410,   418,   419,   423,   423,   426,   430,   433,   437,
-     439,   437,   447,   448,   449,   450,   451,   452,   453,   453,
-     454,   454,   457,   457,   460,   460,   465,   466,   468,   470,
-     466,   474,   476,   474,   484,   485,   491,   491,   499,   500,
-     504,   506,   504,   513,   518,   518,   526,   528,   526,   535,
-     535,   540,   544,   548,   549,   553,   553,   562,   562,   567,
-     571,   571,   579,   579,   588,   589,   593,   594,   598,   600,
-     602,   598,   609,   609,   612
+       0,   108,   108,   112,   114,   112,   117,   121,   125,   127,
+     125,   130,   134,   138,   140,   138,   143,   147,   151,   153,
+     151,   156,   160,   164,   164,   169,   169,   177,   181,   181,
+     186,   186,   191,   191,   196,   196,   201,   205,   209,   211,
+     209,   214,   216,   214,   219,   223,   227,   229,   227,   232,
+     234,   232,   237,   239,   237,   242,   246,   250,   252,   250,
+     255,   259,   259,   267,   267,   270,   274,   274,   279,   279,
+     285,   291,   291,   296,   300,   303,   306,   306,   315,   320,
+     323,   325,   315,   331,   334,   336,   331,   372,   373,   374,
+     378,   379,   383,   384,   388,   392,   395,   398,   401,   388,
+     411,   411,   419,   420,   424,   424,   427,   431,   434,   438,
+     440,   438,   448,   449,   450,   451,   452,   453,   454,   454,
+     455,   455,   458,   458,   461,   461,   466,   467,   469,   471,
+     467,   475,   477,   475,   485,   486,   492,   492,   500,   501,
+     505,   507,   505,   514,   519,   519,   527,   529,   527,   536,
+     536,   541,   545,   549,   550,   554,   554,   563,   563,   568,
+     572,   572,   580,   580,   589,   590,   594,   595,   599,   601,
+     603,   599,   610,   610,   613
 };
 #endif
 
@@ -1550,837 +1551,837 @@ yyreduce:
   switch (yyn)
     {
         case 3:
-#line 111 "c.y" /* yacc.c:1646  */
+#line 112 "c.y" /* yacc.c:1646  */
     {
         extendOptTree(",");
     }
-#line 1558 "y.tab.c" /* yacc.c:1646  */
+#line 1559 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 113 "c.y" /* yacc.c:1646  */
+#line 114 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 1566 "y.tab.c" /* yacc.c:1646  */
+#line 1567 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 116 "c.y" /* yacc.c:1646  */
+#line 117 "c.y" /* yacc.c:1646  */
     {}
-#line 1572 "y.tab.c" /* yacc.c:1646  */
+#line 1573 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 124 "c.y" /* yacc.c:1646  */
+#line 125 "c.y" /* yacc.c:1646  */
     { 
         extendOptTree("=");
     }
-#line 1580 "y.tab.c" /* yacc.c:1646  */
+#line 1581 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 126 "c.y" /* yacc.c:1646  */
+#line 127 "c.y" /* yacc.c:1646  */
     { 
         backToParent();
     }
-#line 1588 "y.tab.c" /* yacc.c:1646  */
+#line 1589 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 137 "c.y" /* yacc.c:1646  */
+#line 138 "c.y" /* yacc.c:1646  */
     { 
         extendOptTree("||");
     }
-#line 1596 "y.tab.c" /* yacc.c:1646  */
+#line 1597 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 139 "c.y" /* yacc.c:1646  */
+#line 140 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 1604 "y.tab.c" /* yacc.c:1646  */
+#line 1605 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 150 "c.y" /* yacc.c:1646  */
+#line 151 "c.y" /* yacc.c:1646  */
     {  
         extendOptTree("&&");
     }
-#line 1612 "y.tab.c" /* yacc.c:1646  */
+#line 1613 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 152 "c.y" /* yacc.c:1646  */
+#line 153 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 1620 "y.tab.c" /* yacc.c:1646  */
+#line 1621 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 163 "c.y" /* yacc.c:1646  */
+#line 164 "c.y" /* yacc.c:1646  */
     {  
         extendOptTree("==");
     }
-#line 1628 "y.tab.c" /* yacc.c:1646  */
+#line 1629 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 165 "c.y" /* yacc.c:1646  */
+#line 166 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 1636 "y.tab.c" /* yacc.c:1646  */
+#line 1637 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 168 "c.y" /* yacc.c:1646  */
+#line 169 "c.y" /* yacc.c:1646  */
     {  
         extendOptTree("!=");
     }
-#line 1644 "y.tab.c" /* yacc.c:1646  */
+#line 1645 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 170 "c.y" /* yacc.c:1646  */
+#line 171 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 1652 "y.tab.c" /* yacc.c:1646  */
+#line 1653 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 180 "c.y" /* yacc.c:1646  */
+#line 181 "c.y" /* yacc.c:1646  */
     {  
         extendOptTree(">");
     }
-#line 1660 "y.tab.c" /* yacc.c:1646  */
+#line 1661 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 182 "c.y" /* yacc.c:1646  */
+#line 183 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 1668 "y.tab.c" /* yacc.c:1646  */
+#line 1669 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 185 "c.y" /* yacc.c:1646  */
+#line 186 "c.y" /* yacc.c:1646  */
     {  
         extendOptTree(">=");
     }
-#line 1676 "y.tab.c" /* yacc.c:1646  */
+#line 1677 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 187 "c.y" /* yacc.c:1646  */
+#line 188 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 1684 "y.tab.c" /* yacc.c:1646  */
+#line 1685 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 190 "c.y" /* yacc.c:1646  */
+#line 191 "c.y" /* yacc.c:1646  */
     {  
         extendOptTree("<");
     }
-#line 1692 "y.tab.c" /* yacc.c:1646  */
+#line 1693 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 192 "c.y" /* yacc.c:1646  */
+#line 193 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 1700 "y.tab.c" /* yacc.c:1646  */
+#line 1701 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 195 "c.y" /* yacc.c:1646  */
+#line 196 "c.y" /* yacc.c:1646  */
     {  
         extendOptTree("<=");
     }
-#line 1708 "y.tab.c" /* yacc.c:1646  */
+#line 1709 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 197 "c.y" /* yacc.c:1646  */
+#line 198 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 1716 "y.tab.c" /* yacc.c:1646  */
+#line 1717 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 208 "c.y" /* yacc.c:1646  */
+#line 209 "c.y" /* yacc.c:1646  */
     { 
         extendOptTree("+");
     }
-#line 1724 "y.tab.c" /* yacc.c:1646  */
+#line 1725 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 210 "c.y" /* yacc.c:1646  */
+#line 211 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 1732 "y.tab.c" /* yacc.c:1646  */
+#line 1733 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 213 "c.y" /* yacc.c:1646  */
+#line 214 "c.y" /* yacc.c:1646  */
     { 
         extendOptTree("-");
     }
-#line 1740 "y.tab.c" /* yacc.c:1646  */
+#line 1741 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 215 "c.y" /* yacc.c:1646  */
+#line 216 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 1748 "y.tab.c" /* yacc.c:1646  */
+#line 1749 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 226 "c.y" /* yacc.c:1646  */
+#line 227 "c.y" /* yacc.c:1646  */
     { 
         extendOptTree("%");
     }
-#line 1756 "y.tab.c" /* yacc.c:1646  */
+#line 1757 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 228 "c.y" /* yacc.c:1646  */
+#line 229 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 1764 "y.tab.c" /* yacc.c:1646  */
+#line 1765 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 231 "c.y" /* yacc.c:1646  */
+#line 232 "c.y" /* yacc.c:1646  */
     { 
         extendOptTree("*");
     }
-#line 1772 "y.tab.c" /* yacc.c:1646  */
+#line 1773 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 233 "c.y" /* yacc.c:1646  */
+#line 234 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 1780 "y.tab.c" /* yacc.c:1646  */
+#line 1781 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 236 "c.y" /* yacc.c:1646  */
+#line 237 "c.y" /* yacc.c:1646  */
     { 
         extendOptTree("/");
     }
-#line 1788 "y.tab.c" /* yacc.c:1646  */
+#line 1789 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 238 "c.y" /* yacc.c:1646  */
+#line 239 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 1796 "y.tab.c" /* yacc.c:1646  */
+#line 1797 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 249 "c.y" /* yacc.c:1646  */
+#line 250 "c.y" /* yacc.c:1646  */
     { 
         extendOptTree("^");
     }
-#line 1804 "y.tab.c" /* yacc.c:1646  */
+#line 1805 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 251 "c.y" /* yacc.c:1646  */
+#line 252 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 1812 "y.tab.c" /* yacc.c:1646  */
+#line 1813 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 258 "c.y" /* yacc.c:1646  */
+#line 259 "c.y" /* yacc.c:1646  */
     {
         saveNode();
     }
-#line 1820 "y.tab.c" /* yacc.c:1646  */
+#line 1821 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 260 "c.y" /* yacc.c:1646  */
+#line 261 "c.y" /* yacc.c:1646  */
     {
         loadNode();
     }
-#line 1828 "y.tab.c" /* yacc.c:1646  */
+#line 1829 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 266 "c.y" /* yacc.c:1646  */
+#line 267 "c.y" /* yacc.c:1646  */
     { 
         extendTree(NON_TERMINAL, "!", "expression");
     }
-#line 1836 "y.tab.c" /* yacc.c:1646  */
+#line 1837 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 273 "c.y" /* yacc.c:1646  */
+#line 274 "c.y" /* yacc.c:1646  */
     { 
         extendTree(NON_TERMINAL, "()", "expression");
     }
-#line 1844 "y.tab.c" /* yacc.c:1646  */
+#line 1845 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 275 "c.y" /* yacc.c:1646  */
+#line 276 "c.y" /* yacc.c:1646  */
     { 
         backToParent();
     }
-#line 1852 "y.tab.c" /* yacc.c:1646  */
+#line 1853 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 278 "c.y" /* yacc.c:1646  */
+#line 279 "c.y" /* yacc.c:1646  */
     {
         //saveNode();
         extendTree(TERMINAL, (yyvsp[0].str), "identifier");
     }
-#line 1861 "y.tab.c" /* yacc.c:1646  */
+#line 1862 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 281 "c.y" /* yacc.c:1646  */
+#line 282 "c.y" /* yacc.c:1646  */
     {
         //loadNode();
     }
-#line 1869 "y.tab.c" /* yacc.c:1646  */
+#line 1870 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 284 "c.y" /* yacc.c:1646  */
+#line 285 "c.y" /* yacc.c:1646  */
     { 
         extendTree(TERMINAL, (yyvsp[0].str), "identifier");
     }
-#line 1877 "y.tab.c" /* yacc.c:1646  */
+#line 1878 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 290 "c.y" /* yacc.c:1646  */
+#line 291 "c.y" /* yacc.c:1646  */
     {
         extendOptTree("->");
         extendTerminal("IDENTIFIER", (yyvsp[0].str));
         backToParent();
     }
-#line 1887 "y.tab.c" /* yacc.c:1646  */
+#line 1888 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 299 "c.y" /* yacc.c:1646  */
+#line 300 "c.y" /* yacc.c:1646  */
     { 
         extendTerminal("int", "type");
     }
-#line 1895 "y.tab.c" /* yacc.c:1646  */
+#line 1896 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 302 "c.y" /* yacc.c:1646  */
+#line 303 "c.y" /* yacc.c:1646  */
     { 
         extendTerminal("void", "type");
     }
-#line 1903 "y.tab.c" /* yacc.c:1646  */
+#line 1904 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 305 "c.y" /* yacc.c:1646  */
+#line 306 "c.y" /* yacc.c:1646  */
     {
         extendTree(NON_TERMINAL, "struct", "type");
     }
-#line 1911 "y.tab.c" /* yacc.c:1646  */
+#line 1912 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 77:
-#line 307 "c.y" /* yacc.c:1646  */
+#line 308 "c.y" /* yacc.c:1646  */
     {  
         extendTerminal((yyvsp[0].str), "identifier");
         backToParent();
     }
-#line 1920 "y.tab.c" /* yacc.c:1646  */
+#line 1921 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 78:
-#line 314 "c.y" /* yacc.c:1646  */
+#line 315 "c.y" /* yacc.c:1646  */
     { 
         /*establish local scope*/ ;
         saveNode();
         extendTree(NON_TERMINAL, "", "do while loop");
         extendTree(NON_TERMINAL, "do", "loop body");
     }
-#line 1931 "y.tab.c" /* yacc.c:1646  */
+#line 1932 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 79:
-#line 319 "c.y" /* yacc.c:1646  */
+#line 320 "c.y" /* yacc.c:1646  */
     {
         backToParent();
         extendTree(NON_TERMINAL, "while", "loop condition");
     }
-#line 1940 "y.tab.c" /* yacc.c:1646  */
+#line 1941 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 80:
-#line 322 "c.y" /* yacc.c:1646  */
+#line 323 "c.y" /* yacc.c:1646  */
     {  
         extendTree(NON_TERMINAL, "()", "expression");
     }
-#line 1948 "y.tab.c" /* yacc.c:1646  */
+#line 1949 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 81:
-#line 324 "c.y" /* yacc.c:1646  */
+#line 325 "c.y" /* yacc.c:1646  */
     { 
         loadNode();
     }
-#line 1956 "y.tab.c" /* yacc.c:1646  */
+#line 1957 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 83:
-#line 330 "c.y" /* yacc.c:1646  */
+#line 331 "c.y" /* yacc.c:1646  */
     {  
         saveNode();
         extendTree(NON_TERMINAL, "while", "while loop");
     }
-#line 1965 "y.tab.c" /* yacc.c:1646  */
+#line 1966 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 84:
-#line 333 "c.y" /* yacc.c:1646  */
+#line 334 "c.y" /* yacc.c:1646  */
     { 
         extendTree(NON_TERMINAL, "()", "expression"); 
     }
-#line 1973 "y.tab.c" /* yacc.c:1646  */
+#line 1974 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 85:
-#line 335 "c.y" /* yacc.c:1646  */
+#line 336 "c.y" /* yacc.c:1646  */
     { 
         backToParent(); 
         /*establish local scope*/ ;
         extendTree(NON_TERMINAL, "", "loop body");
     }
-#line 1983 "y.tab.c" /* yacc.c:1646  */
+#line 1984 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 86:
-#line 339 "c.y" /* yacc.c:1646  */
+#line 340 "c.y" /* yacc.c:1646  */
     {
         loadNode();
     }
-#line 1991 "y.tab.c" /* yacc.c:1646  */
+#line 1992 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 94:
-#line 387 "c.y" /* yacc.c:1646  */
+#line 388 "c.y" /* yacc.c:1646  */
     { 
         /*establish local scope*/ ;
         saveNode();
         extendTree(NON_TERMINAL, "for", "for loop");
     }
-#line 2001 "y.tab.c" /* yacc.c:1646  */
+#line 2002 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 95:
-#line 391 "c.y" /* yacc.c:1646  */
+#line 392 "c.y" /* yacc.c:1646  */
     {  
         extendTree(NON_TERMINAL, "()", "for expression");
         extendTree(NON_TERMINAL, "", "for init expression");
     }
-#line 2010 "y.tab.c" /* yacc.c:1646  */
+#line 2011 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 96:
-#line 394 "c.y" /* yacc.c:1646  */
+#line 395 "c.y" /* yacc.c:1646  */
     {
         backToParent();
         extendTree(NON_TERMINAL, "", "for condition");
     }
-#line 2019 "y.tab.c" /* yacc.c:1646  */
+#line 2020 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 97:
-#line 397 "c.y" /* yacc.c:1646  */
+#line 398 "c.y" /* yacc.c:1646  */
     {
         backToParent();
         extendTree(NON_TERMINAL, "", "for action");
     }
-#line 2028 "y.tab.c" /* yacc.c:1646  */
+#line 2029 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 98:
-#line 400 "c.y" /* yacc.c:1646  */
+#line 401 "c.y" /* yacc.c:1646  */
     {  
         backToParent();
         backToParent();
         extendTree(NON_TERMINAL, "", "loop body");
     }
-#line 2038 "y.tab.c" /* yacc.c:1646  */
+#line 2039 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 99:
-#line 404 "c.y" /* yacc.c:1646  */
+#line 405 "c.y" /* yacc.c:1646  */
     {
         loadNode();
     }
-#line 2046 "y.tab.c" /* yacc.c:1646  */
+#line 2047 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 100:
-#line 410 "c.y" /* yacc.c:1646  */
+#line 411 "c.y" /* yacc.c:1646  */
     { 
         extendOptTree("[]"); 
     }
-#line 2054 "y.tab.c" /* yacc.c:1646  */
+#line 2055 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 101:
-#line 412 "c.y" /* yacc.c:1646  */
+#line 413 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 2062 "y.tab.c" /* yacc.c:1646  */
+#line 2063 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 104:
-#line 423 "c.y" /* yacc.c:1646  */
+#line 424 "c.y" /* yacc.c:1646  */
     {
         extendTree(NON_TERMINAL, "*", "pointer");
     }
-#line 2070 "y.tab.c" /* yacc.c:1646  */
+#line 2071 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 107:
-#line 430 "c.y" /* yacc.c:1646  */
+#line 431 "c.y" /* yacc.c:1646  */
     {
         extendTree(NON_TERMINAL, "&", "address");
     }
-#line 2078 "y.tab.c" /* yacc.c:1646  */
+#line 2079 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 109:
-#line 437 "c.y" /* yacc.c:1646  */
+#line 438 "c.y" /* yacc.c:1646  */
     {
         saveNode();
     }
-#line 2086 "y.tab.c" /* yacc.c:1646  */
+#line 2087 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 110:
-#line 439 "c.y" /* yacc.c:1646  */
+#line 440 "c.y" /* yacc.c:1646  */
     {
         extendTerminal((yyvsp[0].str), "identifier");
     }
-#line 2094 "y.tab.c" /* yacc.c:1646  */
+#line 2095 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 111:
-#line 441 "c.y" /* yacc.c:1646  */
+#line 442 "c.y" /* yacc.c:1646  */
     {
         loadNode();
     }
-#line 2102 "y.tab.c" /* yacc.c:1646  */
+#line 2103 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 118:
-#line 453 "c.y" /* yacc.c:1646  */
+#line 454 "c.y" /* yacc.c:1646  */
     { /*establish local scope*/ ; }
-#line 2108 "y.tab.c" /* yacc.c:1646  */
+#line 2109 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 120:
-#line 454 "c.y" /* yacc.c:1646  */
+#line 455 "c.y" /* yacc.c:1646  */
     {
         extendTerminal("break", "break");
     }
-#line 2116 "y.tab.c" /* yacc.c:1646  */
+#line 2117 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 122:
-#line 457 "c.y" /* yacc.c:1646  */
+#line 458 "c.y" /* yacc.c:1646  */
     {
         extendTerminal("continue", "continue");
     }
-#line 2124 "y.tab.c" /* yacc.c:1646  */
+#line 2125 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 124:
-#line 460 "c.y" /* yacc.c:1646  */
+#line 461 "c.y" /* yacc.c:1646  */
     {
         extendTree(NON_TERMINAL, "return", "return");
     }
-#line 2132 "y.tab.c" /* yacc.c:1646  */
+#line 2133 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 125:
-#line 462 "c.y" /* yacc.c:1646  */
+#line 463 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 2140 "y.tab.c" /* yacc.c:1646  */
+#line 2141 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 127:
-#line 466 "c.y" /* yacc.c:1646  */
+#line 467 "c.y" /* yacc.c:1646  */
     {
         extendTree(NON_TERMINAL, "print", "print");
     }
-#line 2148 "y.tab.c" /* yacc.c:1646  */
+#line 2149 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 128:
-#line 468 "c.y" /* yacc.c:1646  */
+#line 469 "c.y" /* yacc.c:1646  */
     {
         extendTree(NON_TERMINAL, "", "print_content");
     }
-#line 2156 "y.tab.c" /* yacc.c:1646  */
+#line 2157 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 129:
-#line 470 "c.y" /* yacc.c:1646  */
+#line 471 "c.y" /* yacc.c:1646  */
     {
         backToParent();
         backToParent();
     }
-#line 2165 "y.tab.c" /* yacc.c:1646  */
+#line 2166 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 131:
-#line 474 "c.y" /* yacc.c:1646  */
+#line 475 "c.y" /* yacc.c:1646  */
     {
         extendTree(NON_TERMINAL, "input", "input");
     }
-#line 2173 "y.tab.c" /* yacc.c:1646  */
+#line 2174 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 132:
-#line 476 "c.y" /* yacc.c:1646  */
+#line 477 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 2181 "y.tab.c" /* yacc.c:1646  */
+#line 2182 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 135:
-#line 485 "c.y" /* yacc.c:1646  */
+#line 486 "c.y" /* yacc.c:1646  */
     {
         extendTerminal((yyvsp[0].str), "string");
     }
-#line 2189 "y.tab.c" /* yacc.c:1646  */
+#line 2190 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 136:
-#line 491 "c.y" /* yacc.c:1646  */
+#line 492 "c.y" /* yacc.c:1646  */
     {
         extendTree(NON_TERMINAL, "{}", "statement body");
     }
-#line 2197 "y.tab.c" /* yacc.c:1646  */
+#line 2198 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 137:
-#line 493 "c.y" /* yacc.c:1646  */
+#line 494 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 2205 "y.tab.c" /* yacc.c:1646  */
+#line 2206 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 140:
-#line 504 "c.y" /* yacc.c:1646  */
+#line 505 "c.y" /* yacc.c:1646  */
     {
         extendTree(NON_TERMINAL, "", "declaration");
     }
-#line 2213 "y.tab.c" /* yacc.c:1646  */
+#line 2214 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 141:
-#line 506 "c.y" /* yacc.c:1646  */
+#line 507 "c.y" /* yacc.c:1646  */
     {
         extendTree(NON_TERMINAL, "", "declaration body");
         saveNode();
     }
-#line 2222 "y.tab.c" /* yacc.c:1646  */
+#line 2223 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 143:
-#line 513 "c.y" /* yacc.c:1646  */
+#line 514 "c.y" /* yacc.c:1646  */
     {
         extendTree(NON_TERMINAL, "", "function declaration");
         broToParent(-1);
         connectParentChild();
     }
-#line 2232 "y.tab.c" /* yacc.c:1646  */
+#line 2233 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 144:
-#line 518 "c.y" /* yacc.c:1646  */
+#line 519 "c.y" /* yacc.c:1646  */
     {
         extendTree(NON_TERMINAL, "", "argument declaration list");
         broToParent(-1);
         connectParentChild();
     }
-#line 2242 "y.tab.c" /* yacc.c:1646  */
+#line 2243 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 146:
-#line 526 "c.y" /* yacc.c:1646  */
+#line 527 "c.y" /* yacc.c:1646  */
     {
         extendTree(NON_TERMINAL, "()", "function argument list");
     }
-#line 2250 "y.tab.c" /* yacc.c:1646  */
+#line 2251 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 147:
-#line 528 "c.y" /* yacc.c:1646  */
+#line 529 "c.y" /* yacc.c:1646  */
     {
         backToParent();
         // establish local scope
     }
-#line 2259 "y.tab.c" /* yacc.c:1646  */
+#line 2260 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 149:
-#line 535 "c.y" /* yacc.c:1646  */
+#line 536 "c.y" /* yacc.c:1646  */
     {
         extendTree(NON_TERMINAL, "", "function defination");
     }
-#line 2267 "y.tab.c" /* yacc.c:1646  */
+#line 2268 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 150:
-#line 537 "c.y" /* yacc.c:1646  */
+#line 538 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 2275 "y.tab.c" /* yacc.c:1646  */
+#line 2276 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 155:
-#line 553 "c.y" /* yacc.c:1646  */
+#line 554 "c.y" /* yacc.c:1646  */
     {
         extendTree(NON_TERMINAL, "", "argument declaration unit");
         broToParent(1);
     }
-#line 2284 "y.tab.c" /* yacc.c:1646  */
+#line 2285 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 156:
-#line 556 "c.y" /* yacc.c:1646  */
+#line 557 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 2292 "y.tab.c" /* yacc.c:1646  */
+#line 2293 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 157:
-#line 562 "c.y" /* yacc.c:1646  */
+#line 563 "c.y" /* yacc.c:1646  */
     {
         extendOptTree("=");
     }
-#line 2300 "y.tab.c" /* yacc.c:1646  */
+#line 2301 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 158:
-#line 564 "c.y" /* yacc.c:1646  */
+#line 565 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 2308 "y.tab.c" /* yacc.c:1646  */
+#line 2309 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 160:
-#line 571 "c.y" /* yacc.c:1646  */
+#line 572 "c.y" /* yacc.c:1646  */
     {
         extendTerminal((yyvsp[0].str), "identifier");
     }
-#line 2316 "y.tab.c" /* yacc.c:1646  */
+#line 2317 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 161:
-#line 573 "c.y" /* yacc.c:1646  */
+#line 574 "c.y" /* yacc.c:1646  */
     {
         loadNode();
     }
-#line 2324 "y.tab.c" /* yacc.c:1646  */
+#line 2325 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 162:
-#line 579 "c.y" /* yacc.c:1646  */
+#line 580 "c.y" /* yacc.c:1646  */
     {
         extendTree(NON_TERMINAL, "", "function argument unit");
         saveNode();
     }
-#line 2333 "y.tab.c" /* yacc.c:1646  */
+#line 2334 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 163:
-#line 582 "c.y" /* yacc.c:1646  */
+#line 583 "c.y" /* yacc.c:1646  */
     {
         backToParent();
     }
-#line 2341 "y.tab.c" /* yacc.c:1646  */
+#line 2342 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 168:
-#line 598 "c.y" /* yacc.c:1646  */
+#line 599 "c.y" /* yacc.c:1646  */
     { 
         extendTree(NON_TERMINAL, "if", "if expression");
     }
-#line 2349 "y.tab.c" /* yacc.c:1646  */
+#line 2350 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 169:
-#line 600 "c.y" /* yacc.c:1646  */
+#line 601 "c.y" /* yacc.c:1646  */
     {
         extendTree(NON_TERMINAL, "()", "if condition");
     }
-#line 2357 "y.tab.c" /* yacc.c:1646  */
+#line 2358 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 170:
-#line 602 "c.y" /* yacc.c:1646  */
+#line 603 "c.y" /* yacc.c:1646  */
     {
         backToParent();
         extendTree(NON_TERMINAL, "", "if statement");
     }
-#line 2366 "y.tab.c" /* yacc.c:1646  */
+#line 2367 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 172:
-#line 609 "c.y" /* yacc.c:1646  */
+#line 610 "c.y" /* yacc.c:1646  */
     {
         extendTree(NON_TERMINAL, "else", "else statement");
     }
-#line 2374 "y.tab.c" /* yacc.c:1646  */
+#line 2375 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 174:
-#line 612 "c.y" /* yacc.c:1646  */
+#line 613 "c.y" /* yacc.c:1646  */
     {}
-#line 2380 "y.tab.c" /* yacc.c:1646  */
+#line 2381 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2384 "y.tab.c" /* yacc.c:1646  */
+#line 2385 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2608,7 +2609,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 615 "c.y" /* yacc.c:1906  */
+#line 616 "c.y" /* yacc.c:1906  */
 
 
 
@@ -2670,7 +2671,9 @@ int main(void) {
     root = createGrammerNode(NON_TERMINAL, "", "start");
     curNode = root;
     tempPointer = NULL;
+    generateLEX();
     yyparse();
+    closeLEX();
     generateYACC();
     printGrammerTree(root);
     closeYACC();

@@ -1,5 +1,7 @@
 %{
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "file.h"
 #include "table.h"
 #include "y.tab.h"
@@ -11,15 +13,15 @@
 int yywarp(void);
 void move();
 char* outputTitle();
-void appentLexOutputFile(FILE* file, char* type, char* name, char* attribute);
+void appentLexOutputFile(char* type, char* name, char* attribute);
 char* combineItem(char* type, char* name, char* attribute);
 void printItem(char* type, char* name, char* attribute);
 %}
 
 %%
 [\t \r]+						{ move(); }
-(0|([1-9][0-9]*))       	    { appentLexOutputFile("CONSTANT", yytext, yytext); return(CONSTANT); }
-\"(\\.|[^\\"\n])*\"				{ appentLexOutputFile("STRING_C", yytext, yytext); return(STRING_C); }
+(0|([1-9][0-9]*))       	    { appentLexOutputFile("CONSTANT", yytext	, yytext); return(CONSTANT); }
+\"(\\.|[^\\"\n])*\"				{ appentLexOutputFile("STRING_C", yytext	, yytext); return(STRING_C); }
 "print"							{ appentLexOutputFile("PRINT", yytext, ""); return(PRINT); }
 "input"							{ appentLexOutputFile("INPUT", yytext, ""); return(INPUT); }
 
@@ -63,30 +65,35 @@ void printItem(char* type, char* name, char* attribute);
 
 [a-zA-Z_]([0-9]|[a-zA-Z_]|$)*   {
 	{
-		if (search(yytext)) {
+		if (searchWord(yytext)) {
 			printf("Exist at line %d.\n", yylineno);
 		}
 		else {
-			int position = add(yytext);
+			int position = addWord(yytext);
 			char* attr;
-			itoa(position, attr, 10);
+			sprintf(attr, "%d", position);
 			char* attribute;
 			strcpy(attribute, "0x");
 			strcat(attribute, attr);
-			appentLexOutputFile("IDENTIFER", yytext, );
+			appentLexOutputFile("IDENTIFIER", yytext, attribute);
 		}
 	}
-	yyval.str=yytext;
-	return(IDENTIFER);
+	yylval.str=yytext;
+	return(IDENTIFIER);
 }
 %%
 
 int yywrap(void) {
 	return 1;
 }
+
+void move() {
+
+}
+
 char* outputTitle() {
 	return "Type           Name           Attribute ";
- }
+}
 
 void appentLexOutputFile(char* type, char* name, char* attribute) {
 	appendLEX(combineItem(type, name, attribute));
@@ -96,13 +103,13 @@ void appentLexOutputFile(char* type, char* name, char* attribute) {
 char* combineItem(char* type, char* name, char* attribute) {
 	char* result;
 	strcpy(result, "");
-	char* t, n, a;
+	char* t;
+	char* n;
+	char* a;
 	int cursor;
 	if (strlen(type) > TYPE_OUTPUT_LENGTH) {
-		strncpy(t, type, type + TYPE_OUTPUT_LENGTH - 3);
-		strcat(t, ".");
-		strcat(t, ".");
-		strcat(t, ".");
+		strncpy(t, type, TYPE_OUTPUT_LENGTH - 3);
+		strcat(t, "...");
 	}
 	else {
 		for(cursor = 0; cursor < TYPE_OUTPUT_LENGTH - strlen(type); cursor++) {
@@ -110,10 +117,8 @@ char* combineItem(char* type, char* name, char* attribute) {
 		}
 	}
 	if (strlen(name) > NAME_OUTPUT_LENGTH) {
-		strncpy(n, name, name + NAME_OUTPUT_LENGTH - 3);
-		strcat(n, ".");
-		strcat(n, ".");
-		strcat(n, ".");
+		strncpy(n, name, NAME_OUTPUT_LENGTH - 3);
+		strcat(n, "...");
 	}
 	else {
 		for(cursor = 0; cursor < NAME_OUTPUT_LENGTH - strlen(name); cursor++) {
@@ -121,10 +126,8 @@ char* combineItem(char* type, char* name, char* attribute) {
 		}
 	}
 	if (strlen(attribute) > ATTR_OUTPUT_LENGTH) {
-		strncpy(a, attribute, attribute + ATTR_OUTPUT_LENGTH - 3);
-		strcat(a, ".");
-		strcat(a, ".");
-		strcat(a, ".");
+		strncpy(a, attribute, ATTR_OUTPUT_LENGTH - 3);
+		strcat(a, "...");
 	}
 	else {
 		for(cursor = 0; cursor < ATTR_OUTPUT_LENGTH - strlen(attribute); cursor++) {

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "file.h"
+#include "table.h"
 #include "grammerTree.h"
 #include "y.tab.h"
 
@@ -673,7 +674,9 @@ int main(void) {
     root = createGrammerNode(NON_TERMINAL, "", "start");
     curNode = root;
     tempPointer = NULL;
+    generateLEX();
     yyparse();
+    closeLEX();
     generateYACC();
     printGrammerTree(root);
     closeYACC();
