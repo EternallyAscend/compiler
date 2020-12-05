@@ -451,7 +451,7 @@ statement
     | do_expression
     | while_expression
     | condition_expression
-    | declaration SEMICOLON
+    | declaration
     | { /*establish local scope*/ ; }statement_block
     | BREAK {
         extendTerminal("break", "break");
@@ -515,12 +515,12 @@ declaration_body
     : function_declaration {
         extendTree(NON_TERMINAL, "", "function declaration");
         broToParent(-1);
-        connectParentChild();
+        //connectParentChild();
     }
     | argument_declaration_list {
         extendTree(NON_TERMINAL, "", "argument declaration list");
         broToParent(-1);
-        connectParentChild();
+        //connectParentChild();
     } SEMICOLON
     ;
 
@@ -654,7 +654,10 @@ void broToParent(int num) {
     selfPos = findSelfPos(curNode);
     if (num == -1) i = 0;
     else i =  selfPos - num;
+    /* printGrammerNode(parent);
+    printGrammerNode(curNode); */
     for (int n = i; n < selfPos; n++) {
+        /* printGrammerNode(parent->child[n]); */
         push_child(curNode, parent->child[n]);
     }
     parent->child[i++] = curNode;
