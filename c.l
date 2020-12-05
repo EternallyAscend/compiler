@@ -19,54 +19,54 @@ extern "C"
 
 void move();
 char* outputTitle();
-void appentLexOutputFile(const char* type, const char* name, const char* attribute);
+void appendLexOutputFile(const char* type, const char* name, const char* attribute);
 %}
 
 %%
 [\n]			{ move(); }
 [\t \r]+
-(0|([1-9][0-9]*))     	{ appentLexOutputFile("CONSTANT", yytext, yytext); yylval.str=yytext; return(CONSTANT); }
-\"(\\.|[^\\"\n])*\"	{ appentLexOutputFile("STRING_C", yytext, yytext); yylval.str=yytext; return(STRING_C); }
-"print"			{ appentLexOutputFile("PRINT", yytext, ""); return(PRINT); }
-"input"			{ appentLexOutputFile("INPUT", yytext, ""); return(INPUT); }
+(0|([1-9][0-9]*))     	{ appendLexOutputFile("CONSTANT", yytext, yytext); yylval.str=yytext; return(CONSTANT); }
+\"(\\.|[^\\"\n])*\"	{ appendLexOutputFile("STRING_C", yytext, yytext); yylval.str=yytext; return(STRING_C); }
+"print"			{ appendLexOutputFile("PRINT", yytext, ""); return(PRINT); }
+"input"			{ appendLexOutputFile("INPUT", yytext, ""); return(INPUT); }
 
-\(			{ appentLexOutputFile("LP", yytext, ""); return(LP); }
-\)			{ appentLexOutputFile("RP", yytext, ""); return(RP); }
-\[         		{ appentLexOutputFile("LSB", yytext, ""); return(LSB); }
-\]         		{ appentLexOutputFile("RSB", yytext, ""); return(RSB); }
-\{         		{ appentLexOutputFile("LBP", yytext, ""); return(LBP); }
-\}         		{ appentLexOutputFile("RBP", yytext, ""); return(RBP); }
-\-\>			{ appentLexOutputFile("POINTER", yytext, ""); return(POINTER); }
-\&			{ appentLexOutputFile("ADDRESS", yytext, ""); return(ADDRESS); }
-\!			{ appentLexOutputFile("NOT", yytext, ""); return(NOT); }
-\^			{ appentLexOutputFile("POW", yytext, ""); return(POW); }
-\*			{ appentLexOutputFile("TIMES", yytext, ""); return(TIMES); }
-\/			{ appentLexOutputFile("DIVIDE", yytext, ""); return(DIVIDE); }
-\%			{ appentLexOutputFile("MOD", yytext, ""); return(MOD); }
-\+			{ appentLexOutputFile("PLUS", yytext, ""); return(PLUS); }
-\-			{ appentLexOutputFile("MINUS", yytext, ""); return(MINUS); }
-\<			{ appentLexOutputFile("GT", yytext, ""); return(GT); }
-\>			{ appentLexOutputFile("LT", yytext, ""); return(LT); }
-\<\=			{ appentLexOutputFile("LE", yytext, ""); return(LE); }
-\>\=			{ appentLexOutputFile("GE", yytext, ""); return(GE); }
-\=\=			{ appentLexOutputFile("EQ", yytext, ""); return(EQ); }
-\!\=			{ appentLexOutputFile("NE", yytext, ""); return(NE); }
-\&\&			{ appentLexOutputFile("AND", yytext, ""); return(AND); }
-\|\|			{ appentLexOutputFile("OR", yytext, ""); return(OR); }
-\=			{ appentLexOutputFile("ASSIGN", yytext, ""); return(ASSIGN); }
-int			{ appentLexOutputFile("INT", yytext, ""); return(INT); }
-void    		{ appentLexOutputFile("VOID", yytext, ""); return(VOID); }
-\,			{ appentLexOutputFile("COMMA", yytext, ""); return(COMMA); }
-\;			{ appentLexOutputFile("SEMICOLON", yytext, ""); return(SEMICOLON); }
-if			{ appentLexOutputFile("IF", yytext, ""); return(IF); }
-else			{ appentLexOutputFile("ELSE", yytext, ""); return(ELSE); }
-while			{ appentLexOutputFile("WHILE", yytext, ""); return(WHILE); }
-do			{ appentLexOutputFile("DO", yytext, ""); return(DO); }
-for			{ appentLexOutputFile("FOR", yytext, ""); return(FOR); }
-continue		{ appentLexOutputFile("CONTINUE", yytext, ""); return(CONTINUE); }
-break			{ appentLexOutputFile("BREAK", yytext, ""); return(BREAK); }
-return			{ appentLexOutputFile("RETURN", yytext, ""); return(RETURN); }
-struct			{ appentLexOutputFile("STRUCT", yytext, ""); return(STRUCT); }
+\(			{ appendLexOutputFile("LP", yytext, ""); return(LP); }
+\)			{ appendLexOutputFile("RP", yytext, ""); return(RP); }
+\[         		{ appendLexOutputFile("LSB", yytext, ""); return(LSB); }
+\]         		{ appendLexOutputFile("RSB", yytext, ""); return(RSB); }
+\{         		{ appendLexOutputFile("LBP", yytext, ""); return(LBP); }
+\}         		{ appendLexOutputFile("RBP", yytext, ""); return(RBP); }
+\-\>			{ appendLexOutputFile("POINTER", yytext, ""); return(POINTER); }
+\&			{ appendLexOutputFile("ADDRESS", yytext, ""); return(ADDRESS); }
+\!			{ appendLexOutputFile("NOT", yytext, ""); return(NOT); }
+\^			{ appendLexOutputFile("POW", yytext, ""); return(POW); }
+\*			{ appendLexOutputFile("TIMES", yytext, ""); return(TIMES); }
+\/			{ appendLexOutputFile("DIVIDE", yytext, ""); return(DIVIDE); }
+\%			{ appendLexOutputFile("MOD", yytext, ""); return(MOD); }
+\+			{ appendLexOutputFile("PLUS", yytext, ""); return(PLUS); }
+\-			{ appendLexOutputFile("MINUS", yytext, ""); return(MINUS); }
+\<			{ appendLexOutputFile("GT", yytext, ""); return(GT); }
+\>			{ appendLexOutputFile("LT", yytext, ""); return(LT); }
+\<\=			{ appendLexOutputFile("LE", yytext, ""); return(LE); }
+\>\=			{ appendLexOutputFile("GE", yytext, ""); return(GE); }
+\=\=			{ appendLexOutputFile("EQ", yytext, ""); return(EQ); }
+\!\=			{ appendLexOutputFile("NE", yytext, ""); return(NE); }
+\&\&			{ appendLexOutputFile("AND", yytext, ""); return(AND); }
+\|\|			{ appendLexOutputFile("OR", yytext, ""); return(OR); }
+\=			{ appendLexOutputFile("ASSIGN", yytext, ""); return(ASSIGN); }
+int			{ appendLexOutputFile("INT", yytext, ""); return(INT); }
+void    		{ appendLexOutputFile("VOID", yytext, ""); return(VOID); }
+\,			{ appendLexOutputFile("COMMA", yytext, ""); return(COMMA); }
+\;			{ appendLexOutputFile("SEMICOLON", yytext, ""); return(SEMICOLON); }
+if			{ appendLexOutputFile("IF", yytext, ""); return(IF); }
+else			{ appendLexOutputFile("ELSE", yytext, ""); return(ELSE); }
+while			{ appendLexOutputFile("WHILE", yytext, ""); return(WHILE); }
+do			{ appendLexOutputFile("DO", yytext, ""); return(DO); }
+for			{ appendLexOutputFile("FOR", yytext, ""); return(FOR); }
+continue		{ appendLexOutputFile("CONTINUE", yytext, ""); return(CONTINUE); }
+break			{ appendLexOutputFile("BREAK", yytext, ""); return(BREAK); }
+return			{ appendLexOutputFile("RETURN", yytext, ""); return(RETURN); }
+struct			{ appendLexOutputFile("STRUCT", yytext, ""); return(STRUCT); }
 
 [a-zA-Z_]([0-9]|[a-zA-Z_]|$)*   {
 	{
@@ -81,7 +81,7 @@ struct			{ appentLexOutputFile("STRUCT", yytext, ""); return(STRUCT); }
 			unsigned int position = addWord(yytext);
 			sprintf(attribute, "0x%x", position);
 		}
-		appentLexOutputFile("IDENTIFIER", yytext, attribute);
+		appendLexOutputFile("IDENTIFIER", yytext, attribute);
 		free(attribute);
 	}
 	yylval.str=yytext;
@@ -102,11 +102,11 @@ char* outputTitle() {
 	return "Type           Name           Attribute \n";
 }
 
-void appentLexOutputFile(const char* type, const char* name, const char* attribute) {
+void appendLexOutputFile(const char* type, const char* name, const char* attribute) {
 	char* result = (char*)malloc(sizeof(char)*64);
 	sprintf(result, "%-15s%-15s%-15s\n", type, name, attribute);
 	appendLEX(result);
-	printf("%s", result);
+	// printf("%s", result);
 	free(result);
 }
 
