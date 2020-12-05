@@ -1,4 +1,4 @@
-int main() {
+int main(int cursor) {
 	cursor = 0;
 	do {
 		cursor = cursor ^ cursor;
