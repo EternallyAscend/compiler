@@ -1,0 +1,6 @@
+Type           Name           Attribute 
+INT            int                           
+IDENTIFIER     main           0xe2ceb40      
+LP             (                             
+VOID           void                          
+RP             )                             

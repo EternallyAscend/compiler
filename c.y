@@ -11,7 +11,7 @@ extern "C"
 
 {
 #endif
-
+    extern FILE* yyin;
     void yyerror(const char *s);
     extern int yylex(void);
     extern char* yytext;
@@ -670,7 +670,11 @@ void connectParentChild() {
     curNode = parent;
 }
 
-int main(void) { 
+int main(int arg, char* argv[]) {
+    if (2 > arg) {
+        exit(-1);
+    }
+    yyin = fopen(argv[1], "r");
     root = createGrammerNode(NON_TERMINAL, "", "start");
     curNode = root;
     tempPointer = NULL;
@@ -684,13 +688,10 @@ int main(void) {
     closeYACC();
     stopTable();
     freeGrammerTree(root);
+    fclose(yyin);
     return 0; 
 }   
 
-void yyerror(const char* cha) {
+void yyerror(const char* charactor) {
     
-}
-
-int yylex(void) {
-    return 1;
 }

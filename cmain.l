@@ -91,6 +91,7 @@ int main(int arg, char* argv[]) {
 	yylex();
 	stopTable();
 	closeLEX();
+	fclose(yyin);
 	return 0;
 }
 

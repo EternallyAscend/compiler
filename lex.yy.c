@@ -506,25 +506,31 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "cmain.l"
-#line 2 "cmain.l"
+#line 1 "c.l"
+#line 2 "c.l"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "file.h"
 #include "table.h"
+#include "y.tab.h"
 
+// #ifdef __cplusplus
+extern "C" 
+{
+// #endif
+	int yywarp(void);
+    int yylex(void);
 
-#define TYPE_OUTPUT_LENGTH 15
-#define NAME_OUTPUT_LENGTH 15
-#define ATTR_OUTPUT_LENGTH 15
+// #ifdef __cplusplus
+};
+// #endif
 
-int yywarp(void);
 void move();
 char* outputTitle();
 void appentLexOutputFile(const char* type, const char* name, const char* attribute);
-#line 527 "lex.yy.c"
-#line 528 "lex.yy.c"
+#line 533 "lex.yy.c"
+#line 534 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -741,9 +747,9 @@ YY_DECL
 		}
 
 	{
-#line 19 "cmain.l"
+#line 25 "c.l"
 
-#line 747 "lex.yy.c"
+#line 753 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -803,227 +809,227 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 20 "cmain.l"
+#line 26 "c.l"
 { move(); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 21 "cmain.l"
+#line 27 "c.l"
 
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 22 "cmain.l"
-{ appentLexOutputFile("CONSTANT", yytext, yytext); }
+#line 28 "c.l"
+{ appentLexOutputFile("CONSTANT", yytext, yytext); return(CONSTANT); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 23 "cmain.l"
-{ appentLexOutputFile("STRING_C", yytext, yytext); }
+#line 29 "c.l"
+{ appentLexOutputFile("STRING_C", yytext, yytext); return(STRING_C); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 24 "cmain.l"
-{ appentLexOutputFile("PRINT", yytext, ""); }
+#line 30 "c.l"
+{ appentLexOutputFile("PRINT", yytext, ""); return(PRINT); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 25 "cmain.l"
-{ appentLexOutputFile("INPUT", yytext, ""); }
+#line 31 "c.l"
+{ appentLexOutputFile("INPUT", yytext, ""); return(INPUT); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 27 "cmain.l"
-{ appentLexOutputFile("LP", yytext, ""); }
+#line 33 "c.l"
+{ appentLexOutputFile("LP", yytext, ""); return(LP); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 28 "cmain.l"
-{ appentLexOutputFile("RP", yytext, ""); }
+#line 34 "c.l"
+{ appentLexOutputFile("RP", yytext, ""); return(RP); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 29 "cmain.l"
-{ appentLexOutputFile("LSB", yytext, ""); }
+#line 35 "c.l"
+{ appentLexOutputFile("LSB", yytext, ""); return(LSB); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 30 "cmain.l"
-{ appentLexOutputFile("RSB", yytext, ""); }
+#line 36 "c.l"
+{ appentLexOutputFile("RSB", yytext, ""); return(RSB); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 31 "cmain.l"
-{ appentLexOutputFile("LBP", yytext, ""); }
+#line 37 "c.l"
+{ appentLexOutputFile("LBP", yytext, ""); return(LBP); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 32 "cmain.l"
-{ appentLexOutputFile("RBP", yytext, ""); }
+#line 38 "c.l"
+{ appentLexOutputFile("RBP", yytext, ""); return(RBP); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 33 "cmain.l"
-{ appentLexOutputFile("POINTER", yytext, ""); }
+#line 39 "c.l"
+{ appentLexOutputFile("POINTER", yytext, ""); return(POINTER); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 34 "cmain.l"
-{ appentLexOutputFile("ADDRESS", yytext, ""); }
+#line 40 "c.l"
+{ appentLexOutputFile("ADDRESS", yytext, ""); return(ADDRESS); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 35 "cmain.l"
-{ appentLexOutputFile("NOT", yytext, ""); }
+#line 41 "c.l"
+{ appentLexOutputFile("NOT", yytext, ""); return(NOT); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 36 "cmain.l"
-{ appentLexOutputFile("POW", yytext, ""); }
+#line 42 "c.l"
+{ appentLexOutputFile("POW", yytext, ""); return(POW); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 37 "cmain.l"
-{ appentLexOutputFile("TIMES", yytext, "");}
+#line 43 "c.l"
+{ appentLexOutputFile("TIMES", yytext, ""); return(TIMES); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 38 "cmain.l"
-{ appentLexOutputFile("DIVIDE", yytext, ""); }
+#line 44 "c.l"
+{ appentLexOutputFile("DIVIDE", yytext, ""); return(DIVIDE); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 39 "cmain.l"
-{ appentLexOutputFile("MOD", yytext, ""); }
+#line 45 "c.l"
+{ appentLexOutputFile("MOD", yytext, ""); return(MOD); }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 40 "cmain.l"
-{ appentLexOutputFile("PLUS", yytext, ""); }
+#line 46 "c.l"
+{ appentLexOutputFile("PLUS", yytext, ""); return(PLUS); }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 41 "cmain.l"
-{ appentLexOutputFile("MINUS", yytext, ""); }
+#line 47 "c.l"
+{ appentLexOutputFile("MINUS", yytext, ""); return(MINUS); }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 42 "cmain.l"
-{ appentLexOutputFile("GT", yytext, ""); }
+#line 48 "c.l"
+{ appentLexOutputFile("GT", yytext, ""); return(GT); }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 43 "cmain.l"
-{ appentLexOutputFile("LT", yytext, ""); }
+#line 49 "c.l"
+{ appentLexOutputFile("LT", yytext, ""); return(LT); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 44 "cmain.l"
-{ appentLexOutputFile("LE", yytext, ""); }
+#line 50 "c.l"
+{ appentLexOutputFile("LE", yytext, ""); return(LE); }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 45 "cmain.l"
-{ appentLexOutputFile("GE", yytext, ""); }
+#line 51 "c.l"
+{ appentLexOutputFile("GE", yytext, ""); return(GE); }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 46 "cmain.l"
-{ appentLexOutputFile("EQ", yytext, ""); }
+#line 52 "c.l"
+{ appentLexOutputFile("EQ", yytext, ""); return(EQ); }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 47 "cmain.l"
-{ appentLexOutputFile("NE", yytext, ""); }
+#line 53 "c.l"
+{ appentLexOutputFile("NE", yytext, ""); return(NE); }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 48 "cmain.l"
-{ appentLexOutputFile("AND", yytext, ""); }
+#line 54 "c.l"
+{ appentLexOutputFile("AND", yytext, ""); return(AND); }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 49 "cmain.l"
-{ appentLexOutputFile("OR", yytext, ""); }
+#line 55 "c.l"
+{ appentLexOutputFile("OR", yytext, ""); return(OR); }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 50 "cmain.l"
-{ appentLexOutputFile("ASSIGN", yytext, ""); }
+#line 56 "c.l"
+{ appentLexOutputFile("ASSIGN", yytext, ""); return(ASSIGN); }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 51 "cmain.l"
-{ appentLexOutputFile("INT", yytext, ""); }
+#line 57 "c.l"
+{ appentLexOutputFile("INT", yytext, ""); return(INT); }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 52 "cmain.l"
-{ appentLexOutputFile("VOID", yytext, ""); }
+#line 58 "c.l"
+{ appentLexOutputFile("VOID", yytext, ""); return(VOID); }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 53 "cmain.l"
-{ appentLexOutputFile("COMMA", yytext, ""); }
+#line 59 "c.l"
+{ appentLexOutputFile("COMMA", yytext, ""); return(COMMA); }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 54 "cmain.l"
-{ appentLexOutputFile("SEMICOLON", yytext, ""); }
+#line 60 "c.l"
+{ appentLexOutputFile("SEMICOLON", yytext, ""); return(SEMICOLON); }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 55 "cmain.l"
-{ appentLexOutputFile("IF", yytext, ""); }
+#line 61 "c.l"
+{ appentLexOutputFile("IF", yytext, ""); return(IF); }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 56 "cmain.l"
-{ appentLexOutputFile("ELSE", yytext, ""); }
+#line 62 "c.l"
+{ appentLexOutputFile("ELSE", yytext, ""); return(ELSE); }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 57 "cmain.l"
-{ appentLexOutputFile("WHILE", yytext, ""); }
+#line 63 "c.l"
+{ appentLexOutputFile("WHILE", yytext, ""); return(WHILE); }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 58 "cmain.l"
-{ appentLexOutputFile("DO", yytext, ""); }
+#line 64 "c.l"
+{ appentLexOutputFile("DO", yytext, ""); return(DO); }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 59 "cmain.l"
-{ appentLexOutputFile("FOR", yytext, ""); }
+#line 65 "c.l"
+{ appentLexOutputFile("FOR", yytext, ""); return(FOR); }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 60 "cmain.l"
-{ appentLexOutputFile("CONTINUE", yytext, ""); }
+#line 66 "c.l"
+{ appentLexOutputFile("CONTINUE", yytext, ""); return(CONTINUE); }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 61 "cmain.l"
-{ appentLexOutputFile("BREAK", yytext, ""); }
+#line 67 "c.l"
+{ appentLexOutputFile("BREAK", yytext, ""); return(BREAK); }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 62 "cmain.l"
-{ appentLexOutputFile("RETURN", yytext, ""); }
+#line 68 "c.l"
+{ appentLexOutputFile("RETURN", yytext, ""); return(RETURN); }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 63 "cmain.l"
-{ appentLexOutputFile("STRUCT", yytext, ""); }
+#line 69 "c.l"
+{ appentLexOutputFile("STRUCT", yytext, ""); return(STRUCT); }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 65 "cmain.l"
+#line 71 "c.l"
 {
 	{
 		char* attribute = (char*)malloc(sizeof(char)*64);
 		if (searchWord(yytext)) {
-			printf("Exist at line %d.\n", yylineno);
+			// printf("Exist at line %d.\n", yylineno);
 			struct Word* word = getWordInfo(yytext);
 			sprintf(attribute, "0x%x", word->symbolPosition);
 			free(word);
@@ -1035,14 +1041,16 @@ YY_RULE_SETUP
 		appentLexOutputFile("IDENTIFIER", yytext, attribute);
 		free(attribute);
 	}
+	yylval.str=yytext;
+	return(IDENTIFIER);
 }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 83 "cmain.l"
+#line 91 "c.l"
 ECHO;
 	YY_BREAK
-#line 1046 "lex.yy.c"
+#line 1054 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2047,20 +2055,8 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 83 "cmain.l"
+#line 91 "c.l"
 
-
-int main(int arg, char* argv[]) {
-	printf("Type           Name           Attribute \n");
-	yyin = fopen(argv[1], "r");
-	generateLEX();
-	launchTable();
-	appendLEX(outputTitle());
-	yylex();
-	stopTable();
-	closeLEX();
-	return 0;
-}
 
 int yywrap(void) {
 	return 1;
@@ -2081,4 +2077,5 @@ void appentLexOutputFile(const char* type, const char* name, const char* attribu
 	printf("%s", result);
 	free(result);
 }
+
 

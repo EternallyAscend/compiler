@@ -6,15 +6,25 @@
 #include "table.h"
 #include "y.tab.h"
 
-int yywarp(void);
-extern int yylex();
+// #ifdef __cplusplus
+extern "C" 
+{
+// #endif
+	int yywarp(void);
+    int yylex(void);
+
+// #ifdef __cplusplus
+};
+// #endif
+
 void move();
 char* outputTitle();
 void appentLexOutputFile(const char* type, const char* name, const char* attribute);
 %}
 
 %%
-[\t \r]+		{ move(); }
+[\n]			{ move(); }
+[\t \r]+
 (0|([1-9][0-9]*))     	{ appentLexOutputFile("CONSTANT", yytext, yytext); return(CONSTANT); }
 \"(\\.|[^\\"\n])*\"	{ appentLexOutputFile("STRING_C", yytext, yytext); return(STRING_C); }
 "print"			{ appentLexOutputFile("PRINT", yytext, ""); return(PRINT); }
@@ -60,16 +70,19 @@ struct			{ appentLexOutputFile("STRUCT", yytext, ""); return(STRUCT); }
 
 [a-zA-Z_]([0-9]|[a-zA-Z_]|$)*   {
 	{
+		char* attribute = (char*)malloc(sizeof(char)*64);
 		if (searchWord(yytext)) {
-			printf("Exist at line %d.\n", yylineno);
+			// printf("Exist at line %d.\n", yylineno);
+			struct Word* word = getWordInfo(yytext);
+			sprintf(attribute, "0x%x", word->symbolPosition);
+			free(word);
 		}
 		else {
 			unsigned int position = addWord(yytext);
-			char* attribute = (char*)malloc(sizeof(char)*64);
 			sprintf(attribute, "0x%x", position);
-			appentLexOutputFile("IDENTIFIER", yytext, attribute);
-			free(attribute);
 		}
+		appentLexOutputFile("IDENTIFIER", yytext, attribute);
+		free(attribute);
 	}
 	yylval.str=yytext;
 	return(IDENTIFIER);
@@ -82,7 +95,7 @@ int yywrap(void) {
 }
 
 void move() {
-
+	yylineno++;
 }
 
 char* outputTitle() {
