@@ -1,0 +1,6 @@
+*.txt
+*.tab.*
+*.o
+lex.yy.*
+output
+example.c
