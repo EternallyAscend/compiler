@@ -4,3 +4,5 @@
 lex.yy.*
 output
 example.c
+ccompiler
+compiler
