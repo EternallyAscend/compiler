@@ -30,8 +30,8 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_YY_Y_TAB_H_INCLUDED
-# define YY_YY_Y_TAB_H_INCLUDED
+#ifndef YY_YY_C_TAB_H_INCLUDED
+# define YY_YY_C_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -90,50 +90,6 @@ extern int yydebug;
     NONE_ELSE = 300
   };
 #endif
-/* Tokens.  */
-#define CONSTANT 258
-#define STRING_C 259
-#define PRINT 260
-#define INPUT 261
-#define IDENTIFIER 262
-#define LP 263
-#define RP 264
-#define LSB 265
-#define RSB 266
-#define LBP 267
-#define RBP 268
-#define POINTER 269
-#define ADDRESS 270
-#define NOT 271
-#define POW 272
-#define TIMES 273
-#define DIVIDE 274
-#define MOD 275
-#define PLUS 276
-#define MINUS 277
-#define GT 278
-#define LT 279
-#define GE 280
-#define LE 281
-#define EQ 282
-#define NE 283
-#define AND 284
-#define OR 285
-#define ASSIGN 286
-#define INT 287
-#define VOID 288
-#define COMMA 289
-#define SEMICOLON 290
-#define IF 291
-#define ELSE 292
-#define WHILE 293
-#define DO 294
-#define FOR 295
-#define CONTINUE 296
-#define BREAK 297
-#define RETURN 298
-#define STRUCT 299
-#define NONE_ELSE 300
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -144,7 +100,7 @@ union YYSTYPE
 
     char* str;
 
-#line 148 "y.tab.h" /* yacc.c:1909  */
+#line 104 "c.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -157,4 +113,4 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_Y_TAB_H_INCLUDED  */
+#endif /* !YY_YY_C_TAB_H_INCLUDED  */

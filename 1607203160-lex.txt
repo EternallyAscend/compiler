@@ -1,0 +1,117 @@
+Type           Name           Attribute 
+INT            int                           
+IDENTIFIER     main           0x3fcf5b40     
+LP             (                             
+INT            int                           
+IDENTIFIER     cursor         0x3fcf5ef0     
+RP             )                             
+LBP            {                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+ASSIGN         =                             
+CONSTANT       0              0              
+SEMICOLON      ;                             
+DO             do                            
+LBP            {                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+ASSIGN         =                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+POW            ^                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+SEMICOLON      ;                             
+RBP            }                             
+WHILE          while                         
+LP             (                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+NE             !=                            
+IDENTIFIER     cursor         0x3fcf5ef0     
+DIVIDE         /                             
+CONSTANT       2              2              
+RP             )                             
+SEMICOLON      ;                             
+IF             if                            
+LP             (                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+EQ             ==                            
+IDENTIFIER     cursor         0x3fcf5ef0     
+RP             )                             
+LBP            {                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+ASSIGN         =                             
+CONSTANT       10010          10010          
+SEMICOLON      ;                             
+RBP            }                             
+ELSE           else                          
+IF             if                            
+LP             (                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+EQ             ==                            
+CONSTANT       10086          10086          
+RP             )                             
+LBP            {                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+ASSIGN         =                             
+CONSTANT       10010          10010          
+TIMES          *                             
+CONSTANT       110            110            
+SEMICOLON      ;                             
+RBP            }                             
+ELSE           else                          
+IF             if                            
+LP             (                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+EQ             ==                            
+CONSTANT       911            911            
+RP             )                             
+LBP            {                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+ASSIGN         =                             
+CONSTANT       731            731            
+SEMICOLON      ;                             
+RBP            }                             
+ELSE           else                          
+SEMICOLON      ;                             
+FOR            for                           
+LP             (                             
+SEMICOLON      ;                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+GT             <                             
+CONSTANT       10             10             
+SEMICOLON      ;                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+ASSIGN         =                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+PLUS           +                             
+CONSTANT       1              1              
+RP             )                             
+LBP            {                             
+PRINT          print                         
+LP             (                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+RP             )                             
+SEMICOLON      ;                             
+RBP            }                             
+WHILE          while                         
+LP             (                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+ASSIGN         =                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+PLUS           +                             
+CONSTANT       1              1              
+RP             )                             
+LBP            {                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+ASSIGN         =                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+PLUS           +                             
+CONSTANT       1              1              
+SEMICOLON      ;                             
+RBP            }                             
+RETURN         return                        
+IDENTIFIER     cursor         0x3fcf5ef0     
+OR             ||                            
+NOT            !                             
+IDENTIFIER     cursor         0x3fcf5ef0     
+AND            &&                            
+IDENTIFIER     cursor         0x3fcf5ef0     
+SEMICOLON      ;                             
+RBP            }                             
