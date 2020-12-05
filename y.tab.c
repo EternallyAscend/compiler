@@ -2672,11 +2672,14 @@ int main(void) {
     curNode = root;
     tempPointer = NULL;
     generateLEX();
+    appendLEX("Type           Name           Attribute \n");
+    launchTable();
     yyparse();
     closeLEX();
     generateYACC();
     printGrammerTree(root);
     closeYACC();
+    stopTable();
     freeGrammerTree(root);
     return 0; 
 }   

@@ -66,7 +66,7 @@ void loadNode();
 %token<str> WHILE DO FOR CONTINUE BREAK // while do for continue break
 %token<str> RETURN // return
 %token<str> STRUCT // struct
-/*
+///*
 // expression
 %type<str> expression assign_expression orh_expression or_expression andh_expression and_expression
 %type<str> eneh_expression ene_expression lgh_expression lg_expression pmh_expression pm_expression
@@ -95,7 +95,7 @@ void loadNode();
 
 //output
 %type<str> print_content
-*/
+//*/
 
 %nonassoc NONE_ELSE
 %nonassoc ELSE
@@ -675,11 +675,14 @@ int main(void) {
     curNode = root;
     tempPointer = NULL;
     generateLEX();
+    appendLEX("Type           Name           Attribute \n");
+    launchTable();
     yyparse();
     closeLEX();
     generateYACC();
     printGrammerTree(root);
     closeYACC();
+    stopTable();
     freeGrammerTree(root);
     return 0; 
 }   

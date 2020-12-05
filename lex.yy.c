@@ -513,18 +513,13 @@ char *yytext;
 #include "table.h"
 #include "y.tab.h"
 
-#define TYPE_OUTPUT_LENGTH 15
-#define NAME_OUTPUT_LENGTH 15
-#define ATTR_OUTPUT_LENGTH 10
-
 int yywarp(void);
+extern int yylex();
 void move();
 char* outputTitle();
-void appentLexOutputFile(char* type, char* name, char* attribute);
-char* combineItem(char* type, char* name, char* attribute);
-void printItem(char* type, char* name, char* attribute);
-#line 527 "lex.yy.c"
-#line 528 "lex.yy.c"
+void appentLexOutputFile(const char* type, const char* name, const char* attribute);
+#line 522 "lex.yy.c"
+#line 523 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -741,9 +736,9 @@ YY_DECL
 		}
 
 	{
-#line 21 "c.l"
+#line 16 "c.l"
 
-#line 747 "lex.yy.c"
+#line 742 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -802,230 +797,228 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 22 "c.l"
+#line 17 "c.l"
 { move(); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 23 "c.l"
+#line 18 "c.l"
 { appentLexOutputFile("CONSTANT", yytext, yytext); return(CONSTANT); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 24 "c.l"
+#line 19 "c.l"
 { appentLexOutputFile("STRING_C", yytext, yytext); return(STRING_C); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 25 "c.l"
+#line 20 "c.l"
 { appentLexOutputFile("PRINT", yytext, ""); return(PRINT); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 26 "c.l"
+#line 21 "c.l"
 { appentLexOutputFile("INPUT", yytext, ""); return(INPUT); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 28 "c.l"
+#line 23 "c.l"
 { appentLexOutputFile("LP", yytext, ""); return(LP); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 29 "c.l"
+#line 24 "c.l"
 { appentLexOutputFile("RP", yytext, ""); return(RP); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 30 "c.l"
+#line 25 "c.l"
 { appentLexOutputFile("LSB", yytext, ""); return(LSB); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 31 "c.l"
+#line 26 "c.l"
 { appentLexOutputFile("RSB", yytext, ""); return(RSB); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 32 "c.l"
+#line 27 "c.l"
 { appentLexOutputFile("LBP", yytext, ""); return(LBP); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 33 "c.l"
+#line 28 "c.l"
 { appentLexOutputFile("RBP", yytext, ""); return(RBP); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 34 "c.l"
+#line 29 "c.l"
 { appentLexOutputFile("POINTER", yytext, ""); return(POINTER); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 35 "c.l"
+#line 30 "c.l"
 { appentLexOutputFile("ADDRESS", yytext, ""); return(ADDRESS); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 36 "c.l"
+#line 31 "c.l"
 { appentLexOutputFile("NOT", yytext, ""); return(NOT); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 37 "c.l"
+#line 32 "c.l"
 { appentLexOutputFile("POW", yytext, ""); return(POW); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 38 "c.l"
+#line 33 "c.l"
 { appentLexOutputFile("TIMES", yytext, ""); return(TIMES); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 39 "c.l"
+#line 34 "c.l"
 { appentLexOutputFile("DIVIDE", yytext, ""); return(DIVIDE); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 40 "c.l"
+#line 35 "c.l"
 { appentLexOutputFile("MOD", yytext, ""); return(MOD); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 41 "c.l"
+#line 36 "c.l"
 { appentLexOutputFile("PLUS", yytext, ""); return(PLUS); }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 42 "c.l"
+#line 37 "c.l"
 { appentLexOutputFile("MINUS", yytext, ""); return(MINUS); }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 43 "c.l"
+#line 38 "c.l"
 { appentLexOutputFile("GT", yytext, ""); return(GT); }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 44 "c.l"
+#line 39 "c.l"
 { appentLexOutputFile("LT", yytext, ""); return(LT); }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 45 "c.l"
+#line 40 "c.l"
 { appentLexOutputFile("LE", yytext, ""); return(LE); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 46 "c.l"
+#line 41 "c.l"
 { appentLexOutputFile("GE", yytext, ""); return(GE); }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 47 "c.l"
+#line 42 "c.l"
 { appentLexOutputFile("EQ", yytext, ""); return(EQ); }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 48 "c.l"
+#line 43 "c.l"
 { appentLexOutputFile("NE", yytext, ""); return(NE); }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 49 "c.l"
+#line 44 "c.l"
 { appentLexOutputFile("AND", yytext, ""); return(AND); }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 50 "c.l"
+#line 45 "c.l"
 { appentLexOutputFile("OR", yytext, ""); return(OR); }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 51 "c.l"
+#line 46 "c.l"
 { appentLexOutputFile("ASSIGN", yytext, ""); return(ASSIGN); }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 52 "c.l"
+#line 47 "c.l"
 { appentLexOutputFile("INT", yytext, ""); return(INT); }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 53 "c.l"
+#line 48 "c.l"
 { appentLexOutputFile("VOID", yytext, ""); return(VOID); }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 54 "c.l"
+#line 49 "c.l"
 { appentLexOutputFile("COMMA", yytext, ""); return(COMMA); }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 55 "c.l"
+#line 50 "c.l"
 { appentLexOutputFile("SEMICOLON", yytext, ""); return(SEMICOLON); }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 56 "c.l"
+#line 51 "c.l"
 { appentLexOutputFile("IF", yytext, ""); return(IF); }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 57 "c.l"
+#line 52 "c.l"
 { appentLexOutputFile("ELSE", yytext, ""); return(ELSE); }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 58 "c.l"
+#line 53 "c.l"
 { appentLexOutputFile("WHILE", yytext, ""); return(WHILE); }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 59 "c.l"
+#line 54 "c.l"
 { appentLexOutputFile("DO", yytext, ""); return(DO); }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 60 "c.l"
+#line 55 "c.l"
 { appentLexOutputFile("FOR", yytext, ""); return(FOR); }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 61 "c.l"
+#line 56 "c.l"
 { appentLexOutputFile("CONTINUE", yytext, ""); return(CONTINUE); }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 62 "c.l"
+#line 57 "c.l"
 { appentLexOutputFile("BREAK", yytext, ""); return(BREAK); }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 63 "c.l"
+#line 58 "c.l"
 { appentLexOutputFile("RETURN", yytext, ""); return(RETURN); }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 64 "c.l"
+#line 59 "c.l"
 { appentLexOutputFile("STRUCT", yytext, ""); return(STRUCT); }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 66 "c.l"
+#line 61 "c.l"
 {
 	{
 		if (searchWord(yytext)) {
 			printf("Exist at line %d.\n", yylineno);
 		}
 		else {
-			int position = addWord(yytext);
-			char* attr;
-			sprintf(attr, "%d", position);
-			char* attribute;
-			strcpy(attribute, "0x");
-			strcat(attribute, attr);
+			unsigned int position = addWord(yytext);
+			char* attribute = (char*)malloc(sizeof(char)*64);
+			sprintf(attribute, "0x%x", position);
 			appentLexOutputFile("IDENTIFIER", yytext, attribute);
+			free(attribute);
 		}
 	}
 	yylval.str=yytext;
@@ -1034,10 +1027,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 84 "c.l"
+#line 77 "c.l"
 ECHO;
 	YY_BREAK
-#line 1041 "lex.yy.c"
+#line 1034 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2042,7 +2035,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 84 "c.l"
+#line 77 "c.l"
 
 
 int yywrap(void) {
@@ -2054,55 +2047,14 @@ void move() {
 }
 
 char* outputTitle() {
-	return "Type           Name           Attribute ";
+	return "Type           Name           Attribute \n";
 }
 
-void appentLexOutputFile(char* type, char* name, char* attribute) {
-	appendLEX(combineItem(type, name, attribute));
-	printItem(type, name, attribute);
-}
-
-char* combineItem(char* type, char* name, char* attribute) {
-	char* result;
-	strcpy(result, "");
-	char* t;
-	char* n;
-	char* a;
-	int cursor;
-	if (strlen(type) > TYPE_OUTPUT_LENGTH) {
-		strncpy(t, type, TYPE_OUTPUT_LENGTH - 3);
-		strcat(t, "...");
-	}
-	else {
-		for(cursor = 0; cursor < TYPE_OUTPUT_LENGTH - strlen(type); cursor++) {
-			strcat(t, " ");
-		}
-	}
-	if (strlen(name) > NAME_OUTPUT_LENGTH) {
-		strncpy(n, name, NAME_OUTPUT_LENGTH - 3);
-		strcat(n, "...");
-	}
-	else {
-		for(cursor = 0; cursor < NAME_OUTPUT_LENGTH - strlen(name); cursor++) {
-			strcat(n, " ");
-		}
-	}
-	if (strlen(attribute) > ATTR_OUTPUT_LENGTH) {
-		strncpy(a, attribute, ATTR_OUTPUT_LENGTH - 3);
-		strcat(a, "...");
-	}
-	else {
-		for(cursor = 0; cursor < ATTR_OUTPUT_LENGTH - strlen(attribute); cursor++) {
-			strcat(a, " ");
-		}
-	}
-	strcat(result, t);
-	strcat(result, n);
-	strcat(result, a);
-	return result;
-}
-
-void printItem(char* type, char* name, char* attribute) {
-	printf("%s\n", combineItem(type, name, attribute));
+void appentLexOutputFile(const char* type, const char* name, const char* attribute) {
+	char* result = (char*)malloc(sizeof(char)*64);
+	sprintf(result, "%-15s%-15s%-15s\n", type, name, attribute);
+	appendLEX(result);
+	printf("%s", result);
+	free(result);
 }
 

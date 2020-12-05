@@ -16,13 +16,9 @@ FILE* yaccFile = NULL;
 
 char* getFileName(int time, char* tail) {
     char* result = (char*)malloc(sizeof(char) * 32);
-//    char* result = (char*)malloc(sizeof(char) * 18);
-    printf("%d\n", time);
+    strcpy(result, "../");
     sprintf(result, "%d", time);
-//    result = "01";
-    printf("%s\n", result);
     strcat(result, tail);
-    printf("%s\n", result);
     return result;
 }
 
@@ -33,16 +29,8 @@ FILE* generateLEX() {
             lex = -lex;
         }
         char* lexName = getFileName(lex, "-lex.txt");
-//        int err = fopen_s(&lexFile, lexName, "a+");
-	lexFile = fopen(lexName, "a+");
+	    lexFile = fopen(lexName, "a+");
         free(lexName);
-//        printf("%s\n", getFileName(lex, "-lex.txt"));
-//        int err = fopen_s(&lexFile, getFileName(lex, "-lex.txt"), "a+");
-/*        if (0 != err) {
-            printf("%d\n", err);
-            exit(-1);
-        }*/
-//        lexFile = fopen(getFileName(lex, "lex.txt"), "w");
         return lexFile;
     }
     else {
@@ -57,16 +45,8 @@ FILE* generateYACC() {
             yacc = -yacc;
         }
         char* yaccName = getFileName(yacc, "-yacc.txt");
-//        int err = fopen_s(&yaccFile, yaccName, "a+");
-	yaccFile = fopen(yaccName, "a+");
-	free(yaccName);
-//        printf("%s\n", getFileName(yacc, "-yacc.txt"));
-//        int err = fopen_s(&yaccFile, getFileName(yacc, "-yacc.txt"), "a+");
-/*        if (0 != err) {
-            printf("%d\n", err);
-            exit(-1);
-        }*/
-//        yaccFile = fopen(getFileName(yacc, "yacc.txt"), "w");
+	    yaccFile = fopen(yaccName, "a+");
+	    free(yaccName);
         return yaccFile;
     }
     else {
@@ -75,12 +55,10 @@ FILE* generateYACC() {
 }
 
 void appendLEX(char* content) {
-    printf("%s\n", content);
     fputs(content, generateLEX());
 }
 
 void appendYACC(char* content) {
-    printf("%s\n", content);
     fputs(content, generateYACC());
 }
 
