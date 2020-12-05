@@ -499,7 +499,7 @@ statement_block
 
 statement_body
     : statement statement_body
-    | { printf("statement body over!\n"); YYACCEPT; }
+    | { printf("statement body over!\n"); }
     ;
 
 declaration

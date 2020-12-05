@@ -102,7 +102,7 @@ void saveNode();
 void loadNode();
 
 
-#line 106 "y.tab.c" /* yacc.c:339  */
+#line 106 "c.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -120,7 +120,10 @@ void loadNode();
 # define YYERROR_VERBOSE 0
 #endif
 
-
+/* In a future release of Bison, this section will be replaced
+   by #include "c.tab.h".  */
+#ifndef YY_YY_C_TAB_H_INCLUDED
+# define YY_YY_C_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -179,50 +182,6 @@ extern int yydebug;
     NONE_ELSE = 300
   };
 #endif
-/* Tokens.  */
-#define CONSTANT 258
-#define STRING_C 259
-#define PRINT 260
-#define INPUT 261
-#define IDENTIFIER 262
-#define LP 263
-#define RP 264
-#define LSB 265
-#define RSB 266
-#define LBP 267
-#define RBP 268
-#define POINTER 269
-#define ADDRESS 270
-#define NOT 271
-#define POW 272
-#define TIMES 273
-#define DIVIDE 274
-#define MOD 275
-#define PLUS 276
-#define MINUS 277
-#define GT 278
-#define LT 279
-#define GE 280
-#define LE 281
-#define EQ 282
-#define NE 283
-#define AND 284
-#define OR 285
-#define ASSIGN 286
-#define INT 287
-#define VOID 288
-#define COMMA 289
-#define SEMICOLON 290
-#define IF 291
-#define ELSE 292
-#define WHILE 293
-#define DO 294
-#define FOR 295
-#define CONTINUE 296
-#define BREAK 297
-#define RETURN 298
-#define STRUCT 299
-#define NONE_ELSE 300
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -233,7 +192,7 @@ union YYSTYPE
 
     char* str;
 
-#line 237 "y.tab.c" /* yacc.c:355  */
+#line 196 "c.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -246,11 +205,11 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-
+#endif /* !YY_YY_C_TAB_H_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 254 "y.tab.c" /* yacc.c:358  */
+#line 213 "c.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -1553,7 +1512,7 @@ yyreduce:
     {
         extendOptTree(",");
     }
-#line 1557 "y.tab.c" /* yacc.c:1646  */
+#line 1516 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
@@ -1561,7 +1520,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 1565 "y.tab.c" /* yacc.c:1646  */
+#line 1524 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
@@ -1569,7 +1528,7 @@ yyreduce:
     { 
         extendOptTree("=");
     }
-#line 1573 "y.tab.c" /* yacc.c:1646  */
+#line 1532 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
@@ -1577,7 +1536,7 @@ yyreduce:
     { 
         backToParent();
     }
-#line 1581 "y.tab.c" /* yacc.c:1646  */
+#line 1540 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
@@ -1585,7 +1544,7 @@ yyreduce:
     { 
         extendOptTree("||");
     }
-#line 1589 "y.tab.c" /* yacc.c:1646  */
+#line 1548 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
@@ -1593,7 +1552,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 1597 "y.tab.c" /* yacc.c:1646  */
+#line 1556 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
@@ -1601,7 +1560,7 @@ yyreduce:
     {  
         extendOptTree("&&");
     }
-#line 1605 "y.tab.c" /* yacc.c:1646  */
+#line 1564 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
@@ -1609,7 +1568,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 1613 "y.tab.c" /* yacc.c:1646  */
+#line 1572 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
@@ -1617,7 +1576,7 @@ yyreduce:
     {  
         extendOptTree("==");
     }
-#line 1621 "y.tab.c" /* yacc.c:1646  */
+#line 1580 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
@@ -1625,7 +1584,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 1629 "y.tab.c" /* yacc.c:1646  */
+#line 1588 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
@@ -1633,7 +1592,7 @@ yyreduce:
     {  
         extendOptTree("!=");
     }
-#line 1637 "y.tab.c" /* yacc.c:1646  */
+#line 1596 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
@@ -1641,7 +1600,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 1645 "y.tab.c" /* yacc.c:1646  */
+#line 1604 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
@@ -1649,7 +1608,7 @@ yyreduce:
     {  
         extendOptTree(">");
     }
-#line 1653 "y.tab.c" /* yacc.c:1646  */
+#line 1612 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
@@ -1657,7 +1616,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 1661 "y.tab.c" /* yacc.c:1646  */
+#line 1620 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
@@ -1665,7 +1624,7 @@ yyreduce:
     {  
         extendOptTree(">=");
     }
-#line 1669 "y.tab.c" /* yacc.c:1646  */
+#line 1628 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
@@ -1673,7 +1632,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 1677 "y.tab.c" /* yacc.c:1646  */
+#line 1636 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
@@ -1681,7 +1640,7 @@ yyreduce:
     {  
         extendOptTree("<");
     }
-#line 1685 "y.tab.c" /* yacc.c:1646  */
+#line 1644 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
@@ -1689,7 +1648,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 1693 "y.tab.c" /* yacc.c:1646  */
+#line 1652 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
@@ -1697,7 +1656,7 @@ yyreduce:
     {  
         extendOptTree("<=");
     }
-#line 1701 "y.tab.c" /* yacc.c:1646  */
+#line 1660 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
@@ -1705,13 +1664,13 @@ yyreduce:
     {
         backToParent();
     }
-#line 1709 "y.tab.c" /* yacc.c:1646  */
+#line 1668 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
 #line 206 "c.y" /* yacc.c:1646  */
     {printf("pmh\n");}
-#line 1715 "y.tab.c" /* yacc.c:1646  */
+#line 1674 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
@@ -1719,7 +1678,7 @@ yyreduce:
     { 
         extendOptTree("+");
     }
-#line 1723 "y.tab.c" /* yacc.c:1646  */
+#line 1682 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
@@ -1727,7 +1686,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 1731 "y.tab.c" /* yacc.c:1646  */
+#line 1690 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
@@ -1735,7 +1694,7 @@ yyreduce:
     { 
         extendOptTree("-");
     }
-#line 1739 "y.tab.c" /* yacc.c:1646  */
+#line 1698 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
@@ -1743,13 +1702,13 @@ yyreduce:
     {
         backToParent();
     }
-#line 1747 "y.tab.c" /* yacc.c:1646  */
+#line 1706 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
 #line 224 "c.y" /* yacc.c:1646  */
     {printf("mtdh\n");}
-#line 1753 "y.tab.c" /* yacc.c:1646  */
+#line 1712 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
@@ -1757,7 +1716,7 @@ yyreduce:
     { 
         extendOptTree("%");
     }
-#line 1761 "y.tab.c" /* yacc.c:1646  */
+#line 1720 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
@@ -1765,7 +1724,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 1769 "y.tab.c" /* yacc.c:1646  */
+#line 1728 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
@@ -1773,7 +1732,7 @@ yyreduce:
     { 
         extendOptTree("*");
     }
-#line 1777 "y.tab.c" /* yacc.c:1646  */
+#line 1736 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
@@ -1781,7 +1740,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 1785 "y.tab.c" /* yacc.c:1646  */
+#line 1744 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
@@ -1789,7 +1748,7 @@ yyreduce:
     { 
         extendOptTree("/");
     }
-#line 1793 "y.tab.c" /* yacc.c:1646  */
+#line 1752 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
@@ -1797,13 +1756,13 @@ yyreduce:
     {
         backToParent();
     }
-#line 1801 "y.tab.c" /* yacc.c:1646  */
+#line 1760 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
 #line 247 "c.y" /* yacc.c:1646  */
     {printf("powh\n");}
-#line 1807 "y.tab.c" /* yacc.c:1646  */
+#line 1766 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
@@ -1811,7 +1770,7 @@ yyreduce:
     { 
         extendOptTree("^");
     }
-#line 1815 "y.tab.c" /* yacc.c:1646  */
+#line 1774 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
@@ -1819,7 +1778,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 1823 "y.tab.c" /* yacc.c:1646  */
+#line 1782 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
@@ -1827,13 +1786,13 @@ yyreduce:
     {
         saveNode();
     }
-#line 1831 "y.tab.c" /* yacc.c:1646  */
+#line 1790 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
 #line 262 "c.y" /* yacc.c:1646  */
     {printf("noth\n");}
-#line 1837 "y.tab.c" /* yacc.c:1646  */
+#line 1796 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
@@ -1841,7 +1800,7 @@ yyreduce:
     {
         loadNode();
     }
-#line 1845 "y.tab.c" /* yacc.c:1646  */
+#line 1804 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
@@ -1849,7 +1808,7 @@ yyreduce:
     { 
         extendTree(NON_TERMINAL, "!", "expression");
     }
-#line 1853 "y.tab.c" /* yacc.c:1646  */
+#line 1812 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 71:
@@ -1857,7 +1816,7 @@ yyreduce:
     { 
         extendTree(NON_TERMINAL, "()", "expression");
     }
-#line 1861 "y.tab.c" /* yacc.c:1646  */
+#line 1820 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 72:
@@ -1865,7 +1824,7 @@ yyreduce:
     { 
         backToParent();
     }
-#line 1869 "y.tab.c" /* yacc.c:1646  */
+#line 1828 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 73:
@@ -1874,7 +1833,7 @@ yyreduce:
         //saveNode();
         extendTree(TERMINAL, (yyvsp[0].str), "identifier");
     }
-#line 1878 "y.tab.c" /* yacc.c:1646  */
+#line 1837 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 74:
@@ -1882,7 +1841,7 @@ yyreduce:
     {
         //loadNode();
     }
-#line 1886 "y.tab.c" /* yacc.c:1646  */
+#line 1845 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 75:
@@ -1890,7 +1849,7 @@ yyreduce:
     { 
         extendTree(TERMINAL, (yyvsp[0].str), "const");
     }
-#line 1894 "y.tab.c" /* yacc.c:1646  */
+#line 1853 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 76:
@@ -1900,7 +1859,7 @@ yyreduce:
         extendTerminal("IDENTIFIER", (yyvsp[0].str));
         backToParent();
     }
-#line 1904 "y.tab.c" /* yacc.c:1646  */
+#line 1863 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 79:
@@ -1908,7 +1867,7 @@ yyreduce:
     { 
         extendTerminal("int", "type");
     }
-#line 1912 "y.tab.c" /* yacc.c:1646  */
+#line 1871 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 80:
@@ -1916,7 +1875,7 @@ yyreduce:
     { 
         extendTerminal("void", "type");
     }
-#line 1920 "y.tab.c" /* yacc.c:1646  */
+#line 1879 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 81:
@@ -1924,7 +1883,7 @@ yyreduce:
     {
         extendTree(NON_TERMINAL, "struct", "type");
     }
-#line 1928 "y.tab.c" /* yacc.c:1646  */
+#line 1887 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 82:
@@ -1933,7 +1892,7 @@ yyreduce:
         extendTerminal((yyvsp[0].str), "identifier");
         backToParent();
     }
-#line 1937 "y.tab.c" /* yacc.c:1646  */
+#line 1896 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 83:
@@ -1944,7 +1903,7 @@ yyreduce:
         extendTree(NON_TERMINAL, "", "do while loop");
         extendTree(NON_TERMINAL, "do", "loop body");
     }
-#line 1948 "y.tab.c" /* yacc.c:1646  */
+#line 1907 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 84:
@@ -1953,7 +1912,7 @@ yyreduce:
         backToParent();
         extendTree(NON_TERMINAL, "while", "loop condition");
     }
-#line 1957 "y.tab.c" /* yacc.c:1646  */
+#line 1916 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 85:
@@ -1961,7 +1920,7 @@ yyreduce:
     {  
         extendTree(NON_TERMINAL, "()", "expression");
     }
-#line 1965 "y.tab.c" /* yacc.c:1646  */
+#line 1924 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 86:
@@ -1969,7 +1928,7 @@ yyreduce:
     { 
         loadNode();
     }
-#line 1973 "y.tab.c" /* yacc.c:1646  */
+#line 1932 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 88:
@@ -1978,7 +1937,7 @@ yyreduce:
         saveNode();
         extendTree(NON_TERMINAL, "while", "while loop");
     }
-#line 1982 "y.tab.c" /* yacc.c:1646  */
+#line 1941 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 89:
@@ -1986,7 +1945,7 @@ yyreduce:
     { 
         extendTree(NON_TERMINAL, "()", "expression"); 
     }
-#line 1990 "y.tab.c" /* yacc.c:1646  */
+#line 1949 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 90:
@@ -1996,7 +1955,7 @@ yyreduce:
         /*establish local scope*/ ;
         extendTree(NON_TERMINAL, "", "loop body");
     }
-#line 2000 "y.tab.c" /* yacc.c:1646  */
+#line 1959 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 91:
@@ -2004,7 +1963,7 @@ yyreduce:
     {
         loadNode();
     }
-#line 2008 "y.tab.c" /* yacc.c:1646  */
+#line 1967 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 99:
@@ -2014,7 +1973,7 @@ yyreduce:
         saveNode();
         extendTree(NON_TERMINAL, "for", "for loop");
     }
-#line 2018 "y.tab.c" /* yacc.c:1646  */
+#line 1977 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 100:
@@ -2023,7 +1982,7 @@ yyreduce:
         extendTree(NON_TERMINAL, "()", "for expression");
         extendTree(NON_TERMINAL, "", "for init expression");
     }
-#line 2027 "y.tab.c" /* yacc.c:1646  */
+#line 1986 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 101:
@@ -2032,7 +1991,7 @@ yyreduce:
         backToParent();
         extendTree(NON_TERMINAL, "", "for condition");
     }
-#line 2036 "y.tab.c" /* yacc.c:1646  */
+#line 1995 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 102:
@@ -2041,7 +2000,7 @@ yyreduce:
         backToParent();
         extendTree(NON_TERMINAL, "", "for action");
     }
-#line 2045 "y.tab.c" /* yacc.c:1646  */
+#line 2004 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 103:
@@ -2051,7 +2010,7 @@ yyreduce:
         backToParent();
         extendTree(NON_TERMINAL, "", "loop body");
     }
-#line 2055 "y.tab.c" /* yacc.c:1646  */
+#line 2014 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 104:
@@ -2059,7 +2018,7 @@ yyreduce:
     {
         loadNode();
     }
-#line 2063 "y.tab.c" /* yacc.c:1646  */
+#line 2022 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 105:
@@ -2067,7 +2026,7 @@ yyreduce:
     { 
         extendOptTree("[]"); 
     }
-#line 2071 "y.tab.c" /* yacc.c:1646  */
+#line 2030 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 106:
@@ -2075,7 +2034,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 2079 "y.tab.c" /* yacc.c:1646  */
+#line 2038 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 109:
@@ -2083,7 +2042,7 @@ yyreduce:
     {
         extendTree(NON_TERMINAL, "*", "pointer");
     }
-#line 2087 "y.tab.c" /* yacc.c:1646  */
+#line 2046 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 112:
@@ -2091,7 +2050,7 @@ yyreduce:
     {
         extendTree(NON_TERMINAL, "&", "address");
     }
-#line 2095 "y.tab.c" /* yacc.c:1646  */
+#line 2054 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 114:
@@ -2099,7 +2058,7 @@ yyreduce:
     {
         saveNode();
     }
-#line 2103 "y.tab.c" /* yacc.c:1646  */
+#line 2062 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 115:
@@ -2107,7 +2066,7 @@ yyreduce:
     {
         extendTerminal((yyvsp[0].str), "identifier");
     }
-#line 2111 "y.tab.c" /* yacc.c:1646  */
+#line 2070 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 116:
@@ -2115,13 +2074,13 @@ yyreduce:
     {
         loadNode();
     }
-#line 2119 "y.tab.c" /* yacc.c:1646  */
+#line 2078 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 123:
 #line 455 "c.y" /* yacc.c:1646  */
     { /*establish local scope*/ ; }
-#line 2125 "y.tab.c" /* yacc.c:1646  */
+#line 2084 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 125:
@@ -2129,7 +2088,7 @@ yyreduce:
     {
         extendTerminal("break", "break");
     }
-#line 2133 "y.tab.c" /* yacc.c:1646  */
+#line 2092 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 127:
@@ -2137,7 +2096,7 @@ yyreduce:
     {
         extendTerminal("continue", "continue");
     }
-#line 2141 "y.tab.c" /* yacc.c:1646  */
+#line 2100 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 129:
@@ -2145,7 +2104,7 @@ yyreduce:
     {
         extendTree(NON_TERMINAL, "return", "return");
     }
-#line 2149 "y.tab.c" /* yacc.c:1646  */
+#line 2108 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 130:
@@ -2153,7 +2112,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 2157 "y.tab.c" /* yacc.c:1646  */
+#line 2116 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 132:
@@ -2161,7 +2120,7 @@ yyreduce:
     {
         extendTree(NON_TERMINAL, "print", "print");
     }
-#line 2165 "y.tab.c" /* yacc.c:1646  */
+#line 2124 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 133:
@@ -2169,7 +2128,7 @@ yyreduce:
     {
         extendTree(NON_TERMINAL, "", "print_content");
     }
-#line 2173 "y.tab.c" /* yacc.c:1646  */
+#line 2132 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 134:
@@ -2178,7 +2137,7 @@ yyreduce:
         backToParent();
         backToParent();
     }
-#line 2182 "y.tab.c" /* yacc.c:1646  */
+#line 2141 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 136:
@@ -2186,7 +2145,7 @@ yyreduce:
     {
         extendTree(NON_TERMINAL, "input", "input");
     }
-#line 2190 "y.tab.c" /* yacc.c:1646  */
+#line 2149 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 137:
@@ -2194,7 +2153,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 2198 "y.tab.c" /* yacc.c:1646  */
+#line 2157 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 140:
@@ -2202,7 +2161,7 @@ yyreduce:
     {
         extendTerminal((yyvsp[0].str), "string");
     }
-#line 2206 "y.tab.c" /* yacc.c:1646  */
+#line 2165 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 141:
@@ -2210,7 +2169,7 @@ yyreduce:
     {
         extendTree(NON_TERMINAL, "{}", "statement body");
     }
-#line 2214 "y.tab.c" /* yacc.c:1646  */
+#line 2173 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 142:
@@ -2218,13 +2177,13 @@ yyreduce:
     {
         backToParent();
     }
-#line 2222 "y.tab.c" /* yacc.c:1646  */
+#line 2181 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 144:
 #line 502 "c.y" /* yacc.c:1646  */
     { printf("statement body over!\n"); }
-#line 2228 "y.tab.c" /* yacc.c:1646  */
+#line 2187 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 145:
@@ -2232,7 +2191,7 @@ yyreduce:
     {
         extendTree(NON_TERMINAL, "", "declaration");
     }
-#line 2236 "y.tab.c" /* yacc.c:1646  */
+#line 2195 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 146:
@@ -2241,7 +2200,7 @@ yyreduce:
         extendTree(NON_TERMINAL, "", "declaration body");
         saveNode();
     }
-#line 2245 "y.tab.c" /* yacc.c:1646  */
+#line 2204 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 148:
@@ -2251,7 +2210,7 @@ yyreduce:
         broToParent(-1);
         connectParentChild();
     }
-#line 2255 "y.tab.c" /* yacc.c:1646  */
+#line 2214 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 149:
@@ -2261,7 +2220,7 @@ yyreduce:
         broToParent(-1);
         connectParentChild();
     }
-#line 2265 "y.tab.c" /* yacc.c:1646  */
+#line 2224 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 151:
@@ -2269,7 +2228,7 @@ yyreduce:
     {
         extendTree(NON_TERMINAL, "()", "function argument list");
     }
-#line 2273 "y.tab.c" /* yacc.c:1646  */
+#line 2232 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 152:
@@ -2278,7 +2237,7 @@ yyreduce:
         backToParent();
         // establish local scope
     }
-#line 2282 "y.tab.c" /* yacc.c:1646  */
+#line 2241 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 154:
@@ -2286,7 +2245,7 @@ yyreduce:
     {
         extendTree(NON_TERMINAL, "", "function defination");
     }
-#line 2290 "y.tab.c" /* yacc.c:1646  */
+#line 2249 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 155:
@@ -2294,7 +2253,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 2298 "y.tab.c" /* yacc.c:1646  */
+#line 2257 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 160:
@@ -2303,7 +2262,7 @@ yyreduce:
         extendTree(NON_TERMINAL, "", "argument declaration unit");
         broToParent(1);
     }
-#line 2307 "y.tab.c" /* yacc.c:1646  */
+#line 2266 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 161:
@@ -2311,7 +2270,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 2315 "y.tab.c" /* yacc.c:1646  */
+#line 2274 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 162:
@@ -2319,7 +2278,7 @@ yyreduce:
     {
         extendOptTree("=");
     }
-#line 2323 "y.tab.c" /* yacc.c:1646  */
+#line 2282 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 163:
@@ -2327,7 +2286,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 2331 "y.tab.c" /* yacc.c:1646  */
+#line 2290 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 165:
@@ -2335,7 +2294,7 @@ yyreduce:
     {
         extendTerminal((yyvsp[0].str), "identifier");
     }
-#line 2339 "y.tab.c" /* yacc.c:1646  */
+#line 2298 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 166:
@@ -2343,7 +2302,7 @@ yyreduce:
     {
         loadNode();
     }
-#line 2347 "y.tab.c" /* yacc.c:1646  */
+#line 2306 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 167:
@@ -2352,7 +2311,7 @@ yyreduce:
         extendTree(NON_TERMINAL, "", "function argument unit");
         saveNode();
     }
-#line 2356 "y.tab.c" /* yacc.c:1646  */
+#line 2315 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 168:
@@ -2360,7 +2319,7 @@ yyreduce:
     {
         backToParent();
     }
-#line 2364 "y.tab.c" /* yacc.c:1646  */
+#line 2323 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 173:
@@ -2368,7 +2327,7 @@ yyreduce:
     { 
         extendTree(NON_TERMINAL, "if", "if expression");
     }
-#line 2372 "y.tab.c" /* yacc.c:1646  */
+#line 2331 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 174:
@@ -2376,7 +2335,7 @@ yyreduce:
     {
         extendTree(NON_TERMINAL, "()", "if condition");
     }
-#line 2380 "y.tab.c" /* yacc.c:1646  */
+#line 2339 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 175:
@@ -2385,7 +2344,7 @@ yyreduce:
         backToParent();
         extendTree(NON_TERMINAL, "", "if statement");
     }
-#line 2389 "y.tab.c" /* yacc.c:1646  */
+#line 2348 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 177:
@@ -2393,17 +2352,17 @@ yyreduce:
     {
         extendTree(NON_TERMINAL, "else", "else statement");
     }
-#line 2397 "y.tab.c" /* yacc.c:1646  */
+#line 2356 "c.tab.c" /* yacc.c:1646  */
     break;
 
   case 179:
 #line 614 "c.y" /* yacc.c:1646  */
     {}
-#line 2403 "y.tab.c" /* yacc.c:1646  */
+#line 2362 "c.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2407 "y.tab.c" /* yacc.c:1646  */
+#line 2366 "c.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
