@@ -1,0 +1,36 @@
+Type           Name           Attribute 
+INT            int                           
+IDENTIFIER     main           0x1f82c880     
+LP             (                             
+VOID           void                          
+RP             )                             
+LBP            {                             
+INT            int                           
+IDENTIFIER     cursor         0x1f82c970     
+ASSIGN         =                             
+CONSTANT       0              0              
+SEMICOLON      ;                             
+FOR            for                           
+LP             (                             
+SEMICOLON      ;                             
+IDENTIFIER     cursor         0x1f82c970     
+GT             <                             
+CONSTANT       10             10             
+SEMICOLON      ;                             
+IDENTIFIER     cursor         0x1f82c970     
+ASSIGN         =                             
+IDENTIFIER     cursor         0x1f82c970     
+PLUS           +                             
+CONSTANT       1              1              
+RP             )                             
+LBP            {                             
+PRINT          print                         
+LP             (                             
+IDENTIFIER     cursor         0x1f82c970     
+RP             )                             
+SEMICOLON      ;                             
+RBP            }                             
+RETURN         return                        
+CONSTANT       0              0              
+SEMICOLON      ;                             
+RBP            }                             
