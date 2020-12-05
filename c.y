@@ -66,7 +66,7 @@ void loadNode();
 %token<str> WHILE DO FOR CONTINUE BREAK // while do for continue break
 %token<str> RETURN // return
 %token<str> STRUCT // struct
-///*
+
 // expression
 %type<str> expression assign_expression orh_expression or_expression andh_expression and_expression
 %type<str> eneh_expression ene_expression lgh_expression lg_expression pmh_expression pm_expression
@@ -95,7 +95,7 @@ void loadNode();
 
 //output
 %type<str> print_content
-//*/
+
 
 %nonassoc NONE_ELSE
 %nonassoc ELSE
@@ -105,7 +105,7 @@ void loadNode();
 
 
 expression
-    : single_expression comma_expression
+    : single_expression comma_expression 
     ;
 
 comma_expression
@@ -114,7 +114,7 @@ comma_expression
     } single_expression {
         backToParent();
     } comma_expression 
-    | {} 
+    |
     ;
 
 single_expression
@@ -171,6 +171,7 @@ ene_expression
     } lgh_expression {
         backToParent();
     } //ene_expression
+    |
     ;
 
 lgh_expression
@@ -202,7 +203,7 @@ lg_expression
     ;
 
 pmh_expression
-    : mtdh_expression pm_expression
+    : mtdh_expression {printf("pmh\n");} pm_expression
     ;
 
 pm_expression
@@ -220,7 +221,7 @@ pm_expression
     ;
 
 mtdh_expression
-    : powh_expression mtd_expression
+    : powh_expression {printf("mtdh\n");} mtd_expression
     ;
 
 mtd_expression
@@ -243,7 +244,7 @@ mtd_expression
     ;
 
 powh_expression
-    : noth_expression pow_expression
+    : noth_expression {printf("powh\n");} pow_expression
     ;
 
 pow_expression
@@ -258,7 +259,7 @@ pow_expression
 noth_expression
     : {
         saveNode();
-    } not_expression pid_expression {
+    } not_expression {printf("noth\n");} pid_expression {
         loadNode();
     }
     ;
@@ -283,7 +284,7 @@ pid_expression
         //loadNode();
     }
     | CONSTANT { 
-        extendTree(TERMINAL, $<str>1, "identifier");
+        extendTree(TERMINAL, $<str>1, "const");
     }
     ;
 
@@ -498,7 +499,7 @@ statement_block
 
 statement_body
     : statement statement_body
-    |
+    | { printf("statement body over!\n"); YYACCEPT; }
     ;
 
 declaration
@@ -681,7 +682,7 @@ int main(int arg, char* argv[]) {
     generateLEX();
     appendLEX("Type           Name           Attribute \n");
     launchTable();
-    yyparse();
+    int err = yyparse();
     closeLEX();
     generateYACC();
     printGrammerTree(root);
@@ -689,6 +690,7 @@ int main(int arg, char* argv[]) {
     stopTable();
     freeGrammerTree(root);
     fclose(yyin);
+    printf("%d\n", err);
     return 0; 
 }   
 

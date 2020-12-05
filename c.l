@@ -25,8 +25,8 @@ void appentLexOutputFile(const char* type, const char* name, const char* attribu
 %%
 [\n]			{ move(); }
 [\t \r]+
-(0|([1-9][0-9]*))     	{ appentLexOutputFile("CONSTANT", yytext, yytext); return(CONSTANT); }
-\"(\\.|[^\\"\n])*\"	{ appentLexOutputFile("STRING_C", yytext, yytext); return(STRING_C); }
+(0|([1-9][0-9]*))     	{ appentLexOutputFile("CONSTANT", yytext, yytext); yylval.str=yytext; return(CONSTANT); }
+\"(\\.|[^\\"\n])*\"	{ appentLexOutputFile("STRING_C", yytext, yytext); yylval.str=yytext; return(STRING_C); }
 "print"			{ appentLexOutputFile("PRINT", yytext, ""); return(PRINT); }
 "input"			{ appentLexOutputFile("INPUT", yytext, ""); return(INPUT); }
 

@@ -47,7 +47,10 @@ void traversal(void func(grammerTree*), grammerTree* root) {
 }
 
 void freeGrammerNode(grammerTree* node) {
-    free(node);
+    if(node != NULL){
+        free(node);
+        node = NULL;
+    }    
 }
 
 void freeGrammerTree(grammerTree* root) {

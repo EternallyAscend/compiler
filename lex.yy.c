@@ -820,12 +820,12 @@ YY_RULE_SETUP
 case 3:
 YY_RULE_SETUP
 #line 28 "c.l"
-{ appentLexOutputFile("CONSTANT", yytext, yytext); return(CONSTANT); }
+{ appentLexOutputFile("CONSTANT", yytext, yytext); yylval.str=yytext; return(CONSTANT); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 29 "c.l"
-{ appentLexOutputFile("STRING_C", yytext, yytext); return(STRING_C); }
+{ appentLexOutputFile("STRING_C", yytext, yytext); yylval.str=yytext; return(STRING_C); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
