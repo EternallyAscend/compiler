@@ -1,0 +1,21 @@
+Type           Name           Attribute 
+INT            int                           
+IDENTIFIER     main           0xf7cc76e0     
+LP             (                             
+INT            int                           
+IDENTIFIER     cursor         0xf7cc7ae0     
+RP             )                             
+LBP            {                             
+IDENTIFIER     cursor         0xf7cc7ae0     
+ASSIGN         =                             
+CONSTANT       0              0              
+SEMICOLON      ;                             
+DO             do                            
+LBP            {                             
+IDENTIFIER     cursor         0xf7cc7ae0     
+ASSIGN         =                             
+IDENTIFIER     cursor         0xf7cc7ae0     
+POW            ^                             
+IDENTIFIER     cursor         0xf7cc7ae0     
+SEMICOLON      ;                             
+RBP            }                             

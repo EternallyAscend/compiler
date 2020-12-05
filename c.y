@@ -277,19 +277,14 @@ pid_expression
     } expression RP { 
         backToParent();
     }
-    | IDENTIFIER {
-        //saveNode();
-        extendTree(TERMINAL, $<str>1, "identifier");
-    } pointer_expression {
-        //loadNode();
-    }
+    | decorated_identifier pointer_expression
     | CONSTANT { 
         extendTree(TERMINAL, $<str>1, "const");
     }
     ;
 
 pointer_expression
-    : POINTER IDENTIFIER {
+    : POINTER IDENTIFIER high_ay_decorator {
         extendOptTree("->");
         extendTerminal("IDENTIFIER", $<str>2);
         backToParent();
@@ -318,7 +313,9 @@ do_expression
         saveNode();
         extendTree(NON_TERMINAL, "", "do while loop");
         extendTree(NON_TERMINAL, "do", "loop body");
+        pushScope(1);
     } statement_block WHILE {
+        popScope();
         backToParent();
         extendTree(NON_TERMINAL, "while", "loop condition");
     } LP {  
@@ -338,8 +335,10 @@ while_expression
         backToParent(); 
         /*establish local scope*/ ;
         extendTree(NON_TERMINAL, "", "loop body");
+        pushScope(1);
     } statement_block {
         loadNode();
+        popScope();
     }
     ;
 
@@ -390,6 +389,7 @@ for_expression
         /*establish local scope*/ ;
         saveNode();
         extendTree(NON_TERMINAL, "for", "for loop");
+        pushScope(1);
     } LP {  
         extendTree(NON_TERMINAL, "()", "for expression");
         extendTree(NON_TERMINAL, "", "for init expression");
@@ -403,9 +403,15 @@ for_expression
         backToParent();
         backToParent();
         extendTree(NON_TERMINAL, "", "loop body");
-    } statement_block {
+    } for_child_statement {
         loadNode();
+        popScope();
     }
+    ;
+
+for_child_statement
+    : statement_block
+    | dependent_statement
     ;
 
 array_decorator
@@ -446,13 +452,20 @@ decorated_identifier
     ;
 
 statement
+    : dependent_statement
+    | { 
+        pushScope(1); 
+    } statement_block {
+        popScope();
+    }
+
+dependent_statement
     : expression SEMICOLON
     | for_expression
     | do_expression
     | while_expression
     | condition_expression
     | declaration
-    | { /*establish local scope*/ ; }statement_block
     | BREAK {
         extendTerminal("break", "break");
     } SEMICOLON
@@ -479,8 +492,6 @@ statement
         backToParent();
     } SEMICOLON
     ;
-
-
 
 print_content
     : expression
@@ -527,10 +538,13 @@ declaration_body
 function_declaration
     : init_identifier LP {
         extendTree(NON_TERMINAL, "()", "function argument list");
+        pushScope(1);
     } function_argument_list RP {
         backToParent();
         // establish local scope
-    } function_defination
+    } function_defination {
+        popScope();
+    }
     ;
 
 function_defination
@@ -604,12 +618,17 @@ condition_expression
     } expression RP {
         backToParent();
         extendTree(NON_TERMINAL, "", "if statement");
-    } statement condition_tail
+        pushScope(1);
+    } statement {
+        popScope();
+    } condition_tail
     ;
 
 condition_tail
     : ELSE {
         extendTree(NON_TERMINAL, "else", "else statement");
+        pushScope(1);
+        popScope();
     } statement 
     | {} %prec NONE_ELSE
     ;
