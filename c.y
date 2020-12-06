@@ -298,7 +298,7 @@ pointer_expression
         extendTerminal("IDENTIFIER", $<str>2);
         backToParent();
     } pointer_expression 
-    | /* epsilon */
+    |
     ;
 */
 
@@ -388,27 +388,27 @@ while_expression
 for_init_expression
     : declaration { print_non_terminal_symbol(word_pos++, "for_init_expression"); }
     | for_condition_expression
-    | /* epsilon */
+    | 
     ;
 
 for_condition_expression
     : expression for_more_condition_expression { print_non_terminal_symbol(word_pos++, "for_condition_expression"); }
-    | /* epsilon */
+    | 
     ;
 
 for_more_condition_expression
     : COMMA {  } for_condition_expression { print_non_terminal_symbol(word_pos++, "for_condition_expression"); }
-    | /* epsilon */
+    | 
     ;
     
 for_action_expression
     : expression for_more_action_expression { print_non_terminal_symbol(word_pos++, "for_action_expression"); }
-    | /* epsilon */
+    | 
     ;
 
 for_more_action_expression
     : COMMA {  } for_action_expression { print_non_terminal_symbol(word_pos++, "for_action_expression"); }
-    | /* epsilon */
+    | 
     ; 
 */
 
