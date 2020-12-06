@@ -481,7 +481,7 @@ for_init_expression
     }  expression
     
     | error {
-        yyerror("Lack ( in for loop.");
+        yyerror("Lack ( in for loop expression.");
     }
     
     | LP {  
@@ -497,13 +497,16 @@ for_condition_expression
     } expression
     
     | error {
-        yyerror("Wrong for condition expression.");
+        yyerror("Wrong for init expression.");
     }
     
     | SEMICOLON {  
         extendTree(NON_TERMINAL, "()", "for expression");
         extendTree(NON_TERMINAL, "", "for init expression");
     } 
+    | SEMICOLON error {
+        yyerror("Wrong for condition expression.")
+    }
     ;
 
 for_action_expression
@@ -517,7 +520,7 @@ for_action_expression
     }
     
     | error {
-        yyerror("Wrong for action expression.");
+        yyerror("Wrong for condition expression.");
     }
     
     | SEMICOLON {
@@ -527,6 +530,12 @@ for_action_expression
         backToParent();
         backToParent();
         extendTree(NON_TERMINAL, "", "loop body");
+    }
+    | SEMICOLON {
+        backToParent();
+        extendTree(NON_TERMINAL, "", "for action");
+    } error {
+        yyerror("Lack ) in for action expression.");
     }
     ;
 
