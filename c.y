@@ -312,9 +312,10 @@ type_defination
     }
     ;
 
+/*
 do_expression
     : DO { 
-        /*establish local scope*/ ;
+        // establish local scope ;
         saveNode();
         extendTree(NON_TERMINAL, "", "do while loop");
         extendTree(NON_TERMINAL, "do", "loop body");
@@ -328,6 +329,32 @@ do_expression
     } expression RP { 
         loadNode();
     } SEMICOLON
+    ;
+*/
+
+doh_expression
+    : DO {
+	/* establish local scope */ ;
+	saveNode();
+	extendTree(NON_TERMINAL, "", "do while loop");
+	extendTree(NON_TERMINAL, "do", "loop body");
+	pushScope(1);
+    } statement_block
+    ;
+
+do_expression
+    : doh_expression WHILE { 
+	popScope();
+	backToParent();
+	extendTree(NON_TERMINAL, "while", "loop condition");
+    } LP {
+	extendTree(NON_TERMINAL, "()", "expression");
+    } expression RP {
+	loadNode();
+    } SEMICOLON
+    | doh_expression error {
+	yyerror("Lost while in do while loop.");
+    }
     ;
 
 while_expression
