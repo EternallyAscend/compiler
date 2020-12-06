@@ -61,7 +61,7 @@ void printGrammerNode(grammerTree* node) {
     static int word_pos = 0;
     node->index = word_pos++;
     char str[MAX_OUTPUT_LENGTH];
-    sprintf(str, "%-4d: \t%-10s\t%-18s\t", node->index, node->grammer, node->word);
+    sprintf(str, "%-5d: \t%-25s\t%-18s\t", node->index, node->grammer, node->word);
     char child[24] = "child: ";
     for(int i = 0; i < node->size; i++) {
         sprintf(child, "%s %d", child, node->child[i]->index);
