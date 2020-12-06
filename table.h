@@ -20,7 +20,7 @@ extern "C" {
 
 	int stopTable();
 
-	int pushScope(int creator);
+	int pushScope(const int creator);
 
 	int popScope();
 
@@ -30,15 +30,21 @@ extern "C" {
 
 	int searchWordGlobal(const char* name);
 
-	int setType(char* name, int type);
+	int setType(const char* name, const int type);
 
-	int setStore(char* name, int store, int position);
+	int setStore(const char* name, const int store, const int position);
 
-	int setCurrentType(int type);
+	int setCurrentType(const int type);
 
-	int setTypeFunction(char* name, int type);
+	int setTypeFunction(const char* name, const int type);
 
-	int setStoreFunction(char* name, int store, int position);
+	int setStoreFunction(const char* name, const int store, const int position);
+
+// 	int pushStruct(const char* name);
+// 
+// 	int popStruct();
+// 
+// 	int searchStruct(const char* name);
 
 	int restartTable();
 
