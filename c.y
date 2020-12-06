@@ -462,10 +462,6 @@ for_expression
         pushScope(1);
     } error {
         yyerror("Wrong for loop expression.");
-    } for_child_statement {
-        backToParent();
-        backToParent();
-        popScope();
     }
     ;
 
