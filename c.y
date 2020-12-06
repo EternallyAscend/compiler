@@ -119,7 +119,7 @@ comma_expression
     } single_expression {
         backToParent();
     } comma_expression 
-    |
+    | /* epsilon */
     ;
 
 single_expression
@@ -175,7 +175,7 @@ ene_expression
         extendOptTree("!=");
     } lgh_expression {
         backToParent();
-    } //ene_expression
+    } // ene_expression
     |
     ;
 
@@ -188,22 +188,22 @@ lg_expression
         extendOptTree(">");
     } pmh_expression {
         backToParent();
-    }//lg_expression
+    } // lg_expression
     | GE {  
         extendOptTree(">=");
     } pmh_expression {
         backToParent();
-    }//lg_expression
+    } // lg_expression
     | LT {  
         extendOptTree("<");
     } pmh_expression {
         backToParent();
-    }//lg_expression
+    } // lg_expression
     | LE {  
         extendOptTree("<=");
     } pmh_expression {
         backToParent();
-    }//lg_expression
+    } // lg_expression
     | /* epsilon */
     ;
 
@@ -286,16 +286,21 @@ pid_expression
     | CONSTANT { 
         extendTree(TERMINAL, $<str>1, "const");
     }
+    | error {
+        yyerror("expect an identifier or expression.");
+    }
     ;
 
+/*
 pointer_expression
     : POINTER IDENTIFIER high_ay_decorator {
         extendOptTree("->");
         extendTerminal("IDENTIFIER", $<str>2);
         backToParent();
     } pointer_expression 
-    |
+    | /* epsilon */
     ;
+*/
 
 type_defination
     : INT { 
@@ -304,12 +309,17 @@ type_defination
     | VOID { 
         extendTerminal("void", "type");
     } 
+    | error {
+        yyerror("invalid type declaration.");
+    }
+/*
     | STRUCT {
         extendTree(NON_TERMINAL, "struct", "type");
     } IDENTIFIER {  
         extendTerminal($<str>3, "identifier");
         backToParent();
     }
+*/
     ;
 
 /*
@@ -374,31 +384,33 @@ while_expression
     }
     ;
 
-/* for_init_expression
+/* 
+for_init_expression
     : declaration { print_non_terminal_symbol(word_pos++, "for_init_expression"); }
     | for_condition_expression
-    | // epsilon 
+    | /* epsilon */
     ;
 
 for_condition_expression
     : expression for_more_condition_expression { print_non_terminal_symbol(word_pos++, "for_condition_expression"); }
-    | // epsilon 
+    | /* epsilon */
     ;
 
 for_more_condition_expression
     : COMMA {  } for_condition_expression { print_non_terminal_symbol(word_pos++, "for_condition_expression"); }
-    | // epsilon 
+    | /* epsilon */
     ;
     
 for_action_expression
     : expression for_more_action_expression { print_non_terminal_symbol(word_pos++, "for_action_expression"); }
-    | // epsilon 
+    | /* epsilon */
     ;
 
 for_more_action_expression
     : COMMA {  } for_action_expression { print_non_terminal_symbol(word_pos++, "for_action_expression"); }
-    | // epsilon 
-    ; */
+    | /* epsilon */
+    ; 
+*/
 
 for_init_expression
     : {
@@ -415,17 +427,26 @@ for_init_expression
         //connectParentChild();
     }
     | expression
-    |
+    | error {
+        yyerror("Wrong for init expression.");
+    }
+    | /* epsilon */
     ;
 
 for_condition_expression
     : expression
-    |
+    | error {
+        yyerror("Wrong for condition expression.");
+    }
+    | /* epsilon */
     ;
 
 for_action_expression
     : expression
-    |
+    | error {
+        yyerror("Wrong for action expression.");
+    }
+    | /* epsilon */
     ;
 
 for_expression
@@ -469,21 +490,21 @@ array_decorator
 
 high_ay_decorator
     : array_decorator high_ay_decorator
-    |
+    | /* epsilon */
     ;
 
 high_nter_decorator
     : TIMES {
         extendTree(NON_TERMINAL, "*", "pointer");
     } high_nter_decorator
-    |
+    | /* epsilon */
     ;
 
 address_decorator
     : ADDRESS {
         extendTree(NON_TERMINAL, "&", "address");
     }
-    | 
+    | /* epsilon */
     ;
 
 decorated_identifier
@@ -613,7 +634,7 @@ argument_declaration_list
 
 argument_declaration_list_tail
     : COMMA argument_declaration_list
-    | 
+    | /* epsilon */
     ;
 
 argument_declaration_unit
@@ -631,7 +652,7 @@ argument_declaration_init
     } single_expression {
         backToParent();
     }
-    | 
+    | /* epsilon */
     ;
 
 init_identifier
@@ -654,12 +675,12 @@ function_argument
 
 function_argument_list
     : function_argument function_argument_tail
-    |
+    | /* epsilon */
     ;
 
 function_argument_tail
     : COMMA function_argument_list
-    |
+    | /* epsilon */
     ;
 
 condition_expression
