@@ -504,7 +504,10 @@ for_condition_expression
         extendTree(NON_TERMINAL, "()", "for expression");
         extendTree(NON_TERMINAL, "", "for init expression");
     } 
-    | SEMICOLON error {
+    | SEMICOLON {  
+        extendTree(NON_TERMINAL, "()", "for expression");
+        extendTree(NON_TERMINAL, "", "for init expression");
+    } expression error {
         yyerror("Wrong for condition expression.");
     }
     ;
@@ -534,7 +537,7 @@ for_action_expression
     | SEMICOLON {
         backToParent();
         extendTree(NON_TERMINAL, "", "for action");
-    } error {
+    } expression error {
         yyerror("Lack ) in for action expression.");
     }
     ;
