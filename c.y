@@ -79,7 +79,7 @@ void useId(const char* name);
 %type<str> pid_expression pointer_expression
 
 //type of argument
-%type<str> type_defination
+%type<str> basic_type
 
 //for-loop while-loop
 %type<str> for_expression while_expression do_expression
@@ -285,7 +285,7 @@ pid_expression
     } expression RP { 
         backToParent();
     }
-    | decorated_identifier pointer_expression
+    | decorated_identifier //pointer_expression
     | CONSTANT { 
         extendTree(TERMINAL, $<str>1, "const");
     }
@@ -294,49 +294,117 @@ pid_expression
     }
     ;
 
-pointer_expression
+/* pointer_expression
     : POINTER IDENTIFIER high_ay_decorator {
         extendOptTree("->");
         extendTerminal("IDENTIFIER", $<str>2);
         backToParent();
     } pointer_expression 
     |
-    ;
+    ; */
 
-type_defination
+basic_type
     : INT { 
         extendTerminal("int", "type");
     } 
     | VOID { 
         extendTerminal("void", "type");
     } 
-    | STRUCT {
-        extendTree(NON_TERMINAL, "struct", "type");
-    } IDENTIFIER {  
-        extendTerminal($<str>3, "identifier");
-        backToParent();
-    }
     | error {
         yyerror("invalid type");
     }
     ;
 
-do_expression
-    : DO { 
-        /*establish local scope*/ ;
-        saveNode();
-        extendTree(NON_TERMINAL, "", "do while loop");
-        extendTree(NON_TERMINAL, "do", "loop body");
-        pushScope(1);
-    } statement_block WHILE {
-        popScope();
+/* struct_type
+    : STRUCT {
+        extendTree(NON_TERMINAL, "struct", "type");
+    } IDENTIFIER {  
+        extendTerminal($<str>3, "identifier");
         backToParent();
-        extendTree(NON_TERMINAL, "while", "loop condition");
-    } LP {  
-        extendTree(NON_TERMINAL, "()", "expression");
-    } expression RP { 
-        loadNode();
+    } struct_defination;
+    ; */
+
+all_type
+    : basic_type
+    /* | struct_type */
+    ;
+
+/* struct_defination
+    : LBP {
+        extendTree(NON_TERMINAL, "{}", "struct body");
+    } struct_body RBP {
+        extendTree(NON_TERMINAL, "", "struct defination");
+        broToParent(-1);
+        backToParent();
+        backToParent();
+    }
+    |
+    ;
+
+struct_body_unit
+    : {
+        extendTree(NON_TERMINAL, "", "struct body unit");   
+    } all_type {
+        extendTree(NON_TERMINAL, "", "member list");
+    } struct_member_list {
+        backToParent();
     } SEMICOLON
+    ;
+
+struct_member_list
+    : struct_member struct_other_member
+    ;
+
+struct_member
+    : {
+        saveNode();
+        extendTree(NON_TERMINAL, "", "struct member");
+    } init_identifier {
+        loadNode();
+    }
+    ;
+
+struct_other_member
+    : COMMA struct_member_list
+    |
+    | error {
+        yyerror("invalid symbol");
+    }
+    ;
+
+struct_body
+    : struct_body_unit struct_body_other_unit
+    ;
+
+struct_body_other_unit
+    : struct_body_unit struct_body_other_unit
+    |
+    ; */
+
+
+doh_expression
+    : DO {
+	/* establish local scope */ ;
+	saveNode();
+	extendTree(NON_TERMINAL, "", "do while loop");
+	extendTree(NON_TERMINAL, "do", "loop body");
+	pushScope(1);
+    } statement_block
+    ;
+
+do_expression
+    : doh_expression WHILE { 
+	popScope();
+	backToParent();
+	extendTree(NON_TERMINAL, "while", "loop condition");
+    } LP {
+	extendTree(NON_TERMINAL, "()", "expression");
+    } expression RP {
+	loadNode();
+    } SEMICOLON
+    | doh_expression error {
+	yyerror("Lost while in do while loop.");
+    }
     ;
 
 while_expression
@@ -356,36 +424,10 @@ while_expression
     }
     ;
 
-/* for_init_expression
-    : declaration { print_non_terminal_symbol(word_pos++, "for_init_expression"); }
-    | for_condition_expression
-    | // epsilon 
-    ;
-
-for_condition_expression
-    : expression for_more_condition_expression { print_non_terminal_symbol(word_pos++, "for_condition_expression"); }
-    | // epsilon 
-    ;
-
-for_more_condition_expression
-    : COMMA {  } for_condition_expression { print_non_terminal_symbol(word_pos++, "for_condition_expression"); }
-    | // epsilon 
-    ;
-    
-for_action_expression
-    : expression for_more_action_expression { print_non_terminal_symbol(word_pos++, "for_action_expression"); }
-    | // epsilon 
-    ;
-
-for_more_action_expression
-    : COMMA {  } for_action_expression { print_non_terminal_symbol(word_pos++, "for_action_expression"); }
-    | // epsilon 
-    ; */
-
 for_init_expression
     : {
         extendTree(NON_TERMINAL, "", "declaration");
-    } type_defination {
+    } all_type {
         extendTree(NON_TERMINAL, "", "declaration body");
         saveNode();
     } argument_declaration_list {
@@ -398,16 +440,25 @@ for_init_expression
     }
     | expression
     |
+    | error {
+	    yyerror("Wrong for init expression.");
+    }
     ;
 
 for_condition_expression
     : expression
     |
+    | error {
+	    yyerror("Wrong for condition expression.");
+    }
     ;
 
 for_action_expression
     : expression
     |
+    | error {
+	    yyerror("Wrong for action expression.");
+    }
     ;
 
 for_expression
@@ -554,7 +605,7 @@ statement_body
 declaration
     : {
         extendTree(NON_TERMINAL, "", "declaration");
-    } type_defination {
+    } all_type {
         extendTree(NON_TERMINAL, "", "declaration body");
         saveNode();
     } declaration_body {
@@ -604,6 +655,7 @@ function_defination
 
 argument_declaration_list
     : argument_declaration_unit argument_declaration_list_tail
+    |
     ;
 
 argument_declaration_list_tail
@@ -651,7 +703,7 @@ function_argument
     : {
         extendTree(NON_TERMINAL, "", "function argument unit");
         saveNode();
-    } type_defination init_identifier argument_declaration_init {
+    } all_type init_identifier argument_declaration_init {
         backToParent();
     }
     ;
@@ -665,7 +717,7 @@ function_argument_tail
     : COMMA function_argument_list
     |
     | error {
-        yyerror("invalid symbol in argument list")
+        yyerror("invalid symbol in argument list");
     }
     ;
 
@@ -696,6 +748,7 @@ condition_tail
     }
     | {} %prec NONE_ELSE
     ;
+
 
 %%
 

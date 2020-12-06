@@ -304,8 +304,8 @@ type_defination
     | VOID { 
         extendTerminal("void", "type");
     } 
-    | STRUCT {
-        extendTree(NON_TERMINAL, "struct", "type");
+    /* | STRUCT {
+        extendTree(NON_TERMINAL, "struct", "type"); */
     } IDENTIFIER {  
         extendTerminal($<str>3, "identifier");
         backToParent();
