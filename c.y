@@ -374,7 +374,17 @@ for_more_action_expression
     ; */
 
 for_init_expression
-    : declaration
+    : {
+        extendTree(NON_TERMINAL, "", "declaration");
+    } type_defination {
+        extendTree(NON_TERMINAL, "", "declaration body");
+        saveNode();
+    } argument_declaration_list {
+        extendTree(NON_TERMINAL, "", "argument declaration list");
+        broToParent(-1);
+        backToParent();
+        //connectParentChild();
+    }
     | expression
     |
     ;
@@ -392,7 +402,7 @@ for_action_expression
 for_expression
     : FOR { 
         /*establish local scope*/ ;
-        saveNode();
+        //saveNode();
         extendTree(NON_TERMINAL, "for", "for loop");
         pushScope(1);
     } LP {  
@@ -409,7 +419,8 @@ for_expression
         backToParent();
         extendTree(NON_TERMINAL, "", "loop body");
     } for_child_statement {
-        loadNode();
+        backToParent();
+        backToParent();
         popScope();
     }
     ;
@@ -775,5 +786,5 @@ int main(int arg, char* argv[]) {
 void yyerror(const char* charactor) {
     printf("error in line %d: %s\n", yylineno, charactor);
     //yyclearin;
-    yyparse();
+    //yyparse();
 }
