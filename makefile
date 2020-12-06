@@ -1,5 +1,5 @@
-LEX=lex#flex
-YACC=yacc#bison
+LEX=lex #flex
+YACC=yacc #bison
 CC=g++
 OBJECT=ccompiler
 FILE=example.c
@@ -25,4 +25,4 @@ lex.yy.c: c.l
 	$(LEX) c.l
  
 clean:
-	@rm -f $(OBJECT)  *.o lex.yy.c y.tab.c y.tab.h
+	@rm -f $(OBJECT)  *.o lex.yy.c y.tab.c y.tab.h # c.tab.c c.tab.h

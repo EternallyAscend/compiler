@@ -111,6 +111,9 @@ void useId(const char* name);
 
 expression
     : single_expression comma_expression 
+    | error {
+        yyerror("invalid symbol in expression");
+    }
     ;
 
 comma_expression
@@ -286,6 +289,9 @@ pid_expression
     | CONSTANT { 
         extendTree(TERMINAL, $<str>1, "const");
     }
+    | error {
+        yyerror("expect an identifier or expression");
+    }
     ;
 
 pointer_expression
@@ -309,6 +315,9 @@ type_defination
     } IDENTIFIER {  
         extendTerminal($<str>3, "identifier");
         backToParent();
+    }
+    | error {
+        yyerror("invalid type");
     }
     ;
 
@@ -337,26 +346,6 @@ do_expression
     }
     ;
 
-/*
-do_expression
-    : DO { 
-        // establish local scope ;
-        saveNode();
-        extendTree(NON_TERMINAL, "", "do while loop");
-        extendTree(NON_TERMINAL, "do", "loop body");
-        pushScope(1);
-    } statement_block WHILE {
-        popScope();
-        backToParent();
-        extendTree(NON_TERMINAL, "while", "loop condition");
-    } LP {  
-        extendTree(NON_TERMINAL, "()", "expression");
-    } expression RP { 
-        loadNode();
-    } SEMICOLON
-    ;
-*/
-
 while_expression
     : WHILE {  
         saveNode();
@@ -373,32 +362,6 @@ while_expression
         popScope();
     }
     ;
-
-/* for_init_expression
-    : declaration { print_non_terminal_symbol(word_pos++, "for_init_expression"); }
-    | for_condition_expression
-    | // epsilon 
-    ;
-
-for_condition_expression
-    : expression for_more_condition_expression { print_non_terminal_symbol(word_pos++, "for_condition_expression"); }
-    | // epsilon 
-    ;
-
-for_more_condition_expression
-    : COMMA {  } for_condition_expression { print_non_terminal_symbol(word_pos++, "for_condition_expression"); }
-    | // epsilon 
-    ;
-    
-for_action_expression
-    : expression for_more_action_expression { print_non_terminal_symbol(word_pos++, "for_action_expression"); }
-    | // epsilon 
-    ;
-
-for_more_action_expression
-    : COMMA {  } for_action_expression { print_non_terminal_symbol(word_pos++, "for_action_expression"); }
-    | // epsilon 
-    ; */
 
 for_init_expression
     : {
@@ -474,6 +437,9 @@ array_decorator
     } expression RSB {
         backToParent();
     }
+    | error {
+        yyerror("invalid symbol before identifier");
+    }
     ;
 
 high_ay_decorator
@@ -486,13 +452,19 @@ high_nter_decorator
         extendTree(NON_TERMINAL, "*", "pointer");
     } high_nter_decorator
     |
+    | error {
+        yyerror("invalid symbol before identifier");
+    }
     ;
 
 address_decorator
     : ADDRESS {
         extendTree(NON_TERMINAL, "&", "address");
     }
-    | 
+    |  
+    | error {
+        yyerror("invalid symbol before identifier");
+    }
     ;
 
 decorated_identifier
@@ -546,6 +518,7 @@ dependent_statement
     } LP decorated_identifier RP {
         backToParent();
     } SEMICOLON
+    | error
     ;
 
 print_content
@@ -614,6 +587,9 @@ function_defination
         backToParent();
     }
     | SEMICOLON
+    | error {
+        yyerror("excepted semicolon or defination body");
+    }
     ;
 
 argument_declaration_list
@@ -622,7 +598,10 @@ argument_declaration_list
 
 argument_declaration_list_tail
     : COMMA argument_declaration_list
-    | 
+    |  
+    | error {
+        yyerror("invalid symbol in argument list");
+    }
     ;
 
 argument_declaration_unit
@@ -640,7 +619,10 @@ argument_declaration_init
     } single_expression {
         backToParent();
     }
-    | 
+    |  
+    | error {
+        yyerror("invalid symbol in argument list");
+    }
     ;
 
 init_identifier
@@ -649,6 +631,9 @@ init_identifier
         extendTerminal($<str>2, "identifier");
     } high_ay_decorator {
         loadNode();
+    }
+    | error {
+        yyerror("expexted an identifier");
     }
     ;
 
@@ -669,6 +654,9 @@ function_argument_list
 function_argument_tail
     : COMMA function_argument_list
     |
+    | error {
+        yyerror("invalid symbol in argument list");
+    }
     ;
 
 condition_expression
