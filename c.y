@@ -309,9 +309,12 @@ type_defination
     | VOID { 
         extendTerminal("void", "type");
     } 
+    /*
     | error {
         yyerror("invalid type declaration.");
     }
+    */
+    
 /*
     | STRUCT {
         extendTree(NON_TERMINAL, "struct", "type");
@@ -384,34 +387,6 @@ while_expression
     }
     ;
 
-/* 
-for_init_expression
-    : declaration { print_non_terminal_symbol(word_pos++, "for_init_expression"); }
-    | for_condition_expression
-    | 
-    ;
-
-for_condition_expression
-    : expression for_more_condition_expression { print_non_terminal_symbol(word_pos++, "for_condition_expression"); }
-    | 
-    ;
-
-for_more_condition_expression
-    : COMMA {  } for_condition_expression { print_non_terminal_symbol(word_pos++, "for_condition_expression"); }
-    | 
-    ;
-    
-for_action_expression
-    : expression for_more_action_expression { print_non_terminal_symbol(word_pos++, "for_action_expression"); }
-    | 
-    ;
-
-for_more_action_expression
-    : COMMA {  } for_action_expression { print_non_terminal_symbol(word_pos++, "for_action_expression"); }
-    | 
-    ; 
-*/
-
 for_init_expression
     : {
         extendTree(NON_TERMINAL, "", "declaration");
@@ -427,25 +402,31 @@ for_init_expression
         //connectParentChild();
     }
     | expression
+    /*
     | error {
         yyerror("Wrong for init expression.");
     }
+    */
     | /* epsilon */
     ;
 
 for_condition_expression
     : expression
+    /*
     | error {
         yyerror("Wrong for condition expression.");
     }
+    */
     | /* epsilon */
     ;
 
 for_action_expression
     : expression
+    /*
     | error {
         yyerror("Wrong for action expression.");
     }
+    */
     | /* epsilon */
     ;
 
