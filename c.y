@@ -455,6 +455,18 @@ for_expression
         backToParent();
         popScope();
     }
+    | FOR { 
+        // establish local scope ;
+        //saveNode();
+        extendTree(NON_TERMINAL, "for", "for loop");
+        pushScope(1);
+    } error {
+        yyerror("Wrong for loop expression.");
+    } for_child_statement {
+        backToParent();
+        backToParent();
+        popScope();
+    }
     ;
 
 
