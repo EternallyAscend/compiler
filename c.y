@@ -387,6 +387,7 @@ while_expression
     }
     ;
 
+/*
 for_init_expression
     : {
         extendTree(NON_TERMINAL, "", "declaration");
@@ -409,12 +410,12 @@ for_init_expression
         extendTree(NON_TERMINAL, "", "for condition");
     }
     
-    | error {
-        yyerror("Wrong for init expression.");
-    } SEMICOLON {
-        backToParent();
-        extendTree(NON_TERMINAL, "", "for condition");
-    }
+    // | error {
+    //     yyerror("Wrong for init expression.");
+    // } SEMICOLON {
+    //     backToParent();
+    //     extendTree(NON_TERMINAL, "", "for condition");
+    // }
     
     | SEMICOLON {
         backToParent();
@@ -428,12 +429,12 @@ for_condition_expression
         extendTree(NON_TERMINAL, "", "for action");
     }
     
-    | error {
-        yyerror("Wrong for condition expression.");
-    } SEMICOLON {
-        backToParent();
-        extendTree(NON_TERMINAL, "", "for action");
-    }
+    // | error {
+    //     yyerror("Wrong for condition expression.");
+    // } SEMICOLON {
+    //     backToParent();
+    //     extendTree(NON_TERMINAL, "", "for action");
+    // }
     
     | SEMICOLON {
         backToParent();
@@ -448,13 +449,13 @@ for_action_expression
         extendTree(NON_TERMINAL, "", "loop body");
     } 
     
-    | error {
-        yyerror("Wrong for action expression.");
-    } RP {  
-        backToParent();
-        backToParent();
-        extendTree(NON_TERMINAL, "", "loop body");
-    } 
+    // | error {
+    //     yyerror("Wrong for action expression.");
+    // } RP {  
+    //     backToParent();
+    //     backToParent();
+    //     extendTree(NON_TERMINAL, "", "loop body");
+    // } 
     
     | RP {  
         backToParent();
@@ -487,7 +488,8 @@ for_expression
     }
     ;
 
-/*
+*/
+
 for_init_expression
     : {
         extendTree(NON_TERMINAL, "", "declaration");
@@ -564,7 +566,7 @@ for_expression
         yyerror("Wrong for loop expression.");
     }
     ;
-*/
+
 
 /*
 for_init_expression
@@ -644,7 +646,7 @@ for_expression
         //saveNode();
         extendTree(NON_TERMINAL, "for", "for loop");
         pushScope(1);
-    } for_init_expression for_condition_expression  for_action_expression error {
+    } for_init_expression for_condition_expression for_action_expression error {
         yyerror("Wrong for action expression.");
     } for_child_statement {
         backToParent();
