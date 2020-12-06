@@ -479,15 +479,15 @@ for_init_expression
         extendTree(NON_TERMINAL, "()", "for expression");
         extendTree(NON_TERMINAL, "", "for init expression");
     }  expression
+    | LP {  
+        extendTree(NON_TERMINAL, "()", "for expression");
+        extendTree(NON_TERMINAL, "", "for init expression");
+    }
     
     | error {
         yyerror("Lack ( in for loop expression.");
     }
     
-    | LP {  
-        extendTree(NON_TERMINAL, "()", "for expression");
-        extendTree(NON_TERMINAL, "", "for init expression");
-    }
     ;
 
 for_condition_expression
