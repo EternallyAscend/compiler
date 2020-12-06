@@ -208,7 +208,7 @@ lg_expression
     ;
 
 pmh_expression
-    : mtdh_expression {printf("pmh\n");} pm_expression
+    : mtdh_expression pm_expression
     ;
 
 pm_expression
@@ -226,7 +226,7 @@ pm_expression
     ;
 
 mtdh_expression
-    : powh_expression {printf("mtdh\n");} mtd_expression
+    : powh_expression mtd_expression
     ;
 
 mtd_expression
@@ -249,7 +249,7 @@ mtd_expression
     ;
 
 powh_expression
-    : noth_expression {printf("powh\n");} pow_expression
+    : noth_expression pow_expression
     ;
 
 pow_expression
@@ -264,7 +264,7 @@ pow_expression
 noth_expression
     : {
         saveNode();
-    } not_expression {printf("noth\n");} pid_expression {
+    } not_expression pid_expression {
         loadNode();
     }
     ;
@@ -525,18 +525,24 @@ declaration
     } type_defination {
         extendTree(NON_TERMINAL, "", "declaration body");
         saveNode();
-    } declaration_body
+    } declaration_body {
+        loadNode();
+        backToParent();
+        backToParent();
+    }
     ;
 
 declaration_body
     : function_declaration {
         extendTree(NON_TERMINAL, "", "function declaration");
         broToParent(-1);
+        backToParent();
         //connectParentChild();
     }
     | argument_declaration_list {
         extendTree(NON_TERMINAL, "", "argument declaration list");
         broToParent(-1);
+        backToParent();
         //connectParentChild();
     } SEMICOLON
     ;
@@ -723,7 +729,7 @@ void useId(const char* name) {
 void declarationId(const char* name) {
     char* attribute = (char*)malloc(sizeof(char)*64);
 	if (searchWord(name)) {
-		printf("Exist at line %d.\n", yylineno);
+		//printf("Exist at line %d.\n", yylineno);
 		printf("mutidefined.\n");
 		sprintf(attribute, "mutidefined");
 	}
@@ -768,6 +774,6 @@ int main(int arg, char* argv[]) {
 
 void yyerror(const char* charactor) {
     printf("error in line %d: %s\n", yylineno, charactor);
-    yyclearin;
+    //yyclearin;
     yyparse();
 }
