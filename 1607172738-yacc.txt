@@ -1,8 +1,0 @@
-0   : 	type      	int               	child: 
-1   : 	identifier	main              	child: 
-2   : 	type      	void              	child: 
-3   : 	function argument unit	                  	child:  2
-4   : 	function argument list	()                	child:  3
-5   : 	declaration body	                  	child:  1 4
-6   : 	declaration	                  	child:  0 5
-7   : 	start     	                  	child:  6
