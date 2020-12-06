@@ -537,7 +537,6 @@ declaration
         extendTree(NON_TERMINAL, "", "declaration body");
         saveNode();
     } declaration_body {
-        loadNode();
         backToParent();
         backToParent();
     }
