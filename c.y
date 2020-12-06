@@ -461,7 +461,7 @@ for_expression
 
 for_init_expression
     : LP {
-        extendTree(NON_TERMINAL, "()", "for expression")
+        extendTree(NON_TERMINAL, "()", "for expression");
         extendTree(NON_TERMINAL, "", "for init expression");
         extendTree(NON_TERMINAL, "", "declaration");
     } type_defination {
