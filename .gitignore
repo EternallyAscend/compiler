@@ -3,6 +3,7 @@
 *.o
 lex.yy.*
 output
+example.c.bak
 example.c
 ccompiler
 compiler

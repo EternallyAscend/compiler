@@ -18,11 +18,11 @@ y.tab.o: y.tab.c file.h table.h
 #	$(CC) -c c.tab.c
 
 #c.tab.c c.tab.h: c.y
-y.tab.c c.tab.h: c.y
+y.tab.c y.tab.h: c.y
 	$(YACC) -d c.y
  
 lex.yy.c: c.l
 	$(LEX) c.l
  
 clean:
-	@rm -f $(OBJECT)  *.o
+	@rm -f $(OBJECT)  *.o lex.yy.c y.tab.c y.tab.h
