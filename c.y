@@ -383,6 +383,8 @@ for_init_expression
         extendTree(NON_TERMINAL, "", "argument declaration list");
         broToParent(-1);
         backToParent();
+        backToParent();
+        backToParent();
         //connectParentChild();
     }
     | expression
