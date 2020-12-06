@@ -18,7 +18,7 @@ extern "C"
 // #endif
 
 void move();
-char* outputTitle();
+const char* outputTitle();
 void appendLexOutputFile(const char* type, const char* name, const char* attribute);
 %}
 
@@ -98,7 +98,7 @@ void move() {
 	yylineno++;
 }
 
-char* outputTitle() {
+const char* outputTitle() {
 	return "Type           Name           Attribute \n";
 }
 
