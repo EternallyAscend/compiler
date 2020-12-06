@@ -627,16 +627,21 @@ condition_expression
         extendTree(NON_TERMINAL, "", "if statement");
         pushScope(1);
     } statement {
+        backToParent();
         popScope();
-    } condition_tail
+    } condition_tail {
+        backToParent();
+    }
     ;
 
 condition_tail
     : ELSE {
         extendTree(NON_TERMINAL, "else", "else statement");
-        pushScope(1);
+        pushScope(1); 
+    } statement {
         popScope();
-    } statement 
+        backToParent();
+    }
     | {} %prec NONE_ELSE
     ;
 
@@ -762,5 +767,7 @@ int main(int arg, char* argv[]) {
 }   
 
 void yyerror(const char* charactor) {
-    
+    printf("error in line %d: %s\n", yylineno, charactor);
+    yyclearin;
+    yyparse();
 }
