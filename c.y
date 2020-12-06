@@ -503,12 +503,6 @@ for_condition_expression
     | SEMICOLON {  
         extendTree(NON_TERMINAL, "()", "for expression");
         extendTree(NON_TERMINAL, "", "for init expression");
-    } 
-    | SEMICOLON {  
-        extendTree(NON_TERMINAL, "()", "for expression");
-        extendTree(NON_TERMINAL, "", "for init expression");
-    } expression error {
-        yyerror("Wrong for condition expression.");
     }
     ;
 
