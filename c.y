@@ -387,7 +387,107 @@ while_expression
     }
     ;
 
+for_init_expression
+    : {
+        extendTree(NON_TERMINAL, "", "declaration");
+    } type_defination {
+        extendTree(NON_TERMINAL, "", "declaration body");
+        saveNode();
+    } argument_declaration_list {
+        extendTree(NON_TERMINAL, "", "argument declaration list");
+        broToParent(-1);
+        backToParent();
+        backToParent();
+        backToParent();
+        //connectParentChild();
+    } SEMICOLON {
+        backToParent();
+        extendTree(NON_TERMINAL, "", "for condition");
+    }
+    | expression SEMICOLON {
+        backToParent();
+        extendTree(NON_TERMINAL, "", "for condition");
+    }
+    
+    | error {
+        yyerror("Wrong for init expression.");
+    } SEMICOLON {
+        backToParent();
+        extendTree(NON_TERMINAL, "", "for condition");
+    }
+    
+    | SEMICOLON {
+        backToParent();
+        extendTree(NON_TERMINAL, "", "for condition");
+    }
+    ;
 
+for_condition_expression
+    : expression SEMICOLON {
+        backToParent();
+        extendTree(NON_TERMINAL, "", "for action");
+    }
+    
+    | error {
+        yyerror("Wrong for condition expression.");
+    } SEMICOLON {
+        backToParent();
+        extendTree(NON_TERMINAL, "", "for action");
+    }
+    
+    | SEMICOLON {
+        backToParent();
+        extendTree(NON_TERMINAL, "", "for action");
+    }
+    ;
+
+for_action_expression
+    : expression RP {  
+        backToParent();
+        backToParent();
+        extendTree(NON_TERMINAL, "", "loop body");
+    } 
+    
+    | error {
+        yyerror("Wrong for action expression.");
+    } RP {  
+        backToParent();
+        backToParent();
+        extendTree(NON_TERMINAL, "", "loop body");
+    } 
+    
+    | RP {  
+        backToParent();
+        backToParent();
+        extendTree(NON_TERMINAL, "", "loop body");
+    } 
+    ;
+
+for_expression
+    : FOR { 
+        // establish local scope ;
+        //saveNode();
+        extendTree(NON_TERMINAL, "for", "for loop");
+        pushScope(1);
+    } LP {  
+        extendTree(NON_TERMINAL, "()", "for expression");
+        extendTree(NON_TERMINAL, "", "for init expression");
+    } for_init_expression for_condition_expression for_action_expression for_child_statement {
+        backToParent();
+        backToParent();
+        popScope();
+    }
+    | FOR { 
+        // establish local scope ;
+        //saveNode();
+        extendTree(NON_TERMINAL, "for", "for loop");
+        pushScope(1);
+    } error {
+        yyerror("Wrong for loop expression.");
+    }
+    ;
+
+/*
 for_init_expression
     : {
         extendTree(NON_TERMINAL, "", "declaration");
@@ -464,7 +564,7 @@ for_expression
         yyerror("Wrong for loop expression.");
     }
     ;
-
+*/
 
 /*
 for_init_expression
