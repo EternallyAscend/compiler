@@ -286,9 +286,6 @@ pid_expression
     | CONSTANT { 
         extendTree(TERMINAL, $<str>1, "const");
     }
-    | error {
-        yyerror("expect an identifier or expression.");
-    }
     ;
 
 /*
@@ -365,9 +362,6 @@ do_expression
     } expression RP {
 	loadNode();
     } SEMICOLON
-    | doh_expression error {
-	yyerror("Lost while in do while loop.");
-    }
     ;
 
 while_expression
@@ -506,9 +500,9 @@ for_init_expression
     }
     | expression
     
-    // | error {
-    //     yyerror("Wrong for init expression.");
-    // }
+    | error {
+        yyerror("Wrong for init expression.");
+    }
     
     | 
     ;
@@ -516,9 +510,9 @@ for_init_expression
 for_condition_expression
     : expression
     
-    // | error {
-    //     yyerror("Wrong for condition expression.");
-    // }
+    | error {
+        yyerror("Wrong for condition expression.");
+    }
     
     | 
     ;
@@ -526,9 +520,9 @@ for_condition_expression
 for_action_expression
     : expression
     
-    // | error {
-    //     yyerror("Wrong for action expression.");
-    // }
+    | error {
+        yyerror("Wrong for action expression.");
+    }
     
     | 
     ;
@@ -556,14 +550,6 @@ for_expression
         backToParent();
         backToParent();
         popScope();
-    }
-    | FOR { 
-        // establish local scope ;
-        //saveNode();
-        extendTree(NON_TERMINAL, "for", "for loop");
-        pushScope(1);
-    } error {
-        yyerror("Wrong for loop expression.");
     }
     ;
 
@@ -706,6 +692,9 @@ statement
     } statement_block {
         popScope();
     }
+    | error SEMICOLON
+    | error RBP
+    ;
 
 dependent_statement
     : expression SEMICOLON
