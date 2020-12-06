@@ -282,7 +282,7 @@ pid_expression
     } expression RP { 
         backToParent();
     }
-    | decorated_identifier pointer_expression
+    | decorated_identifier // pointer_expression
     | CONSTANT { 
         extendTree(TERMINAL, $<str>1, "const");
     }
@@ -387,7 +387,7 @@ while_expression
     }
     ;
 
-/*
+
 for_init_expression
     : {
         extendTree(NON_TERMINAL, "", "declaration");
@@ -404,9 +404,9 @@ for_init_expression
     }
     | expression
     
-    | error {
-        yyerror("Wrong for init expression.");
-    }
+    // | error {
+    //     yyerror("Wrong for init expression.");
+    // }
     
     | 
     ;
@@ -414,9 +414,9 @@ for_init_expression
 for_condition_expression
     : expression
     
-    | error {
-        yyerror("Wrong for condition expression.");
-    }
+    // | error {
+    //     yyerror("Wrong for condition expression.");
+    // }
     
     | 
     ;
@@ -424,9 +424,9 @@ for_condition_expression
 for_action_expression
     : expression
     
-    | error {
-        yyerror("Wrong for action expression.");
-    }
+    // | error {
+    //     yyerror("Wrong for action expression.");
+    // }
     
     | 
     ;
@@ -457,8 +457,8 @@ for_expression
     }
     ;
 
-*/
 
+/*
 for_init_expression
     : LP {
         extendTree(NON_TERMINAL, "()", "for expression");
@@ -544,6 +544,7 @@ for_expression
         popScope();
     }
     ;
+*/
 
 for_child_statement
     : statement_block
