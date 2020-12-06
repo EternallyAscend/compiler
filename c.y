@@ -528,12 +528,6 @@ for_action_expression
         backToParent();
         extendTree(NON_TERMINAL, "", "loop body");
     }
-    | SEMICOLON {
-        backToParent();
-        extendTree(NON_TERMINAL, "", "for action");
-    } expression error {
-        yyerror("Lack ) in for action expression.");
-    }
     ;
 
 for_expression
@@ -542,7 +536,9 @@ for_expression
         //saveNode();
         extendTree(NON_TERMINAL, "for", "for loop");
         pushScope(1);
-    } for_init_expression for_condition_expression  for_action_expression for_child_statement {
+    } for_init_expression for_condition_expression  for_action_expression error {
+        yyerror("Wrong for action expression.");
+    } for_child_statement {
         backToParent();
         backToParent();
         popScope();
