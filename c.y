@@ -620,7 +620,7 @@ argument_declaration_list
 
 argument_declaration_list_tail
     : COMMA argument_declaration_list
-    | COMMA error {
+    | error {
         yyerror("Wrong declaration list.");
     }
     | /* epsilon */
@@ -642,7 +642,9 @@ argument_declaration_init
         backToParent();
     }
     | /* epsilon */
-    | error {
+    | ASSIGN {
+        extendOptTree("=");
+    } error {
         yyerror("Wrong init expression while argument declaration.");
     }
     ;
