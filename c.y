@@ -227,6 +227,9 @@ pm_expression
 
 mtdh_expression
     : powh_expression mtd_expression
+    | powh_expression error {
+        yyerror("Wrong expression.");
+    }
     ;
 
 mtd_expression
@@ -269,6 +272,11 @@ noth_expression
         saveNode();
     } not_expression pid_expression {
         loadNode();
+    }
+    | {
+        saveNode();
+    } not_expression error {
+        yyerror("Wrong not expression.");
     }
     ;
 
