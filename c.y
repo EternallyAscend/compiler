@@ -306,11 +306,11 @@ type_defination
     | VOID { 
         extendTerminal("void", "type");
     } 
-
+    /*
     | error {
         yyerror("invalid type declaration.");
     }
-
+    */
 
 /*
     | STRUCT {
