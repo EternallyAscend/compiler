@@ -409,31 +409,25 @@ for_init_expression
         //connectParentChild();
     }
     | expression
-    
     | error {
         yyerror("Wrong for init expression.");
     }
-    
     | 
     ;
 
 for_condition_expression
     : expression
-    
     | error {
         yyerror("Wrong for condition expression.");
     }
-    
     | 
     ;
 
 for_action_expression
     : expression
-    
     | error {
         yyerror("Wrong for action expression.");
     }
-    
     | 
     ;
 
@@ -467,7 +461,7 @@ for_expression
         extendTree(NON_TERMINAL, "for", "for loop");
         pushScope(1);
     } error {
-        yyerror("Wrong for expression.");
+        yyerror("Wrong for expression for lack of (.");
     }
     ;
 
@@ -708,7 +702,7 @@ condition_expression
     | IF {
         extendTree(NON_TERMINAL, "if", "if expression");
     } error {
-        yyerror("Wrong if expression.");
+        yyerror("Wrong if expression for lack of (.");
     }
     ;
 
