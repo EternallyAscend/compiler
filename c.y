@@ -118,7 +118,13 @@ comma_expression
         extendOptTree(",");
     } single_expression {
         backToParent();
-    } comma_expression 
+    } comma_expression
+    | COMMA error {
+        extendOptTree(",");
+        yyerror("invalid syntax");
+        extendTerminal("error", "invalid syntax");
+        backToParent();
+    }
     | /* epsilon */
     ;
 
@@ -133,7 +139,10 @@ assign_expression
         backToParent();
     } assign_expression
     | ASSIGN error {
+        extendOptTree("=");
         yyerror("Wrong assign expression.");
+        extendTerminal("error", "assign expression error");
+        backToParent();
     }
     | /* epsilon */
     ;
@@ -148,6 +157,12 @@ or_expression
     } andh_expression {
         backToParent();
     } or_expression
+    | OR error {
+        extendOptTree("||");
+        yyerror("invalid syntax");
+        extendTerminal("error", "invalid syntax");
+        backToParent();
+    }
     | /* epsilon */
     ;
 
@@ -161,6 +176,12 @@ and_expression
     } eneh_expression {
         backToParent();
     } and_expression
+    | AND {
+        extendOptTree("&&");
+        yyerror("invalid syntax");
+        extendTerminal("error", "invalid syntax");
+        backToParent();
+    }
     | /* epsilon */
     ;
 
@@ -169,17 +190,24 @@ eneh_expression
     ;
 
 ene_expression
+    : ene_opt lgh_expression {
+        backToParent();
+    }
+    | ene_opt error {
+        yyerror("invalid syntax");
+        extendTerminal("error", "invalid syntax");
+        backToParent();
+    }
+    |
+    ;
+
+ene_opt
     : EQ {  
         extendOptTree("==");
-    } lgh_expression {
-        backToParent();
-    } //ene_expression
-    | NE {  
+    }
+    | NE  {  
         extendOptTree("!=");
-    } lgh_expression {
-        backToParent();
-    } // ene_expression
-    |
+    }
     ;
 
 lgh_expression
@@ -187,27 +215,30 @@ lgh_expression
     ;
 
 lg_expression
+    : cmp_opt pmh_expression {
+        backToParent();
+    }
+    | cmp_opt error {
+        yyerror("invalid syntax");
+        extendTerminal("error", "invalid syntax");
+        backToParent();
+    }
+    | /* epsilon */
+    ;
+
+cmp_opt
     : GT {  
         extendOptTree(">");
-    } pmh_expression {
-        backToParent();
-    } // lg_expression
+    }
     | GE {  
         extendOptTree(">=");
-    } pmh_expression {
-        backToParent();
-    } // lg_expression
+    }
     | LT {  
         extendOptTree("<");
-    } pmh_expression {
-        backToParent();
-    } // lg_expression
+    } 
     | LE {  
         extendOptTree("<=");
-    } pmh_expression {
-        backToParent();
-    } // lg_expression
-    | /* epsilon */
+    }
     ;
 
 pmh_expression
@@ -225,30 +256,58 @@ pm_expression
     } mtdh_expression {
         backToParent();
     } pm_expression
+    | PLUS { 
+        extendOptTree("+");
+    } error {
+        yyerror("invalid syntax");
+        extendTerminal("error", "invalid syntax");
+        backToParent();
+    }
+    | MINUS { 
+        extendOptTree("-");
+    } error {
+        yyerror("invalid syntax");
+        extendTerminal("error", "invalid syntax");
+        backToParent();
+    }
     | /* epsilon */
     ;
+
+/* pm_opt
+    : PLUS {
+        extendOptTree("+");
+    }
+    | MINUS {
+        extendOptTree("-");
+    }
+    ; */
 
 mtdh_expression
     : powh_expression mtd_expression
     ;
 
 mtd_expression
+    : mtd_opt powh_expression {
+        backToParent();
+    } mtd_expression
+    | mtd_opt error {
+        yyerror("invalid syntax");
+        extendTerminal("error", "invalid syntax");
+        backToParent();
+    }
+    |
+    ;
+
+mtd_opt
     : MOD { 
         extendOptTree("%");
-    } powh_expression {
-        backToParent();
-    } mtd_expression
+    }
     | TIMES { 
         extendOptTree("*");
-    } powh_expression {
-        backToParent();
-    } mtd_expression
+    }
     | DIVIDE { 
         extendOptTree("/");
-    } powh_expression {
-        backToParent();
-    } mtd_expression
-    | /* epsilon */
+    } 
     ;
 
 powh_expression
@@ -264,6 +323,12 @@ pow_expression
     } noth_expression {
         backToParent();
     } pow_expression
+    | POW error {
+        extendOptTree("^");
+        yyerror("invalid syntax");
+        extendTerminal("error", "invalid syntax");
+        backToParent();
+    }
     | /* epsilon */
     ;
 
@@ -279,6 +344,12 @@ not_expression
     : NOT { 
         extendTree(NON_TERMINAL, "!", "expression");
     } not_expression
+    | NOT error {
+        extendTree(NON_TERMINAL, "!", "expression");
+        yyerror("invalid syntax");
+        extendTerminal("error", "invalid syntax");
+        backToParent();
+    }
     | /* epsilon */
     ;
 
@@ -296,6 +367,8 @@ pid_expression
         extendTree(NON_TERMINAL, "()", "expression");
     } error {
         yyerror("Wrong expression in ().");
+        extendTerminal("error", "() expression error");
+        backToParent();
     }
     ;
 
@@ -317,50 +390,6 @@ type_defination
     | VOID { 
         extendTerminal("void", "type");
     } 
-    /*
-    | error {
-        yyerror("invalid type declaration.");
-    }
-    */
-
-/*
-    | STRUCT {
-        extendTree(NON_TERMINAL, "struct", "type");
-    } IDENTIFIER {  
-        extendTerminal($<str>3, "identifier");
-        backToParent();
-    }
-*/
-    ;
-
-/*
-do_expression
-    : DO { 
-        // establish local scope ;
-        saveNode();
-        extendTree(NON_TERMINAL, "", "do while loop");
-        extendTree(NON_TERMINAL, "do", "loop body");
-        pushScope(1);
-    } statement_block WHILE {
-        popScope();
-        backToParent();
-        extendTree(NON_TERMINAL, "while", "loop condition");
-    } LP {  
-        extendTree(NON_TERMINAL, "()", "expression");
-    } expression RP { 
-        loadNode();
-    } SEMICOLON
-    | DO {
-        // establish local scope ;
-        saveNode();
-        extendTree(NON_TERMINAL, "", "do while loop");
-        extendTree(NON_TERMINAL, "do", "loop body");
-        pushScope(1);
-    } error {
-        yyerror("Wrong do while block for lack statement block.");
-    }
-    ;
-*/
 
 doh_expression
     : DO {
@@ -388,6 +417,8 @@ do_expression
         extendTree(NON_TERMINAL, "while", "loop condition");
     } error {
         yyerror("Wrong while condition in do while loop.");
+        extendTerminal("error", "do while error");
+        backToParent();
     }
     ;
 
@@ -407,10 +438,11 @@ while_expression
         popScope();
     }
     | WHILE {
-        saveNode();
         extendTree(NON_TERMINAL, "while", "while loop");
     } error {
         yyerror("Wrong while expression.");
+        extendTerminal("error", "while loop error");
+        backToParent();
     }
     ;
 
@@ -429,25 +461,28 @@ for_init_expression
         //connectParentChild();
     }
     | expression
-    | error {
+    /* | error {
         yyerror("Wrong for init expression.");
-    }
+        extendTerminal("error", "for init expression error");
+    } */
     | 
     ;
 
 for_condition_expression
     : expression
-    | error {
+    /* | error {
         yyerror("Wrong for condition expression.");
-    }
+        extendTerminal("error", "for condition expression error");
+    } */
     | 
     ;
 
 for_action_expression
     : expression
-    | error {
+    /* | error {
         yyerror("Wrong for action expression.");
-    }
+        extendTerminal("error", "for action expression error");
+    } */
     | 
     ;
 
@@ -482,6 +517,8 @@ for_expression
         pushScope(1);
     } error {
         yyerror("Wrong for expression for lack of (.");
+        extendTerminal("error", "for expression error");
+        backToParent();
     }
     ;
 
@@ -507,6 +544,11 @@ high_nter_decorator
     : TIMES {
         extendTree(NON_TERMINAL, "*", "pointer");
     } high_nter_decorator
+    | TIMES error {
+        extendTree(NON_TERMINAL, "*", "pointer");
+        extendTree(NON_TERMINAL, "error", "pointer error");
+        yyerror("invalid syntax after pointer *");
+    }
     | /* epsilon */
     ;
 
@@ -535,8 +577,12 @@ statement
     } statement_block {
         popScope();
     }
-    | error SEMICOLON
-    | error RBP
+    | error SEMICOLON {
+        extendTerminal("error", "statement error");
+    }
+    | error RBP {
+        extendTerminal("error", "statement error");
+    }
     ;
 
 dependent_statement
@@ -575,14 +621,14 @@ dependent_statement
         extendTree(NON_TERMINAL, "print", "print");
     } error {
         yyerror("Wrong print expression.");
-    } RP {
+        extendTerminal("error", "print error");
         backToParent();
-        backToParent();
-    } SEMICOLON
+    } RP SEMICOLON
     | INPUT {
         extendTree(NON_TERMINAL, "input", "input");
     } error {
         yyerror("Wrong input expression.");
+        extendTerminal("error", "input error");
     } RP {
         backToParent();
     } SEMICOLON
@@ -664,6 +710,7 @@ argument_declaration_list_tail
     : COMMA argument_declaration_list
     | COMMA error {
         yyerror("Wrong declaration list.");
+        extendTerminal("error", "argument declaration unit error");
     }
     | /* epsilon */
     ;
@@ -688,6 +735,8 @@ argument_declaration_init
         extendOptTree("=");
     } error {
         yyerror("Wrong init expression while argument declaration.");
+        extendTerminal("error", "init expression error");
+        backToParent();
     }
     ;
 
@@ -738,6 +787,8 @@ condition_expression
         extendTree(NON_TERMINAL, "if", "if expression");
     } error {
         yyerror("Wrong if expression for lack of (.");
+        extendTerminal("error", "if expression error");
+        backToParent();
     }
     ;
 
