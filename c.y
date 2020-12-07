@@ -344,11 +344,11 @@ do_expression
 
 doh_expression
     : DO {
-	/* establish local scope */ ;
-	saveNode();
-	extendTree(NON_TERMINAL, "", "do while loop");
-	extendTree(NON_TERMINAL, "do", "loop body");
-	pushScope(1);
+	    /* establish local scope */ ;
+	    saveNode();
+	    extendTree(NON_TERMINAL, "", "do while loop");
+	    extendTree(NON_TERMINAL, "do", "loop body");
+	    pushScope(1);
     } statement_block
     ;
 
@@ -362,7 +362,7 @@ do_expression
     } expression RP {
 	    loadNode();
     } SEMICOLON
-    | do_expression WHILE {
+    | doh_expression WHILE {
         popScope();
         backToParent();
         extendTree(NON_TERMINAL, "while", "loop condition");
