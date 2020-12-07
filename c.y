@@ -132,6 +132,9 @@ assign_expression
     } orh_expression { 
         backToParent();
     } assign_expression
+    | ASSIGN error {
+        yyerror("Wrong assign expression.");
+    }
     | /* epsilon */
     ;
 
