@@ -448,6 +448,14 @@ for_expression
         backToParent();
         popScope();
     }
+    | for {
+        // establish local scope ;
+        //saveNode();
+        extendTree(NON_TERMINAL, "for", "for loop");
+        pushScope(1);
+    } error {
+        yyerror("Wrong for expression.");
+    }
     ;
 
 for_child_statement
@@ -675,6 +683,11 @@ condition_expression
         popScope();
     } condition_tail {
         backToParent();
+    }
+    | IF {
+        extendTree(NON_TERMINAL, "if", "if expression");
+    } error {
+        yyerror("Wrong if expression.");
     }
     ;
 
