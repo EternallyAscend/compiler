@@ -645,7 +645,7 @@ argument_declaration_init
     | ASSIGN {
         extendOptTree("=");
     } error {
-        yyerror("Wrong init expression while argument declaration.")
+        yyerror("Wrong init expression while argument declaration.");
     }
     ;
 
