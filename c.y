@@ -273,11 +273,6 @@ noth_expression
     } not_expression pid_expression {
         loadNode();
     }
-    | {
-        saveNode();
-    } not_expression error {
-        yyerror("Wrong not expression.");
-    }
     ;
 
 not_expression
