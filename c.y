@@ -286,6 +286,11 @@ pid_expression
     | CONSTANT { 
         extendTree(TERMINAL, $<str>1, "const");
     }
+    | LP {
+        extendTree(NON_TERMINAL, "()", "expression");
+    } error {
+        yyerror("Wrong expression in ().");
+    }
     ;
 
 /*
