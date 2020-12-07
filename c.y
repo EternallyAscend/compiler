@@ -551,6 +551,21 @@ dependent_statement
     } LP decorated_identifier RP {
         backToParent();
     } SEMICOLON
+    | PRINT {
+        extendTree(NON_TERMINAL, "print", "print");
+    } error {
+        yyerror("Wrong print expression.");
+    } RP {
+        backToParent();
+        backToParent();
+    } SEMICOLON
+    | INPUT {
+        extendTree(NON_TERMINAL, "input", "input");
+    } error {
+        yyerror("Wrong input expression.");
+    } RP {
+        backToParent();
+    } SEMICOLON
     ;
 
 print_content
