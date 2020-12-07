@@ -620,7 +620,7 @@ argument_declaration_list
 
 argument_declaration_list_tail
     : COMMA argument_declaration_list
-    | error {
+    | COMMA error {
         yyerror("Wrong declaration list.");
     }
     | /* epsilon */
@@ -708,12 +708,12 @@ condition_tail
         backToParent();
     }
     | {} %prec NONE_ELSE
-    | ELSE {
-        extendTree(NON_TERMINAL, "else", "else statement");
-        pushScope(1); 
-    } error {
-        yyerror("Wrong else expression.");
-    }
+    // | ELSE {
+    //     extendTree(NON_TERMINAL, "else", "else statement");
+    //     pushScope(1); 
+    // } error {
+    //     yyerror("Wrong else expression.");
+    // }
     ;
 
 %%
