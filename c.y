@@ -354,14 +354,21 @@ doh_expression
 
 do_expression
     : doh_expression WHILE { 
-	popScope();
-	backToParent();
-	extendTree(NON_TERMINAL, "while", "loop condition");
+	    popScope();
+	    backToParent();
+	    extendTree(NON_TERMINAL, "while", "loop condition");
     } LP {
-	extendTree(NON_TERMINAL, "()", "expression");
+	    extendTree(NON_TERMINAL, "()", "expression");
     } expression RP {
-	loadNode();
+	    loadNode();
     } SEMICOLON
+    | do_expression WHILE {
+        popScope();
+        backToParent();
+        extendTree(NON_TERMINAL, "while", "loop condition");
+    } error {
+        yyerror("Wrong while condition in do while loop.");
+    }
     ;
 
 while_expression
