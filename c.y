@@ -227,9 +227,6 @@ pm_expression
 
 mtdh_expression
     : powh_expression mtd_expression
-    | powh_expression error {
-        yyerror("Wrong expression.");
-    }
     ;
 
 mtd_expression
