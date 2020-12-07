@@ -643,7 +643,7 @@ argument_declaration_init
     }
     | /* epsilon */
     | ASSIGN {
-        extendTree("=");
+        extendOptTree("=");
     } error {
         yyerror("Wrong init expression while argument declaration.")
     }
