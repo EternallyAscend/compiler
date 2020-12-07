@@ -76,7 +76,7 @@ void useId(const char* name);
 %type<str> expression assign_expression orh_expression or_expression andh_expression and_expression
 %type<str> eneh_expression ene_expression lgh_expression lg_expression pmh_expression pm_expression
 %type<str> mtd_expression mtdh_expression pow_expression powh_expression not_expression noth_expression
-%type<str> pid_expression pointer_expression
+%type<str> pid_expression // pointer_expression
 
 //type of argument
 %type<str> type_defination
