@@ -642,9 +642,7 @@ argument_declaration_init
         backToParent();
     }
     | /* epsilon */
-    | ASSIGN {
-        extendOptTree("=");
-    } error {
+    | error {
         yyerror("Wrong init expression while argument declaration.");
     }
     ;
