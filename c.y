@@ -250,6 +250,9 @@ mtd_expression
 
 powh_expression
     : noth_expression pow_expression
+    | noth_expression error {
+        yyerror("Wrong pow expression.");
+    }
     ;
 
 pow_expression
