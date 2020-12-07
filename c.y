@@ -209,9 +209,6 @@ lg_expression
 
 pmh_expression
     : mtdh_expression pm_expression
-    | mtdh_expression error {
-        yyerror("Wrong +/- expression.");
-    }
     ;
 
 pm_expression
