@@ -379,6 +379,12 @@ while_expression
         loadNode();
         popScope();
     }
+    | WHILE {
+        saveNode();
+        extendTree(NON_TERMINAL, "while", "while loop");
+    } error {
+        yyerror("Wrong while expression.");
+    }
     ;
 
 for_init_expression
@@ -708,12 +714,6 @@ condition_tail
         backToParent();
     }
     | {} %prec NONE_ELSE
-    // | ELSE {
-    //     extendTree(NON_TERMINAL, "else", "else statement");
-    //     pushScope(1); 
-    // } error {
-    //     yyerror("Wrong else expression.");
-    // }
     ;
 
 %%
