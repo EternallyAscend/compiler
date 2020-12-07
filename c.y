@@ -306,11 +306,11 @@ type_defination
     | VOID { 
         extendTerminal("void", "type");
     } 
-    /*
+
     | error {
         yyerror("invalid type declaration.");
     }
-    */
+
 
 /*
     | STRUCT {
@@ -339,6 +339,15 @@ do_expression
     } expression RP { 
         loadNode();
     } SEMICOLON
+    | DO {
+        // establish local scope ;
+        saveNode();
+        extendTree(NON_TERMINAL, "", "do while loop");
+        extendTree(NON_TERMINAL, "do", "loop body");
+        pushScope(1);
+    } error {
+        yyerror("Wrong do while block for lack statement block.");
+    }
     ;
 */
 
