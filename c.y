@@ -448,7 +448,7 @@ for_expression
         backToParent();
         popScope();
     }
-    | for {
+    | FOR {
         // establish local scope ;
         //saveNode();
         extendTree(NON_TERMINAL, "for", "for loop");
