@@ -101,6 +101,9 @@ void useId(const char* name);
 //output
 %type<str> print_content
 
+//opt
+%type<str> cmp_opt ene_opt mtd_opt
+
 
 %nonassoc NONE_ELSE
 %nonassoc ELSE
@@ -121,8 +124,8 @@ comma_expression
     } comma_expression
     | COMMA error {
         extendOptTree(",");
-        yyerror("invalid syntax");
-        extendTerminal("error", "invalid syntax");
+        yyerror("invalid syntax after ,");
+        extendTerminal("error", "invalid syntax after ,");
         backToParent();
     }
     | /* epsilon */
@@ -159,8 +162,8 @@ or_expression
     } or_expression
     | OR error {
         extendOptTree("||");
-        yyerror("invalid syntax");
-        extendTerminal("error", "invalid syntax");
+        yyerror("invalid syntax after ||");
+        extendTerminal("error", "invalid syntax after ||");
         backToParent();
     }
     | /* epsilon */
@@ -178,8 +181,8 @@ and_expression
     } and_expression
     | AND {
         extendOptTree("&&");
-        yyerror("invalid syntax");
-        extendTerminal("error", "invalid syntax");
+        yyerror("invalid syntax after &&");
+        extendTerminal("error", "invalid syntax after &&");
         backToParent();
     }
     | /* epsilon */
@@ -194,8 +197,10 @@ ene_expression
         backToParent();
     }
     | ene_opt error {
-        yyerror("invalid syntax");
-        extendTerminal("error", "invalid syntax");
+        char str[64];
+        sprintf(str, "invalid syntax after %s", $1);
+        yyerror(str);
+        extendTerminal("error", str);
         backToParent();
     }
     |
@@ -204,9 +209,11 @@ ene_expression
 ene_opt
     : EQ {  
         extendOptTree("==");
+        strcpy($$, "==");
     }
     | NE  {  
         extendOptTree("!=");
+        strcpy($$, "!=");
     }
     ;
 
@@ -219,8 +226,10 @@ lg_expression
         backToParent();
     }
     | cmp_opt error {
-        yyerror("invalid syntax");
-        extendTerminal("error", "invalid syntax");
+        char str[64];
+        sprintf(str, "invalid syntax after %s", $1);
+        yyerror(str);
+        extendTerminal("error", str);
         backToParent();
     }
     | /* epsilon */
@@ -229,15 +238,19 @@ lg_expression
 cmp_opt
     : GT {  
         extendOptTree(">");
+        strcpy($$, ">");
     }
     | GE {  
         extendOptTree(">=");
+        strcpy($$, ">=");
     }
     | LT {  
         extendOptTree("<");
+        strcpy($$, "<");
     } 
     | LE {  
         extendOptTree("<=");
+        strcpy($$, "<=");
     }
     ;
 
@@ -259,15 +272,15 @@ pm_expression
     | PLUS { 
         extendOptTree("+");
     } error {
-        yyerror("invalid syntax");
-        extendTerminal("error", "invalid syntax");
+        yyerror("invalid syntax after +");
+        extendTerminal("error", "invalid syntax after +");
         backToParent();
     }
     | MINUS { 
         extendOptTree("-");
     } error {
-        yyerror("invalid syntax");
-        extendTerminal("error", "invalid syntax");
+        yyerror("invalid syntax after -");
+        extendTerminal("error", "invalid syntax after -");
         backToParent();
     }
     | /* epsilon */
@@ -291,8 +304,10 @@ mtd_expression
         backToParent();
     } mtd_expression
     | mtd_opt error {
-        yyerror("invalid syntax");
-        extendTerminal("error", "invalid syntax");
+        char str[64];
+        sprintf(str, "invalid syntax after %s", $1);
+        yyerror(str);
+        extendTerminal("error", str);
         backToParent();
     }
     |
@@ -301,20 +316,24 @@ mtd_expression
 mtd_opt
     : MOD { 
         extendOptTree("%");
+        strcpy($$, "%");
     }
     | TIMES { 
         extendOptTree("*");
+        strcpy($$, "*");
     }
     | DIVIDE { 
         extendOptTree("/");
+        strcpy($$, "/");
     } 
     ;
 
 powh_expression
     : noth_expression pow_expression
-    | noth_expression error {
+    /*| noth_expression 
+     error {
         yyerror("Wrong pow expression.");
-    }
+    } */
     ;
 
 pow_expression
@@ -325,8 +344,8 @@ pow_expression
     } pow_expression
     | POW error {
         extendOptTree("^");
-        yyerror("invalid syntax");
-        extendTerminal("error", "invalid syntax");
+        yyerror("invalid syntax after ^");
+        extendTerminal("error", "invalid syntax after ^");
         backToParent();
     }
     | /* epsilon */
@@ -346,8 +365,8 @@ not_expression
     } not_expression
     | NOT error {
         extendTree(NON_TERMINAL, "!", "expression");
-        yyerror("invalid syntax");
-        extendTerminal("error", "invalid syntax");
+        yyerror("invalid syntax after !");
+        extendTerminal("error", "invalid syntax after !");
         backToParent();
     }
     | /* epsilon */
@@ -579,9 +598,11 @@ statement
     }
     | error SEMICOLON {
         extendTerminal("error", "statement error");
+        yyerror("invalid statement");
     }
     | error RBP {
         extendTerminal("error", "statement error");
+        yyerror("invalid statement");
     }
     ;
 
@@ -925,7 +946,9 @@ int main(int arg, char* argv[]) {
 }   
 
 void yyerror(const char* charactor) {
-    printf("error in line %d: %s\n", yylineno, charactor);
+    char str[256];
+    sprintf(str, "error in line %d: %s\n", yylineno, charactor);
+    appendREPORT(str);
     //yyclearin;
     //yyparse();
 }
