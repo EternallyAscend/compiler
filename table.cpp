@@ -29,7 +29,7 @@ int stopTable() {
 	}
 }
 
-int pushScope(int creator) {
+int pushScope(const int creator) {
 	if (NULL == symbolTable) {
 		return 0;
 	}
@@ -74,7 +74,7 @@ int searchWordGlobal(const char* name) {
 	}
 }
 
-int setType(const char* name, int type) {
+int setType(const char* name, const int type) {
 	if (NULL == symbolTable) {
 		return 0;
 	}
@@ -83,7 +83,7 @@ int setType(const char* name, int type) {
 	}
 }
 
-int setStore(char* name, int store, int position) {
+int setStore(const char* name, const int store, const int position) {
 	if (NULL == symbolTable) {
 		return 0;
 	}
@@ -92,7 +92,7 @@ int setStore(char* name, int store, int position) {
 	}
 }
 
-int setCurrentType(int type) {
+int setCurrentType(const int type) {
 	if (NULL == symbolTable) {
 		return 0;
 	}
@@ -101,7 +101,7 @@ int setCurrentType(int type) {
 	}
 }
 
-int setTypeFunction(char* name, int type) {
+int setTypeFunction(const char* name, const int type) {
 	if (NULL == symbolTable) {
 		return 0;
 	}
@@ -110,7 +110,7 @@ int setTypeFunction(char* name, int type) {
 	}
 }
 
-int setStoreFunction(char* name, int store, int position) {
+int setStoreFunction(const char* name, const int store, const int position) {
 	if (NULL == symbolTable) {
 		return 0;
 	}

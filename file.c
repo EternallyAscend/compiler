@@ -10,15 +10,15 @@
 
 int lex = 0;
 int yacc = 0;
+int report = 0;
 
 FILE* lexFile = NULL;
 FILE* yaccFile = NULL;
+FILE* reportFile = NULL;
 
-char* getFileName(int time, char* tail) {
+char* getFileName(int time, const char* tail) {
     char* result = (char*)malloc(sizeof(char) * 32);
-    strcpy(result, "../");
-    sprintf(result, "%d", time);
-    strcat(result, tail);
+    sprintf(result, "%d%s", time, tail);
     return result;
 }
 
@@ -54,12 +54,32 @@ FILE* generateYACC() {
     }
 }
 
+FILE* generateREPORT() {
+    if (NULL == reportFile) {
+        report = (int)time(NULL);
+        if (0 > report) {
+            report = -report;
+        }
+        char* reportName = getFileName(report, "-rep.txt");
+        reportFile = fopen(reportName, "a+");
+        free(reportName);
+        return reportFile;
+    }
+    else {
+        return reportFile;
+    }
+}
+
 void appendLEX(char* content) {
     fputs(content, generateLEX());
 }
 
 void appendYACC(char* content) {
     fputs(content, generateYACC());
+}
+
+void appendREPORT(char* content) {
+    fputs(content, generateREPORT());
 }
 
 void closeLEX() {
@@ -74,3 +94,8 @@ void closeYACC() {
     }
 }
 
+void closeREPORT() {
+    if (NULL != reportFile) {
+        fclose(reportFile);
+    }
+}

@@ -53,4 +53,4 @@ public:
 	struct Word* getWordFunction(std::string name);
 };
 
-#endif TREE_H // TREE_H
+#endif // TREE_H
