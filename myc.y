@@ -76,10 +76,10 @@ void useId(const char* name);
 %type<str> expression assign_expression orh_expression or_expression andh_expression and_expression
 %type<str> eneh_expression ene_expression lgh_expression lg_expression pmh_expression pm_expression
 %type<str> mtd_expression mtdh_expression pow_expression powh_expression not_expression noth_expression
-%type<str> pid_expression // pointer_expression
+%type<str> pid_expression pointer_expression
 
 //type of argument
-%type<str> basic_type
+%type<str> type_defination
 
 //for-loop while-loop
 %type<str> for_expression while_expression do_expression
@@ -101,9 +101,6 @@ void useId(const char* name);
 //output
 %type<str> print_content
 
-//opt
-%type<str> cmp_opt ene_opt mtd_opt
-
 
 %nonassoc NONE_ELSE
 %nonassoc ELSE
@@ -124,14 +121,8 @@ comma_expression
         extendOptTree(",");
     } single_expression {
         backToParent();
-    } comma_expression
-    | COMMA error {
-        extendOptTree(",");
-        yyerror("invalid syntax after ,");
-        extendTerminal("error", "invalid syntax after ,");
-        backToParent();
-    }
-    | /* epsilon */
+    } comma_expression 
+    |
     ;
 
 single_expression
@@ -144,12 +135,6 @@ assign_expression
     } orh_expression { 
         backToParent();
     } assign_expression
-    | ASSIGN error {
-        extendOptTree("=");
-        yyerror("Wrong assign expression.");
-        extendTerminal("error", "assign expression error");
-        backToParent();
-    }
     | /* epsilon */
     ;
 
@@ -163,12 +148,6 @@ or_expression
     } andh_expression {
         backToParent();
     } or_expression
-    | OR error {
-        extendOptTree("||");
-        yyerror("invalid syntax after ||");
-        extendTerminal("error", "invalid syntax after ||");
-        backToParent();
-    }
     | /* epsilon */
     ;
 
@@ -182,12 +161,6 @@ and_expression
     } eneh_expression {
         backToParent();
     } and_expression
-    | AND {
-        extendOptTree("&&");
-        yyerror("invalid syntax after &&");
-        extendTerminal("error", "invalid syntax after &&");
-        backToParent();
-    }
     | /* epsilon */
     ;
 
@@ -196,28 +169,17 @@ eneh_expression
     ;
 
 ene_expression
-    : ene_opt lgh_expression {
-        backToParent();
-    }
-    | ene_opt error {
-        char str[64];
-        sprintf(str, "invalid syntax after %s", $1);
-        yyerror(str);
-        extendTerminal("error", str);
-        backToParent();
-    }
-    |
-    ;
-
-ene_opt
     : EQ {  
         extendOptTree("==");
-        strcpy($$, "==");
-    }
-    | NE  {  
+    } lgh_expression {
+        backToParent();
+    } //ene_expression
+    | NE {  
         extendOptTree("!=");
-        strcpy($$, "!=");
-    }
+    } lgh_expression {
+        backToParent();
+    } //ene_expression
+    |
     ;
 
 lgh_expression
@@ -225,36 +187,27 @@ lgh_expression
     ;
 
 lg_expression
-    : cmp_opt pmh_expression {
-        backToParent();
-    }
-    | cmp_opt error {
-        char str[64];
-        sprintf(str, "invalid syntax after %s", $1);
-        yyerror(str);
-        extendTerminal("error", str);
-        backToParent();
-    }
-    | /* epsilon */
-    ;
-
-cmp_opt
     : GT {  
         extendOptTree(">");
-        strcpy($$, ">");
-    }
+    } pmh_expression {
+        backToParent();
+    }//lg_expression
     | GE {  
         extendOptTree(">=");
-        strcpy($$, ">=");
-    }
+    } pmh_expression {
+        backToParent();
+    }//lg_expression
     | LT {  
         extendOptTree("<");
-        strcpy($$, "<");
-    } 
+    } pmh_expression {
+        backToParent();
+    }//lg_expression
     | LE {  
         extendOptTree("<=");
-        strcpy($$, "<=");
-    }
+    } pmh_expression {
+        backToParent();
+    }//lg_expression
+    | /* epsilon */
     ;
 
 pmh_expression
@@ -272,71 +225,34 @@ pm_expression
     } mtdh_expression {
         backToParent();
     } pm_expression
-    | PLUS { 
-        extendOptTree("+");
-    } error {
-        yyerror("invalid syntax after +");
-        extendTerminal("error", "invalid syntax after +");
-        backToParent();
-    }
-    | MINUS { 
-        extendOptTree("-");
-    } error {
-        yyerror("invalid syntax after -");
-        extendTerminal("error", "invalid syntax after -");
-        backToParent();
-    }
     | /* epsilon */
     ;
-
-/* pm_opt
-    : PLUS {
-        extendOptTree("+");
-    }
-    | MINUS {
-        extendOptTree("-");
-    }
-    ; */
 
 mtdh_expression
     : powh_expression mtd_expression
     ;
 
 mtd_expression
-    : mtd_opt powh_expression {
-        backToParent();
-    } mtd_expression
-    | mtd_opt error {
-        char str[64];
-        sprintf(str, "invalid syntax after %s", $1);
-        yyerror(str);
-        extendTerminal("error", str);
-        backToParent();
-    }
-    |
-    ;
-
-mtd_opt
     : MOD { 
         extendOptTree("%");
-        strcpy($$, "%");
-    }
+    } powh_expression {
+        backToParent();
+    } mtd_expression
     | TIMES { 
         extendOptTree("*");
-        strcpy($$, "*");
-    }
+    } powh_expression {
+        backToParent();
+    } mtd_expression
     | DIVIDE { 
         extendOptTree("/");
-        strcpy($$, "/");
-    } 
+    } powh_expression {
+        backToParent();
+    } mtd_expression
+    | /* epsilon */
     ;
 
 powh_expression
     : noth_expression pow_expression
-    /*| noth_expression 
-     error {
-        yyerror("Wrong pow expression.");
-    } */
     ;
 
 pow_expression
@@ -345,12 +261,6 @@ pow_expression
     } noth_expression {
         backToParent();
     } pow_expression
-    | POW error {
-        extendOptTree("^");
-        yyerror("invalid syntax after ^");
-        extendTerminal("error", "invalid syntax after ^");
-        backToParent();
-    }
     | /* epsilon */
     ;
 
@@ -366,12 +276,6 @@ not_expression
     : NOT { 
         extendTree(NON_TERMINAL, "!", "expression");
     } not_expression
-    | NOT error {
-        extendTree(NON_TERMINAL, "!", "expression");
-        yyerror("invalid syntax after !");
-        extendTerminal("error", "invalid syntax after !");
-        backToParent();
-    }
     | /* epsilon */
     ;
 
@@ -381,20 +285,15 @@ pid_expression
     } expression RP { 
         backToParent();
     }
-    | decorated_identifier // pointer_expression
+    | decorated_identifier pointer_expression
     | CONSTANT { 
         extendTree(TERMINAL, $<str>1, "const");
     }
-    | LP {
-        extendTree(NON_TERMINAL, "()", "expression");
-    } error {
-        yyerror("Wrong expression in ().");
-        extendTerminal("error", "() expression error");
-        backToParent();
+    | error {
+        yyerror("expect an identifier or expression");
     }
     ;
 
-/*
 pointer_expression
     : POINTER IDENTIFIER high_ay_decorator {
         extendOptTree("->");
@@ -403,44 +302,47 @@ pointer_expression
     } pointer_expression 
     |
     ;
-*/
 
-basic_type
+type_defination
     : INT { 
         extendTerminal("int", "type");
     } 
     | VOID { 
         extendTerminal("void", "type");
     } 
+    /* | STRUCT {
+        extendTree(NON_TERMINAL, "struct", "type"); */
+    } IDENTIFIER {  
+        extendTerminal($<str>3, "identifier");
+        backToParent();
+    }
+    | error {
+        yyerror("invalid type");
+    }
+    ;
 
 doh_expression
     : DO {
-	    /* establish local scope */ ;
-	    saveNode();
-	    extendTree(NON_TERMINAL, "", "do while loop");
-	    extendTree(NON_TERMINAL, "do", "loop body");
-	    pushScope(1);
+	/* establish local scope */ ;
+	saveNode();
+	extendTree(NON_TERMINAL, "", "do while loop");
+	extendTree(NON_TERMINAL, "do", "loop body");
+	pushScope(1);
     } statement_block
     ;
 
 do_expression
     : doh_expression WHILE { 
-	    popScope();
-	    backToParent();
-	    extendTree(NON_TERMINAL, "while", "loop condition");
+	popScope();
+	backToParent();
+	extendTree(NON_TERMINAL, "while", "loop condition");
     } LP {
-	    extendTree(NON_TERMINAL, "()", "expression");
+	extendTree(NON_TERMINAL, "()", "expression");
     } expression RP {
-	    loadNode();
+	loadNode();
     } SEMICOLON
-    | doh_expression WHILE {
-        popScope();
-        backToParent();
-        extendTree(NON_TERMINAL, "while", "loop condition");
-    } error {
-        yyerror("Wrong while condition in do while loop.");
-        extendTerminal("error", "do while error");
-        backToParent();
+    | doh_expression error {
+	yyerror("Lost while in do while loop.");
     }
     ;
 
@@ -459,19 +361,12 @@ while_expression
         loadNode();
         popScope();
     }
-    | WHILE {
-        extendTree(NON_TERMINAL, "while", "while loop");
-    } error {
-        yyerror("Wrong while expression.");
-        extendTerminal("error", "while loop error");
-        backToParent();
-    }
     ;
 
 for_init_expression
     : {
         extendTree(NON_TERMINAL, "", "declaration");
-    } all_type {
+    } type_defination {
         extendTree(NON_TERMINAL, "", "declaration body");
         saveNode();
     } argument_declaration_list {
@@ -483,34 +378,31 @@ for_init_expression
         //connectParentChild();
     }
     | expression
-    /* | error {
-        yyerror("Wrong for init expression.");
-        extendTerminal("error", "for init expression error");
-    } */
-    | 
+    | error {
+	yyerror("Wrong for init expression.");
+    }
+    | /* epsilon */
     ;
 
 for_condition_expression
     : expression
-    /* | error {
-        yyerror("Wrong for condition expression.");
-        extendTerminal("error", "for condition expression error");
-    } */
-    | 
+    | error {
+	yyerror("Wrong for condition expression.");
+    }
+    | /* epsilon */
     ;
 
 for_action_expression
     : expression
-    /* | error {
-        yyerror("Wrong for action expression.");
-        extendTerminal("error", "for action expression error");
-    } */
-    | 
+    | error {
+	yyerror("Wrong for action expression.");
+    }
+    | /* epsilon */
     ;
 
 for_expression
     : FOR { 
-        // establish local scope ;
+        /*establish local scope*/ ;
         //saveNode();
         extendTree(NON_TERMINAL, "for", "for loop");
         pushScope(1);
@@ -532,16 +424,6 @@ for_expression
         backToParent();
         popScope();
     }
-    | FOR {
-        // establish local scope ;
-        //saveNode();
-        extendTree(NON_TERMINAL, "for", "for loop");
-        pushScope(1);
-    } error {
-        yyerror("Wrong for expression for lack of (.");
-        extendTerminal("error", "for expression error");
-        backToParent();
-    }
     ;
 
 for_child_statement
@@ -554,7 +436,7 @@ array_decorator
         extendOptTree("[]"); 
     } expression RSB {
         backToParent();
-    } 
+    }
     | error {
         yyerror("invalid symbol before identifier");
     }
@@ -562,26 +444,27 @@ array_decorator
 
 high_ay_decorator
     : array_decorator high_ay_decorator
-    | /* epsilon */
+    |
     ;
 
 high_nter_decorator
     : TIMES {
         extendTree(NON_TERMINAL, "*", "pointer");
     } high_nter_decorator
-    | TIMES error {
-        extendTree(NON_TERMINAL, "*", "pointer");
-        extendTree(NON_TERMINAL, "error", "pointer error");
-        yyerror("invalid syntax after pointer *");
+    |
+    | error {
+        yyerror("invalid symbol before identifier");
     }
-    | /* epsilon */
     ;
 
 address_decorator
     : ADDRESS {
         extendTree(NON_TERMINAL, "&", "address");
     }
-    | /* epsilon */
+    |  
+    | error {
+        yyerror("invalid symbol before identifier");
+    }
     ;
 
 decorated_identifier
@@ -602,15 +485,6 @@ statement
     } statement_block {
         popScope();
     }
-    | error SEMICOLON {
-        extendTerminal("error", "statement error");
-        yyerror("invalid statement");
-    }
-    | error RBP {
-        extendTerminal("error", "statement error");
-        yyerror("invalid statement");
-    }
-    ;
 
 dependent_statement
     : expression SEMICOLON
@@ -630,6 +504,7 @@ dependent_statement
     } expression SEMICOLON {
         backToParent();
     }
+    | SEMICOLON
     | PRINT {
         extendTree(NON_TERMINAL, "print", "print");
     } LP {
@@ -643,21 +518,7 @@ dependent_statement
     } LP decorated_identifier RP {
         backToParent();
     } SEMICOLON
-    | PRINT {
-        extendTree(NON_TERMINAL, "print", "print");
-    } error {
-        yyerror("Wrong print expression.");
-        extendTerminal("error", "print error");
-        backToParent();
-    } RP SEMICOLON
-    | INPUT {
-        extendTree(NON_TERMINAL, "input", "input");
-    } error {
-        yyerror("Wrong input expression.");
-        extendTerminal("error", "input error");
-    } RP {
-        backToParent();
-    } SEMICOLON
+    | error
     ;
 
 print_content
@@ -683,7 +544,7 @@ statement_body
 declaration
     : {
         extendTree(NON_TERMINAL, "", "declaration");
-    } all_type {
+    } type_defination {
         extendTree(NON_TERMINAL, "", "declaration body");
         saveNode();
     } declaration_body {
@@ -733,16 +594,14 @@ function_defination
 
 argument_declaration_list
     : argument_declaration_unit argument_declaration_list_tail
-    |
     ;
 
 argument_declaration_list_tail
     : COMMA argument_declaration_list
-    | COMMA error {
-        yyerror("Wrong declaration list.");
-        extendTerminal("error", "argument declaration unit error");
+    |  
+    | error {
+        yyerror("invalid symbol in argument list");
     }
-    | /* epsilon */
     ;
 
 argument_declaration_unit
@@ -760,13 +619,9 @@ argument_declaration_init
     } single_expression {
         backToParent();
     }
-    | /* epsilon */
-    | ASSIGN {
-        extendOptTree("=");
-    } error {
-        yyerror("Wrong init expression while argument declaration.");
-        extendTerminal("error", "init expression error");
-        backToParent();
+    |  
+    | error {
+        yyerror("invalid symbol in argument list");
     }
     ;
 
@@ -786,19 +641,22 @@ function_argument
     : {
         extendTree(NON_TERMINAL, "", "function argument unit");
         saveNode();
-    } all_type init_identifier argument_declaration_init {
+    } type_defination init_identifier argument_declaration_init {
         backToParent();
     }
     ;
 
 function_argument_list
     : function_argument function_argument_tail
-    | /* epsilon */
+    |
     ;
 
 function_argument_tail
     : COMMA function_argument_list
-    | /* epsilon */
+    |
+    | error {
+        yyerror("invalid symbol in argument list");
+    }
     ;
 
 condition_expression
@@ -816,13 +674,6 @@ condition_expression
     } condition_tail {
         backToParent();
     }
-    | IF {
-        extendTree(NON_TERMINAL, "if", "if expression");
-    } error {
-        yyerror("Wrong if expression for lack of (.");
-        extendTerminal("error", "if expression error");
-        backToParent();
-    }
     ;
 
 condition_tail
@@ -835,7 +686,6 @@ condition_tail
     }
     | {} %prec NONE_ELSE
     ;
-
 
 %%
 
@@ -905,9 +755,7 @@ void useId(const char* name) {
 		free(word);
 	}
 	else {
-		char errMsg[64];
-		sprintf(errMsg, "identifier \"%s\" undefined.\n", name);
-        yyerror(errMsg);
+		printf("not defined.\n");
 		sprintf(attribute, "undefined");
 	}
 	appendLexOutputIDFile("IDENTIFIER", name, attribute);
@@ -918,9 +766,7 @@ void declarationId(const char* name) {
     char* attribute = (char*)malloc(sizeof(char)*64);
 	if (searchWord(name)) {
 		//printf("Exist at line %d.\n", yylineno);
-        char errMsg[64];
-		sprintf(errMsg, "identifier \"%s\" mutidefined.\n", name);
-        yyerror(errMsg);
+		printf("mutidefined.\n");
 		sprintf(attribute, "mutidefined");
 	}
 	else {
@@ -963,9 +809,7 @@ int main(int arg, char* argv[]) {
 }   
 
 void yyerror(const char* charactor) {
-    char str[256];
-    sprintf(str, "error in line %d: %s\n", yylineno, charactor);
-    appendREPORT(str);
+    printf("error in line %d: %s\n", yylineno, charactor);
     //yyclearin;
     //yyparse();
 }
