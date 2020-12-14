@@ -23,7 +23,7 @@ struct Instruction {
 
 struct Instruction* generateInstruction();
 
-int makeNewTemp();
+int makeNewTemp(struct Instruction* instruction, struct InstructionItem* instructionItem);
 
 int destroyInstruction(struct Instruction* instruction);
 
