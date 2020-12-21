@@ -79,7 +79,7 @@ void useId(const char* name);
 %type<str> pid_expression // pointer_expression
 
 //type of argument
-%type<str> basic_type
+%type<str> type_defination
 
 //for-loop while-loop
 %type<str> for_expression while_expression do_expression
@@ -114,9 +114,6 @@ void useId(const char* name);
 
 expression
     : single_expression comma_expression 
-    | error {
-        yyerror("invalid symbol in expression");
-    }
     ;
 
 comma_expression
@@ -405,7 +402,7 @@ pointer_expression
     ;
 */
 
-basic_type
+type_defination
     : INT { 
         extendTerminal("int", "type");
     } 
@@ -471,7 +468,7 @@ while_expression
 for_init_expression
     : {
         extendTree(NON_TERMINAL, "", "declaration");
-    } basic_type {
+    } type_defination {
         extendTree(NON_TERMINAL, "", "declaration body");
         saveNode();
     } argument_declaration_list {
@@ -554,9 +551,6 @@ array_decorator
         extendOptTree("[]"); 
     } expression RSB {
         backToParent();
-    } 
-    | error {
-        yyerror("invalid symbol before identifier");
     }
     ;
 
@@ -630,6 +624,7 @@ dependent_statement
     } expression SEMICOLON {
         backToParent();
     }
+    | SEMICOLON
     | PRINT {
         extendTree(NON_TERMINAL, "print", "print");
     } LP {
@@ -683,7 +678,7 @@ statement_body
 declaration
     : {
         extendTree(NON_TERMINAL, "", "declaration");
-    } basic_type {
+    } type_defination {
         extendTree(NON_TERMINAL, "", "declaration body");
         saveNode();
     } declaration_body {
@@ -726,14 +721,10 @@ function_defination
         backToParent();
     }
     | SEMICOLON
-    | error {
-        yyerror("excepted semicolon or defination body");
-    }
     ;
 
 argument_declaration_list
     : argument_declaration_unit argument_declaration_list_tail
-    |
     ;
 
 argument_declaration_list_tail
@@ -777,16 +768,13 @@ init_identifier
     } high_ay_decorator {
         loadNode();
     }
-    | error {
-        yyerror("expexted an identifier");
-    }
     ;
 
 function_argument
     : {
         extendTree(NON_TERMINAL, "", "function argument unit");
         saveNode();
-    } basic_type init_identifier argument_declaration_init {
+    } type_defination init_identifier argument_declaration_init {
         backToParent();
     }
     ;
@@ -835,7 +823,6 @@ condition_tail
     }
     | {} %prec NONE_ELSE
     ;
-
 
 %%
 
@@ -905,9 +892,7 @@ void useId(const char* name) {
 		free(word);
 	}
 	else {
-		char errMsg[64];
-		sprintf(errMsg, "identifier \"%s\" undefined.\n", name);
-        yyerror(errMsg);
+		printf("not defined.\n");
 		sprintf(attribute, "undefined");
 	}
 	appendLexOutputIDFile("IDENTIFIER", name, attribute);
@@ -918,9 +903,7 @@ void declarationId(const char* name) {
     char* attribute = (char*)malloc(sizeof(char)*64);
 	if (searchWord(name)) {
 		//printf("Exist at line %d.\n", yylineno);
-        char errMsg[64];
-		sprintf(errMsg, "identifier \"%s\" mutidefined.\n", name);
-        yyerror(errMsg);
+		printf("mutidefined.\n");
 		sprintf(attribute, "mutidefined");
 	}
 	else {
