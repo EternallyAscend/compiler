@@ -26,7 +26,7 @@ void end(){
     
 }
 
-char* assAdd(int num1, int num2) {
+char* assAdd(char* num1, char* num2) {
     while(lockOrNot == 1) {
         sleep(1);
     }
@@ -37,8 +37,8 @@ char* assAdd(int num1, int num2) {
     char* firAdd;
     char* storageResult;
     sprintf(count, "addCount%d", addCount);
-    sprintf(firMove, "%s %s, %d", mov, ax, num1);//put num1 to ax
-    sprintf(secMove, "%s %s, %d", mov, bx, num2);//put num2 to bx
+    sprintf(firMove, "%s %s, %s", mov, ax, num1);//put num1 to ax
+    sprintf(secMove, "%s %s, %s", mov, bx, num2);//put num2 to bx
     sprintf(firAdd, "%s %s, %s", add, ax, bx);//ax = ax + bx
     sprintf(storageResult, "%s [%s], %s", mov , count, ax);//put ax to stroge
     addCount++;
@@ -54,12 +54,13 @@ char* assMulti(int num1, int num2) {
     char* count;
     char* firMove;
     char* secMove;
+    char* thiMove;
     char* loop;
     char* storageResult;
     sprintf(count, "multiCount%d", multiCount);
     sprintf(firMove, "%s %s, %d", mov, ax, num1);//put num1 to ax
     sprintf(secMove, "%s %s, %d", mov, bx, num2);
-    sprintf(secMove, "%s %s, %d", mov, cx, num2);//put num2 to bx
+    sprintf(thiMove, "%s %s, %d", mov, cx, num2);//put num2 to bx
     sprintf(loop, "m%d: %s %s, %s\n  loop m%d", multiCount, add, ax, bx, multiCount);
     sprintf(storageResult, "  %s [%s], %s", mov, count, ax);//put ax to stroge
     multiCount++;
