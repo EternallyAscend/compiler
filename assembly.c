@@ -80,7 +80,7 @@ char* equalOrNot(int num1, int num2) {
     sprintf(count, "cmpEqualCount%d", cmpEqualCount);
     sprintf(firMove, "%s %s, %d", mov, ax, num1);
     sprintf(firMove, "%s %s, %d", cmp, ax, num2);
-    sprintf(result, "%s %s, %s", mov, count, zf);
+    sprintf(result, "%s [%s], %s", mov, count, zf);
     cmpEqualCount++;
     lockOrNot = 0;
     return count;
