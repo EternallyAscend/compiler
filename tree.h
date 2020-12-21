@@ -44,9 +44,11 @@ public:
 	int searchWordGlobal(std::string name);
 	int searchWordInFunction(std::string name);
 	int setType(std::string name, int type);
-	int setStore(std::string name, int store, int position);
+	// int setStore(std::string name, int store, int position);
+	int setStore(std::string name, int store, char* position);
 	int setTypeFunction(std::string name, int type);
-	int setStoreFunction(std::string name, int store, int position);
+	// int setStoreFunction(std::string name, int store, int position);
+	int setStoreFunction(std::string name, int store, char* position);
 	int setCurrentType(int type);
 	int restart();
 	struct Word* getWordGlobal(std::string name);

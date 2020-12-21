@@ -9,7 +9,8 @@ struct Word {
 	const char* name;
 	int type;
 	int store;
-	int position;
+	// int position;
+	char* position;
 	int symbolPosition;
 };
 
@@ -32,13 +33,15 @@ extern "C" {
 
 	int setType(const char* name, const int type);
 
-	int setStore(const char* name, const int store, const int position);
+	// int setStore(const char* name, const int store, const int position);
+	int setStore(const char* name, const int store, const char* position);
 
 	int setCurrentType(const int type);
 
 	int setTypeFunction(const char* name, const int type);
 
-	int setStoreFunction(const char* name, const int store, const int position);
+	// int setStoreFunction(const char* name, const int store, const int position);
+	int setStoreFunction(const char* name, const int store, const char* position);
 
 // 	int pushStruct(const char* name);
 // 

@@ -12,15 +12,17 @@
 
 struct InstructionItem{
     char* operatorType;
-    int arg0; // Address.
-    int arg1; // Address.
-    int type0;
-    int type1;
+    char* arg0; // int arg0; // Address.
+    char* arg1; // int arg1; // Address.
+    // int type0;
+    // int type1;
 };
 
-struct InstructionItem* generateIndirectTriple(char* operatorType, int arg0, int arg1);
+// struct InstructionItem* generateIndirectTriple(char* operatorType, int arg0, int arg1);
+struct InstructionItem* generateIndirectTriple(char* operatorType, char* arg0, char* arg1);
 
-struct InstructionItem* generateIndirectTripleWithType(char* operatorType, int arg0, int arg1, int type0, int type1);
+// struct InstructionItem* generateIndirectTripleWithType(char* operatorType, int arg0, int arg1, int type0, int type1);
+// struct InstructionItem* generateIndirectTripleWithType(char* operatorType, char* arg0, char* arg1, int type0, int type1);
 
 int destroyInstructionItem(struct InstructionItem* instructionItem);
 

@@ -12,11 +12,13 @@ int lex = 0;
 int yacc = 0;
 int report = 0;
 int output = 0;
+int center = 0;
 
 FILE* lexFile = NULL;
 FILE* yaccFile = NULL;
 FILE* reportFile = NULL;
 FILE* outputCode = NULL;
+FILE* centerCode = NULL;
 
 char* getFileName(int time, const char* tail) {
     char* result = (char*)malloc(sizeof(char) * 32);
@@ -88,6 +90,22 @@ FILE* generateCODE() {
     }
 }
 
+FILE* generateCENTER() {
+    if (NULL == centerCode) {
+        center = (int)time(NULL);
+        if (0 > center) {
+            center = -center;
+        }
+        char* centerName = getFileName(center, "-code.txt");
+        centerCode = fopen(centerName, "a+");
+        free(centerName);
+        return centerCode;
+    }
+    else {
+        return centerCode;
+    }
+}
+
 void appendLEX(char* content) {
     fputs(content, generateLEX());
 }
@@ -100,8 +118,12 @@ void appendREPORT(char* content) {
     fputs(content, generateREPORT());
 }
 
-void appendCode(char* content) {
+void appendCODE(char* content) {
     fputs(content, generateCODE());
+}
+
+void appendCENTER(char* content) {
+    fputs(content, generateCENTER());
 }
 
 void closeLEX() {
@@ -125,5 +147,11 @@ void closeREPORT() {
 void closeCODE() {
     if (NULL != outputCode) {
         fclose(outputCode);
+    }
+}
+
+void closeCENTER() {
+    if (NULL != centerCode) {
+        fclose(centerCode);
     }
 }

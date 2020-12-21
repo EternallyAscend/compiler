@@ -8,7 +8,8 @@ Item::Item(std::string name, int type) {
 	this->name = name;
 	this->type = type;
 	this->store = -1;
-	this->position = 0;
+	// this->position = 0;
+	this->position = NULL;
 }
 
 Item::~Item() {
@@ -28,7 +29,8 @@ int Item::modifyItemType(int newType) {
 	return this->type = newType;
 }
 
-int Item::modifyItemStore(int store, int position) {
+// int Item::modifyItemStore(int store, int position) {
+int Item::modifyItemStore(int store, char* position) {
 	this->store = store;
 	this->position = position;
 	return this->store;
@@ -42,6 +44,7 @@ int Item::getStore() {
 	return this->store;
 }
 
-int Item::getPosition() {
+// int Item::getPosition() {
+char* Item::getPosition() {
 	return this->position;
 }
