@@ -5,13 +5,22 @@
 #ifndef INDIRECTTRIPLE_INDIRECTTRIPLE_H
 #define INDIRECTTRIPLE_INDIRECTTRIPLE_H
 
+#define CONST_NUMBER_VALUE 0
+#define SYMBOL_TABLE_ADDRESS 10
+#define TEMPORARY_ADDRESS 20
+#define THREE_COMMAND_ADDRESS 30
+
 struct InstructionItem{
     char* operatorType;
     int arg0; // Address.
     int arg1; // Address.
+    int type0;
+    int type1;
 };
 
 struct InstructionItem* generateIndirectTriple(char* operatorType, int arg0, int arg1);
+
+struct InstructionItem* generateIndirectTripleWithType(char* operatorType, int arg0, int arg1, int type0, int type1);
 
 int destroyInstructionItem(struct InstructionItem* instructionItem);
 
@@ -23,7 +32,7 @@ struct Instruction {
 
 struct Instruction* generateInstruction();
 
-int makeNewTemp();
+int makeNewTemp(struct Instruction* instruction, struct InstructionItem* instructionItem);
 
 int destroyInstruction(struct Instruction* instruction);
 

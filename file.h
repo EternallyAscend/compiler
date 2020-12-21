@@ -17,14 +17,20 @@ FILE* generateYACC();
 
 FILE* generateREPORT();
 
+FILE* generateCODE();
+
 void appendLEX(char* content);
 
 void appendYACC(char* content);
 
 void appendREPORT(char* content);
 
+void appendCode(char* content);
+
 void closeLEX();
 
 void closeYACC();
 
 void closeREPORT();
+
+void closeCODE();

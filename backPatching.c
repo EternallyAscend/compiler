@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "backPatching.h"
 
@@ -152,6 +153,16 @@ int generateCommand(struct BackPatchingLayer* backPatchingLayer, int index, char
     return (int)(backPatchingLayer->commandList[index] = command);
 }
 
+int appendCommand(struct BackPatchingLayer* backPatchingLayer, int index, char* command) {
+    if (isEmptyBackPatchingLayer(backPatchingLayer)) {
+        return -1;
+    }
+    if (index >= backPatchingLayer->tail) {
+        return -2;
+    }
+    return (int)(strcat(backPatchingLayer->commandList[index], command));
+}
+
 int makeAndGenerateBackPatchingLayerCommand(struct BackPatchingLayer* backPatchingLayer, char* command) {
     if (isEmptyBackPatchingLayer(backPatchingLayer)) {
         return -1;
@@ -166,7 +177,8 @@ int makeAndGenerateBackPatchingLayerCommand(struct BackPatchingLayer* backPatchi
         free(temporary);
         backPatchingLayer->size *= 2;
     }
-    return (int)(backPatchingLayer->commandList[backPatchingLayer->tail++] = command);
+    (backPatchingLayer->commandList[backPatchingLayer->tail++] = command);
+    return backPatchingLayer->tail - 1;
 }
 
 int destroyBackPatchingLayer(struct BackPatchingLayer* backPatchingLayer) {

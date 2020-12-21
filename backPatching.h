@@ -41,6 +41,8 @@ int makeList(struct BackPatchingLayer* backPatchingLayer, int nextInStr);
 
 int generateCommand(struct BackPatchingLayer* backPatchingLayer, int index, char* command);
 
+int appendCommand(struct BackPatchingLayer* backPatchingLayer, int index, char* command);
+
 int makeAndGenerateBackPatchingLayerCommand(struct BackPatchingLayer* backPatchingLayer, char* command);
 
 int destroyBackPatchingLayer(struct BackPatchingLayer* backPatchingLayer);
