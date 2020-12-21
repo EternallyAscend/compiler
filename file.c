@@ -124,6 +124,6 @@ void closeREPORT() {
 
 void closeCODE() {
     if (NULL != outputCode) {
-        fclose(outputCode;
+        fclose(outputCode);
     }
 }
