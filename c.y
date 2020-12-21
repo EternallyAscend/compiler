@@ -471,7 +471,7 @@ while_expression
 for_init_expression
     : {
         extendTree(NON_TERMINAL, "", "declaration");
-    } all_type {
+    } basic_type {
         extendTree(NON_TERMINAL, "", "declaration body");
         saveNode();
     } argument_declaration_list {
@@ -683,7 +683,7 @@ statement_body
 declaration
     : {
         extendTree(NON_TERMINAL, "", "declaration");
-    } all_type {
+    } basic_type {
         extendTree(NON_TERMINAL, "", "declaration body");
         saveNode();
     } declaration_body {
@@ -786,7 +786,7 @@ function_argument
     : {
         extendTree(NON_TERMINAL, "", "function argument unit");
         saveNode();
-    } all_type init_identifier argument_declaration_init {
+    } basic_type init_identifier argument_declaration_init {
         backToParent();
     }
     ;
