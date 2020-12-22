@@ -8,18 +8,21 @@ int lockOrNot = 0;
 int addCount = 0;
 int multiCount = 0;
 int cmpEqualCount = 0;
+int getRemainCount = 0;
 
 char* mov = "mov";
 char* add = "add";
 char* cmp = "cmp";
+char* idiv ="idiv";
 
 char* ax = "eax";
 char* bx = "ebx";
 char* cx = "ecx";
 char* zf = "zf";
+char* ah = "ah";
 
 void start(){
-
+                                                                                              
 }
 
 void end(){
@@ -83,6 +86,26 @@ char* equalOrNot(int num1, int num2) {
     sprintf(firMove, "%s %s, %d", cmp, ax, num2);
     sprintf(result, "%s [%s], %s", mov, count, zf);
     cmpEqualCount++;
+    lockOrNot = 0;
+    return count;
+}
+
+char* getRemainder(int num1, int num2) {
+    while(lockOrNot == 1) {
+        sleep(1);
+    }
+    lockOrNot == 1;
+    char* count;
+    char* firMove;
+    char* secMove;
+    char* storageResult;
+    char *result;
+    sprintf(count, "getRemainCount%d", getRemainCount);
+    sprintf(firMove, "%s %s, %d", mov, ax, num1);
+    sprintf(secMove, "%s %s, %d", mov, bx, num2);
+    sprintf(storageResult, "%s %s", idiv, bx);
+    sprintf(result, "%s [%S], %s", mov, count, ah);
+    getRemainCount++;
     lockOrNot = 0;
     return count;
 }
