@@ -9,17 +9,23 @@ int addCount = 0;
 int multiCount = 0;
 int cmpEqualCount = 0;
 int remCount = 0;
+int cmpNotCount = 0;
+int cmpGreaterCount = 0;
+int cmpLowerCount = 0;
+int cmpLowerEqualCount = 0;
 
-char* mov = "mov";
-char* add = "add";
-char* cmp = "cmp";
-char* idiv ="idiv";
+char* mov = "MOV";
+char* add = "ADD";
+char* cmp = "CMP";
+char* idiv ="IDIV";
+char* jnb = "JNB";
 
 char* ax = "eax";
 char* bx = "ebx";
 char* cx = "ecx";
 char* zf = "zf";
 char* ah = "ah";
+char* cf = "cf";
 
 void start(){
                                                                                               
@@ -101,11 +107,72 @@ char* assRemainder(int num1, int num2) {
     char* storageResult;
     char *result;
     sprintf(count, "getRemainCount%d", remCount);
-    sprintf(firMove, "%s %s, %s", mov, ax, num1);
-    sprintf(secMove, "%s %s, %s", mov, bx, num2);
+    sprintf(firMove, "%s %s, %d", mov, ax, num1);
+    sprintf(secMove, "%s %s, %d", mov, bx, num2);
     sprintf(storageResult, "%s %s", idiv, bx);
-    sprintf(result, "%s [%S], %s", mov, count, ah);
+    sprintf(result, "%s [%s], %s", mov, count, ah);
     remCount++;
+    lockOrNot = 0;
+    return count;
+}
+
+char* notEqual(int num1, int num2) {
+    while(lockOrNot == 1) {
+        sleep(1);
+    }
+    lockOrNot = 1;
+    char* count;
+    char* firMove;
+    char* compare;
+    char* storageResult;
+    char* result;
+    sprintf(count, "cmpNotCount%d", cmpNotCount);
+    sprintf(firMove, "%s %s, %d", mov, ax, num1);
+    sprintf(firMove, "%s %s, %d", cmp, ax, num2);
+    sprintf(result, "%s [%s], %s", mov, count, zf);
+    cmpNotCount++;
+    lockOrNot = 0;
+    return count;
+}
+
+char* assLower(int num1, int num2) {
+    while(lockOrNot == 1) {
+        sleep(1);
+    }
+    lockOrNot = 1;
+    char* count;
+    char* firMove;
+    char* compare;
+    char* storageResult;
+    char* result;
+    sprintf(count, "cmpLowerCount%d",  cmpLowerCount);
+    sprintf(firMove, "%s %s, %d", mov, ax, num1);
+    sprintf(firMove, "%s %s, %d", cmp, ax, num2);
+    sprintf(result, "%s [%s], %s", mov, count, cf);
+    cmpLowerCount++;
+    lockOrNot = 0;
+    return count;
+}
+
+char* assLowerEqual(int num1, int num2, char* nextStep) {
+    while(lockOrNot == 1) {
+        sleep(1);
+    }
+    lockOrNot = 1;
+    char* count;
+    char* firMove;
+    char* secMove;
+    char* triMove;
+    char* compare;
+    char* storageResult;
+    char* result;
+    sprintf(count, "cmpLowerCount%d",  cmpLowerCount);
+    sprintf(firMove, "%s %s, %d", mov, ax, num1);
+    sprintf(secMove, "%s %s, %d", mov, bx, num2);
+    sprintf(triMove, "%s %s, %s", mov, cx, nextStep);
+    sprintf(storageResult, "%s %s, %s", cmp, ax, bx);
+    sprintf(result, "%s [%s]", jnb, cx);
+    cmpLowerCount++;
     lockOrNot = 0;
     return count;
 }
