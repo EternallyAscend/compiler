@@ -8,7 +8,7 @@ int lockOrNot = 0;
 int addCount = 0;
 int multiCount = 0;
 int cmpEqualCount = 0;
-int getRemainCount = 0;
+int remCount = 0;
 
 char* mov = "mov";
 char* add = "add";
@@ -90,7 +90,7 @@ char* equalOrNot(int num1, int num2) {
     return count;
 }
 
-char* getRemainder(int num1, int num2) {
+char* assRemainder(int num1, int num2) {
     while(lockOrNot == 1) {
         sleep(1);
     }
@@ -100,12 +100,12 @@ char* getRemainder(int num1, int num2) {
     char* secMove;
     char* storageResult;
     char *result;
-    sprintf(count, "getRemainCount%d", getRemainCount);
-    sprintf(firMove, "%s %s, %d", mov, ax, num1);
-    sprintf(secMove, "%s %s, %d", mov, bx, num2);
+    sprintf(count, "getRemainCount%d", remCount);
+    sprintf(firMove, "%s %s, %s", mov, ax, num1);
+    sprintf(secMove, "%s %s, %s", mov, bx, num2);
     sprintf(storageResult, "%s %s", idiv, bx);
     sprintf(result, "%s [%S], %s", mov, count, ah);
-    getRemainCount++;
+    remCount++;
     lockOrNot = 0;
     return count;
 }
