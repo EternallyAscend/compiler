@@ -17,14 +17,26 @@ FILE* generateYACC();
 
 FILE* generateREPORT();
 
+FILE* generateCODE();
+
+FILE* generateCENTER();
+
 void appendLEX(char* content);
 
 void appendYACC(char* content);
 
 void appendREPORT(char* content);
 
+void appendCODE(char* content);
+
+void appendCENTER(char* content);
+
 void closeLEX();
 
 void closeYACC();
 
 void closeREPORT();
+
+void closeCODE();
+
+void closeCENTER();

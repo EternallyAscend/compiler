@@ -36,16 +36,19 @@ private:
 	std::string name;
 	int type;
 	int store;
-	int position;
+	// int position;
+	char* position;
 
 	Item(std::string name, int type);
 	~Item();
 	int isEmptyItem();
 	int modifyItemType(int newType);
-	int modifyItemStore(int store, int position);
+	// int modifyItemStore(int store, int position);
+	int modifyItemStore(int store, char* position);
 	int getType();
 	int getStore();
-	int getPosition();
+	// int getPosition();
+	char* getPosition();
 };
 
 #endif // ITEM_H

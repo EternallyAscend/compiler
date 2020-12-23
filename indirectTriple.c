@@ -13,13 +13,24 @@
 //    int arg1; // Address.
 //};
 
-struct InstructionItem* generateIndirectTriple(char* operatorType, int arg0, int arg1) {
+// struct InstructionItem* generateIndirectTriple(char* operatorType, int arg0, int arg1) {
+struct InstructionItem* generateIndirectTriple(char* operatorType, char* arg0, char* arg1) {
     struct InstructionItem* instructionItem = (struct InstructionItem*)malloc(sizeof(struct InstructionItem));
     instructionItem->operatorType = operatorType;
     instructionItem->arg0 = arg0;
     instructionItem->arg1 = arg1;
     return instructionItem;
 }
+
+// struct InstructionItem* generateIndirectTripleWithType(char* operatorType, int arg0, int arg1, int type0, int type1) {
+//     struct InstructionItem* instructionItem = (struct InstructionItem*)malloc(sizeof(struct InstructionItem));
+//     instructionItem->operatorType = operatorType;
+//     instructionItem->arg0 = arg0;
+//     instructionItem->arg1 = arg1;
+//     instructionItem->type0 = type0;
+//     instructionItem->type1 = type1;
+//     return instructionItem;
+// }
 
 int destroyInstructionItem(struct InstructionItem* instructionItem) {
     if (NULL != instructionItem) {

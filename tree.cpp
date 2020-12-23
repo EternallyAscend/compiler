@@ -171,7 +171,8 @@ int Tree::setType(std::string name, int type) {
 	return this->getItemGlobal(name)->modifyItemType(type);
 }
 
-int Tree::setStore(std::string name, int store, int position) {
+// int Tree::setStore(std::string name, int store, int position) {
+int Tree::setStore(std::string name, int store, char* position) {	
 	return this->getItemGlobal(name)->modifyItemStore(store, position);
 }
 
@@ -193,7 +194,8 @@ int Tree::setTypeFunction(std::string name, int type) {
 	}
 }
 
-int Tree::setStoreFunction(std::string name, int store, int position) {
+// int Tree::setStoreFunction(std::string name, int store, int position) {
+int Tree::setStoreFunction(std::string name, int store, char* position) {
 	Item* item = NULL;
 	if (NULL == this->current) {
 		return -1;

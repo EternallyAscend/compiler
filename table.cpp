@@ -83,7 +83,8 @@ int setType(const char* name, const int type) {
 	}
 }
 
-int setStore(const char* name, const int store, const int position) {
+// int setStore(const char* name, const int store, const int position) {
+int setStore(const char* name, const int store, char* position) {
 	if (NULL == symbolTable) {
 		return 0;
 	}
@@ -110,7 +111,8 @@ int setTypeFunction(const char* name, const int type) {
 	}
 }
 
-int setStoreFunction(const char* name, const int store, const int position) {
+// int setStoreFunction(const char* name, const int store, const int position) {
+int setStoreFunction(const char* name, const int store, char* position) {
 	if (NULL == symbolTable) {
 		return 0;
 	}
