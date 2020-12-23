@@ -5,32 +5,32 @@
 
 #include <stdio.h>
 
-void start()
+void start();
 
-void end()
+void end();
 
-char* assAdd(char* num1, char* num2) 
+char* assAdd(char* num1, char* num2);
 
-char* assMulti(char* num1, char* num2)
+char* assMulti(char* num1, char* num2);
 
-char* assSub(char* num1, char* num2)
+char* assSub(char* num1, char* num2);
 
-char* assDiv(char* num1, char* num2)
+char* assDiv(char* num1, char* num2);
 
-char* assRemainder(char* num1, char* num2) 
+char* assRemainder(char* num1, char* num2);
 
-char* assPow(char* num1, char* num2)
+char* assPow(char* num1, char* num2);
 
-char* assAssgin(char* num1, char* num2)
+char* assAssgin(char* num1, char* num2);
 
-char* equalOrNot(char* num1, char* num2) 
+char* equalOrNot(char* num1, char* num2);
 
-char* notEqual(char* num1, char* num2) 
+char* notEqual(char* num1, char* num2);
 
-char* assLower(char* num1, char* num2) 
+char* assLower(char* num1, char* num2);
 
-char* assLowerEqual(char* num1, char* num2, char* nextStep) 
+char* assLowerEqual(char* num1, char* num2, char* nextStep); 
 
-char* assGreater(char* num1, char* num2) 
+char* assGreater(char* num1, char* num2); 
 
-char* assGreaterEqual(char* num1, char* num2)
+char* assGreaterEqual(char* num1, char* num2);
