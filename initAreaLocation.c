@@ -18,9 +18,9 @@ int cmpGreaterCount = 0;
 int cmpGreaterEqualCount = 0;
 int cmpLowerCount = 0;
 int cmpLowerEqualCount = 0;
-int cmpAndCount = 0;
-int cmpOrCount = 0;
-int cmpNotCount = 0;
+// int cmpAndCount = 0;
+// int cmpOrCount = 0;
+// int cmpNotCount = 0;
 
 char* initAssign() {
     char* name;
@@ -120,23 +120,23 @@ char* initCmpLowerEqual() {
     return name;
 }
 
-char* initAnd() {
-    char* name;
-    sprintf(name, "cmpAndCount%d", cmpAndCount);
-    cmpAndCount++;
-    return name;
-}
+// char* initAnd() {
+//     char* name;
+//     sprintf(name, "cmpAndCount%d", cmpAndCount);
+//     cmpAndCount++;
+//     return name;
+// }
 
-char* initOr() {
-    char* name;
-    sprintf(name, "cmpOrCount%d", cmpOrCount);
-    cmpOrCount++;
-    return name;
-}
+// char* initOr() {
+//     char* name;
+//     sprintf(name, "cmpOrCount%d", cmpOrCount);
+//     cmpOrCount++;
+//     return name;
+// }
 
-char* initNot() {
-    char* name;
-    sprintf(name, "cmpNotCount%d", cmpNotCount);
-    cmpNotCount++;
-    return name;
-}
+// char* initNot() {
+//     char* name;
+//     sprintf(name, "cmpNotCount%d", cmpNotCount);
+//     cmpNotCount++;
+//     return name;
+// }

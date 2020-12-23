@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "file.h"
-
+#include "ass.h"
 int lockOrNot = 0;
 int addCount = 0;
 int multiCount = 0;
