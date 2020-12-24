@@ -138,8 +138,8 @@ comma_expression
 
 single_expression
     : orh_expression assign_expression {
-        sprintf(curNode->value, "%d", makeNewTemp(instruction,
-         generateIndirectTriple("=", curNode->child[0]->value, curNode->child[1]->value)));
+        // sprintf(curNode->value, "%d", makeNewTemp(instruction,
+        //  generateIndirectTriple("=", curNode->child[0]->value, curNode->child[1]->value)));
         // "=" curNode->child[0]->value, curNode->child[1]->value;
         curNode->type = curNode->child[0]->type;
     }
