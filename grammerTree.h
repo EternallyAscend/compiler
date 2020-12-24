@@ -45,6 +45,15 @@ grammerTree* createGrammerNode(int isTerminal, const char* word, const char* gra
     newNode->isTerminal = isTerminal;
     strcpy(newNode->word, word);
     strcpy(newNode->grammer, grammer);
+
+    newNode->operators = "Default Operator.";
+    newNode->type = -1;
+    newNode->value = "No value.";
+    newNode->begin = -1;
+    newNode->end = -1;
+    newNode->trueList = -1;
+    newNode->falseList = -1;
+
     return newNode;
 }
 
