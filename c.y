@@ -110,7 +110,7 @@ int isInited = 0;
 
 //opt
 %type<str> cmp_opt ene_opt mtd_opt
-%type<str> entry interface main_args public_statement action
+%type<str> entry interface main_args public_statement action_defination
 
 
 %nonassoc NONE_ELSE
@@ -729,14 +729,14 @@ main_args
     |
     ;
 
-action
+action_defination
     :  {
         extendTree(NON_TERMINAL, "", "declaration");
-    }
+    } type_defination
     ;
 
 entry
-    : interface action type_defination MAIN LP main_args RP statement_block interface
+    : interface action_defination MAIN LP main_args RP statement_block interface
     ;
 
 interface
@@ -757,7 +757,7 @@ statement_body
     ;
 
 declaration
-    :action type_defination {
+    :action_defination {
         extendTree(NON_TERMINAL, "", "declaration body");
         saveNode();
     } declaration_body {
