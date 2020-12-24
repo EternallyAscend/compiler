@@ -730,7 +730,7 @@ main_args
     ;
 
 entry
-    : interface INT MAIN LP main_args RP statement_block /* interface */
+    : interface MAIN LP main_args RP statement_block interface
     ;
 
 interface
@@ -739,8 +739,8 @@ interface
     ;
 
 public_statement
-    : declaration
-    | expression
+    : declaration SEMICOLON
+    | expression SEMICOLON
     ;
 
 statement_body
