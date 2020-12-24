@@ -736,7 +736,7 @@ action_defination
     ;
 
 entry
-    : interface action_defination MAIN LP main_args RP statement_block interface
+    : interface action_defination MAIN LP main_args RP statement_block /* interface */
     ;
 
 interface
