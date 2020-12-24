@@ -19,6 +19,15 @@ typedef struct GrammerTree{
     int isTerminal;
     char word[MAX_SENTENCE_LENGTH];
     char grammer[MAX_SENTENCE_LENGTH];
+
+    char* operator;
+    int type;
+    char* value;
+    int begin;
+    int end;
+    int trueList;
+    int falseList;
+    
 } grammerTree;
 
 int push_child(grammerTree* parent, grammerTree* node){
