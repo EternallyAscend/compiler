@@ -730,18 +730,18 @@ main_args
     ;
 
 action_defination
-    :  {
+    : {
         extendTree(NON_TERMINAL, "", "declaration");
     } type_defination
     ;
 
 entry
-    : interface action_defination MAIN LP main_args RP statement_block /* interface */
+    : interface MAIN LP main_args RP statement_block /* interface */
     ;
 
 interface
     : public_statement interface
-    |
+    | action_defination
     ;
 
 public_statement
@@ -757,7 +757,7 @@ statement_body
     ;
 
 declaration
-    :action_defination {
+    : action_defination {
         extendTree(NON_TERMINAL, "", "declaration body");
         saveNode();
     } declaration_body {
