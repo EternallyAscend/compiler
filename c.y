@@ -388,6 +388,9 @@ noth_expression
         saveNode();
     } not_expression pid_expression {
         loadNode();
+        curNode->trueList = curNode->child[1]->falseList;
+        curNode->falseList = curNode->child[1]->trueList;
+        sprintf(curNode->value, "%s", curNode->child[0]->value);
     }
     ;
 
@@ -397,8 +400,8 @@ not_expression
         sprintf(curNode->operators, "!");
     } not_expression {
         sprintf(curNode->value, "NOT expr.");
-        curNode->parent->trueList = curNode->falseList;
-        curNode->parent->falseList = curNode->trueList;
+        // curNode->parent->trueList = curNode->falseList;
+        // curNode->parent->falseList = curNode->trueList;
     }
     | NOT error {
         extendTree(NON_TERMINAL, "!", "expression");
@@ -413,11 +416,12 @@ pid_expression
     : LP { 
         extendTree(NON_TERMINAL, "()", "expression");
     } expression RP {
-        curNode->parent->value = curNode->value;
-        curNode->parent->type = curNode->type;
+        sprintf(curNode->parent->value, "%s", curNode->value);
+        sprintf(curNode->parent->type, "%s", curNode->type);
         backToParent();
     }
-    | decorated_identifier // pointer_expression /* Not write value here. */
+    | decorated_identifier // pointer_expression
+      /* Not write value here current, later fill it. */
     | CONSTANT { 
         sprintf(curNode->value, "%s", $<str>1);
         curNode->type = 1;
@@ -627,8 +631,10 @@ decorated_identifier
     } address_decorator high_nter_decorator IDENTIFIER {
         useId($<str>4);
         extendTerminal($<str>4, "identifier");
+        sprintf(curNode->parent->value, "%s", $<str>3);
     } high_ay_decorator {
         loadNode();
+        curNode->prent->type = currentType;
     }
     ;
 
