@@ -172,10 +172,9 @@ orh_expression
 
 or_expression
     : OR { 
-        sprintf(curNode->opterors, "||");
+        sprintf(curNode->opterators, "||");
         extendOptTree("||");
     } andh_expression {
-        sprintf()
         backToParent();
     } or_expression
     | OR error {
