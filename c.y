@@ -394,7 +394,7 @@ noth_expression
         loadNode();
         curNode->trueList = curNode->child[1]->falseList;
         curNode->falseList = curNode->child[1]->trueList;
-        sprintf(curNode->value, "%s", curNode->child[0]->value);
+        // sprintf(curNode->value, "%s", curNode->child[0]->value);
     }
     ;
 
@@ -738,7 +738,7 @@ action_defination
 entry
     : public_statement entry
     | action_defination MAIN {
-        makeNewTemp(instruction, generateIndirectTriple("j", "", ""));
+        // makeNewTemp(instruction, generateIndirectTriple("j", "", ""));
     } LP main_args RP {
         extendTree(NON_TERMINAL, "main", "main function");
     } statement_block {
