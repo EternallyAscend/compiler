@@ -67,6 +67,7 @@ continue		{ appendLexOutputFile("CONTINUE", yytext, ""); return(CONTINUE); }
 break			{ appendLexOutputFile("BREAK", yytext, ""); return(BREAK); }
 return			{ appendLexOutputFile("RETURN", yytext, ""); return(RETURN); }
 struct			{ appendLexOutputFile("STRUCT", yytext, ""); return(STRUCT); }
+main			{ appendLexOutputFile("MAIN", yytext, ""); return(MAIN); }
 
 [a-zA-Z_]([0-9]|[a-zA-Z_]|$)*   {
 	{

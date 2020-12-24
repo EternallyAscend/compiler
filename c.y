@@ -77,6 +77,7 @@ int isInited = 0;
 %token<str> WHILE DO FOR CONTINUE BREAK // while do for continue break
 %token<str> RETURN // return
 %token<str> STRUCT // struct
+%token<str> MAIN // main
 
 // expression
 %type<str> expression assign_expression orh_expression or_expression andh_expression and_expression
@@ -109,12 +110,13 @@ int isInited = 0;
 
 //opt
 %type<str> cmp_opt ene_opt mtd_opt
+%type<str> entry interface main_args public_statement
 
 
 %nonassoc NONE_ELSE
 %nonassoc ELSE
 
-%start statement_body
+%start entry
 %%
 
 
@@ -722,8 +724,29 @@ statement_block
     }
     ;
 
+main_args
+    :VOID
+    |
+    ;
+
+entry
+    : interface INT MAIN LP main_args RP statement_block interface
+    ;
+
+interface
+    : public_statement interface
+    |
+    ;
+
+public_statement
+    : declaration
+    | expression
+    ;
+
 statement_body
-    : statement statement_body
+    : {
+
+    } statement statement_body
     | { printf("statement body over!\n"); }
     ;
 
@@ -740,18 +763,18 @@ declaration
     ;
 
 declaration_body
-    : function_declaration {
-        extendTree(NON_TERMINAL, "", "function declaration");
-        broToParent(-1);
-        backToParent();
-        //connectParentChild();
-    }
-    | argument_declaration_list {
+    : argument_declaration_list {
         extendTree(NON_TERMINAL, "", "argument declaration list");
         broToParent(-1);
         backToParent();
         //connectParentChild();
     } SEMICOLON
+    /* | function_declaration {
+        extendTree(NON_TERMINAL, "", "function declaration");
+        broToParent(-1);
+        backToParent();
+        //connectParentChild();
+    } */
     ;
 
 function_declaration
