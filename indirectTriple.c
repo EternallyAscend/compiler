@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "file.h"
 #include "indirectTriple.h"
 
 //struct InstructionItem{
@@ -16,9 +17,27 @@
 // struct InstructionItem* generateIndirectTriple(char* operatorType, int arg0, int arg1) {
 struct InstructionItem* generateIndirectTriple(char* operatorType, char* arg0, char* arg1) {
     struct InstructionItem* instructionItem = (struct InstructionItem*)malloc(sizeof(struct InstructionItem));
-    instructionItem->operatorType = operatorType;
-    instructionItem->arg0 = arg0;
-    instructionItem->arg1 = arg1;
+    if (NULL != operatorType) {
+        instructionItem->operatorType = (char*)malloc(sizeof(char)*16);
+        sprintf(instructionItem->operatorType, "%s", operatorType);
+    }
+    else {
+        instructionItem->operatorType = NULL;
+    }
+    if (NULL != arg0) {
+        instructionItem->arg0 = (char*)malloc(sizeof(char)*128);
+        sprintf(instructionItem->arg0, "%s", arg0);
+    }
+    else {
+        instructionItem->arg0 = NULL;
+    }
+    if (NULL != arg1) {
+        instructionItem->arg1 = (char*)malloc(sizeof(char)*128);
+        sprintf(instructionItem->arg1, "%s", arg1);
+    }
+    else {
+        instructionItem->arg1 = NULL;
+    }
     return instructionItem;
 }
 
@@ -34,6 +53,15 @@ struct InstructionItem* generateIndirectTriple(char* operatorType, char* arg0, c
 
 int destroyInstructionItem(struct InstructionItem* instructionItem) {
     if (NULL != instructionItem) {
+        if (NULL != instructionItem->operatorType) {
+            free(instructionItem->operatorType);
+        }
+        if (NULL != instructionItem->arg0) {
+            free(instructionItem->arg0);
+        }
+        if (NULL != instructionItem->arg1) {
+            free(instructionItem->arg1);
+        }
         free(instructionItem);
         return 1;
     }
@@ -66,14 +94,22 @@ int makeNewTemp(struct Instruction* instruction, struct InstructionItem* instruc
     }
     instruction->list[instruction->tail] = instructionItem;
 //    return (int&)instruction->list[instruction->tail++];
-    return (int)instructionItem;
+    // return (int)instructionItem;
+    return instruction->tail++;
 }
 
 int destroyInstruction(struct Instruction* instruction) {
+    generateCENTER();
+    char* appendContent = (char*)malloc(sizeof(char)*1024);
     if (NULL != instruction) {
         if (NULL != instruction->list) {
             int cursor = 0;
             for (; cursor < instruction->tail; cursor++) {
+                sprintf(appendContent, "%4d\t %s %s %s", cursor,
+                 instruction->list[cursor]->operatorType,
+                 instruction->list[cursor]->arg0,
+                 instruction->list[cursor]->arg1);
+                appendCENTER(appendContent);
                 destroyInstructionItem(instruction->list[cursor]);
             }
             free(instruction->list);
@@ -81,5 +117,7 @@ int destroyInstruction(struct Instruction* instruction) {
         }
         return -1;
     }
+    free(appendContent);
+    closeCENTER();
     return 0;
 }
