@@ -110,8 +110,8 @@ int isInited = 0;
 
 //opt
 %type<str> cmp_opt ene_opt mtd_opt
-%type<str> entry interface main_args public_statement action_defination
-
+%type<str> entry main_args public_statement action_defination
+ /* interface */
 
 %nonassoc NONE_ELSE
 %nonassoc ELSE
@@ -736,12 +736,8 @@ action_defination
     ;
 
 entry
-    : interface MAIN LP main_args RP statement_block /* interface */
-    ;
-
-interface
-    : public_statement interface
-    | action_defination
+    : public_statement entry
+    | action_defination MAIN LP main_args RP statement_block
     ;
 
 public_statement
