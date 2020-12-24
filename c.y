@@ -444,7 +444,7 @@ type_defination
         extendTerminal("int", "type");
     } 
     | VOID { 
-        setCunrrentType(0);
+        setCurrentType(0);
         extendTerminal("void", "type");
     } 
 
