@@ -739,7 +739,11 @@ entry
     : public_statement entry
     | action_defination MAIN {
         makeNewTemp(instruction, generateIndirectTriple("j", "", ""));
-    } LP main_args RP statement_block
+    } LP main_args RP {
+        extendTree(NON_TERMINAL, "main", "main function");
+    } statement_block {
+        backToParent();
+    }
     ;
 
 public_statement
