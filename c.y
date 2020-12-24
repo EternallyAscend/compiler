@@ -730,7 +730,7 @@ main_args
     ;
 
 entry
-    : interface INT MAIN LP main_args RP statement_block interface
+    : interface INT MAIN LP main_args RP statement_block /* interface */
     ;
 
 interface
