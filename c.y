@@ -737,7 +737,9 @@ action_defination
 
 entry
     : public_statement entry
-    | action_defination MAIN LP main_args RP statement_block
+    | action_defination MAIN {
+        makeNewTemp(instruction, generateIndirectTriple("j", "", ""));
+    } LP main_args RP statement_block
     ;
 
 public_statement
