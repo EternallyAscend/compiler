@@ -749,6 +749,7 @@ entry
 public_statement
     : declaration
     | expression SEMICOLON
+    | SEMICOLON
     ;
 
 statement_body
