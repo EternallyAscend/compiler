@@ -28,6 +28,7 @@ int destroyInstructionItem(struct InstructionItem* instructionItem);
 
 struct Instruction {
     struct InstructionItem** list;
+    char** values;
     unsigned long long int size;
     unsigned long long int tail;
 };
