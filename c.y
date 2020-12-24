@@ -393,8 +393,13 @@ noth_expression
 
 not_expression
     : NOT { 
+        sprintf(curNode->operators, "!");
         extendTree(NON_TERMINAL, "!", "expression");
-    } not_expression
+    } not_expression {
+        // curNode->truelist = curNode->falselist;
+        // curNode->falselist = curNode->truelist;
+        sprintf(curNode->value, "NOT expr.");
+    }
     | NOT error {
         extendTree(NON_TERMINAL, "!", "expression");
         yyerror("invalid syntax after !");
