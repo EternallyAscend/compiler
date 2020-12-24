@@ -45,6 +45,7 @@ void useId(const char* name);
 /* Not write value here. */
 struct Instruction* instruction = NULL;
 int currentType = 1;
+int isInited = 0;
 
 %}
 
@@ -137,7 +138,7 @@ comma_expression
     ;
 
 single_expression
-    : orh_expression assign_expression {
+    : { printf("SHABI!SAAB\n"); } orh_expression assign_expression {
         // sprintf(curNode->value, "%d", makeNewTemp(instruction,
         //  generateIndirectTriple("=", curNode->child[0]->value, curNode->child[1]->value)));
         // "=" curNode->child[0]->value, curNode->child[1]->value;
@@ -171,8 +172,10 @@ orh_expression
 
 or_expression
     : OR { 
+        sprintf(curNode->opterors, "||");
         extendOptTree("||");
     } andh_expression {
+        sprintf()
         backToParent();
     } or_expression
     | OR error {
