@@ -20,7 +20,7 @@ typedef struct GrammerTree{
     char word[MAX_SENTENCE_LENGTH];
     char grammer[MAX_SENTENCE_LENGTH];
 
-    char* operator;
+    char* operators;
     int type;
     char* value;
     int begin;
