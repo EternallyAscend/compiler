@@ -172,7 +172,7 @@ orh_expression
 
 or_expression
     : OR { 
-        sprintf(curNode->opterators, "||");
+        sprintf(curNode->operators, "||");
         extendOptTree("||");
     } andh_expression {
         backToParent();
