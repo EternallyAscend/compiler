@@ -4,6 +4,7 @@
 #include "file.h"
 #include "table.h"
 #include "grammerTree.h"
+#include "indirectTriple.h"
 #include "y.tab.h"
 
 #ifdef __cplusplus
@@ -40,6 +41,10 @@ void loadNode();
 void appendLexOutputIDFile(const char* type, const char* name, const char* attribute);
 void declarationId(const char* name);
 void useId(const char* name);
+
+/* Not write value here. */
+struct Instruction* instruction = NULL;
+int currentType = 1;
 
 %}
 
@@ -132,15 +137,25 @@ comma_expression
     ;
 
 single_expression
-    : orh_expression assign_expression
+    : orh_expression assign_expression {
+        sprintf(curNode->value, "%d", makeNewTemp(instruction,
+         generateIndirectTriple("=", curNode->child[0]->value, curNode->child[1]->value)));
+        // "=" curNode->child[0]->value, curNode->child[1]->value;
+        curNode->type = curNode->child[0]->type;
+    }
     ;
 
 assign_expression
     : ASSIGN { 
         extendOptTree("=");
     } orh_expression { 
+        // sprintf(curNode->parent->value, "%s",curNode->value);
         backToParent();
-    } assign_expression
+    } assign_expression {
+        // curNode->type = curNode->child[2]->type; // Whether is child2 here? @zzy
+        // sprintf(curNode->value, "%d", makeNewTemp(instruction,
+        //  generateIndirectTriple("=", curNode->child[0]->value, curNode->child[1]->value)));
+    }
     | ASSIGN error {
         extendOptTree("=");
         yyerror("Wrong assign expression.");
@@ -311,9 +326,9 @@ mtdh_expression
 
 mtd_expression
     : mtd_opt powh_expression {
-        // curNode->operators;
         backToParent();
     } mtd_expression {
+        
         // 3 pos code.
     }
     | mtd_opt error {
@@ -425,9 +440,11 @@ pointer_expression
 
 type_defination
     : INT { 
+        setCurrentType(1);
         extendTerminal("int", "type");
     } 
     | VOID { 
+        setCunrrentType(0);
         extendTerminal("void", "type");
     } 
 
@@ -949,20 +966,36 @@ int main(int arg, char* argv[]) {
         exit(-1);
     }
     yyin = fopen(argv[1], "r");
+
+    instruction = generateInstruction();
+
     root = createGrammerNode(NON_TERMINAL, "", "start");
     curNode = root;
     tempPointer = NULL;
+
     generateLEX();
     appendLEX("Type           Name           Attribute \n");
+    generateCODE();
+
     launchTable();
+    
     int err = yyparse();
+
+    closeCODE();
     closeLEX();
+
     generateYACC();
     printGrammerTree(root);
     closeYACC();
+
     stopTable();
+
     freeGrammerTree(root);
+
+    destroyInstruction(instruction);
+
     fclose(yyin);
+
     printf("%d\n", err);
     return 0; 
 }   
