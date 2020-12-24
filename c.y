@@ -174,7 +174,7 @@ orh_expression
 
 or_expression
     : OR { 
-        sprintf(curNode->operators, "||");
+        // sprintf(curNode->operators, "||");
         extendOptTree("||");
     } andh_expression {
         backToParent();
@@ -283,13 +283,13 @@ pm_expression
     : PLUS { 
         extendOptTree("+");
     } mtdh_expression {
-        curNode->parent->value = curNode->value; 
+        // curNode->parent->value = curNode->value; 
         backToParent();
     } pm_expression {
         // 3 pos code.
     }
     | MINUS { 
-        curNode->parent->value = curNode->value;
+        // curNode->parent->value = curNode->value;
         extendOptTree("-");
     } mtdh_expression {
         backToParent();
@@ -392,8 +392,8 @@ noth_expression
         saveNode();
     } not_expression pid_expression {
         loadNode();
-        curNode->trueList = curNode->child[1]->falseList;
-        curNode->falseList = curNode->child[1]->trueList;
+        // curNode->trueList = curNode->child[1]->falseList;
+        // curNode->falseList = curNode->child[1]->trueList;
         // sprintf(curNode->value, "%s", curNode->child[0]->value);
     }
     ;
@@ -420,8 +420,8 @@ pid_expression
     : LP { 
         extendTree(NON_TERMINAL, "()", "expression");
     } expression RP {
-        sprintf(curNode->parent->value, "%s", curNode->value);
-        curNode->parent->type = curNode->type;
+        // sprintf(curNode->parent->value, "%s", curNode->value);
+        // curNode->parent->type = curNode->type;
         // sprintf(curNode->parent->type, "%s", curNode->type);
         backToParent();
     }
