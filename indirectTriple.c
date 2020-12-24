@@ -107,6 +107,25 @@ int makeNewTemp(struct Instruction* instruction, struct InstructionItem* instruc
     return instruction->tail++;
 }
 
+int rewriteTemp(struct Instruction* instruction, int index, int pos, char* arg) {
+    struct InstructionItem* item = instruction->list[index];
+    switch (pos)
+    {
+        case 0:
+            sprintf(item->operatorType, "%s", arg);
+            break;
+        case 1:
+            sprintf(item->arg0, "%s", arg);
+            break;
+        case 2:
+            sprintf(item->arg1, "%s", arg);
+            break;
+        default:
+            return -1;
+    }
+    return 1;
+}
+
 int destroyInstruction(struct Instruction* instruction) {
     generateCENTER();
     char* appendContent = (char*)malloc(sizeof(char)*1024);

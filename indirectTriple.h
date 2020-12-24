@@ -37,6 +37,8 @@ struct Instruction* generateInstruction();
 
 int makeNewTemp(struct Instruction* instruction, struct InstructionItem* instructionItem);
 
+int rewriteTemp(struct Instruction* instruction, int index, int pos, char* arg);
+
 int destroyInstruction(struct Instruction* instruction);
 
 #endif //INDIRECTTRIPLE_INDIRECTTRIPLE_H
