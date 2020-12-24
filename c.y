@@ -144,7 +144,7 @@ single_expression
         // sprintf(curNode->value, "%d", makeNewTemp(instruction,
         //  generateIndirectTriple("=", curNode->child[0]->value, curNode->child[1]->value)));
         // "=" curNode->child[0]->value, curNode->child[1]->value;
-        curNode->type = curNode->child[0]->type;
+        // curNode->type = curNode->child[0]->type;
     }
     ;
 
@@ -636,7 +636,7 @@ decorated_identifier
     } address_decorator high_nter_decorator IDENTIFIER {
         useId($<str>4);
         extendTerminal($<str>4, "identifier");
-        sprintf(curNode->parent->value, "%s", $<str>3);
+        // sprintf(curNode->parent->value, "%s", $<str>3);
     } high_ay_decorator {
         loadNode();
         curNode->parent->type = currentType;
