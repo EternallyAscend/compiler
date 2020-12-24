@@ -399,7 +399,7 @@ pid_expression
     }
     | decorated_identifier // pointer_expression /* Not write value here. */
     | CONSTANT { 
-        curNode->value = $<str>1;
+        sprintf(curNode->value, "%s", $<str>1);
         curNode->type = 1;
         extendTree(TERMINAL, $<str>1, "const");
     }
@@ -871,7 +871,7 @@ void loadNode() {
 
 void extendOptTree(const char* opt) {
     extendTree(NON_TERMINAL, opt, "expression");
-    curNode->operators = opt;
+    sprintf(curNode->operators, "%s", opt);
     adjustOptNode(curNode);
 }
 

@@ -20,7 +20,7 @@ typedef struct GrammerTree{
     char word[MAX_SENTENCE_LENGTH];
     char grammer[MAX_SENTENCE_LENGTH];
 
-    const char* operators;
+    char* operators;
     int type;
     char* value;
     int begin;
@@ -46,9 +46,11 @@ grammerTree* createGrammerNode(int isTerminal, const char* word, const char* gra
     strcpy(newNode->word, word);
     strcpy(newNode->grammer, grammer);
 
-    newNode->operators = "Default Operator.";
+    newNode->operators = (char*)malloc(sizeof(char)*16);
+    sprintf(newNode->operators, "Default OP."); // "Default Operator.";
     newNode->type = -1;
-    newNode->value = "No value.";
+    newNode->value = (char*)malloc(sizeof(char)*128); 
+    sprintf(newNode->value, "No Value."); // "No value.";
     newNode->begin = -1;
     newNode->end = -1;
     newNode->trueList = -1;
@@ -66,6 +68,12 @@ void traversal(void func(grammerTree*), grammerTree* root) {
 
 void freeGrammerNode(grammerTree* node) {
     if(node != NULL){
+        if (NULL != node->operators) {
+            free(node->operators);
+        }
+        if (NULL != node->value) {
+            free(node->value);
+        }
         free(node);
         node = NULL;
     }    
