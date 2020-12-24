@@ -417,7 +417,8 @@ pid_expression
         extendTree(NON_TERMINAL, "()", "expression");
     } expression RP {
         sprintf(curNode->parent->value, "%s", curNode->value);
-        sprintf(curNode->parent->type, "%s", curNode->type);
+        curNode->parent->type = curNode->type;
+        // sprintf(curNode->parent->type, "%s", curNode->type);
         backToParent();
     }
     | decorated_identifier // pointer_expression
@@ -634,7 +635,7 @@ decorated_identifier
         sprintf(curNode->parent->value, "%s", $<str>3);
     } high_ay_decorator {
         loadNode();
-        curNode->prent->type = currentType;
+        curNode->parent->type = currentType;
     }
     ;
 
