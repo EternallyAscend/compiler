@@ -218,7 +218,9 @@ ene_opt
     ;
 
 lgh_expression
-    : pmh_expression lg_expression
+    : pmh_expression lg_expression {
+        // generateIndirectTripleCode.
+    }
     ;
 
 lg_expression
@@ -262,13 +264,19 @@ pm_expression
     : PLUS { 
         extendOptTree("+");
     } mtdh_expression {
+        curNode->parent->value = curNode->value; 
         backToParent();
-    } pm_expression
+    } pm_expression {
+        // 3 pos code.
+    }
     | MINUS { 
+        curNode->parent->value = curNode->value;
         extendOptTree("-");
     } mtdh_expression {
         backToParent();
-    } pm_expression
+    } pm_expression {
+        // 3 pos code.
+    }
     | PLUS { 
         extendOptTree("+");
     } error {
@@ -296,13 +304,18 @@ pm_expression
     ; */
 
 mtdh_expression
-    : powh_expression mtd_expression
+    : powh_expression mtd_expression {
+        // 3 pos code.
+    }
     ;
 
 mtd_expression
     : mtd_opt powh_expression {
+        // curNode->operators;
         backToParent();
-    } mtd_expression
+    } mtd_expression {
+        // 3 pos code.
+    }
     | mtd_opt error {
         char str[64];
         sprintf(str, "invalid syntax after %s", $1);
@@ -329,7 +342,9 @@ mtd_opt
     ;
 
 powh_expression
-    : noth_expression pow_expression
+    : noth_expression pow_expression {
+        // 3 pos code.
+    }
     /*| noth_expression 
      error {
         yyerror("Wrong pow expression.");
@@ -341,7 +356,9 @@ pow_expression
         extendOptTree("^");
     } noth_expression {
         backToParent();
-    } pow_expression
+    } pow_expression {
+        // 3 pos code.
+    }
     | POW error {
         extendOptTree("^");
         yyerror("invalid syntax after ^");
@@ -375,11 +392,15 @@ not_expression
 pid_expression
     : LP { 
         extendTree(NON_TERMINAL, "()", "expression");
-    } expression RP { 
+    } expression RP {
+        curNode->parent->value = curNode->value;
+        curNode->parent->type = curNode->type;
         backToParent();
     }
-    | decorated_identifier // pointer_expression
+    | decorated_identifier // pointer_expression /* Not write value here. */
     | CONSTANT { 
+        curNode->value = $<str>1;
+        curNode->type = 1;
         extendTree(TERMINAL, $<str>1, "const");
     }
     | LP {
@@ -850,6 +871,7 @@ void loadNode() {
 
 void extendOptTree(const char* opt) {
     extendTree(NON_TERMINAL, opt, "expression");
+    curNode->operators = opt;
     adjustOptNode(curNode);
 }
 
