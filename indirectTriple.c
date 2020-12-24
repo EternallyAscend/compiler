@@ -81,7 +81,7 @@ struct Instruction* generateInstruction() {
     instruction->tail = 0;
     int cursor = 0;
     for (; cursor < 256; cursor++) {
-        instruction->values = (char*)malloc(sizeof(char)*64);
+        instruction->values[cursor] = (char*)malloc(sizeof(char)*64);
     }
     return instruction;
 }
