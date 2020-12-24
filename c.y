@@ -397,8 +397,8 @@ not_expression
         sprintf(curNode->operators, "!");
     } not_expression {
         sprintf(curNode->value, "NOT expr.");
-        curNode->truelist = curNode->child[0]->falselist;
-        curNode->falselist = curNode->child[0]->truelist;
+        curNode->trueList = curNode->child[0]->falseList;
+        curNode->falseList = curNode->child[0]->trueList;
     }
     | NOT error {
         extendTree(NON_TERMINAL, "!", "expression");
