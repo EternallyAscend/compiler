@@ -22,6 +22,7 @@ typedef struct GrammerTree{
 
     char* operators;
     int type;
+    int isNotEmpty;
     char* value;
     int begin;
     int end;
@@ -49,6 +50,7 @@ grammerTree* createGrammerNode(int isTerminal, const char* word, const char* gra
     newNode->operators = (char*)malloc(sizeof(char)*16);
     sprintf(newNode->operators, "Default OP."); // "Default Operator.";
     newNode->type = -1;
+    newNode->isNotEmpty = 1;
     newNode->value = (char*)malloc(sizeof(char)*128); 
     sprintf(newNode->value, "No Value."); // "No value.";
     newNode->begin = -1;
