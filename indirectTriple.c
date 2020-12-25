@@ -76,29 +76,29 @@ int destroyInstructionItem(struct InstructionItem* instructionItem) {
 struct Instruction* generateInstruction() {
     struct Instruction* instruction = (struct Instruction*)malloc(sizeof(struct Instruction));
     instruction->list = (struct InstructionItem**)malloc(sizeof(struct InstructionItem*)*256);
-    instruction->values = (char**)malloc(sizeof(char*)*256);
+    // instruction->values = (char**)malloc(sizeof(char*)*256);
     instruction->size = 256;
     instruction->tail = 0;
     int cursor = 0;
-    for (; cursor < 256; cursor++) {
-        instruction->values[cursor] = (char*)malloc(sizeof(char)*64);
-    }
+    // for (; cursor < 256; cursor++) {
+    //     instruction->values[cursor] = (char*)malloc(sizeof(char)*64);
+    // }
     return instruction;
 }
 
 int makeNewTemp(struct Instruction* instruction, struct InstructionItem* instructionItem) {
     if (instruction->size == instruction->tail) {
         struct InstructionItem** temporary = instruction->list;
-        char** lists = instruction->values;
+        // char** lists = instruction->values;
         instruction->list = (struct InstructionItem**)malloc(sizeof(struct InstructionItem*)*instruction->size*2);
-        instruction->values = (char**)malloc(sizeof(char*)*instruction->size*2);
+        // instruction->values = (char**)malloc(sizeof(char*)*instruction->size*2);
         int cursor = 0;
         for (; cursor < instruction->size; cursor++) {
             instruction->list[cursor] = temporary[cursor];
-            instruction->values[cursor] = lists[cursor];
+            // instruction->values[cursor] = lists[cursor];
         }
         free(temporary);
-        free(lists);
+        // free(lists);
         instruction->size *= 2;
     }
     instruction->list[instruction->tail] = instructionItem;
@@ -145,18 +145,18 @@ int destroyInstruction(struct Instruction* instruction) {
                 destroyInstructionItem(instruction->list[cursor]);
             }
             free(instruction->list);
-            return 1;
+            // return 1;
         }
-        if (NULL != instruction->values) {
-            int cursor = 0;
-            for (; cursor < instruction->tail; cursor++) {
-                if (NULL != instruction->values[cursor]) {
-                    free(instruction->values[cursor]);
-                }
-            }
-            free(instruction->values);
-        }
-        return -1;
+        // if (NULL != instruction->values) {
+        //     int cursor = 0;
+        //     for (; cursor < instruction->tail; cursor++) {
+        //         if (NULL != instruction->values[cursor]) {
+        //             free(instruction->values[cursor]);
+        //         }
+        //     }
+        //     free(instruction->values);
+        // }
+        // return -1;
     }
     free(appendContent);
     closeCENTER();
