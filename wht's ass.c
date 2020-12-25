@@ -9,6 +9,9 @@ int lockOrNot = 0;
 int subCount = 0;
 int multiCount = 0;
 int divCount = 0;
+int powCount = 0;
+int cmpGreaterCount = 0;
+int assignCount = 0;
 
 char* mov = "MOV";
 char* add = "ADD";
@@ -36,8 +39,8 @@ char* assSub(char* num1, char* num2) {
     char* firSub;
     char* storageResult;
     sprintf(count, "subCount%d", subCount);
-    sprintf(firMove, "%s %s, %s", mov, ax, num1);//put num1 to ax
-    sprintf(secMove, "%s %s, %s", mov, bx, num2);//put num2 to bx
+    sprintf(firMove, "%s %s, [%s]", mov, ax, num1);//put num1 to ax
+    sprintf(secMove, "%s %s, [%s]", mov, bx, num2);//put num2 to bx
     sprintf(firSub, "%s %s, %s", sub, ax, bx);//ax = ax + bx
     sprintf(storageResult, "%s [%s], %s", mov , count, ax);//put ax to stroge
     subCount++;
@@ -56,8 +59,8 @@ char* assMulti(char* num1, char* num2) {
     char* firMulti;
     char* storageResult;
     sprintf(count, "multiCount%d", multiCount);
-    sprintf(firMove, "%s %s, %d", mov, ax, num1);//put num1 to ax
-    sprintf(secMove, "%s %s, %d", mov, bx, num2);
+    sprintf(firMove, "%s %s, [%s]", mov, ax, num1);//put num1 to ax
+    sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     sprintf(firMulti, "%s %s, %s", imul, ax, bx)
     sprintf(storageResult, "%s [%s], %s", mov, count, ax);//put ax to stroge
     multiCount++;
@@ -76,8 +79,8 @@ char* assDiv(char* num1, char* num2) {
     char* firDiv;
     char* storageResult;
     sprintf(count, "divCount%d", divCount);
-    sprintf(firMove, "%s %s, %d", mov, ax, num1);
-    sprintf(secMove, "%s %s, %d", mov, bx, num2);
+    sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
+    sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     sprintf(firDiv, "%s %s", idiv, bx);
     sprintf(storageResult, "%s [%s], %s", mov, count, al);
     divCount++;
@@ -90,9 +93,44 @@ char* assPow(char* num1, char* num2) {
         sleep(1);
     }
     lockOrNot = 1;
-    
-    
+    char* count;
+    char* firMove;
+    char* secMove;
+    char* thiMove;
+    char* firSub;
+    char* loop;
+    char* storageResult;
+    sprintf(count, "powCount%d", powCount);
+    sprintf(firMove, "%s %s, [%s]", mov, ax, num1);//put num1 to ax
+    sprintf(secMove, "%s %s, [%s]", mov, bx, num1);
+    sprintf(thiMove, "%s %s, [%s]", mov, cx, num2);
+    sprintf(firSub, "%s %s, %s", sub, cx, '1');
+    sprintf(loop, "m%d: %s %s, %s\n  loop m%d", powCount, imul, ax, bx, powCount);
+    sprintf(storageResult, "  %s [%s], %s", mov, count, ax);//put ax to stroge
+    powCount++;
     lockOrNot = 0;
     return count;
 }
 
+char* assAssgin(char* num1, char* num2) {
+    while(lockOrNot == 1) {
+        sleep(1);
+    }
+    lockOrNot = 1;
+    char* count;
+    char* firMove;
+    char* firAssign;
+    char* storageResult;
+    sprintf(count, "assignCount%d", assignCount);
+    sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
+    sprintf(firAssign, "%s %s, [%s]", mov, ax, num2);
+    sprintf(storageResult, "%s [%s], %s", mov, count, ax);
+    assignCount++;
+    lockOrNot = 0;
+    return count;
+}
+char* assGreater(char* num1, char* num2) {
+
+}
+
+char* assGreaterEqual(char* num1, char* num2);
