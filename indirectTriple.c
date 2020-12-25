@@ -108,6 +108,10 @@ int makeNewTemp(struct Instruction* instruction, struct InstructionItem* instruc
 }
 
 int rewriteTemp(struct Instruction* instruction, int index, int pos, char* arg) {
+    if (0 > index || index >= instruction->tail) {
+        printf("Wrong index.\n");
+        return -1;
+    }
     struct InstructionItem* item = instruction->list[index];
     switch (pos)
     {
