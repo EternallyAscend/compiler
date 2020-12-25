@@ -445,7 +445,7 @@ noth_expression
     } not_expression pid_expression {
         // loadNode();
         printf("%s\n", curNode->word);
-        printf("%s\n", curNode->garmmer);
+        printf("%s\n", curNode->grammer);
         if (curNode->parent->child[0]->isNotEmpty) {
             makeNewTemp(instruction, generateIndirectTriple("!", curNode->parent->child[1]->value, "_"));
         }
