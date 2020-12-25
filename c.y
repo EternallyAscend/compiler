@@ -790,19 +790,22 @@ action_defination
 entry
     : public_statement entry
     | action_defination MAIN {
-        // curNode->begin = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
-        // curNode->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "-1"));
-        // char end[64];
-        // sprintf(end, "%d", curNode->end+1);
-        // rewriteTemp(instruction, curNode->begin, 2, end);
+        curNode->begin = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
+        curNode->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "-1"));
+        char end[64];
+        sprintf(end, "%d", curNode->end+1);
+        rewriteTemp(instruction, curNode->begin, 2, end);
     } LP main_args RP {
         extendTree(NON_TERMINAL, "main", "main function");
     } statement_block {
         char end[64];
         sprintf(end, "%d", curNode->parent->end);
         curNode->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", end));
+        // sprintf(end, "%d", curNode->parent->end);
+        // sprintf(end, "%d", curNode->end);
+        // rewriteTemp(instruction, curNode->end, 2, end);
+        // rewriteTemp(instruction, curNode->end, 2, end);
         backToParent();
-        curNode->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "-1"));
     }
     ;
 
