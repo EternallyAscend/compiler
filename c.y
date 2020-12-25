@@ -441,9 +441,9 @@ pow_expression
 
 noth_expression
     : {
-        saveNode();
+        // saveNode();
     } not_expression pid_expression {
-        loadNode();
+        // loadNode();
         // if (curNode->child[0]->isNotEmpty) {
         //     makeNewTemp(instruction, generateIndirectTriple("!", curNode->child[1]->value, "_"));
         // }
@@ -458,6 +458,7 @@ not_expression
         extendTree(NON_TERMINAL, "!", "expression");
         sprintf(curNode->operators, "!");
     } not_expression {
+        backToParent();
         sprintf(curNode->value, "!");
         curNode->isNotEmpty = 1 - curNode->child[0]->isNotEmpty;
         // curNode->parent->trueList = curNode->falseList;
