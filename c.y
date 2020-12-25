@@ -740,13 +740,13 @@ entry
     | action_defination MAIN {
         curNode->begin = makeNewTemp(instruction, generateIndirectTriple("j", "", ""));
         curNode->end = makeNewTemp(instruction, generateIndirectTriple("j", "", ""));
-        char[64] end;
+        char end[64];
         sprintf(end, "%d", curNode->end+1);
         rewriteTemp(instruction, curNode->begin, 2, end);
     } LP main_args RP {
         extendTree(NON_TERMINAL, "main", "main function");
     } statement_block {
-        char[64] end;
+        char end[64];
         sprintf(end, "%d", curNode->parent->end);
         // sprintf(end, "%d", curNode->end);
         // rewriteTemp(instruction, curNode->end, 2, end);
