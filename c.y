@@ -495,9 +495,11 @@ pid_expression
     | CONSTANT { 
         curNode->type = 1;
         sprintf(curNode->value, "%s", $<str>1);
+        printf("%s\n", curNode->value);
         extendTree(TERMINAL, $<str>1, "const");
         curNode->type = 1;
         sprintf(curNode->value, "%s", $<str>1);
+        printf("%s\n", curNode->value);
     }
     | LP {
         extendTree(NON_TERMINAL, "()", "expression");
