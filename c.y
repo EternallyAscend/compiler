@@ -140,7 +140,21 @@ comma_expression
     ;
 
 single_expression
-    : { printf("SHABI!SAAB\n"); } orh_expression assign_expression {
+    : orh_expression assign_expression {
+        if (1 == curNode->size) {
+            curNode->type = curNode->child[0]->type;
+            sprintf(curNode->value, "%s", curNode->child[0]->value);
+        }
+        else {
+            if (curNode->child[0]->type != curNode->type) {
+                yyerror("Wrong expression input.\n");
+            }
+            curNode->end = makeNewTemp(instruction,
+             generateIndirectTriple(curNode->child[1]->operators,
+                                    curNode->child[0]->value,
+                                    curNode->child[1]->value));
+            curNode->value = instruction->values[curNode->end];
+        }
         // sprintf(curNode->value, "%d", makeNewTemp(instruction,
         //  generateIndirectTriple("=", curNode->child[0]->value, curNode->child[1]->value)));
         // "=" curNode->child[0]->value, curNode->child[1]->value;
@@ -165,7 +179,7 @@ assign_expression
         extendTerminal("error", "assign expression error");
         backToParent();
     }
-    | /* epsilon */
+    | {} /* epsilon */
     ;
 
 orh_expression
@@ -739,7 +753,7 @@ entry
     : public_statement entry
     | action_defination MAIN {
         curNode->begin = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
-        curNode->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
+        curNode->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "-1"));
         char end[64];
         sprintf(end, "%d", curNode->end+1);
         rewriteTemp(instruction, curNode->begin, 2, end);
@@ -748,9 +762,11 @@ entry
     } statement_block {
         char end[64];
         sprintf(end, "%d", curNode->parent->end);
+        curNode->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", end));
+        // sprintf(end, "%d", curNode->parent->end);
         // sprintf(end, "%d", curNode->end);
         // rewriteTemp(instruction, curNode->end, 2, end);
-        rewriteTemp(instruction, curNode->parent->end, 2, end);
+        // rewriteTemp(instruction, curNode->end, 2, end);
         backToParent();
     }
     ;
@@ -763,7 +779,7 @@ public_statement
 
 statement_body
     : {
-
+        
     } statement statement_body
     | { printf("statement body over!\n"); }
     ;
