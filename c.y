@@ -171,12 +171,20 @@ assign_expression
         extendOptTree("=");
     } orh_expression {
         curNode->parent->type = curNode->type; 
-        sprintf(curNode->parent->value, "%s",curNode->value);
+        sprintf(curNode->parent->value, "%s", curNode->value);
         backToParent();
     } assign_expression {
-        // curNode->type = curNode->child[2]->type; // Whether is child2 here? @zzy
-        // sprintf(curNode->value, "%d", makeNewTemp(instruction,
-        //  generateIndirectTriple("=", curNode->child[0]->value, curNode->child[1]->value)));
+        if (curNode->child[0]->type != curNode->child[1]->type) {
+            yyerror("Wrong expression input.\n");
+        }
+        else {
+            curNode->type = curNode->child[1]->type; // Whether is child1 here? @zzy
+            curNode->end = makeNewTemp(instruction, generateIndirectTriple(curNode->child[1]->operators,
+                                                                            curNode->value,
+                                                                            curNode->child[1]->value));
+            // sprintf(curNode->value, "%d", makeNewTemp(instruction,
+            //  generateIndirectTriple("=", curNode->child[0]->value, curNode->child[1]->value)));
+        }
     }
     | ASSIGN error {
         extendOptTree("=");
@@ -184,7 +192,9 @@ assign_expression
         extendTerminal("error", "assign expression error");
         backToParent();
     }
-    | {} /* epsilon */
+    | {
+
+    } /* epsilon */
     ;
 
 orh_expression
