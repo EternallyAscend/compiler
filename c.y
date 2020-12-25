@@ -444,6 +444,8 @@ noth_expression
         // saveNode();
     } not_expression pid_expression {
         // loadNode();
+        printf("%s\n", curNode->word);
+        printf("%s\n", curNode->garmmer);
         if (curNode->parent->child[0]->isNotEmpty) {
             makeNewTemp(instruction, generateIndirectTriple("!", curNode->parent->child[1]->value, "_"));
         }
@@ -500,6 +502,7 @@ pid_expression
         curNode->type = 1;
         sprintf(curNode->value, "%s", $<str>1);
         printf("%s\n", curNode->value);
+        // print(reduce(lambda x, y : x + [[z for z in range(y)]], [1,2,3,4], []))
     }
     | LP {
         extendTree(NON_TERMINAL, "()", "expression");
