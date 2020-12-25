@@ -146,14 +146,18 @@ single_expression
             sprintf(curNode->value, "%s", curNode->child[0]->value);
         }
         else {
-            if (curNode->child[0]->type != curNode->type) {
+            if (curNode->child[0]->type != curNode->child[1]->type) {
                 yyerror("Wrong expression input.\n");
+            }
+            else {
+                curNode->type = curNode->child[0]->type;
             }
             curNode->end = makeNewTemp(instruction,
              generateIndirectTriple(curNode->child[1]->operators,
                                     curNode->child[0]->value,
                                     curNode->child[1]->value));
-            curNode->value = instruction->values[curNode->end];
+            // curNode->value = instruction->values[curNode->end];
+            sprintf(curNode->value, "#%d", curNode->end);
         }
         // sprintf(curNode->value, "%d", makeNewTemp(instruction,
         //  generateIndirectTriple("=", curNode->child[0]->value, curNode->child[1]->value)));
@@ -165,8 +169,9 @@ single_expression
 assign_expression
     : ASSIGN { 
         extendOptTree("=");
-    } orh_expression { 
-        // sprintf(curNode->parent->value, "%s",curNode->value);
+    } orh_expression {
+        curNode->parent->type = curNode->type; 
+        sprintf(curNode->parent->value, "%s",curNode->value);
         backToParent();
     } assign_expression {
         // curNode->type = curNode->child[2]->type; // Whether is child2 here? @zzy
