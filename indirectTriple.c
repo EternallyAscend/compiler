@@ -133,7 +133,7 @@ int destroyInstruction(struct Instruction* instruction) {
         if (NULL != instruction->list) {
             int cursor = 0;
             for (; cursor < instruction->tail; cursor++) {
-                sprintf(appendContent, "%4d\t %s %s %s\n", cursor,
+                sprintf(appendContent, "%4d %s %s %s\n", cursor,
                  instruction->list[cursor]->operatorType,
                  instruction->list[cursor]->arg0,
                  instruction->list[cursor]->arg1);

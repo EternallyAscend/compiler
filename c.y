@@ -738,8 +738,8 @@ action_defination
 entry
     : public_statement entry
     | action_defination MAIN {
-        curNode->begin = makeNewTemp(instruction, generateIndirectTriple("j", "", ""));
-        curNode->end = makeNewTemp(instruction, generateIndirectTriple("j", "", ""));
+        curNode->begin = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
+        curNode->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
         char end[64];
         sprintf(end, "%d", curNode->end+1);
         rewriteTemp(instruction, curNode->begin, 2, end);
