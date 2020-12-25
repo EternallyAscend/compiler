@@ -460,7 +460,7 @@ not_expression
     } not_expression {
         backToParent();
         sprintf(curNode->value, "!");
-        curNode->isNotEmpty = 1 - curNode->child[1]->isNotEmpty;
+        curNode->isNotEmpty = 1 - curNode->child[0]->isNotEmpty;
         // curNode->parent->trueList = curNode->falseList;
         // curNode->parent->falseList = curNode->trueList;
     }
