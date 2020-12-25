@@ -444,9 +444,9 @@ noth_expression
         // saveNode();
     } not_expression pid_expression {
         // loadNode();
-        // if (curNode->child[0]->isNotEmpty) {
-        //     makeNewTemp(instruction, generateIndirectTriple("!", curNode->child[1]->value, "_"));
-        // }
+        if (curNode->child[0]->isNotEmpty) {
+            makeNewTemp(instruction, generateIndirectTriple("!", curNode->child[1]->value, "_"));
+        }
         // curNode->trueList = curNode->child[1]->falseList;
         // curNode->falseList = curNode->child[1]->trueList;
         // sprintf(curNode->value, "%s", curNode->child[0]->value);
@@ -460,7 +460,7 @@ not_expression
     } not_expression {
         backToParent();
         sprintf(curNode->value, "!");
-        curNode->isNotEmpty = 1 - curNode->child[0]->isNotEmpty;
+        curNode->isNotEmpty = 1 - curNode->child[1]->isNotEmpty;
         // curNode->parent->trueList = curNode->falseList;
         // curNode->parent->falseList = curNode->trueList;
     }
