@@ -293,6 +293,9 @@ lgh_expression
 
 lg_expression
     : cmp_opt pmh_expression {
+        sprintf(curNode->operators, "%s", curNode->child[0]->operators);
+        curNode->type = 1;
+        sprintf(curNode->value, "%s", curNode->child[1]->value);
         backToParent();
     }
     | cmp_opt error {
@@ -441,6 +444,7 @@ noth_expression
         saveNode();
     } not_expression pid_expression {
         loadNode();
+        makeNewTemp(instruction, generateIndirectTriple("!"));
         // curNode->trueList = curNode->child[1]->falseList;
         // curNode->falseList = curNode->child[1]->trueList;
         // sprintf(curNode->value, "%s", curNode->child[0]->value);
@@ -452,7 +456,8 @@ not_expression
         extendTree(NON_TERMINAL, "!", "expression");
         sprintf(curNode->operators, "!");
     } not_expression {
-        sprintf(curNode->value, "NOT expr.");
+        sprintf(curNode->value, "!");
+        curNode->isNotEmpty = 1 - curNode->child[1]->isNotEmpty;
         // curNode->parent->trueList = curNode->falseList;
         // curNode->parent->falseList = curNode->trueList;
     }
@@ -462,7 +467,7 @@ not_expression
         extendTerminal("error", "invalid syntax after !");
         backToParent();
     }
-    | /* epsilon */
+    | { curNode->isNotEmpty = 0; } /* epsilon */
     ;
 
 pid_expression
