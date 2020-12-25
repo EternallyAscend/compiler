@@ -151,13 +151,13 @@ single_expression
             }
             else {
                 curNode->type = curNode->child[0]->type;
+                curNode->end = makeNewTemp(instruction,
+                 generateIndirectTriple(curNode->child[1]->operators,
+                                        curNode->child[0]->value,
+                                        curNode->child[1]->value));
+                // curNode->value = instruction->values[curNode->end];
+                sprintf(curNode->value, "\#%d", curNode->end);
             }
-            curNode->end = makeNewTemp(instruction,
-             generateIndirectTriple(curNode->child[1]->operators,
-                                    curNode->child[0]->value,
-                                    curNode->child[1]->value));
-            // curNode->value = instruction->values[curNode->end];
-            sprintf(curNode->value, "#%d", curNode->end);
         }
         // sprintf(curNode->value, "%d", makeNewTemp(instruction,
         //  generateIndirectTriple("=", curNode->child[0]->value, curNode->child[1]->value)));
@@ -180,8 +180,9 @@ assign_expression
         else {
             curNode->type = curNode->child[1]->type; // Whether is child1 here? @zzy
             curNode->end = makeNewTemp(instruction, generateIndirectTriple(curNode->child[1]->operators,
-                                                                            curNode->value,
-                                                                            curNode->child[1]->value));
+                                                                           curNode->value,
+                                                                           curNode->child[1]->value));
+            sprintf(curNode->value, "\#%d", curNode->end);
             // sprintf(curNode->value, "%d", makeNewTemp(instruction,
             //  generateIndirectTriple("=", curNode->child[0]->value, curNode->child[1]->value)));
         }
@@ -972,6 +973,7 @@ void loadNode() {
 
 void extendOptTree(const char* opt) {
     extendTree(NON_TERMINAL, opt, "expression");
+    sprintf(curNode->value, "%s", opt);
     sprintf(curNode->operators, "%s", opt);
     adjustOptNode(curNode);
 }
