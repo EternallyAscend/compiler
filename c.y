@@ -798,15 +798,11 @@ entry
     } LP main_args RP {
         extendTree(NON_TERMINAL, "main", "main function");
     } statement_block {
-        curNode->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "-1"));
         char end[64];
         sprintf(end, "%d", curNode->parent->end);
         curNode->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", end));
-        // sprintf(end, "%d", curNode->parent->end);
-        // sprintf(end, "%d", curNode->end);
-        // rewriteTemp(instruction, curNode->end, 2, end);
-        // rewriteTemp(instruction, curNode->end, 2, end);
         backToParent();
+        curNode->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "-1"));
     }
     ;
 
