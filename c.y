@@ -159,7 +159,7 @@ single_expression
                                         curNode->child[0]->value,
                                         curNode->child[1]->value));
                 // curNode->value = instruction->values[curNode->end];
-                sprintf(curNode->value, "\#%d", curNode->end);
+                sprintf(curNode->value, "#%d", curNode->end);
             }
         }
         // sprintf(curNode->value, "%d", makeNewTemp(instruction,
@@ -185,7 +185,7 @@ assign_expression
             curNode->end = makeNewTemp(instruction, generateIndirectTriple(curNode->child[1]->operators,
                                                                            curNode->value,
                                                                            curNode->child[1]->value));
-            sprintf(curNode->value, "\#%d", curNode->end);
+            sprintf(curNode->value, "#%d", curNode->end);
             // sprintf(curNode->value, "%d", makeNewTemp(instruction,
             //  generateIndirectTriple("=", curNode->child[0]->value, curNode->child[1]->value)));
         }
@@ -445,7 +445,7 @@ noth_expression
     } not_expression pid_expression {
         // loadNode();
         if (curNode->child[0]->isNotEmpty) {
-            makeNewTemp(instruction, generateIndirectTriple("!", curNode->child[1]->value, "_"));
+            // makeNewTemp(instruction, generateIndirectTriple("!", curNode->child[1]->value, "_"));
         }
         // curNode->trueList = curNode->child[1]->falseList;
         // curNode->falseList = curNode->child[1]->trueList;
