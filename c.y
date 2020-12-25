@@ -121,7 +121,10 @@ int isInited = 0;
 
 
 expression
-    : single_expression comma_expression 
+    : single_expression {
+        curNode->type = curNode->child[0]->type;
+        sprintf(curNode->value, "%s", curNode->child[0]->value);
+    } comma_expression 
     ;
 
 comma_expression
@@ -199,7 +202,23 @@ assign_expression
     ;
 
 orh_expression
-    : andh_expression or_expression
+    : andh_expression or_expression {
+        // char end[64];
+        // sprintf(end, "\#%d", curNode->child[1]->begin);
+        // curNode->begin = makeNewTemp(instruction, generateIndirectTriple("j", curNode->child[0]->value, "_"));
+        // int temp = makeNewTemp(instruction, generateIndirectTriple("j", curNode->child[1]->value, "_"));
+        // curNode->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
+        // sprintf(end, "%d", curNode->end+1);
+        // rewriteTemp(instruction, temp, 2, end);
+        // rewriteTemp(instruction, curNode->begin, 2, end);
+
+        // sprintf(end, "\#%d", curNode->child[1]->begin);
+        // rewriteTemp(instruction, curNode->child[0]->end, 2, curNode->child[1]->begin);
+        // curNode->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
+        // rewriteTemp(instruction, curNode->child[1]->end, 2, curNode->end);
+        // curNode->type = curNode->child[0]->type;
+        // sprintf(curNode->value, "\#%d", curNode->end);
+    }
     ;
 
 or_expression
@@ -450,16 +469,19 @@ pid_expression
     : LP { 
         extendTree(NON_TERMINAL, "()", "expression");
     } expression RP {
-        // sprintf(curNode->parent->value, "%s", curNode->value);
-        // curNode->parent->type = curNode->type;
+        curNode->parent->type = curNode->type;
+        sprintf(curNode->parent->value, "%s", curNode->value);
         // sprintf(curNode->parent->type, "%s", curNode->type);
         backToParent();
     }
-    | decorated_identifier // pointer_expression
+    | decorated_identifier {
+        curNode->type = curNode->child[0]->type;
+        sprintf(curNode->value, "%s", curNode->child[0]->value);
+    } // pointer_expression
       /* Not write value here current, later fill it. */
     | CONSTANT { 
-        sprintf(curNode->value, "%s", $<str>1);
         curNode->type = 1;
+        sprintf(curNode->value, "%s", $<str>1);
         extendTree(TERMINAL, $<str>1, "const");
     }
     | LP {
