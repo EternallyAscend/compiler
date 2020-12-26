@@ -30,7 +30,7 @@ typedef struct GrammerTree{
     int trueList;
     int falseList;
     
-} grammerTree;
+} grammerTree, *GrammarTree;
 
 int push_child(grammerTree* parent, grammerTree* node){
     if (parent->size >= 9) return 0;
