@@ -144,6 +144,7 @@ comma_expression
 
 single_expression
     : orh_expression assign_expression {
+        /*
         if (1 == curNode->size) {
             curNode->type = curNode->child[0]->type;
             sprintf(curNode->value, "%s", curNode->child[0]->value);
@@ -162,6 +163,7 @@ single_expression
                 sprintf(curNode->value, "#%d", curNode->end);
             }
         }
+        */
         // sprintf(curNode->value, "%d", makeNewTemp(instruction,
         //  generateIndirectTriple("=", curNode->child[0]->value, curNode->child[1]->value)));
         // "=" curNode->child[0]->value, curNode->child[1]->value;
@@ -173,10 +175,13 @@ assign_expression
     : ASSIGN { 
         extendOptTree("=");
     } orh_expression {
+        /*
         curNode->parent->type = curNode->type; 
         sprintf(curNode->parent->value, "%s", curNode->value);
+        */
         backToParent();
     } assign_expression {
+        /*
         if (curNode->child[0]->type != curNode->child[1]->type) {
             yyerror("Wrong expression input.\n");
         }
@@ -189,6 +194,7 @@ assign_expression
             // sprintf(curNode->value, "%d", makeNewTemp(instruction,
             //  generateIndirectTriple("=", curNode->child[0]->value, curNode->child[1]->value)));
         }
+        */
     }
     | ASSIGN error {
         extendOptTree("=");
@@ -293,9 +299,11 @@ lgh_expression
 
 lg_expression
     : cmp_opt pmh_expression {
+        /*
         sprintf(curNode->operators, "%s", curNode->child[0]->operators);
         curNode->type = 1;
         sprintf(curNode->value, "%s", curNode->child[1]->value);
+        */
         backToParent();
     }
     | cmp_opt error {
@@ -444,12 +452,14 @@ noth_expression
         // saveNode();
     } not_expression pid_expression {
         // loadNode();
+        /*
         if (curNode->parent->child[0]->isNotEmpty) {
             makeNewTemp(instruction, generateIndirectTriple("!", curNode->parent->child[1]->value, "_"));
         }
         else {
             sprintf(curNode->parent->value, "%s", curNode->parent->child[0]->value);
         }
+        */
         // curNode->trueList = curNode->child[1]->falseList;
         // curNode->falseList = curNode->child[1]->trueList;
         // sprintf(curNode->value, "%s", curNode->child[0]->value);
@@ -459,9 +469,13 @@ noth_expression
 not_expression
     : NOT { 
         extendTree(NON_TERMINAL, "!", "expression");
+        /*
         sprintf(curNode->operators, "!");
+        */
     } not_expression {
+        /*
         sprintf(curNode->parent->value, "%s", curNode->value);
+        */
         backToParent();
         // curNode->isNotEmpty = 1 - curNode->child[0]->isNotEmpty;
     }
@@ -478,23 +492,29 @@ pid_expression
     : LP { 
         extendTree(NON_TERMINAL, "()", "expression");
     } expression RP {
+        /*
         curNode->type = curNode->child[0]->type;
         sprintf(curNode->value, "%s", curNode->child[0]->value);
+        */
         // curNode->parent->type = curNode->type;
         // sprintf(curNode->parent->value, "%s", curNode->value);
         backToParent();
-        tempPointer = curNode;
+        // tempPointer = curNode;
     }
     | decorated_identifier {
+        /*
         curNode->type = curNode->child[0]->type;
         sprintf(curNode->value, "%s", curNode->child[0]->value);
+        */
     } // pointer_expression
       /* Not write value here current, later fill it. */
     | CONSTANT { 
         extendTree(TERMINAL, $<str>1, "const");
+        /*
         tempPointer->type = 1;
         sprintf(tempPointer->value, "%s", $<str>1);
         // print(reduce(lambda x, y : x + [[z for z in range(y)]], [1,2,3,4], []))
+        */
     }
     | LP {
         extendTree(NON_TERMINAL, "()", "expression");
@@ -802,17 +822,21 @@ action_defination
 entry
     : public_statement entry
     | action_defination MAIN {
+        /*
         curNode->begin = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
         curNode->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "-1"));
         char end[64];
         sprintf(end, "%d", curNode->end+1);
         rewriteTemp(instruction, curNode->begin, 2, end);
+        */
     } LP main_args RP {
         extendTree(NON_TERMINAL, "main", "main function");
     } statement_block {
+        /* 
         char end[64];
         sprintf(end, "%d", curNode->parent->end);
         curNode->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", end));
+         */
         // sprintf(end, "%d", curNode->parent->end);
         // sprintf(end, "%d", curNode->end);
         // rewriteTemp(instruction, curNode->end, 2, end);
@@ -831,7 +855,7 @@ statement_body
     : {
         
     } statement statement_body
-    | { printf("statement body over!\n"); }
+    |
     ;
 
 declaration
