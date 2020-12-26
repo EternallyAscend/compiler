@@ -754,7 +754,7 @@ for_expression
         pushScope(1);
     } error {
         yyerror("Wrong for expression for lack of (.");
-        extendTerminal("error", "for expression error", ERROR);
+        extendTerminal("error", "for expression error", _ERROR);
         backToParent();
     }
     ;
