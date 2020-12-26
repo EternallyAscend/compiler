@@ -12,6 +12,67 @@ extern "C"
 
 {
 #endif
+    enum OPERATORS {
+        ERROR=-1,
+        VOID=0,
+        INT=1,
+
+        FOR=10,
+        FORINIT=11,
+        FORCONDITION=12,
+        FORACTION=13,
+        DO=14,
+        WHILE=15,
+        WHILECONDITION=16,
+        BREAK=17,
+        CONTINUE=18,
+
+        IF=20,
+        ELSE=21,
+
+        RETURN=30,
+
+        ADDRESS=40,
+
+        ARRAY=50,
+
+        LPSP=60,
+        LP=61,
+        RP=62,
+        SLPSP=63,
+        LSP=64,
+        RSP=65,
+        BLPSP=66,
+        LBP=67,
+        RBP=68,
+
+        ASSIGN=100,
+        DECLARATION=101,
+        COMMA=102,
+
+        EQUAL=200,
+        NOTEQUAL=201,
+        GT=202,
+        LT=203,
+        GE=204,
+        LE=205,
+
+        AND=300,
+        OR=301,
+        NOT=302,
+
+        PLUS=400,
+        MINUS=401,
+        TIMES=402,
+        DIVIDE=403,
+        MOD=404,
+        POW=405,
+
+        MAIN=65532,
+        ID=65533,
+        STRING=65534,
+        CONST=65535,
+    } op;
     extern FILE* yyin;
     void yyerror(const char *s);
     extern int yylex(void);
@@ -28,10 +89,10 @@ grammerTree* tempPointer;
 grammerTree* stack[128];
 int stackContentSize = 0;
 
-void extendTree(int isTerminal, const char* word, const char* grammer);
+void extendTree(int isTerminal, const char* word, const char* grammer, int op);
 void backToParent();
-void extendOptTree(const char* opt);
-void extendTerminal(const char* word, const char* grammer);
+void extendOptTree(const char* opt, int op);
+void extendTerminal(const char* word, const char* grammer, int op);
 void broToParent(int num);
 void connectParentChild();
 
@@ -129,14 +190,14 @@ expression
 
 comma_expression
     : COMMA {
-        extendOptTree(",");
+        extendOptTree(",", COMMA);
     } single_expression {
         backToParent();
     } comma_expression
     | COMMA error {
-        extendOptTree(",");
+        extendOptTree(",", COMMA);
         yyerror("invalid syntax after ,");
-        extendTerminal("error", "invalid syntax after ,");
+        extendTerminal("error", "invalid syntax after ,", ERROR);
         backToParent();
     }
     | /* epsilon */
@@ -173,7 +234,7 @@ single_expression
 
 assign_expression
     : ASSIGN { 
-        extendOptTree("=");
+        extendOptTree("=", ASSIGN);
     } orh_expression {
         /*
         curNode->parent->type = curNode->type; 
@@ -197,9 +258,9 @@ assign_expression
         */
     }
     | ASSIGN error {
-        extendOptTree("=");
+        extendOptTree("=", ASSIGN);
         yyerror("Wrong assign expression.");
-        extendTerminal("error", "assign expression error");
+        extendTerminal("error", "assign expression error", ERROR);
         backToParent();
     }
     | {
@@ -230,14 +291,14 @@ orh_expression
 or_expression
     : OR { 
         // sprintf(curNode->operators, "||");
-        extendOptTree("||");
+        extendOptTree("||", OR);
     } andh_expression {
         backToParent();
     } or_expression
     | OR error {
-        extendOptTree("||");
+        extendOptTree("||", OR);
         yyerror("invalid syntax after ||");
-        extendTerminal("error", "invalid syntax after ||");
+        extendTerminal("error", "invalid syntax after ||", ERROR);
         backToParent();
     }
     | /* epsilon */
@@ -249,14 +310,14 @@ andh_expression
 
 and_expression
     : AND {  
-        extendOptTree("&&");
+        extendOptTree("&&", AND);
     } eneh_expression {
         backToParent();
     } and_expression
     | AND {
-        extendOptTree("&&");
+        extendOptTree("&&", AND);
         yyerror("invalid syntax after &&");
-        extendTerminal("error", "invalid syntax after &&");
+        extendTerminal("error", "invalid syntax after &&", ERROR);
         backToParent();
     }
     | /* epsilon */
@@ -274,7 +335,7 @@ ene_expression
         char str[64];
         sprintf(str, "invalid syntax after %s", $1);
         yyerror(str);
-        extendTerminal("error", str);
+        extendTerminal("error", str, ERROR);
         backToParent();
     }
     |
@@ -282,11 +343,11 @@ ene_expression
 
 ene_opt
     : EQ {  
-        extendOptTree("==");
+        extendOptTree("==", EQUAL);
         strcpy($$, "==");
     }
     | NE  {  
-        extendOptTree("!=");
+        extendOptTree("!=", NOTEQUAL);
         strcpy($$, "!=");
     }
     ;
@@ -310,7 +371,7 @@ lg_expression
         char str[64];
         sprintf(str, "invalid syntax after %s", $1);
         yyerror(str);
-        extendTerminal("error", str);
+        extendTerminal("error", str, ERROR);
         backToParent();
     }
     | /* epsilon */
@@ -318,19 +379,19 @@ lg_expression
 
 cmp_opt
     : GT {  
-        extendOptTree(">");
+        extendOptTree(">", GT);
         strcpy($$, ">");
     }
     | GE {  
-        extendOptTree(">=");
+        extendOptTree(">=", GE);
         strcpy($$, ">=");
     }
     | LT {  
-        extendOptTree("<");
+        extendOptTree("<", LT);
         strcpy($$, "<");
     } 
     | LE {  
-        extendOptTree("<=");
+        extendOptTree("<=", LE);
         strcpy($$, "<=");
     }
     ;
@@ -341,7 +402,7 @@ pmh_expression
 
 pm_expression
     : PLUS { 
-        extendOptTree("+");
+        extendOptTree("+", ADD);
     } mtdh_expression {
         // curNode->parent->value = curNode->value; 
         backToParent();
@@ -350,24 +411,24 @@ pm_expression
     }
     | MINUS { 
         // curNode->parent->value = curNode->value;
-        extendOptTree("-");
+        extendOptTree("-", MINUS);
     } mtdh_expression {
         backToParent();
     } pm_expression {
         // 3 pos code.
     }
     | PLUS { 
-        extendOptTree("+");
+        extendOptTree("+", ADD);
     } error {
         yyerror("invalid syntax after +");
-        extendTerminal("error", "invalid syntax after +");
+        extendTerminal("error", "invalid syntax after +", ERROR);
         backToParent();
     }
     | MINUS { 
-        extendOptTree("-");
+        extendOptTree("-", MINUS);
     } error {
         yyerror("invalid syntax after -");
-        extendTerminal("error", "invalid syntax after -");
+        extendTerminal("error", "invalid syntax after -", ERROR);
         backToParent();
     }
     | /* epsilon */
@@ -399,7 +460,7 @@ mtd_expression
         char str[64];
         sprintf(str, "invalid syntax after %s", $1);
         yyerror(str);
-        extendTerminal("error", str);
+        extendTerminal("error", str, ERROR);
         backToParent();
     }
     |
@@ -407,15 +468,15 @@ mtd_expression
 
 mtd_opt
     : MOD { 
-        extendOptTree("%");
+        extendOptTree("%", MOD);
         strcpy($$, "%");
     }
     | TIMES { 
-        extendOptTree("*");
+        extendOptTree("*", TIMES);
         strcpy($$, "*");
     }
     | DIVIDE { 
-        extendOptTree("/");
+        extendOptTree("/", DIVIDE);
         strcpy($$, "/");
     } 
     ;
@@ -432,16 +493,16 @@ powh_expression
 
 pow_expression
     : POW { 
-        extendOptTree("^");
+        extendOptTree("^", POW);
     } noth_expression {
         backToParent();
     } pow_expression {
         // 3 pos code.
     }
     | POW error {
-        extendOptTree("^");
+        extendOptTree("^", POW);
         yyerror("invalid syntax after ^");
-        extendTerminal("error", "invalid syntax after ^");
+        extendTerminal("error", "invalid syntax after ^", ERROR);
         backToParent();
     }
     | /* epsilon */
@@ -468,7 +529,7 @@ noth_expression
 
 not_expression
     : NOT { 
-        extendTree(NON_TERMINAL, "!", "expression");
+        extendTree(NON_TERMINAL, "!", "expression", NOT);
         /*
         sprintf(curNode->operators, "!");
         */
@@ -480,9 +541,9 @@ not_expression
         // curNode->isNotEmpty = 1 - curNode->child[0]->isNotEmpty;
     }
     | NOT error {
-        extendTree(NON_TERMINAL, "!", "expression");
+        extendTree(NON_TERMINAL, "!", "expression", NOT);
         yyerror("invalid syntax after !");
-        extendTerminal("error", "invalid syntax after !");
+        extendTerminal("error", "invalid syntax after !", ERROR);
         backToParent();
     }
     | /* epsilon */
@@ -490,7 +551,7 @@ not_expression
 
 pid_expression
     : LP { 
-        extendTree(NON_TERMINAL, "()", "expression");
+        extendTree(NON_TERMINAL, "()", "expression", LPRP);
     } expression RP {
         /*
         curNode->type = curNode->child[0]->type;
@@ -509,7 +570,7 @@ pid_expression
     } // pointer_expression
       /* Not write value here current, later fill it. */
     | CONSTANT { 
-        extendTree(TERMINAL, $<str>1, "const");
+        extendTree(TERMINAL, $<str>1, "const", CONST);
         /*
         tempPointer->type = 1;
         sprintf(tempPointer->value, "%s", $<str>1);
@@ -517,7 +578,7 @@ pid_expression
         */
     }
     | LP {
-        extendTree(NON_TERMINAL, "()", "expression");
+        extendTree(NON_TERMINAL, "()", "expression", LPRP);
     } error {
         yyerror("Wrong expression in ().");
         extendTerminal("error", "() expression error");
@@ -539,19 +600,19 @@ pointer_expression
 type_defination
     : INT { 
         setCurrentType(1);
-        extendTerminal("int", "type");
+        extendTerminal("int", "type", INT);
     } 
     | VOID { 
         setCurrentType(0);
-        extendTerminal("void", "type");
+        extendTerminal("void", "type", VOID);
     } 
 
 doh_expression
     : DO {
 	    /* establish local scope */ ;
 	    saveNode();
-	    extendTree(NON_TERMINAL, "", "do while loop");
-	    extendTree(NON_TERMINAL, "do", "loop body");
+	    extendTree(NON_TERMINAL, "", "do while loop", DOWHILE);
+	    extendTree(NON_TERMINAL, "do", "loop body", DO);
 	    pushScope(1);
     } statement_block
     ;
@@ -560,19 +621,19 @@ do_expression
     : doh_expression WHILE { 
 	    popScope();
 	    backToParent();
-	    extendTree(NON_TERMINAL, "while", "loop condition");
+	    extendTree(NON_TERMINAL, "while", "loop condition", WHILECONDITION);
     } LP {
-	    extendTree(NON_TERMINAL, "()", "expression");
+	    extendTree(NON_TERMINAL, "()", "expression", LPRP);
     } expression RP {
 	    loadNode();
     } SEMICOLON
     | doh_expression WHILE {
         popScope();
         backToParent();
-        extendTree(NON_TERMINAL, "while", "loop condition");
+        extendTree(NON_TERMINAL, "while", "loop condition", WHILECONDITION);
     } error {
         yyerror("Wrong while condition in do while loop.");
-        extendTerminal("error", "do while error");
+        extendTerminal("error", "do while error", ERROR);
         backToParent();
     }
     ;
@@ -580,35 +641,35 @@ do_expression
 while_expression
     : WHILE {  
         saveNode();
-        extendTree(NON_TERMINAL, "while", "while loop");
+        extendTree(NON_TERMINAL, "while", "while loop", WHILE);
     } LP { 
-        extendTree(NON_TERMINAL, "()", "expression"); 
+        extendTree(NON_TERMINAL, "()", "expression", LPRP); 
     } expression RP { 
         backToParent(); 
         /*establish local scope*/ ;
-        extendTree(NON_TERMINAL, "", "loop body");
+        extendTree(NON_TERMINAL, "", "loop body", LOOP);
         pushScope(1);
     } statement_block {
         loadNode();
         popScope();
     }
     | WHILE {
-        extendTree(NON_TERMINAL, "while", "while loop");
+        extendTree(NON_TERMINAL, "while", "while loop", WHILE);
     } error {
         yyerror("Wrong while expression.");
-        extendTerminal("error", "while loop error");
+        extendTerminal("error", "while loop error", ERROR);
         backToParent();
     }
     ;
 
 for_init_expression
     : {
-        extendTree(NON_TERMINAL, "", "declaration");
+        extendTree(NON_TERMINAL, "", "declaration", DECLARATION);
     } type_defination {
-        extendTree(NON_TERMINAL, "", "declaration body");
+        extendTree(NON_TERMINAL, "", "declaration body", DECLARARTION_BODY);
         saveNode();
     } argument_declaration_list {
-        extendTree(NON_TERMINAL, "", "argument declaration list");
+        extendTree(NON_TERMINAL, "", "argument declaration list", ARGUMENT_DECLARATION_LIST);
         broToParent(-1);
         backToParent();
         backToParent();
@@ -645,21 +706,21 @@ for_expression
     : FOR { 
         // establish local scope ;
         //saveNode();
-        extendTree(NON_TERMINAL, "for", "for loop");
+        extendTree(NON_TERMINAL, "for", "for loop", FOR);
         pushScope(1);
     } LP {  
-        extendTree(NON_TERMINAL, "()", "for expression");
-        extendTree(NON_TERMINAL, "", "for init expression");
+        extendTree(NON_TERMINAL, "()", "for expression", FOR_EXPRESSION);
+        extendTree(NON_TERMINAL, "", "for init expression", FORINIT);
     } for_init_expression SEMICOLON {
         backToParent();
-        extendTree(NON_TERMINAL, "", "for condition");
+        extendTree(NON_TERMINAL, "", "for condition", FORCONDITION);
     } for_condition_expression SEMICOLON {
         backToParent();
-        extendTree(NON_TERMINAL, "", "for action");
+        extendTree(NON_TERMINAL, "", "for action", FORACTION);
     } for_action_expression RP {  
         backToParent();
         backToParent();
-        extendTree(NON_TERMINAL, "", "loop body");
+        extendTree(NON_TERMINAL, "", "loop body", LOOP);
     } for_child_statement {
         backToParent();
         backToParent();
@@ -668,7 +729,7 @@ for_expression
     | FOR {
         // establish local scope ;
         //saveNode();
-        extendTree(NON_TERMINAL, "for", "for loop");
+        extendTree(NON_TERMINAL, "for", "for loop", FOR);
         pushScope(1);
     } error {
         yyerror("Wrong for expression for lack of (.");
@@ -684,7 +745,7 @@ for_child_statement
 
 array_decorator
     : LSB { 
-        extendOptTree("[]"); 
+        extendOptTree("[]", SLPRP); 
     } expression RSB {
         backToParent();
     }
@@ -697,11 +758,11 @@ high_ay_decorator
 
 high_nter_decorator
     : TIMES {
-        extendTree(NON_TERMINAL, "*", "pointer");
+        extendTree(NON_TERMINAL, "*", "pointer", POINTER);
     } high_nter_decorator
     | TIMES error {
-        extendTree(NON_TERMINAL, "*", "pointer");
-        extendTree(NON_TERMINAL, "error", "pointer error");
+        extendTree(NON_TERMINAL, "*", "pointer", POINTER);
+        extendTree(NON_TERMINAL, "error", "pointer error", ERROR);
         yyerror("invalid syntax after pointer *");
     }
     | /* epsilon */
@@ -709,7 +770,7 @@ high_nter_decorator
 
 address_decorator
     : ADDRESS {
-        extendTree(NON_TERMINAL, "&", "address");
+        extendTree(NON_TERMINAL, "&", "address", ADDRESS);
     }
     | /* epsilon */
     ;
@@ -719,7 +780,7 @@ decorated_identifier
         saveNode();
     } address_decorator high_nter_decorator IDENTIFIER {
         useId($<str>4);
-        extendTerminal($<str>4, "identifier");
+        extendTerminal($<str>4, "identifier", ID);
         // sprintf(curNode->parent->value, "%s", $<str>3);
     } high_ay_decorator {
         loadNode();
@@ -735,11 +796,11 @@ statement
         popScope();
     }
     | error SEMICOLON {
-        extendTerminal("error", "statement error");
+        extendTerminal("error", "statement error", ERROR);
         yyerror("invalid statement");
     }
     | error RBP {
-        extendTerminal("error", "statement error");
+        extendTerminal("error", "statement error", ERROR);
         yyerror("invalid statement");
     }
     ;
@@ -752,42 +813,42 @@ dependent_statement
     | condition_expression
     | declaration
     | BREAK {
-        extendTerminal("break", "break");
+        extendTerminal("break", "break", BREAK);
     } SEMICOLON
     | CONTINUE {
-        extendTerminal("continue", "continue");
+        extendTerminal("continue", "continue", CONTINUE);
     } SEMICOLON
     | RETURN {
-        extendTree(NON_TERMINAL, "return", "return");
+        extendTree(NON_TERMINAL, "return", "return", RETURN);
     } expression SEMICOLON {
         backToParent();
     }
     | SEMICOLON
     | PRINT {
-        extendTree(NON_TERMINAL, "print", "print");
+        extendTree(NON_TERMINAL, "print", "print", PRINT);
     } LP {
-        extendTree(NON_TERMINAL, "", "print_content");
+        extendTree(NON_TERMINAL, "", "print_content", PRINT_CONTENT);
     } print_content RP {
         backToParent();
         backToParent();
     } SEMICOLON
     | INPUT {
-        extendTree(NON_TERMINAL, "input", "input");
+        extendTree(NON_TERMINAL, "input", "input", INPUT);
     } LP decorated_identifier RP {
         backToParent();
     } SEMICOLON
     | PRINT {
-        extendTree(NON_TERMINAL, "print", "print");
+        extendTree(NON_TERMINAL, "print", "print", INPUT);
     } error {
         yyerror("Wrong print expression.");
-        extendTerminal("error", "print error");
+        extendTerminal("error", "print error", ERROR);
         backToParent();
     } RP SEMICOLON
     | INPUT {
-        extendTree(NON_TERMINAL, "input", "input");
+        extendTree(NON_TERMINAL, "input", "input", INPUT);
     } error {
         yyerror("Wrong input expression.");
-        extendTerminal("error", "input error");
+        extendTerminal("error", "input error", ERROR);
     } RP {
         backToParent();
     } SEMICOLON
@@ -796,13 +857,13 @@ dependent_statement
 print_content
     : expression
     | STRING_C {
-        extendTerminal($<str>1, "string");
+        extendTerminal($<str>1, "string", STRING);
     }
     ;
 
 statement_block
     : LBP {
-        extendTree(NON_TERMINAL, "{}", "statement body");
+        extendTree(NON_TERMINAL, "{}", "statement body", STMT_BODY);
     } statement_body RBP {
         backToParent();
     }
@@ -815,7 +876,7 @@ main_args
 
 action_defination
     : {
-        extendTree(NON_TERMINAL, "", "declaration");
+        extendTree(NON_TERMINAL, "", "declaration", DECLARATION);
     } type_defination
     ;
 
@@ -830,7 +891,7 @@ entry
         rewriteTemp(instruction, curNode->begin, 2, end);
         */
     } LP main_args RP {
-        extendTree(NON_TERMINAL, "main", "main function");
+        extendTree(NON_TERMINAL, "main", "main function", MAIN);
     } statement_block {
         /* 
         char end[64];
@@ -860,7 +921,7 @@ statement_body
 
 declaration
     : action_defination {
-        extendTree(NON_TERMINAL, "", "declaration body");
+        extendTree(NON_TERMINAL, "", "declaration body", DECLARATION_BODY);
         saveNode();
     } declaration_body {
         backToParent();
@@ -870,7 +931,7 @@ declaration
 
 declaration_body
     : argument_declaration_list {
-        extendTree(NON_TERMINAL, "", "argument declaration list");
+        extendTree(NON_TERMINAL, "", "argument declaration list", ARGUMENT_DECLARARTION_LIST);
         broToParent(-1);
         backToParent();
         //connectParentChild();
@@ -883,6 +944,7 @@ declaration_body
     } */
     ;
 
+/*
 function_declaration
     : init_identifier LP {
         extendTree(NON_TERMINAL, "()", "function argument list");
@@ -904,6 +966,8 @@ function_defination
     | SEMICOLON
     ;
 
+*/
+
 argument_declaration_list
     : argument_declaration_unit argument_declaration_list_tail
     ;
@@ -912,14 +976,14 @@ argument_declaration_list_tail
     : COMMA argument_declaration_list
     | COMMA error {
         yyerror("Wrong declaration list.");
-        extendTerminal("error", "argument declaration unit error");
+        extendTerminal("error", "argument declaration unit error", ERROR);
     }
     | /* epsilon */
     ;
 
 argument_declaration_unit
     : init_identifier {
-        extendTree(NON_TERMINAL, "", "argument declaration unit");
+        extendTree(NON_TERMINAL, "", "argument declaration unit", ARGUMENT_DECLARATION_UNIT);
         broToParent(1);
     } argument_declaration_init {
         backToParent();
@@ -928,16 +992,16 @@ argument_declaration_unit
 
 argument_declaration_init
     : ASSIGN {
-        extendOptTree("=");
+        extendOptTree("=", ASSIGN);
     } single_expression {
         backToParent();
     }
     | /* epsilon */
     | ASSIGN {
-        extendOptTree("=");
+        extendOptTree("=", ASSIGN);
     } error {
         yyerror("Wrong init expression while argument declaration.");
-        extendTerminal("error", "init expression error");
+        extendTerminal("error", "init expression error", ERROR);
         backToParent();
     }
     ;
@@ -945,12 +1009,13 @@ argument_declaration_init
 init_identifier
     : high_nter_decorator IDENTIFIER {
         declarationId($<str>2);
-        extendTerminal($<str>2, "identifier");
+        extendTerminal($<str>2, "identifier", ID);
     } high_ay_decorator {
         loadNode();
     }
     ;
 
+/*
 function_argument
     : {
         extendTree(NON_TERMINAL, "", "function argument unit");
@@ -962,22 +1027,24 @@ function_argument
 
 function_argument_list
     : function_argument function_argument_tail
-    | /* epsilon */
+    | 
     ;
 
 function_argument_tail
     : COMMA function_argument_list
-    | /* epsilon */
+    | 
     ;
+
+*/
 
 condition_expression
     : IF { 
-        extendTree(NON_TERMINAL, "if", "if expression");
+        extendTree(NON_TERMINAL, "if", "if expression", IF);
     } LP {
-        extendTree(NON_TERMINAL, "()", "if condition");
+        extendTree(NON_TERMINAL, "()", "if condition", IF_CONDITION);
     } expression RP {
         backToParent();
-        extendTree(NON_TERMINAL, "", "if statement");
+        extendTree(NON_TERMINAL, "", "if statement", IF_STMT);
         pushScope(1);
     } statement {
         backToParent();
@@ -986,17 +1053,17 @@ condition_expression
         backToParent();
     }
     | IF {
-        extendTree(NON_TERMINAL, "if", "if expression");
+        extendTree(NON_TERMINAL, "if", "if expression", IF);
     } error {
         yyerror("Wrong if expression for lack of (.");
-        extendTerminal("error", "if expression error");
+        extendTerminal("error", "if expression error", ERROR);
         backToParent();
     }
     ;
 
 condition_tail
     : ELSE {
-        extendTree(NON_TERMINAL, "else", "else statement");
+        extendTree(NON_TERMINAL, "else", "else statement", ELSE);
         pushScope(1); 
     } statement {
         popScope();
@@ -1009,8 +1076,9 @@ condition_tail
 
 
    
-void extendTree(int isTerminal, const char* word, const char* grammer) {
-    tempPointer = createGrammerNode(isTerminal, word, grammer); 
+void extendTree(int isTerminal, const char* word, const char* grammer, int op) {
+    tempPointer = createGrammerNode(isTerminal, word, grammer);
+    tempPointer->op = op;
     push_child(curNode, tempPointer); 
     if (isTerminal == NON_TERMINAL) curNode = tempPointer;
 }
@@ -1029,15 +1097,15 @@ void loadNode() {
     curNode = stack[--stackContentSize];
 }
 
-void extendOptTree(const char* opt) {
-    extendTree(NON_TERMINAL, opt, "expression");
+void extendOptTree(const char* opt, int op) {
+    extendTree(NON_TERMINAL, opt, "expression", op);
     sprintf(curNode->value, "%s", opt);
     sprintf(curNode->operators, "%s", opt);
     adjustOptNode(curNode);
 }
 
-void extendTerminal(const char* word, const char* grammer) {
-    extendTree(TERMINAL, word, grammer);
+void extendTerminal(const char* word, const char* grammer, int op) {
+    extendTree(TERMINAL, word, grammer, op);
 }
 
 void broToParent(int num) {
