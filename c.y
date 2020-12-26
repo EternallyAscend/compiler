@@ -602,7 +602,7 @@ pid_expression
         extendTree(NON_TERMINAL, "()", "expression", _LPRP);
     } error {
         yyerror("Wrong expression in ().");
-        extendTerminal("error", "() expression error");
+        extendTerminal("error", "() expression error", _ERROR);
         backToParent();
     }
     ;
@@ -754,7 +754,7 @@ for_expression
         pushScope(1);
     } error {
         yyerror("Wrong for expression for lack of (.");
-        extendTerminal("error", "for expression error");
+        extendTerminal("error", "for expression error", ERROR);
         backToParent();
     }
     ;
@@ -1099,7 +1099,7 @@ condition_tail
    
 void extendTree(int isTerminal, const char* word, const char* grammer, int op) {
     tempPointer = createGrammerNode(isTerminal, word, grammer);
-    tempPointer->opt = opt;
+    tempPointer->opt = op;
     push_child(curNode, tempPointer); 
     if (isTerminal == NON_TERMINAL) curNode = tempPointer;
 }
