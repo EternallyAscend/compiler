@@ -448,7 +448,7 @@ noth_expression
             makeNewTemp(instruction, generateIndirectTriple("!", curNode->parent->child[1]->value, "_"));
         }
         else {
-            sprintf(curNode->parent->value, "%s", curNode->parent->child[1]->value);
+            sprintf(curNode->parent->value, "%s", curNode->parent->child[0]->value);
         }
         // curNode->trueList = curNode->child[1]->falseList;
         // curNode->falseList = curNode->child[1]->trueList;
@@ -463,7 +463,7 @@ not_expression
     } not_expression {
         sprintf(curNode->parent->value, "%s", curNode->value);
         backToParent();
-        curNode->isNotEmpty = 1 - curNode->child[0]->isNotEmpty;
+        // curNode->isNotEmpty = 1 - curNode->child[0]->isNotEmpty;
     }
     | NOT error {
         extendTree(NON_TERMINAL, "!", "expression");
@@ -471,7 +471,7 @@ not_expression
         extendTerminal("error", "invalid syntax after !");
         backToParent();
     }
-    | { curNode->isNotEmpty = 0; } /* epsilon */
+    | /* epsilon */
     ;
 
 pid_expression
