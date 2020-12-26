@@ -34,6 +34,7 @@ extern "C"
         _IF=20,
         _ELSE=21,
         _IF_STMT=22,
+        _IF_CONDITION=23,
 
         _RETURN=30,
 
@@ -59,6 +60,7 @@ extern "C"
         _DECLARATION=101,
         _ARGUMENT_DECLARATION_LIST=102,
         _DECLARATION_BODY=103,
+        _ARGUMENT_DECLARATION_UNIT=104,
 
 
         _EQUAL=200,
@@ -72,7 +74,7 @@ extern "C"
         _OR=301,
         _NOT=302,
 
-        _PLUS=400,
+        _ADD=400,
         _MINUS=401,
         _TIMES=402,
         _DIVIDE=403,
@@ -84,7 +86,7 @@ extern "C"
         _STMT_BODY=600,
 
         _INPUT=65000,
-        _INPUT_CONTENT=65001,
+        _PRINT_CONTENT=65001,
         _PRINT=65002,
 
         _MAIN=65532,
@@ -685,7 +687,7 @@ for_init_expression
     : {
         extendTree(NON_TERMINAL, "", "declaration", _DECLARATION);
     } type_defination {
-        extendTree(NON_TERMINAL, "", "declaration body", _DECLARARTION_BODY);
+        extendTree(NON_TERMINAL, "", "declaration body", _DECLARATION_BODY);
         saveNode();
     } argument_declaration_list {
         extendTree(NON_TERMINAL, "", "argument declaration list", _ARGUMENT_DECLARATION_LIST);
@@ -950,7 +952,7 @@ declaration
 
 declaration_body
     : argument_declaration_list {
-        extendTree(NON_TERMINAL, "", "argument declaration list", _ARGUMENT_DECLARARTION_LIST);
+        extendTree(NON_TERMINAL, "", "argument declaration list", _ARGUMENT_DECLARATION_LIST);
         broToParent(-1);
         backToParent();
         //connectParentChild();
@@ -1097,7 +1099,7 @@ condition_tail
    
 void extendTree(int isTerminal, const char* word, const char* grammer, int op) {
     tempPointer = createGrammerNode(isTerminal, word, grammer);
-    tempPointer->op = op;
+    tempPointer->opt = opt;
     push_child(curNode, tempPointer); 
     if (isTerminal == NON_TERMINAL) curNode = tempPointer;
 }
