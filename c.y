@@ -14,21 +14,30 @@ extern "C"
 #endif
     enum OPERATORS {
         ERROR=-1,
-        VOID=0,
+        VOID_VOID=0,
         INT=1,
 
         FOR=10,
         FORINIT=11,
         FORCONDITION=12,
         FORACTION=13,
-        DO=14,
-        WHILE=15,
+        FOR_EXPRESSION=14,
+        
         WHILECONDITION=16,
-        BREAK=17,
-        CONTINUE=18,
+        DOWHILE=17,
+        DO=18,
+        WHILE=19,
+
+        CONTINUE=999,
+        BREAK=1000,
+
+
+
 
         IF=20,
         ELSE=21,
+        IF_STMT=22,
+
 
         RETURN=30,
 
@@ -36,19 +45,25 @@ extern "C"
 
         ARRAY=50,
 
-        LPSP=60,
+        LPRP=60,
         LP=61,
         RP=62,
-        SLPSP=63,
+        SLPRP=63,
         LSP=64,
         RSP=65,
-        BLPSP=66,
+        BLPRP=66,
         LBP=67,
         RBP=68,
 
+        LOOP=70,
+
+        POINTER=80,
+
         ASSIGN=100,
         DECLARATION=101,
-        COMMA=102,
+        ARGUMENT_DECLARATION_LIST=102,
+        DECLARATION_BODY=103,
+
 
         EQUAL=200,
         NOTEQUAL=201,
@@ -67,6 +82,14 @@ extern "C"
         DIVIDE=403,
         MOD=404,
         POW=405,
+
+        COMMA=500,
+
+        STMT_BODY=600,
+
+        INPUT=65000,
+        INPUT_CONTENT=65001,
+        PRINT=65002,
 
         MAIN=65532,
         ID=65533,
@@ -604,7 +627,7 @@ type_defination
     } 
     | VOID { 
         setCurrentType(0);
-        extendTerminal("void", "type", VOID);
+        extendTerminal("void", "type", VOID_VOID);
     } 
 
 doh_expression
