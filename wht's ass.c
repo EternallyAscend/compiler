@@ -61,7 +61,7 @@ char* assMulti(char* num1, char* num2) {
     sprintf(count, "multiCount%d", multiCount);
     sprintf(firMove, "%s %s, [%s]", mov, ax, num1);//put num1 to ax
     sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
-    sprintf(firMulti, "%s %s, %s", imul, ax, bx)
+    sprintf(firMulti, "%s %s, %s", imul, ax, bx);
     sprintf(storageResult, "%s [%s], %s", mov, count, ax);//put ax to stroge
     multiCount++;
     lockOrNot = 0;
