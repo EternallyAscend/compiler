@@ -444,10 +444,6 @@ noth_expression
         // saveNode();
     } not_expression pid_expression {
         // loadNode();
-        printf("Word %s\n", curNode->word);
-        printf("Grammer %s\n", curNode->grammer);
-        printf("Word %s\n", curNode->parent->word);
-        printf("Grammer %s\n", curNode->parent->grammer);
         if (curNode->parent->child[0]->isNotEmpty) {
             makeNewTemp(instruction, generateIndirectTriple("!", curNode->parent->child[1]->value, "_"));
         }
@@ -465,13 +461,9 @@ not_expression
         extendTree(NON_TERMINAL, "!", "expression");
         sprintf(curNode->operators, "!");
     } not_expression {
+        sprintf(curNode->parent->value, "%s", curNode->value);
         backToParent();
-        sprintf(curNode->value, "!");
-        if (-1 == curNode->type){
-            curNode->isNotEmpty = 1 - curNode->child[0]->isNotEmpty;
-        }
-        // curNode->parent->trueList = curNode->falseList;
-        // curNode->parent->falseList = curNode->trueList;
+        curNode->isNotEmpty = 1 - curNode->child[0]->isNotEmpty;
     }
     | NOT error {
         extendTree(NON_TERMINAL, "!", "expression");
@@ -486,10 +478,12 @@ pid_expression
     : LP { 
         extendTree(NON_TERMINAL, "()", "expression");
     } expression RP {
-        curNode->parent->type = curNode->type;
-        sprintf(curNode->parent->value, "%s", curNode->value);
-        // sprintf(curNode->parent->type, "%s", curNode->type);
+        curNode->type = curNode->child[0]->type;
+        sprintf(curNode->value, "%s", curNode->child[0]->value);
+        // curNode->parent->type = curNode->type;
+        // sprintf(curNode->parent->value, "%s", curNode->value);
         backToParent();
+        tempPointer = curNode;
     }
     | decorated_identifier {
         curNode->type = curNode->child[0]->type;
@@ -497,13 +491,9 @@ pid_expression
     } // pointer_expression
       /* Not write value here current, later fill it. */
     | CONSTANT { 
-        curNode->type = 1;
-        sprintf(curNode->value, "%s", $<str>1);
-        printf("%s\n", curNode->value);
         extendTree(TERMINAL, $<str>1, "const");
-        curNode->type = 1;
-        sprintf(curNode->value, "%s", $<str>1);
-        printf("%s\n", curNode->value);
+        tempPointer->type = 1;
+        sprintf(tempPointer->value, "%s", $<str>1);
         // print(reduce(lambda x, y : x + [[z for z in range(y)]], [1,2,3,4], []))
     }
     | LP {
