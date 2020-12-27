@@ -59,9 +59,18 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             node->head = node->child[0]->head;
 
             indirectTripleCodeGenerator(node->child[1], instruction);
-            // 回填stmt头
-            // stmt 回填尾部
-            // action回填head
+
+            sprintf(go, "%d", node->child[1]->begin);
+            rewriteTemp(instruction, node->child[0]->child[2]->begin, 2, go);
+
+            sprintf(go, "%d", node->child[0]->child[2]->begin);
+            rewriteTemp(instruction, node->child[1]->end, 2, go);
+
+            sprintf(go, "%d", node->head);
+            rewriteTemp(instruction, node->child[0]->child[2]->end, 2, go);
+            // Rewrite stmt head.
+            // Rewrite stmt tail.
+            // Rewrite action head.
             // End.
             jump = makeNewTemp(instruction, generateIndirectTriple("!", node->value, "_"));
             sprintf(go, "%d", jump);
@@ -93,13 +102,36 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             break;
         case _FOR_INIT:
             indirectTripleCodeGenerator(node->child[0], instruction);
+            node->begin = node->child[0]->begin;
+            node->end = node->child[0]->end;
             break;
         case _FOR_CONDITION:
+            indirectTripleCodeGenerator(node->child[0], instruction);
+            node->begin = node->child[0]->begin;
+            node->end = node->child[0]->end;
+            node->type = node->child[0]->type;
+            sprintf(node->value, "%s", node->child[0]->value);
             break;
         case _FOR_ACTION:
+            node->begin = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
+            indirectTripleCodeGenerator(node->child[0], instruction);
+            node->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
             break;
         case _FOR_EXPRESSION:
-
+            indirectTripleCodeGenerator(node->child[0], instruction);
+            node->begin = node->child[0]->begin;
+            indirectTripleCodeGenerator(node->child[1], instruction);
+            if (-1 == node->begin) {
+                node->begin = node->child[1]->begin;
+            }
+            node->head = node->child[1]->begin;
+            indirectTripleCodeGenerator(node->child[2], instruction);
+            if (-1 == node->begin) {
+                node->begin = node->child[2]->begin;
+            }
+            if (-1 == node->head) {
+                node->head = node->child[2]->begin;
+            }
             break;
         case _WHILE_CONDITION:
             break;
