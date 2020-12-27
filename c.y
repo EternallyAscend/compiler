@@ -6,6 +6,7 @@
 #include "grammerTree.h"
 #include "indirectTriple.h"
 #include "y.tab.h"
+#include "pointer.h"
 
 #ifdef __cplusplus
 extern "C" 
@@ -128,6 +129,8 @@ void useId(const char* name);
 struct Instruction* instruction = NULL;
 int currentType = 1;
 int isInited = 0;
+int starNum;
+PtrInfo* currentArg = NULL;
 
 %}
 
@@ -645,7 +648,7 @@ do_expression
 	    extendTree(NON_TERMINAL, "while", "loop condition", _WHILE_CONDITION);
     } LP {
 	    extendTree(NON_TERMINAL, "()", "expression", _LPRP);
-    } expression RP {
+    } single_expression RP {
 	    loadNode();
     } SEMICOLON
     | doh_expression WHILE {
@@ -665,7 +668,7 @@ while_expression
         extendTree(NON_TERMINAL, "while", "while loop", _WHILE);
     } LP { 
         extendTree(NON_TERMINAL, "()", "expression", _LPRP); 
-    } expression RP { 
+    } single_expression RP { 
         backToParent(); 
         /*establish local scope*/ ;
         extendTree(NON_TERMINAL, "", "loop body", _LOOP);
@@ -767,8 +770,12 @@ for_child_statement
 array_decorator
     : LSB { 
         extendOptTree("[]", _SLPRP); 
-    } expression RSB {
+    } single_expression RSB {
         backToParent();
+        if (isInited == 0) {
+            // initialize
+            starNum++;
+        }
     }
     ;
 
@@ -780,6 +787,10 @@ high_ay_decorator
 high_nter_decorator
     : TIMES {
         extendTree(NON_TERMINAL, "*", "pointer", _POINTER);
+        if (isInited == 0) {
+            // initialize
+            starNum++;
+        }
     } high_nter_decorator
     | TIMES error {
         extendTree(NON_TERMINAL, "*", "pointer", _POINTER);
@@ -944,6 +955,9 @@ declaration
     : action_defination {
         extendTree(NON_TERMINAL, "", "declaration body", _DECLARATION_BODY);
         saveNode();
+        currentType = 1;
+        starNum = 0;
+        isInited = 0;
     } declaration_body {
         backToParent();
         backToParent();
@@ -1027,12 +1041,33 @@ argument_declaration_init
     }
     ;
 
+init_high_ay_decorator
+    : init_array_decorator init_high_ay_decorator
+    | /* epsilon */
+    ;
+
+init_array_decorator
+    : LSB { 
+        extendOptTree("[]", _SLPRP); 
+    } CONSTANT RSB {
+        extendTerminal($<str>3, "const", _CONST);
+        backToParent();
+        setArrayWidth(currentArg, atoi($<str>3));
+    }
+    ;
+
 init_identifier
     : high_nter_decorator IDENTIFIER {
         declarationId($<str>2);
         extendTerminal($<str>2, "identifier", _ID);
-    } high_ay_decorator {
+        currentArg = createPtrInfo();
+    } init_high_ay_decorator {
         loadNode();
+        for(int i = 0; i < starNum; i++){
+            setArrayWidth(currentArg, -1);
+        }
+        starNum = 0;
+
     }
     ;
 
@@ -1063,7 +1098,7 @@ condition_expression
         extendTree(NON_TERMINAL, "if", "if expression", _IF);
     } LP {
         extendTree(NON_TERMINAL, "()", "if condition", _IF_CONDITION);
-    } expression RP {
+    } single_expression RP {
         backToParent();
         extendTree(NON_TERMINAL, "", "if statement", _IF_STMT);
         pushScope(1);
@@ -1180,6 +1215,11 @@ void declarationId(const char* name) {
 	}
 	else {
 		unsigned int position = addWord(name);
+        if (currentArg -> dimension > 0) {
+            setType(name, TYPE_POINTER_IST);
+            setStore(name, calculateStore(currentArg), NULL);
+            registPtr(position, currentArg);
+        }
 		sprintf(attribute, "0x%x", position);
 	}
 	appendLexOutputIDFile("IDENTIFIER", name, attribute);
