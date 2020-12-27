@@ -25,6 +25,8 @@ extern "C" {
 
 PtrInfo* createPntInfo();
 
+int getPtrDimension(PtrInfo* info);
+
 void registPtr(unsigned int id, PtrInfo* info);
 
 int setArrayWidth(PtrInfo* info, int _width);
@@ -39,6 +41,8 @@ void ptrTableClear();
 //int extendDimension(const char* id, int _width);
 
 unsigned int calculateStore(PtrInfo* info);
+
+PtrInfo* findLowerPtr(PtrInfo* upper);
 
 
 #ifdef __cplusplus

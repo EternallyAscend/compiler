@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "file.h"
+#include "pointer.h"
 #define MAX_CHILDREN_NUM 10
 #define MAX_SENTENCE_LENGTH 32
 #define MAX_OUTPUT_LENGTH 128
@@ -30,6 +31,8 @@ typedef struct GrammerTree{
     int end;
     int trueList;
     int falseList;
+
+    PtrInfo* ptrType;
     
 } grammerTree, *GrammarTree;
 
@@ -61,6 +64,8 @@ grammerTree* createGrammerNode(int isTerminal, const char* word, const char* gra
     newNode->end = -1;
     newNode->trueList = -1;
     newNode->falseList = -1;
+
+    ptrType = NULL; // 保证当type>1时，该值不为空，指向一个描述类型的数据（在ID处需从表中获取）
 
     return newNode;
 }
