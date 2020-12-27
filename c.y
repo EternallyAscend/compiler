@@ -857,11 +857,11 @@ dependent_statement
     } SEMICOLON
     | INPUT {
         extendTree(NON_TERMINAL, "input", "input", _INPUT);
-    } LP decorated_identifier RP {
+    } LP init_identifier /* decorated_identifier */ RP {
         backToParent();
     } SEMICOLON
     | PRINT {
-        extendTree(NON_TERMINAL, "print", "print", _INPUT);
+        extendTree(NON_TERMINAL, "print", "print", _PRINT);
     } error {
         yyerror("Wrong print expression.");
         extendTerminal("error", "print error", _ERROR);
