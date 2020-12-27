@@ -89,6 +89,8 @@ extern "C"
         _PRINT_CONTENT=65001,
         _PRINT=65002,
 
+        _START=65500,
+
         _MAIN=65532,
         _ID=65533,
         _STRING=65534,
@@ -1203,6 +1205,7 @@ int main(int arg, char* argv[]) {
     instruction = generateInstruction();
 
     root = createGrammerNode(NON_TERMINAL, "", "start");
+    root->opt = _START;
     curNode = root;
     tempPointer = NULL;
 
