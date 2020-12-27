@@ -43,6 +43,30 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             node->type = 1;
             break;
         case _FOR:
+            node->begin = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
+            node->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
+            indirectTripleCodeGenerator(node->child[0], instruction);
+//            if (-1 != node->child[0]->begin) {
+//                sprintf(go, "%d", node->child[0]->begin);
+//                rewriteTemp(instruction, node->begin, 2, go);
+//                if (-1 != node->child[0]->head) {
+//                    node->head = node->child[0]->head;
+//                }
+//            }
+            // These value must include in action at least.
+            sprintf(go, "%d", node->child[0]->begin);
+            rewriteTemp(instruction, node->begin, 2, go);
+            node->head = node->child[0]->head;
+
+            indirectTripleCodeGenerator(node->child[1], instruction);
+            // 回填stmt头
+            // stmt 回填尾部
+            // action回填head
+            // End.
+            jump = makeNewTemp(instruction, generateIndirectTriple("!", node->value, "_"));
+            sprintf(go, "%d", jump);
+            rewriteTemp(instruction, node->end, 2, go);
+
 //            node->begin = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
 //            node->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
 //
@@ -66,8 +90,6 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
 //            else {
 //                node->head = trueList;
 //            }
-
-
             break;
         case _FOR_INIT:
             indirectTripleCodeGenerator(node->child[0], instruction);
