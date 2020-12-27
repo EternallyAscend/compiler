@@ -21,6 +21,7 @@ typedef struct GrammerTree{
     char grammer[MAX_SENTENCE_LENGTH];
 
     int opt;
+    int head;
     char* operators;
     int type;
     int isNotEmpty;
@@ -49,6 +50,7 @@ grammerTree* createGrammerNode(int isTerminal, const char* word, const char* gra
     strcpy(newNode->grammer, grammer);
 
     newNode->opt = -1;
+    newNode->head = -1;
     newNode->operators = (char*)malloc(sizeof(char)*16);
     sprintf(newNode->operators, "Default OP."); // "Default Operator.";
     newNode->type = -1;
