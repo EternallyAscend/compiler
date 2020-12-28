@@ -1432,6 +1432,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             rewriteTemp(instruction, jump, 2, go);
             sprintf(go, "%d", jump + 1);
             rewriteTemp(instruction, node->end, 2, go);
+            rewriteTemp(instruction, node->child[0]->child[1]->end, 2, go);
             popScope();
 
 //            node->begin = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
@@ -1605,9 +1606,9 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             node->trueList = makeNewTemp(instruction, generateIndirectTriple("j", node->child[0]->value, "_"));
             node->falseList = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
             indirectTripleCodeGenerator(node->child[1], instruction); // STMT
-            temp = 1;
+            node->isNotEmpty = 1;
             if (-1 != node->child[1]->begin) {
-                temp = 0;
+                node->isNotEmpty = 0;
                 sprintf(go, "%d", node->child[1]->begin);
                 rewriteTemp(instruction, node->trueList, 2, go);
             }
@@ -1628,7 +1629,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             sprintf(go, "%d", node->end + 1);
             rewriteTemp(instruction, node->head, 2, go);
-            if (temp) {
+            if (node->isNotEmpty) {
                 rewriteTemp(instruction, node->trueList, 2, go);
             }
             break;
