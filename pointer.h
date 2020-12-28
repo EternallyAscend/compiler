@@ -10,11 +10,11 @@
 //     PTR
 // } PtrType;
 
-struct PtrInfo {
+typedef struct PtrInfos {
     // PtrType type;
     int dimension;
     std::vector<int> width;
-};
+} PtrInfo;
 
 #ifdef __cplusplus
 extern "C" {
