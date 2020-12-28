@@ -1877,6 +1877,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             node->end = makeNewTemp(instruction, generateIndirectTriple("==",
                                                                         node->child[0]->value,
                                                                         node->child[1]->value));
+            sprintf(node->value, "#%d", node->end);
             if (-1 == node->begin) {
                 node->begin = node->end;
             }
@@ -1892,6 +1893,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             node->end = makeNewTemp(instruction, generateIndirectTriple("!=",
                                                                         node->child[0]->value,
                                                                         node->child[1]->value));
+            sprintf(node->value, "#%d", node->end);
             if (-1 == node->begin) {
                 node->begin = node->end;
             }
