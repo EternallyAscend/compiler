@@ -34,7 +34,11 @@ int Item::modifyItemType(int newType) {
 // int Item::modifyItemStore(int store, int position) {
 int Item::modifyItemStore(int store, char* position) {
 	this->store = store;
-	this->position = std::string(position);
+	if (NULL != this->position) {
+		free(this->position);
+	}
+	this->position = (char*)malloc(sizeof(char)*strlen(position)+1);
+	sprintf(this->position, "%s", position);
 	return this->store;
 }
 
