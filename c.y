@@ -1509,8 +1509,9 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                 node->begin = trueList;
             }
             node->head = trueList;
-            node->end = makeNewTemp(instruction, generateIndirectTriple("!",
-                                                                        node->value, "_"));
+        
+            /* node->end = makeNewTemp(instruction, generateIndirectTriple("!",
+                                                                        node->value, "_")); */
             break;
         case _DO_WHILE:
             pushScope(0);
