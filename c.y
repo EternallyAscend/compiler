@@ -1645,7 +1645,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             // 取址
             indirectTripleCodeGenerator(node->child[0], instruction);
             
-            node->begin = node->child[0]->head;
+            node->begin = node->child[0]->begin;
             node->end = makeNewTemp(instruction,
                                     generateIndirectTriple("&",
                                                            node->child[0]->value,
@@ -1679,11 +1679,11 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                 }
             }
             indirectTripleCodeGenerator(node->child[0], instruction);
-            node->begin = node->child[0]->head;
+            node->begin = node->child[0]->begin;
             indirectTripleCodeGenerator(node->child[1], instruction);
             // begin 是左子节点的[]或变量，end是地址计算
             if (-1 == node->begin) {
-                node->begin = node->child[1]->head;
+                node->begin = node->child[1]->begin;
             }
             if (node->child[0]->type < 1){
                 // 出错
