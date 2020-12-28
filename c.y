@@ -2161,7 +2161,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             node->type = word->type;
             sprintf(node->value, "%s", word->position);
             // by zhu: 添加指针，指向描述类型的数据
-            node->ptrType = getPtrInfo(searchWordGlobal(node->word));
+            node->ptrType = getPtrInfo(word->symbolPosition);
             break;
         case _STRING:
             node->type = 65535;
