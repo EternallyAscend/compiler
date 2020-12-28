@@ -2157,10 +2157,13 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             break;
         case _ID:
             // Searching in symbol table.
+            printf("ready: ID\n");
             word = getWordInfo(node->word);
+            printf("got info\n");
             node->type = word->type;
             sprintf(node->value, "%s", word->position);
             // by zhu: 添加指针，指向描述类型的数据
+            printf("try get type\n");
             node->ptrType = getPtrInfo(word->symbolPosition);
             break;
         case _STRING:
