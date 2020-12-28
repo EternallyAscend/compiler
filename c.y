@@ -1781,9 +1781,9 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                         // 指针
                         node->end = makeNewTemp(instruction, generateIndirectTriple("find",
                                                                                     node->child[0]->value,
-                                                                                    "_"));
+                                                                                    "_"));    
                         node->ptrType = findLowerPtr(child->ptrType);
-                        sprintf(node->value, "%s", node->end);
+                        sprintf(node->value, "#%d", node->end);
                     }
                     node->type = 2;
                 }
