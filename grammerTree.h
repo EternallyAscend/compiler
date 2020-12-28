@@ -108,17 +108,17 @@ void printGrammerNode(grammerTree* node) {
     // output str
     appendYACC(str);
     ///* Temporary output all value for nodes.
-    char* temporary = (char*)malloc(sizeof(char)*1024);
-    sprintf(temporary, "OP: %s, Type: %d, Value: %s, Begin: %d, End: %d, True: %d, False: %d.\n",
-     node->operators,
-      node->type,
-       node->value,
-        node->begin,
-         node->end,
-          node->trueList,
-           node->falseList);
-    appendYACC(temporary);
-    free(temporary);
+    // char* temporary = (char*)malloc(sizeof(char)*1024);
+    // sprintf(temporary, "OP: %s, Type: %d, Value: %s, Begin: %d, End: %d, True: %d, False: %d.\n",
+    //  node->operators,
+    //   node->type,
+    //    node->value,
+    //     node->begin,
+    //      node->end,
+    //       node->trueList,
+    //        node->falseList);
+    // appendYACC(temporary);
+    // free(temporary);
     //*/
 }
 
