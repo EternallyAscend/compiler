@@ -13,7 +13,7 @@ class Node {
 	friend class Tree;
 private:
 	Node* parent;
-	std::unordered_map<const char*, Item*>* hashMap;
+	std::unordered_map<int, Item*>* hashMap;
 	int cursor;
 	std::vector<Node*>* children;
 
