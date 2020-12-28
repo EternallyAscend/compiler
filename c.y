@@ -5,8 +5,8 @@
 #include "table.h"
 #include "grammerTree.h"
 #include "indirectTriple.h"
-#include "y.tab.h"
 #include "pointer.h"
+#include "y.tab.h"
 
 #ifdef __cplusplus
 extern "C" 
