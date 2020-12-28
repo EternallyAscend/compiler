@@ -1244,8 +1244,6 @@ int main(int arg, char* argv[]) {
     }
     yyin = fopen(argv[1], "r");
 
-    instruction = generateInstruction();
-
     root = createGrammerNode(NON_TERMINAL, "", "start");
     root->opt = _START;
     curNode = root;
@@ -1265,6 +1263,12 @@ int main(int arg, char* argv[]) {
     generateYACC();
     printGrammerTree(root);
     closeYACC();
+
+    instruction = generateInstruction();
+
+    restartTable();
+
+    indirectTripleCodeGenerator(root);
 
     stopTable();
 
