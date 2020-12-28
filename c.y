@@ -1478,7 +1478,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             if (-1 == node->begin) {
                 node->begin = node->head;
             }
-            node->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"))
+            node->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
             break;
         case _FOR_ACTION:
             if (0 != node->size) {
