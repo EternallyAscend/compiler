@@ -1624,6 +1624,10 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             /* node->end = makeNewTemp(instruction, generateIndirectTriple("!", node->value, "_")); */
             if (2 == node->size) {
+                node->end = node->child[1]->end;
+                if (-1 == node->end) {
+                    node->end = node->falseList;
+                }
                 sprintf(go, "%d", node->end + 1);
                 rewriteTemp(instruction, node->falseList, 2, go);
             }
