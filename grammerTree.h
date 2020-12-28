@@ -46,6 +46,10 @@ int push_child(grammerTree* parent, grammerTree* node){
     return parent->size++;
 }
 
+GrammarTree getChildInGrammarTree(GrammarTree node, int index) {
+    return node->child[index];
+}
+
 grammerTree* createGrammerNode(int isTerminal, const char* word, const char* grammer) {
     grammerTree* newNode = (grammerTree*)(malloc(sizeof(grammerTree)));
     newNode->size = 0;

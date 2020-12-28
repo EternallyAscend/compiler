@@ -1216,9 +1216,14 @@ void broToParent(int num) {
 
 void connectParentChild() {
     grammerTree* parent = curNode->parent;
-    grammerTree** child = curNode->child;
+    /* grammerTree** child = curNode->child;
     for (int i = 0; i < curNode->size; i++) {
         push_child(parent, child[i]);
+    } */
+    /* grammerTree** child = (grammerTree**)malloc(sizeof(grammerTree*)); */
+    int cursor = 0;
+    for (; cursor < curNode->child; cursor++) {
+        push_child(parent, getChildInGrammarTree(node, cursor));
     }
     freeGrammerNode(curNode);
     curNode = parent;
