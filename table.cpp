@@ -83,7 +83,7 @@ int setType(const char* name, const int type) {
 	}
 }
 
-int setStores(const char* name, const int store, char* position) {
+int setStore(const char* name, const int store, char* position) {
 	if (NULL == symbolTable) {
 		return 0;
 	}

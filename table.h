@@ -33,7 +33,7 @@ extern "C" {
 
 	int setType(const char* name, const int type);
 
-	int setStores(const char* name, const int store, const char* position);
+	int setStore(const char* name, const int store, char* position);
 
 	int setCurrentType(const int type);
 
