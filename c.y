@@ -1143,10 +1143,10 @@ condition_expression
     } single_expression RP {
         backToParent();
         extendTree(NON_TERMINAL, "", "if statement", _IF_STMT);
-        pushScope(1);
+        // pushScope(1);
     } statement {
         backToParent();
-        popScope();
+        // popScope();
     } condition_tail {
         backToParent();
     }
@@ -1601,11 +1601,11 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             node->end = node->begin;
             break;
         case _IF:
-            indirectTripleCodeGenerator(node->child[0], instruction);
+            indirectTripleCodeGenerator(node->child[0], instruction); // CONDITION
             node->begin = node->child[0]->begin;
             trueList = makeNewTemp(instruction, generateIndirectTriple("j", node->child[0]->value, "_"));
             falseList = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
-            indirectTripleCodeGenerator(node->child[1], instruction);
+            indirectTripleCodeGenerator(node->child[1], instruction); // STMT
             sprintf(go, "%d", node->child[1]->begin);
             rewriteTemp(instruction, trueList, 2, go);
 
@@ -1617,7 +1617,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             /* node->end = makeNewTemp(instruction, generateIndirectTriple("!", node->value, "_")); */
             if (2 == node->size) {
-                sprintf(go, "%d", node->end);
+                sprintf(go, "%d", node->end + 1);
                 rewriteTemp(instruction, falseList, 2, go);
             }
             break;
