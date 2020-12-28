@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <vector>
 #include "file.h"
 #include "pointer.h"
 #define MAX_CHILDREN_NUM 10
@@ -14,7 +15,8 @@
 
 typedef struct GrammerTree{
     struct GrammerTree *parent;
-    struct GrammerTree *child[MAX_CHILDREN_NUM];
+    // struct GrammerTree *child[MAX_CHILDREN_NUM];
+    std::vector<struct GrammerTree*> child; 
     int size;
     int index;
     int isTerminal;
@@ -37,8 +39,9 @@ typedef struct GrammerTree{
 } grammerTree, *GrammarTree;
 
 int push_child(grammerTree* parent, grammerTree* node){
-    if (parent->size >= 9) return 0;
-    parent->child[parent->size] = node;
+    // if (parent->size >= 9) return 0;
+    // parent->child[parent->size] = node;
+    parent->child.push(node);
     node->parent = parent;
     return parent->size++;
 }
