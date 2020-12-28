@@ -38,6 +38,8 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
 
     int temp;
 
+    struct Word* word = NULL;
+
     GrammarTree parent;
     GrammarTree child;
 
@@ -339,7 +341,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             else if (node->child[0]->type > 2){
                 node->ptrType = findLowerPtr(node->child[0]->ptrType);
                 // 偏移量的计算是动态的，需生成乘法三元式和地址偏移计算的三元式
-                sprintf(node->value, "%d", calculateStore(node->ptrType))
+                sprintf(node->value, "%d", calculateStore(node->ptrType));
                 // 借用下。。。
                 temp = makeNewTemp(instruction, generateIndirectTriple("*",
                                                                        node->value,
@@ -347,16 +349,16 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                 sprintf(go, "#%d", temp);              
                 }
             else {
-                temp = makeNewTemp(instruction, generateIndirectTriple("*"，
+                temp = makeNewTemp(instruction, generateIndirectTriple("*",
                                                                        node->child[1]->value,
-                                                                       "4");  
+                                                                       "4"));  
                 sprintf(go, "#%d", temp);              
             }
             node->end = makeNewTemp(instruction, generateIndirectTriple("offset",
-                                                                   node->child[0]->value),
+                                                                   node->child[0]->value,
                                                                    go));
             sprintf(node->value, "#%d", node->end);
-            node->type = child[0]->type - 1;
+            node->type = node->child[0]->type - 1;
             if (node->type == 1) {
                 // 如果type现在为int，寻址，end为寻址
                 node->end = makeNewTemp(instruction, generateIndirectTriple("find",
@@ -379,7 +381,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             // }
             //begin 为子节点begin
             indirectTripleCodeGenerator(node->child[0], instruction);
-            node->type = child[0]->type - 1;
+            node->type = node->child[0]->type - 1;
             node->begin = node->child[0]->begin;
             if (node->type == 1) {
                 // 如果type现在为int，寻址，end为寻址
@@ -811,7 +813,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             break;
         case _ID:
             // Searching in symbol table.
-            struct Word* word = getWordInfo(node->word);
+            word = getWordInfo(node->word);
             node->type = word->type;
             sprintf(node->value, "%s", word->position);
             // by zhu: 添加指针，指向描述类型的数据
