@@ -458,10 +458,11 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                     child = child->child[0];
             }
             // not sure if the format is correct
+            sprintf(go, "%d", getWordInfo(child->word)->store);
             node->begin = makeNewTemp(instruction,
                                       generateIndirectTriple("n",
                                                              child->value,
-                                                             getWordInfo(child->word)->store));
+                                                             go));
             if (node->child[0]->opt == _ASSIGN) {
                 indirectTripleCodeGenerator(node->child[1], instruction);
                 node->end = node->child[1]->end;
