@@ -9,7 +9,7 @@
 
 Node::Node(Node* parent) {
 	this->parent = parent;
-	this->hashMap = new std::unordered_map<std::string, Item*>();
+	this->hashMap = new std::unordered_map<const char*, Item*>();
 	this->cursor = 0;
 	this->children = new std::vector<Node*>();
 }
