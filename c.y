@@ -1105,7 +1105,8 @@ init_identifier
         printf("set over\n");
         starNum = 0;
         declarationId($<str>2);
-
+        
+	    printf("HELP! The shit $ 2 is |%s| again.\n", $<str>2);  
     }
     ;
 
