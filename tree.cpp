@@ -11,7 +11,7 @@
 
 Node::Node(Node* parent) {
 	this->parent = parent;
-	this->hashMap = new std::unordered_map<int, Item*>();
+	this->hashMap = new std::unordered_map<std::string, Item*>();
 	this->cursor = 0;
 	this->children = new std::vector<Node*>();
 }
@@ -39,7 +39,7 @@ int Node::addChild(Node* child) {
 }
 
 int Node::countItem(const char* name) {
-	return this->hashMap->count(atoi(name));
+	return this->hashMap->count((name));
 }
 
 Item* Node::getItem(const char* name) {
@@ -47,8 +47,8 @@ Item* Node::getItem(const char* name) {
 	for (auto iter = hashMap->begin(); iter != hashMap->end(); ++iter) {
         std::cout << "<" << iter->first << ", " << iter->second << ">" << std::endl;
     }
-	if (this->hashMap->count(atoi(name))) {
-		return this->hashMap->at(atoi(name));
+	if (this->hashMap->count((name))) {
+		return this->hashMap->at((name));
 	}
 	else {
 		return NULL;
