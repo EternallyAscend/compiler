@@ -15,8 +15,8 @@
 
 typedef struct GrammerTree{
     struct GrammerTree *parent;
-    struct GrammerTree *child[MAX_CHILDREN_NUM];
-    // std::vector<struct GrammerTree*> child; 
+    // struct GrammerTree *child[MAX_CHILDREN_NUM];
+    std::vector<struct GrammerTree*> child(MAX_CHILDREN_NUM); 
     int size;
     int index;
     int isTerminal;
