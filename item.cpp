@@ -43,6 +43,10 @@ int Item::modifyItemStore(int store, char* position) {
 		this->position = (char*)malloc(sizeof(char)*strlen(position)+1);
 		sprintf(this->position, "%s", position);
 	}
+	if (NULL!= this->position) {
+		printf("HELP! STORE is %s %d %s\n", this->name, this->store, this->position);
+
+	}
 	return this->store;
 }
 
