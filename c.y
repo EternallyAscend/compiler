@@ -1950,9 +1950,15 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                                                                         node->child[0]->value, "_"));
             leftFalse = makeNewTemp(instruction, generateIndirectTriple("j","_", "_"));
             indirectTripleCodeGenerator(node->child[1], instruction);
-            sprintf(go, "%d", node->child[1]->begin);
-            rewriteTemp(instruction, leftTrue, 2, go);
-            rightTrue = makeNewTemp(instruction, generateIndirectTriple("j", node->child[1]->value, "_"));
+            if (-1 != node->child[1]->begin) {
+                sprintf(go, "%d", node->child[1]->begin);
+                rewriteTemp(instruction, leftTrue, 2, go);
+                rightTrue = makeNewTemp(instruction, generateIndirectTriple("j", node->child[1]->value, "_"));
+            }
+            else {
+                rightTrue = makeNewTemp(instruction, generateIndirectTriple("j", node->child[1]->value, "_"));
+                sprintf(go, "%d", rightTrue);
+            }
             rightFalse = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
             node->trueList = makeNewTemp(instruction, generateIndirectTriple("=",
                                                                              node->value, "1"));
