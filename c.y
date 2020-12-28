@@ -2174,5 +2174,6 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
         default:
             return -2;
     }
+    printf("HELP! Leave node %s as %d.\n", node->word, node->opt);
     return 0;
 }
