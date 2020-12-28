@@ -1220,7 +1220,7 @@ void declarationId(const char* name) {
 		unsigned int position = addWord(name);
         if (currentArg -> dimension > 0) {
             setType(name, 5);
-            setStore(name, calculateStore(currentArg), NULL);
+            setStore(name, calculateStore(currentArg), "");
             registPtr(position, currentArg);
         }
 		sprintf(attribute, "0x%x", position);
