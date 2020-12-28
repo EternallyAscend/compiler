@@ -343,17 +343,18 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                 // 借用下。。。
                 temp = makeNewTemp(instruction, generateIndirectTriple("*",
                                                                        node->value,
-                                                                       node->child[1]->value));
-            
+                                                                       node->child[1]->value)); 
+                sprintf(go, "#%d", temp);              
                 }
             else {
-                temp = makeNewTemp(instruction, generateIndirectTriple("*",
-                                                                       "4"),
-                                                                       node->child[1]->value));                
+                temp = makeNewTemp(instruction, generateIndirectTriple("*"，
+                                                                       node->child[1]->value,
+                                                                       "4");  
+                sprintf(go, "#%d", temp);              
             }
             node->end = makeNewTemp(instruction, generateIndirectTriple("offset",
                                                                    node->child[0]->value),
-                                                                   temp));
+                                                                   go));
             sprintf(node->value, "#%d", node->end);
             node->type = child[0]->type - 1;
             if (node->type == 1) {
@@ -435,14 +436,17 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             break;
         case _DECLARATION: // ==========================================================================================
+            indirectTripleCodeGenerator(node->child[1], instruction);
             node->begin = node->child[0]->begin;
             node->end = node->child[0]->end;
             break;
         case _ARGUMENT_DECLARATION_LIST: // ============================================================================
+            indirectTripleCodeGenerator(node->child[1], instruction);
             node->begin = node->child[0]->begin;
             node->end = node->child[node->size]->end;
             break;
         case _DECLARATION_BODY: // =====================================================================================
+            indirectTripleCodeGenerator(node->child[1], instruction);
             node->begin = node->child[0]->begin;
             node->end = node->child[0]->end;
             break;
@@ -453,7 +457,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             // not sure if the format is correct
             node->begin = makeNewTemp(instruction,
-                                      generateIndirectTriple("new",
+                                      generateIndirectTriple("n",
                                                              child->value,
                                                              getWordInfo(child->word)->store));
             if (node->child[0]->opt == _ASSIGN) {
