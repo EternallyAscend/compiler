@@ -1803,6 +1803,8 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                                generateIndirectTriple("n",
                                                       child->value,
                                                       go));
+            sprintf(go, "@%d", jump);
+            rewriteTemp(instruction, jump, 1, go);
             if (-1 == node->begin){
                 node->begin = jump;
             }
