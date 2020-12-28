@@ -87,6 +87,7 @@ struct Instruction* generateInstruction() {
 }
 
 int makeNewTemp(struct Instruction* instruction, struct InstructionItem* instructionItem) {
+    printf("HELP! MakeNewTemp: %s %s %s\n", instructionItem->operatorType, instructionItem->arg0, instructionItem->arg1);
     if (instruction->size == instruction->tail) {
         struct InstructionItem** temporary = instruction->list;
         // char** lists = instruction->values;
@@ -112,6 +113,7 @@ int rewriteTemp(struct Instruction* instruction, int index, int pos, char* arg) 
         printf("Wrong index.\n");
         return -1;
     }
+    printf("HELP! Rewrite %d code at %d with %s.\n", index, pos, arg);
     struct InstructionItem* item = instruction->list[index];
     switch (pos)
     {

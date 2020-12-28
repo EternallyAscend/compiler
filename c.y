@@ -1136,7 +1136,7 @@ condition_tail
 
    
 void extendTree(int isTerminal, const char* word, const char* grammer, int op) {
-    printf("Extend Tree %d %s %s %d\n", isTerminal, word, grammer, op);
+    printf("HELP! Extend Tree %d %s %s %d\n", isTerminal, word, grammer, op);
     tempPointer = createGrammerNode(isTerminal, word, grammer);
     tempPointer->opt = op;
     push_child(curNode, tempPointer); 
@@ -1273,19 +1273,23 @@ int main(int arg, char* argv[]) {
     printGrammerTree(root);
     closeYACC();
 
+    printf("Before restart table.\n");
+
+    restartTable();
+
     printf("Before instruction.\n");
 
     instruction = generateInstruction();
-
-    restartTable();
 
     indirectTripleCodeGenerator(root, instruction);
 
     stopTable();
 
-    freeGrammerTree(root);
+    printf("Before write code file.\n");
 
     destroyInstruction(instruction);
+
+    freeGrammerTree(root);
 
     closeCODE();
 
