@@ -1787,9 +1787,11 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             node->end = node->child[1]->end;
             break;
         case _ARGUMENT_DECLARATION_LIST: // ============================================================================
-            indirectTripleCodeGenerator(node->child[0], instruction);
+            for (cursor = 0; cursor < node->size; cursor++) {
+                indirectTripleCodeGenerator(node->child[cursor], instruction);
+            }
             node->begin = node->child[0]->begin;
-            node->end = node->child[node->size]->end;
+            node->end = node->child[node->size - 1]->end;
             break;
         case _DECLARATION_BODY: // =====================================================================================
             indirectTripleCodeGenerator(node->child[0], instruction);
