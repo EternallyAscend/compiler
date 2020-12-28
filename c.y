@@ -1429,6 +1429,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             // End.
             sprintf(go, "%d", node->child[0]->child[2]->begin);
             jump = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
+            rewriteTemp(instruction, jump, 2, go);
             sprintf(go, "%d", jump + 1);
             rewriteTemp(instruction, node->end, 2, go);
             popScope();
