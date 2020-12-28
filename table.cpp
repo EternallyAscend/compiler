@@ -85,6 +85,7 @@ int setType(const char* name, const int type) {
 }
 
 int setStore(const char* name, const int store, char* position) {
+	printf("HELP! SET STORE in table %s %d %s\n", name, store, position);
 	if (NULL == symbolTable) {
 		return 0;
 	}

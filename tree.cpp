@@ -181,7 +181,8 @@ int Tree::setType(const char* name, int type) {
 }
 
 // int Tree::setStore(const char* name, int store, int position) {
-int Tree::setStore(const char* name, int store, char* position) {	
+int Tree::setStore(const char* name, int store, char* position) {
+	printf("HELP! SET STORE in Tree %s %d %s\n", name, store, position);
 	return this->getItemGlobal(name)->modifyItemStore(store, position);
 }
 
