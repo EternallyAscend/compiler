@@ -1417,7 +1417,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             indirectTripleCodeGenerator(node->child[1], instruction);
 
             sprintf(go, "%d", node->child[1]->begin);
-            rewriteTemp(instruction, node->child[0]->child[1]->end, 2, go); // condition -> jump to stmt head.
+            rewriteTemp(instruction, node->child[0]->child[1]->head, 2, go); // condition -> jump to stmt head.
 
             rewriteTemp(instruction, node->child[1]->end, 2, go);
 
@@ -1474,10 +1474,11 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             node->begin = node->child[0]->begin;
             node->type = node->child[0]->type;
             sprintf(node->value, "%s", node->child[0]->value);
-            node->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
+            node->head = makeNewTemp(instruction, generateIndirectTriple("j", node->value, "_"));
             if (-1 == node->begin) {
-                node->begin = node->end;
+                node->begin = node->head;
             }
+            node->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"))
             break;
         case _FOR_ACTION:
             if (0 != node->size) {
