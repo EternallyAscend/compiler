@@ -374,7 +374,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             break;
         case _POINTER: // ==============================================================================================
             parent = node->parent;
-            child = node->child;
+            child = node->child[0];
             // declaration 不会深入左值，此处暂只考虑寻址操作
             // while (parent != NULL && parent->opt != _ARGUMENT_DECLARATION_UNIT){
             //     parent = parent->parent;
