@@ -2,6 +2,8 @@
 // Created by MagicBook on 2020/11/15.
 //
 
+#include <string.h>
+
 #include "item.h"
 
 Item::Item(std::string name, int type) {
@@ -32,7 +34,8 @@ int Item::modifyItemType(int newType) {
 // int Item::modifyItemStore(int store, int position) {
 int Item::modifyItemStore(int store, char* position) {
 	this->store = store;
-	this->position = position;
+	this->position = (char*)malloc(sizeof(char)*strlen(position));
+	sprintf(this->position, "%s", position);
 	return this->store;
 }
 
