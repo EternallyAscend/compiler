@@ -1661,12 +1661,12 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             indirectTripleCodeGenerator(node->child[0], instruction);
             node->begin = node->child[0]->begin;
             node->end = node->child[0]->end;
-            if (-1 == node->child[0]->begin) {
-                node->begin = makeNewTemp(instruction, generateIndirectTriple("n", "_", "4"));
-                sprintf(go, "@%d", node->begin);
-                rewriteTemp(instruction, node->begin, 1, go);
+            /* if (-1 == node->child[0]->begin) {
+                node->begin = makeNewTemp(instruction, generateIndirectTriple("n", "_", "4")); */
+                /* sprintf(go, "@%d", node->begin); */
+                /* rewriteTemp(instruction, node->begin, 1, go);
                 node->end = node->begin;
-            }
+            } */
             sprintf(node->value, "%s", node->child[0]->value);
             break;
         case _SLPRP: // ================================================================================================
