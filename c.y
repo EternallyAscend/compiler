@@ -1603,11 +1603,15 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
         case _IF:
             indirectTripleCodeGenerator(node->child[0], instruction); // CONDITION
             node->begin = node->child[0]->begin;
-            trueList = makeNewTemp(instruction, generateIndirectTriple("j", node->child[0]->value, "_"));
-            falseList = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
+            node->trueList = makeNewTemp(instruction, generateIndirectTriple("j", node->child[0]->value, "_"));
+            node->falseList = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
             indirectTripleCodeGenerator(node->child[1], instruction); // STMT
-            sprintf(go, "%d", node->child[1]->begin);
-            rewriteTemp(instruction, trueList, 2, go);
+            temp = 1;
+            if (-1 != node->child[1]->begin) {
+                temp = 0;
+                sprintf(go, "%d", node->child[1]->begin);
+                rewriteTemp(instruction, node->trueList, 2, go);
+            }
 
             node->head = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
 
@@ -1615,16 +1619,19 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                 // ELSE;
                 indirectTripleCodeGenerator(node->child[2], instruction);
                 sprintf(go, "%d", node->child[2]->begin);
-                rewriteTemp(instruction, falseList, 2, go);
+                rewriteTemp(instruction, node->falseList, 2, go);
                 node->end = node->child[2]->end;
             }
             /* node->end = makeNewTemp(instruction, generateIndirectTriple("!", node->value, "_")); */
             if (2 == node->size) {
                 sprintf(go, "%d", node->end + 1);
-                rewriteTemp(instruction, falseList, 2, go);
+                rewriteTemp(instruction, node->falseList, 2, go);
             }
             sprintf(go, "%d", node->end + 1);
             rewriteTemp(instruction, node->head, 2, go);
+            if (temp) {
+                rewriteTemp(instruction, node->trueList, go);
+            }
             break;
         case _ELSE:
             indirectTripleCodeGenerator(node->child[0], instruction);
@@ -1632,17 +1639,12 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             node->end = node->child[0]->end;
             break;
         case _IF_STMT:
-            pushScope(0);
-            if (node->size && -1 != node->child[0]->begin) {
-                indirectTripleCodeGenerator(node->child[0], instruction);
-                node->begin = node->child[0]->begin;
-                node->end = node->child[0]->end;
+            if (0 == node->size) {
+                break;
             }
-            else {
-                node->begin = makeNewTemp(instruction, generateIndirectTriple("!", "1", "_"));
-                node->end = node->begin;
-            }
-            popScope();
+            indirectTripleCodeGenerator(node->child[0], instruction);
+            node->begin = node->child[0]->begin;
+            node->end = node->child[0]->end;
             break;
         case _IF_CONDITION:
             indirectTripleCodeGenerator(node->child[0], instruction);
