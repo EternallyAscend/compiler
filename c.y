@@ -1717,6 +1717,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                 node->end = makeNewTemp(instruction, generateIndirectTriple("find",
                                                                             node->value,
                                                                             "_"));
+                node->type = 1;
             }
             sprintf(node->value, "#%d", node->end);
             break;
@@ -1746,6 +1747,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                     node->end = makeNewTemp(instruction, generateIndirectTriple("find",
                                                                                 node->child[0]->value,
                                                                                 "_"));
+                    node->type = 1;
                 }
                 else {
                     // 如果对数组类型寻址， 地址不变，只有级数减一,begin end同子节点
@@ -1765,6 +1767,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                                                                                     "_"));
                         node->ptrType = findLowerPtr(child->ptrType);
                     }
+                    node->type = 2;
                 }
             }
             if (-1 == node->begin) {
