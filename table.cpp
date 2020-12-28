@@ -3,6 +3,7 @@
 //
 
 #include <stdio.h>
+#include <string>
 #include "table.h"
 #include "tree.h"
 
@@ -135,7 +136,8 @@ struct Word* getWordInfo(const char* name) {
 		return NULL;
 	}
 	else {
-		return symbolTable->getWordGlobal(name);
+		std::string tempString(name, strlen(name)+name);
+		return symbolTable->getWordGlobal(tempString);
 	}
 }
 
