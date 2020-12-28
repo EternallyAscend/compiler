@@ -1685,32 +1685,34 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             if (-1 == node->begin) {
                 node->begin = node->child[1]->begin;
             }
-            if (node->child[0]->type < 1){
+            if (node->child[0]->type <= 1){
                 // 出错
                 exit(1);
             }
-            else if (node->child[0]->type > 2){
-                node->ptrType = findLowerPtr(node->child[0]->ptrType);
-                // 偏移量的计算是动态的，需生成乘法三元式和地址偏移计算的三元式
-                sprintf(node->value, "%d", calculateStore(node->ptrType));
-                // 借用下。。。
-                temp = makeNewTemp(instruction, generateIndirectTriple("*",
-                                                                       node->value,
-                                                                       node->child[1]->value)); 
-                sprintf(go, "#%d", temp);              
+            if(node->child[0]->ptrType != NULL){
+                if (node->child[0]->ptrType->dimension >= 2){
+                    node->ptrType = findLowerPtr(node->child[0]->ptrType);
+                    // 偏移量的计算是动态的，需生成乘法三元式和地址偏移计算的三元式
+                    sprintf(node->value, "%d", calculateStore(node->ptrType));
+                    // 借用下。。。
+                    temp = makeNewTemp(instruction, generateIndirectTriple("*",
+                                                                        node->value,
+                                                                        node->child[1]->value)); 
+                    sprintf(go, "#%d", temp);              
+                    }
+                else {
+                    temp = makeNewTemp(instruction, generateIndirectTriple("*",
+                                                                        node->child[1]->value,
+                                                                        "4"));  
+                    sprintf(go, "#%d", temp);              
                 }
-            else {
-                temp = makeNewTemp(instruction, generateIndirectTriple("*",
-                                                                       node->child[1]->value,
-                                                                       "4"));  
-                sprintf(go, "#%d", temp);              
             }
             node->end = makeNewTemp(instruction, generateIndirectTriple("offset",
                                                                    node->child[0]->value,
                                                                    go));
             sprintf(node->value, "#%d", node->end);
-            node->type = node->child[0]->type - 1;
-            if (node->type == 1) {
+            node->type = 2;
+            if (node->child[0]->ptrType->dimension == 1) {
                 // 如果type现在为int，寻址，end为寻址
                 node->end = makeNewTemp(instruction, generateIndirectTriple("find",
                                                                             node->value,
@@ -1732,35 +1734,37 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             // }
             //begin 为子节点begin
             indirectTripleCodeGenerator(node->child[0], instruction);
-            node->type = node->child[0]->type - 1;
+            // node->type = node->child[0]->type - 1;
             node->begin = node->child[0]->begin;
-            if (node->type == 1) {
-                // 如果type现在为int，寻址，end为寻址
-                node->end = makeNewTemp(instruction, generateIndirectTriple("find",
-                                                                            node->child[0]->value,
-                                                                            "_"));
-            }
-            else if (node->type < 1) {
+            if (node->child[0]->type <= 1){
                 // 错误
                 exit(1);
             }
-            else {
-                // 如果对数组类型寻址， 地址不变，只有级数减一,begin end同子节点
-                if (getArrayWidth(child->ptrType, 0) > 0) {
-                    // 数组
-                    strcpy(node->value, child->value);
-                    node->begin = child->begin;
-                    node->end = child->end;
-                    node->ptrType = findLowerPtr(child->ptrType);
-                    break;
-                }
-                // 如果对指针类型寻址， 直接获取指向的值（值为地址），级数减一
-                else if (getArrayWidth(child->ptrType, 0) == -1) {
-                    // 指针
+            if (node->child[0]->ptrType == NULL) {
+                if (node->child[0]->ptrType->dimension == 1) {
+                    // 如果type现在为int，寻址，end为寻址
                     node->end = makeNewTemp(instruction, generateIndirectTriple("find",
                                                                                 node->child[0]->value,
                                                                                 "_"));
-                    node->ptrType = findLowerPtr(child->ptrType);
+                }
+                else {
+                    // 如果对数组类型寻址， 地址不变，只有级数减一,begin end同子节点
+                    if (getArrayWidth(child->ptrType, 0) > 0) {
+                        // 数组
+                        strcpy(node->value, child->value);
+                        node->begin = child->begin;
+                        node->end = child->end;
+                        node->ptrType = findLowerPtr(child->ptrType);
+                        break;
+                    }
+                    // 如果对指针类型寻址， 直接获取指向的值（值为地址），级数减一
+                    else if (getArrayWidth(child->ptrType, 0) == -1) {
+                        // 指针
+                        node->end = makeNewTemp(instruction, generateIndirectTriple("find",
+                                                                                    node->child[0]->value,
+                                                                                    "_"));
+                        node->ptrType = findLowerPtr(child->ptrType);
+                    }
                 }
             }
             if (-1 == node->begin) {
