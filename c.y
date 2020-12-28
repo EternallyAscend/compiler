@@ -1756,7 +1756,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                 // 错误
                 exit(1);
             }
-            if (node->child[0]->ptrType == NULL) {
+            if (node->child[0]->ptrType != NULL) {
                 if (node->child[0]->ptrType->dimension == 1) {
                     // 如果type现在为int，寻址，end为寻址
                     node->end = makeNewTemp(instruction, generateIndirectTriple("find",
