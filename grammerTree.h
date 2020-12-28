@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <vector>
 #include "file.h"
 #include "pointer.h"
 #define MAX_CHILDREN_NUM 10
@@ -13,8 +14,11 @@
 #define NON_TERMINAL 0
 
 typedef struct GrammerTree{
+    int childLength;
+    struct GrammerTree **child;
     struct GrammerTree *parent;
-    struct GrammerTree *child[MAX_CHILDREN_NUM];
+    // struct GrammerTree *child[MAX_CHILDREN_NUM];
+    // std::vector<struct GrammerTree*> child(MAX_CHILDREN_NUM); 
     int size;
     int index;
     int isTerminal;
@@ -37,14 +41,35 @@ typedef struct GrammerTree{
 } grammerTree, *GrammarTree;
 
 int push_child(grammerTree* parent, grammerTree* node){
-    if (parent->size >= 9) return 0;
+    // if (parent->size >= 9) return 0;
+    // parent->child[parent->size] = node;
+
+    // parent->child.push_back(node);
+
+    if (parent->size == parent->childLength) {
+        struct GrammerTree** newList = (struct GrammerTree**)malloc(sizeof(struct GrammerTree*)*2*parent->size);
+        int cursor = 0;
+        for (; cursor < parent->size; cursor++) {
+            newList[cursor] = parent->child[cursor];
+        }
+        free(parent->child);
+        parent->child = newList;
+        parent->childLength = 2 * parent->size;
+    }
     parent->child[parent->size] = node;
+
     node->parent = parent;
     return parent->size++;
 }
 
+GrammarTree getChildInGrammarTree(GrammarTree node, int index) {
+    return node->child[index];
+}
+
 grammerTree* createGrammerNode(int isTerminal, const char* word, const char* grammer) {
     grammerTree* newNode = (grammerTree*)(malloc(sizeof(grammerTree)));
+    newNode->childLength = 4;
+    newNode->child = (struct GrammerTree**)malloc(sizeof(struct GrammerTree*)*newNode->childLength);
     newNode->size = 0;
     newNode->parent = NULL;
     newNode->index = -1;
@@ -84,6 +109,9 @@ void freeGrammerNode(grammerTree* node) {
         }
         if (NULL != node->value) {
             free(node->value);
+        }
+        if (NULL != node->child) {
+            free(node->child);
         }
         free(node);
         node = NULL;
