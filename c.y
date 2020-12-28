@@ -1769,7 +1769,8 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             break;
         case _ASSIGN:
             node->type = 12;
-            if (_ID != node->child[0]->opt) {
+            temp = node->child[0]->opt;
+            if (_ID != temp && _ARRAY != temp && _POINTER != temp) {
                 printf("Wrong assign for not id at left.\n");
                 exit(-2);
             }
