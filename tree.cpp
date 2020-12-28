@@ -36,11 +36,11 @@ int Node::addChild(Node* child) {
 	return this->children->size();
 }
 
-int Node::countItem(std::string name) {
+int Node::countItem(const char* name) {
 	return this->hashMap->count(name);
 }
 
-Item* Node::getItem(std::string name) {
+Item* Node::getItem(const char* name) {
 	if (this->hashMap->count(name)) {
 		return this->hashMap->at(name);
 	}
@@ -58,7 +58,7 @@ Node* Node::getNextChild() {
 
 // Tree ============================================================
 
-Item* Tree::getItemGlobal(std::string name) {
+Item* Tree::getItemGlobal(const char* name) {
 	if (NULL == this->current) {
 		printf("HELP! NULL current pointer.\n");
 		return NULL;
@@ -114,7 +114,7 @@ int Tree::popScope() {
 	return -1;
 }
 
-int Tree::addWord(std::string name) {
+int Tree::addWord(const char* name) {
 	if (NULL == this->current) {
 		return -1;
 	}
@@ -126,7 +126,7 @@ int Tree::addWord(std::string name) {
 	}
 }
 
-int Tree::searchWord(std::string name) {
+int Tree::searchWord(const char* name) {
 	if (NULL == this->current) {
 
 		printf("Null current pointer. \n");
@@ -137,7 +137,7 @@ int Tree::searchWord(std::string name) {
 	}
 }
 
-int Tree::searchWordGlobal(std::string name) {
+int Tree::searchWordGlobal(const char* name) {
 	if (NULL == this->current) {
 		return -1;
 	}
@@ -155,7 +155,7 @@ int Tree::searchWordGlobal(std::string name) {
 	}
 }
 
-int Tree::searchWordInFunction(std::string name) {
+int Tree::searchWordInFunction(const char* name) {
 	if (NULL == this->current) {
 		return -1;
 	}
@@ -169,16 +169,16 @@ int Tree::searchWordInFunction(std::string name) {
 	}
 }
 
-int Tree::setType(std::string name, int type) {
+int Tree::setType(const char* name, int type) {
 	return this->getItemGlobal(name)->modifyItemType(type);
 }
 
-// int Tree::setStore(std::string name, int store, int position) {
-int Tree::setStore(std::string name, int store, char* position) {	
+// int Tree::setStore(const char* name, int store, int position) {
+int Tree::setStore(const char* name, int store, char* position) {	
 	return this->getItemGlobal(name)->modifyItemStore(store, position);
 }
 
-int Tree::setTypeFunction(std::string name, int type) {
+int Tree::setTypeFunction(const char* name, int type) {
 	Item* item = NULL;
 	if (NULL == this->current) {
 		return -1;
@@ -196,8 +196,8 @@ int Tree::setTypeFunction(std::string name, int type) {
 	}
 }
 
-// int Tree::setStoreFunction(std::string name, int store, int position) {
-int Tree::setStoreFunction(std::string name, int store, char* position) {
+// int Tree::setStoreFunction(const char* name, int store, int position) {
+int Tree::setStoreFunction(const char* name, int store, char* position) {
 	Item* item = NULL;
 	if (NULL == this->current) {
 		return -1;
@@ -226,7 +226,7 @@ int Tree::restart() {
 	return 1;
 }
 
-struct Word* Tree::getWordGlobal(std::string name) {
+struct Word* Tree::getWordGlobal(const char* name) {
 	printf("HELP! Bitch name is %s.\n", name);
 	Item* item = getItemGlobal(name);
 	if (NULL == item) {
@@ -235,7 +235,7 @@ struct Word* Tree::getWordGlobal(std::string name) {
 	}
 	else {
 		struct Word* word = (struct Word*)malloc(sizeof(struct Word));
-		word->name = item->name.c_str();
+		word->name = item->name;
 		word->type = item->type;
 		word->store = item->store;
 		word->position = item->position;
@@ -244,7 +244,7 @@ struct Word* Tree::getWordGlobal(std::string name) {
 	}
 }
 
-struct Word* Tree::getWordFunction(std::string name) {
+struct Word* Tree::getWordFunction(const char* name) {
 	Item* item = this->current->getItem(name);
 	if (NULL == item) {
 		item = this->root->getItem(name);
@@ -253,7 +253,7 @@ struct Word* Tree::getWordFunction(std::string name) {
 		}
 	}
 	struct Word* word = (struct Word*)malloc(sizeof(struct Word));
-	word->name = item->name.c_str();
+	word->name = item->name;
 	word->type = item->type;
 	word->store = item->store;
 	word->position = item->position;

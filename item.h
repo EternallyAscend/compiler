@@ -33,13 +33,13 @@ class Item {
 	friend class Node;
 	friend class Tree;
 private:
-	std::string name;
+	char* name;
 	int type;
 	int store;
 	// int position;
 	char* position;
 
-	Item(std::string name, int type);
+	Item(const char* name, int type);
 	~Item();
 	int isEmptyItem();
 	int modifyItemType(int newType);

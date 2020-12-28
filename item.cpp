@@ -6,8 +6,9 @@
 
 #include "item.h"
 
-Item::Item(std::string name, int type) {
-	this->name = name;
+Item::Item(const char* name, int type) {
+	this->name = (char*)malloc(sizeof(char)*strlen(name)+1);
+	sprintf(this->name, "%s", name);
 	this->type = type;
 	this->store = -1;
 	// this->position = 0;
