@@ -1081,23 +1081,28 @@ init_high_ay_decorator
 init_array_decorator
     : LSB { 
         extendOptTree("[]", _SLPRP); 
-    } CONSTANT RSB {
+    } CONSTANT {
         extendTerminal($<str>3, "const", _CONST);
+        //printf("%s\n", $<str>1);
+        //printf("%s\n", $3);
+        //printf("%s\n", $<str>4);
         backToParent();
         setArrayWidth(currentArg, atoi($<str>3));
-    }
+    } RSB 
     ;
 
 init_identifier
     : high_nter_decorator IDENTIFIER {
+        currentArg = createPtrInfo();
         declarationId($<str>2);
         extendTerminal($<str>2, "identifier", _ID);
-        currentArg = createPtrInfo();
     } init_high_ay_decorator {
         loadNode();
+        printf("ready to set: %d\n", starNum);
         for(int i = 0; i < starNum; i++){
             setArrayWidth(currentArg, -1);
         }
+        printf("set over\n");
         starNum = 0;
 
     }
@@ -1250,9 +1255,12 @@ void declarationId(const char* name) {
 		unsigned int position = addWord(name);
         if (currentArg -> dimension > 0) {
             setType(name, 5);
-            int store = calculateStore(currentArg);
-            setStore(name, store, NULL);
+            setStore(name, calculateStore(currentArg), NULL);
             registPtr(position, currentArg);
+        }
+        else {
+            free(currentArg);
+            currentArg = NULL;
         }
 		sprintf(attribute, "0x%x", position);
 	}
@@ -1761,8 +1769,9 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             break;
         case _DECLARATION: // ==========================================================================================
             indirectTripleCodeGenerator(node->child[0], instruction);
+            indirectTripleCodeGenerator(node->child[1], instruction);
             node->begin = node->child[0]->begin;
-            node->end = node->child[0]->end;
+            node->end = node->child[1]->end;
             break;
         case _ARGUMENT_DECLARATION_LIST: // ============================================================================
             indirectTripleCodeGenerator(node->child[0], instruction);
@@ -1779,12 +1788,16 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             while(child->opt != _ID){
                     child = child->child[0];
             }
+            node->begin = indirectTripleCodeGenerator(child, instruction);
             // not sure if the format is correct
             sprintf(go, "%d", getWordInfo(child->word)->store);
-            node->begin = makeNewTemp(instruction,
-                                      generateIndirectTriple("n",
-                                                             child->value,
-                                                             go));
+            jump = makeNewTemp(instruction,
+                               generateIndirectTriple("n",
+                                                      child->value,
+                                                      go));
+            if (-1 == node->begin){
+                node->begin = jump;
+            }
             setStore(child->word, getWordInfo(child->word)->store, child->value);
             if (node->child[0]->opt == _ASSIGN) {
                 indirectTripleCodeGenerator(node->child[1], instruction);

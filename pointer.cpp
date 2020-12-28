@@ -1,10 +1,11 @@
 #include "pointer.h"
 #include "item.h"
+#include <iostream>
 
 std::unordered_map<unsigned int, PtrInfo*> PtrTable;
 
 PtrInfo* createPtrInfo() {
-    PtrInfo* newInfo = (PtrInfo*)malloc(sizeof(PtrInfo));
+    PtrInfo* newInfo = new PtrInfo();
     newInfo->dimension = 0;
     return newInfo;
 }
@@ -17,6 +18,7 @@ void registPtr(unsigned int id, PtrInfo* info) {
 int setArrayWidth(PtrInfo* info, int _width) {
     if(info == NULL)
         return -1;
+
     info->width.push_back(_width);
     info->dimension = info->width.size();
     return info->dimension;
