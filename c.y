@@ -1958,6 +1958,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             else {
                 rightTrue = makeNewTemp(instruction, generateIndirectTriple("j", node->child[1]->value, "_"));
                 sprintf(go, "%d", rightTrue);
+                rewriteTemp(instruction, leftTrue, 2, go);
             }
             rightFalse = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
             node->trueList = makeNewTemp(instruction, generateIndirectTriple("=",
