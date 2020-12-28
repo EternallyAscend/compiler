@@ -2,20 +2,21 @@
 // Created by MagicBook on 2020/12/26.
 //
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "pointer.h"
-
-#include "file.h"
-#include "table.h"
 #include "generator.h"
-
 // char* itoa(int n){
 //     // where to free??
 //     char* str = (char*)malloc(sizeof(char)*16);
 //     return str;
 // }
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "file.h"
+#include "table.h"
+#include "pointer.h"
+
 
 int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instruction) {
     if (NULL == node) {
@@ -374,7 +375,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             break;
         case _POINTER: // ==============================================================================================
             parent = node->parent;
-            child = node->child;
+            child = node->child[0];
             // declaration 不会深入左值，此处暂只考虑寻址操作
             // while (parent != NULL && parent->opt != _ARGUMENT_DECLARATION_UNIT){
             //     parent = parent->parent;
