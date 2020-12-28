@@ -2125,11 +2125,11 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             indirectTripleCodeGenerator(node->child[1], instruction);
             break;
         case _STMT_BODY:
-            node->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
             for (cursor = 0; cursor < node->size; cursor++) {
                 indirectTripleCodeGenerator(node->child[cursor], instruction);
             }
             node->begin = node->child[0]->begin;
+            node->end = node->child[cursor - 1]->end;
             break;
         case _INPUT:
             indirectTripleCodeGenerator(node->child[0], instruction);
