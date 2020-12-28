@@ -66,7 +66,7 @@ Item* Tree::getItemGlobal(std::string name) {
 	else {
 		Node* pointer = this->current;
 		while (NULL == pointer->getItem(name)) {
-			printf("HELP! Do not get element in this scope.\n");
+			printf("HELP! Do not get element %s in this scope.\n", name);
 			if (NULL != pointer->parent) {
 				pointer = pointer->parent;
 			}
