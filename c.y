@@ -1614,6 +1614,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
 
             node->head = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
+            printf("HELP! node->head, %d\n", node->head);
 
             if (3 == node->size) {
                 // ELSE;
