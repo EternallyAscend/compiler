@@ -23,7 +23,7 @@ extern "C" {
 #endif // __cplusplus
 
 
-PtrInfo* createPntInfo();
+PtrInfo* createPtrInfo();
 
 int getPtrDimension(PtrInfo* info);
 

@@ -2,7 +2,7 @@
 #include "item.h"
 
 
-PtrInfo* createPntInfo() {
+PtrInfo* createPtrInfo() {
     PtrInfo* newInfo = (PtrInfo*)malloc(sizeof(PtrInfo));
     newInfo->dimension = 0;
     return newInfo;

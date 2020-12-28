@@ -1218,7 +1218,7 @@ void declarationId(const char* name) {
 	else {
 		unsigned int position = addWord(name);
         if (currentArg -> dimension > 0) {
-            setType(name, TYPE_POINTER_IST);
+            setType(name, 5);
             setStore(name, calculateStore(currentArg), NULL);
             registPtr(position, currentArg);
         }

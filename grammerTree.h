@@ -65,7 +65,7 @@ grammerTree* createGrammerNode(int isTerminal, const char* word, const char* gra
     newNode->trueList = -1;
     newNode->falseList = -1;
 
-    ptrType = NULL; // 保证当type>1时，该值不为空，指向一个描述类型的数据（在ID处需从表中获取）
+    newNode->ptrType = NULL; // 保证当type>1时，该值不为空，指向一个描述类型的数据（在ID处需从表中获取）
 
     return newNode;
 }

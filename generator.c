@@ -398,6 +398,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                     strcpy(node->value, child->value);
                     node->begin = child->begin;
                     node->end = child->end;
+                    node->ptrType = findLowerPtr(child->ptrType);
                     break;
                 }
                 // 如果对指针类型寻址， 直接获取指向的值（值为地址），级数减一
@@ -406,6 +407,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                     node->end = makeNewTemp(instruction, generateIndirectTriple("find",
                                                                                 node->child[0]->value,
                                                                                 "_"));
+                    node->ptrType = findLowerPtr(child->ptrType);
                 }
             }
             if (-1 == node->begin) {
