@@ -1809,6 +1809,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                                                       child->value,
                                                       go));
             sprintf(go, "@%d", jump);
+            sprintf(child->value, "%s", go);
             rewriteTemp(instruction, jump, 1, go);
             if (-1 == node->begin){
                 node->begin = jump;
@@ -2170,7 +2171,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             printf("got info\n");
             node->type = word->type;
-            printf("word is null.\n");
+            printf("Before positon is null.\n");
             if (NULL == word->position) {
                 printf("Word pos is't null.\n");
                 sprintf(node->value, "%s", word->position);
