@@ -1243,24 +1243,34 @@ int main(int arg, char* argv[]) {
         exit(-1);
     }
     yyin = fopen(argv[1], "r");
+    
+    printf("root.\n");
 
     root = createGrammerNode(NON_TERMINAL, "", "start");
     root->opt = _START;
     curNode = root;
     tempPointer = NULL;
 
+    printf("Before lex.\n");
+
     generateLEX();
     appendLEX("Type           Name           Attribute \n");
     generateCODE();
+
+    printf("Before table.\n");
 
     launchTable();
     
     int err = yyparse();
     closeLEX();
 
+    printf("Before yacc.\n");
+
     generateYACC();
     printGrammerTree(root);
     closeYACC();
+
+    printf("Before instruction.\n");
 
     instruction = generateInstruction();
 
