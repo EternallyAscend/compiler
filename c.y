@@ -2208,6 +2208,9 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                 printf("Word pos is't null.\n");
                 sprintf(node->value, "%s", word->position);
             }
+            else {
+                printf("HELP! GOt NULL in word position.\n");
+            }
             // by zhu: 添加指针，指向描述类型的数据
             printf("try get type\n");
             node->ptrType = getPtrInfo(word->symbolPosition);
