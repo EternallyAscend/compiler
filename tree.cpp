@@ -3,7 +3,6 @@
 //
 
 #include <iostream>
-#include <string.h>
 #include "tree.h"
 #include "table.h"
 
