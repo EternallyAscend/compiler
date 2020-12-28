@@ -60,11 +60,13 @@ Node* Node::getNextChild() {
 
 Item* Tree::getItemGlobal(std::string name) {
 	if (NULL == this->current) {
+		printf("HELP! NULL current pointer.\n");
 		return NULL;
 	}
 	else {
 		Node* pointer = this->current;
 		while (NULL == pointer->getItem(name)) {
+			printf("HELP! Do not get element in this scope.\n");
 			if (NULL != pointer->parent) {
 				pointer = pointer->parent;
 			}
@@ -227,6 +229,7 @@ int Tree::restart() {
 struct Word* Tree::getWordGlobal(std::string name) {
 	Item* item = getItemGlobal(name);
 	if (NULL == item) {
+		printf("HELP! NULL item got.\n");
 		return NULL;
 	}
 	else {

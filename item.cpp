@@ -15,7 +15,7 @@ Item::Item(std::string name, int type) {
 }
 
 Item::~Item() {
-	
+	free(this->position);
 }
 
 int Item::isEmptyItem() {

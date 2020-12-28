@@ -131,6 +131,7 @@ int restartTable() {
 
 struct Word* getWordInfo(const char* name) {
 	if (NULL == symbolTable) {
+		printf("HELP! NULL symbolTable.\n");
 		return NULL;
 	}
 	else {
