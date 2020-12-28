@@ -39,9 +39,9 @@ int Item::modifyItemStore(int store, char* position) {
 		if (NULL != this->position) {
 			free(this->position);
 		}
+		this->position = (char*)malloc(sizeof(char)*strlen(position)+1);
+		sprintf(this->position, "%s", position);
 	}
-	this->position = (char*)malloc(sizeof(char)*strlen(position)+1);
-	sprintf(this->position, "%s", position);
 	return this->store;
 }
 

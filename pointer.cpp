@@ -61,10 +61,12 @@ int setArrayWidth(PtrInfo* info, int _width) {
     while (iter != info->width.rend()){
         if(*iter == -1){
             ptrmeta = true;
+            iter++;
             continue;
         }
         store *= *iter;
-        iter = iter + 1;
+        // iter = iter + 1;
+        iter++;
     }
     if (ptrmeta) {
         store *= TYPE_POINTER_IST_STORE;
