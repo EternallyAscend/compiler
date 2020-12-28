@@ -1764,7 +1764,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                 exit(-2);
             }
             indirectTripleCodeGenerator(node->child[1], instruction);
-            if (0 > getWordInfo(node->child[1]->word)->store) {
+            if (0 > getWordInfo(node->child[0]->word)->store) {
                 printf("Using not inited value.\n");
                 exit(-3);
             }
