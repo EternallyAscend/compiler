@@ -1718,8 +1718,8 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                                                                             node->value,
                                                                             "_"));
                 node->type = 1;
+                sprintf(node->value, "#%d", node->end);
             }
-            sprintf(node->value, "#%d", node->end);
             break;
         case _LOOP:
             indirectTripleCodeGenerator(node->child[0], instruction);
@@ -1777,17 +1777,17 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
         case _ASSIGN:
             node->type = 12;
             temp = node->child[0]->opt;
-            if (_ID != temp && 2 != node->type && 5 != temp) { // 2 is array, and 5 is pointer.
+            indirectTripleCodeGenerator(node->child[1], instruction);
+            indirectTripleCodeGenerator(node->child[0], instruction);
+            if (_ID != temp && 1 != node->child[0]->type /*&& 5 != temp*/) { // 2 is array, and 5 is pointer.
                 printf("Wrong assign for not id at left.\n");
                 exit(-2);
             }
-            indirectTripleCodeGenerator(node->child[1], instruction);
-            if (0 > getWordInfo(node->child[0]->word)->store) {
+            /* if (0 > getWordInfo(node->child[0]->word)->store) {
                 printf("Using not inited value.\n");
                 exit(-3);
-            }
+            } */
             node->begin = node->child[1]->begin;
-            indirectTripleCodeGenerator(node->child[0], instruction);
             if (-1 == node->begin) {
                 node->begin = node->child[0]->begin;
             }
