@@ -41,6 +41,7 @@ int Node::countItem(const char* name) {
 }
 
 Item* Node::getItem(const char* name) {
+	printf("HELP! Get name in getItem |%s|.\n");
 	if (this->hashMap->count(name)) {
 		return this->hashMap->at(name);
 	}
@@ -59,6 +60,7 @@ Node* Node::getNextChild() {
 // Tree ============================================================
 
 Item* Tree::getItemGlobal(const char* name) {
+	printf("HELP! Name in get item global |%s|.\n", name);
 	if (NULL == this->current) {
 		printf("HELP! NULL current pointer.\n");
 		return NULL;
@@ -66,7 +68,7 @@ Item* Tree::getItemGlobal(const char* name) {
 	else {
 		Node* pointer = this->current;
 		while (NULL == pointer->getItem(name)) {
-			printf("HELP! Do not get element %s in this scope.\n", name);
+			printf("HELP! Do not get element |%s| in this scope.\n", name);
 			if (NULL != pointer->parent) {
 				pointer = pointer->parent;
 			}
@@ -227,7 +229,7 @@ int Tree::restart() {
 }
 
 struct Word* Tree::getWordGlobal(const char* name) {
-	printf("HELP! Bitch name is %s.\n", name);
+	printf("HELP! Bitch name is |%s|.\n", name);
 	Item* item = getItemGlobal(name);
 	if (NULL == item) {
 		printf("HELP! NULL item got.\n");
