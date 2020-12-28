@@ -1800,13 +1800,13 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                                generateIndirectTriple("n",
                                                       child->value,
                                                       go));
+            sprintf(go, "@%d", jump);
+            rewriteTemp(instruction, jump, 1, go);
             if (-1 == node->begin){
                 node->begin = jump;
             }
             setStore(child->word, getWordInfo(child->word)->store, child->value);
             if (node->child[0]->opt == _ASSIGN) {
-                sprintf(go, "#%d", jump);
-                rewriteTemp(instruction, jump, 1, go);
                 indirectTripleCodeGenerator(node->child[1], instruction);
                 node->end = node->child[1]->end;
             }
