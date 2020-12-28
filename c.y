@@ -1256,8 +1256,6 @@ int main(int arg, char* argv[]) {
     launchTable();
     
     int err = yyparse();
-
-    closeCODE();
     closeLEX();
 
     generateYACC();
@@ -1275,6 +1273,8 @@ int main(int arg, char* argv[]) {
     freeGrammerTree(root);
 
     destroyInstruction(instruction);
+
+    closeCODE();
 
     fclose(yyin);
 
