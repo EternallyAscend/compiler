@@ -12,30 +12,30 @@ int powCount = 0;
 int cmpGreaterCount = 0;
 int assignCount = 0;
 
-char* mov = "MOV";
+char mov[] = "MOV";
 char* add = "ADD";
-char* sub = "SUB";
+char sub[] = "SUB";
 char* imul = "IMUL";
 char* cmp = "CMP";
 char* idiv ="IDIV";
 char* jnb = "JNB";
 
-char* ax = "eax";
-char* bx = "ebx";
+char ax[] = "eax";
+char bx[] = "ebx";
 char* cx = "ecx";
 char* zf = "zf";
 char* al = "al";
 char* cf = "cf";
 
-char* assSub(char* num1, char* num2, char* i) {
+void assSub(char* num1, char* num2, char* i) {
     while(lockOrNot == 1) {
         sleep(1);
     }
     lockOrNot = 1;
-    char* firMove;
-    char* secMove;
-    char* firSub;
-    char* storageResult;
+    char firMove[30];
+    char secMove[30];
+    char firSub[30];
+    char storageResult[30];
     if(num1[0] == '#')
     {
         sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
@@ -52,13 +52,12 @@ char* assSub(char* num1, char* num2, char* i) {
     }
     sprintf(firSub, "%s %s, %s", sub, ax, bx);//ax = ax + bx
     sprintf(storageResult, "%s [#%s], %s", mov , i, ax);//put ax to stroge
-    FILE* f = fopen("\ass.asm", 'w');
+    FILE* f = fopen("ass.asm", 'a+');
     fprint(f, "%s\n", firMove);
     fprint(f, "%s\n", secMove);
     fprint(f, "%s\n", firSub);
-    fprint(f, "%s\n", storageResultss);
+    fprint(f, "%s\n", storageResult);
     lockOrNot = 0;
-    return 0;
 }
 
 char* assMulti(char* num1, char* num2) {
