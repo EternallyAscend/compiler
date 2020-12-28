@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <string>
+#include <string.h>
 #include "table.h"
 #include "tree.h"
 
