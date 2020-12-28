@@ -535,11 +535,40 @@ pow_expression
     | /* epsilon */
     ;
 
-noth_expression
+/* noth_expression
     : {
         // saveNode();
     } not_expression pid_expression {
         // loadNode();
+        // curNode->trueList = curNode->child[1]->falseList;
+        // curNode->falseList = curNode->child[1]->trueList;
+        // sprintf(curNode->value, "%s", curNode->child[0]->value);
+    }
+    ;
+
+not_expression
+    : NOT { 
+        extendTree(NON_TERMINAL, "!", "expression", _NOT);
+
+    } not_expression {
+
+        backToParent();
+        // curNode->isNotEmpty = 1 - curNode->child[0]->isNotEmpty;
+    }
+    | NOT error {
+        extendTree(NON_TERMINAL, "!", "expression", _NOT);
+        yyerror("invalid syntax after !");
+        extendTerminal("error", "invalid syntax after !", _ERROR);
+        backToParent();
+    }
+    | 
+    ; */
+
+noth_expression
+    : {
+        saveNode();
+    } not_expression pid_expression {
+        loadNode();
         /*
         if (curNode->parent->child[0]->isNotEmpty) {
             makeNewTemp(instruction, generateIndirectTriple("!", curNode->parent->child[1]->value, "_"));
@@ -564,7 +593,7 @@ not_expression
         /*
         sprintf(curNode->parent->value, "%s", curNode->value);
         */
-        backToParent();
+        // backToParent();
         // curNode->isNotEmpty = 1 - curNode->child[0]->isNotEmpty;
     }
     | NOT error {
