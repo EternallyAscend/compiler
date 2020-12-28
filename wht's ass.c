@@ -6,7 +6,6 @@
 #include "ass.h"
 
 int lockOrNot = 0;
-int subCount = 0;
 int multiCount = 0;
 int divCount = 0;
 int powCount = 0;
@@ -28,24 +27,38 @@ char* zf = "zf";
 char* al = "al";
 char* cf = "cf";
 
-char* assSub(char* num1, char* num2) {
+char* assSub(char* num1, char* num2, char* i) {
     while(lockOrNot == 1) {
         sleep(1);
     }
     lockOrNot = 1;
-    char* count;
     char* firMove;
     char* secMove;
     char* firSub;
     char* storageResult;
-    sprintf(count, "subCount%d", subCount);
-    sprintf(firMove, "%s %s, [%s]", mov, ax, num1);//put num1 to ax
-    sprintf(secMove, "%s %s, [%s]", mov, bx, num2);//put num2 to bx
+    if(num1[0] == '#')
+    {
+        sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
+    }
+    else{
+        sprintf(firMove, "%s %s, %s", mov, ax, num1);
+    }
+    if(num2[0] == '#')
+    {
+        sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
+    }
+    else{
+        sprintf(secMove, "%s %s, %s", mov, bx, num2);
+    }
     sprintf(firSub, "%s %s, %s", sub, ax, bx);//ax = ax + bx
-    sprintf(storageResult, "%s [%s], %s", mov , count, ax);//put ax to stroge
-    subCount++;
+    sprintf(storageResult, "%s [#%s], %s", mov , i, ax);//put ax to stroge
+    FILE* f = fopen("\ass.asm", 'w');
+    fprint(f, "%s\n", firMove);
+    fprint(f, "%s\n", secMove);
+    fprint(f, "%s\n", firSub);
+    fprint(f, "%s\n", storageResultss);
     lockOrNot = 0;
-    return count;
+    return 0;
 }
 
 char* assMulti(char* num1, char* num2) {
