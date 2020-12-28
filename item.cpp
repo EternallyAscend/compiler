@@ -34,6 +34,7 @@ int Item::modifyItemType(int newType) {
 
 // int Item::modifyItemStore(int store, int position) {
 int Item::modifyItemStore(int store, char* position) {
+	printf("HELP! SET STORE in Item %d %s\n", store, position);
 	this->store = store;
 	if (NULL != position) {
 		if (NULL != this->position) {
