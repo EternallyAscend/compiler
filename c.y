@@ -1456,11 +1456,17 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
 //            }
             break;
         case _FOR_INIT:
+            if (0 == node->size) {
+                break;
+            }
             indirectTripleCodeGenerator(node->child[0], instruction);
             node->begin = node->child[0]->begin;
             node->end = node->child[0]->end;
             break;
         case _FOR_CONDITION:
+            if (0 == node->size) {
+                break;
+            }
             indirectTripleCodeGenerator(node->child[0], instruction);
             node->begin = node->child[0]->begin;
             node->end = node->child[0]->end;
@@ -1469,7 +1475,9 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             break;
         case _FOR_ACTION:
             node->begin = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
-            indirectTripleCodeGenerator(node->child[0], instruction);
+            if (0 != node->size) {
+                indirectTripleCodeGenerator(node->child[0], instruction);
+            }
             node->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
             break;
         case _FOR_EXPRESSION:
