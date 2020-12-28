@@ -93,6 +93,15 @@ int setStore(const char* name, const int store, char* position) {
 	}
 }
 
+int setSTORE(const char* name, const int store, char* position) {
+	if (NULL == symbolTable) {
+		return 0;
+	}
+	else {
+		return symbolTable->setStore(name, store, position);
+	}
+}
+
 int setCurrentType(const int type) {
 	if (NULL == symbolTable) {
 		return 0;
