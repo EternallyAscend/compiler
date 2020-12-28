@@ -2169,7 +2169,8 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                 rewriteTemp(instruction, node->begin, 2, go);
             }
             sprintf(go, "%d", node->end);
-            rewriteTemp(instruction, node->child[0]->end, 2, go);
+            /* rewriteTemp(instruction, node->child[0]->end, 2, go); */
+            makeNewTemp(instruction, generateIndirectTripleCode("j", "_", go));
             break;
         case _ID:
             // Searching in symbol table.
