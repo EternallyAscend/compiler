@@ -1630,7 +1630,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             sprintf(go, "%d", node->end + 1);
             rewriteTemp(instruction, node->head, 2, go);
             if (temp) {
-                rewriteTemp(instruction, node->trueList, go);
+                rewriteTemp(instruction, node->trueList, 2, go);
             }
             break;
         case _ELSE:
