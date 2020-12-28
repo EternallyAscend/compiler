@@ -1626,7 +1626,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             if (2 == node->size) {
                 node->end = node->child[1]->end;
                 if (-1 == node->end) {
-                    node->end = node->falseList;
+                    node->end = node->falseList + 1;
                 }
                 sprintf(go, "%d", node->end + 1);
                 rewriteTemp(instruction, node->falseList, 2, go);
