@@ -16,8 +16,6 @@ struct PtrInfo {
     std::vector<int> width;
 };
 
-std::unordered_map<unsigned int, PtrInfo*> PtrTable;
-
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus

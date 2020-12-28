@@ -1,6 +1,7 @@
 #include "pointer.h"
 #include "item.h"
 
+std::unordered_map<unsigned int, PtrInfo*> PtrTable;
 
 PtrInfo* createPtrInfo() {
     PtrInfo* newInfo = (PtrInfo*)malloc(sizeof(PtrInfo));
