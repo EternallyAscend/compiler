@@ -59,6 +59,7 @@ int setArrayWidth(PtrInfo* info, int _width) {
             continue;
         }
         store *= *iter;
+        iter = iter + 1;
     }
     if (ptrmeta) {
         store *= TYPE_POINTER_IST_STORE;

@@ -1094,7 +1094,6 @@ init_array_decorator
 init_identifier
     : high_nter_decorator IDENTIFIER {
         currentArg = createPtrInfo();
-        declarationId($<str>2);
         extendTerminal($<str>2, "identifier", _ID);
     } init_high_ay_decorator {
         loadNode();
@@ -1104,6 +1103,7 @@ init_identifier
         }
         printf("set over\n");
         starNum = 0;
+        declarationId($<str>2);
 
     }
     ;
@@ -1258,14 +1258,17 @@ void declarationId(const char* name) {
 	}
 	else {
 		unsigned int position = addWord(name);
+        printf("%d\n", currentArg -> dimension);
         if (currentArg -> dimension > 0) {
             setType(name, 5);
             setStore(name, calculateStore(currentArg), NULL);
+            printf("%d\n", calculateStore(currentArg));
             registPtr(position, currentArg);
         }
         else {
             free(currentArg);
             currentArg = NULL;
+            setStore(name, 4, NULL);
         }
 		sprintf(attribute, "0x%x", position);
 	}
