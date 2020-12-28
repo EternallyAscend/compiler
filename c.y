@@ -108,6 +108,7 @@ extern "C"
 };
 #endif
 
+char text[1024];
 grammerTree* root;
 grammerTree* curNode;
 grammerTree* tempPointer;
@@ -1094,8 +1095,10 @@ init_array_decorator
 init_identifier
     : high_nter_decorator IDENTIFIER {
         currentArg = createPtrInfo();
-	    printf("HELP! The shit $ 2 is |%s|.\n", $<str>2);    
-        extendTerminal($<str>2, "identifier", _ID);
+        sprintf(text, "%s", $<str>2);
+        extendTerminal(text, "identifier", _ID);
+	    // printf("HELP! The shit $ 2 is |%s|.\n", $<str>2);    
+        // extendTerminal($<str>2, "identifier", _ID);
     } init_high_ay_decorator {
         loadNode();
         printf("ready to set: %d\n", starNum);
@@ -1104,9 +1107,9 @@ init_identifier
         }
         printf("set over\n");
         starNum = 0;
-	    printf("HELP! The shit $ 2 is |%s| again.\n", $<str>2); 
-        declarationId($<str>2);
-         
+	    // printf("HELP! The shit $ 2 is |%s| again.\n", $<str>2); 
+        // declarationId($<str>2);
+        declarationId(text);
     }
     ;
 
