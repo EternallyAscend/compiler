@@ -15,8 +15,8 @@
 
 typedef struct GrammerTree{
     struct GrammerTree *parent;
-    // struct GrammerTree *child[MAX_CHILDREN_NUM];
-    std::vector<struct GrammerTree*> child; 
+    struct GrammerTree *child[MAX_CHILDREN_NUM];
+    // std::vector<struct GrammerTree*> child; 
     int size;
     int index;
     int isTerminal;
@@ -41,9 +41,7 @@ typedef struct GrammerTree{
 int push_child(grammerTree* parent, grammerTree* node){
     // if (parent->size >= 9) return 0;
     // parent->child[parent->size] = node;
-    printf("Before\n");
     parent->child.push_back(node);
-    printf("After\n");
     node->parent = parent;
     return parent->size++;
 }
