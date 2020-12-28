@@ -1770,10 +1770,10 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
         case _ASSIGN:
             node->type = 12;
             temp = node->child[0]->opt;
-            /* if (_ID != temp && _ARRAY != temp && _POINTER != temp) {
+            if (_ID != temp && _ARRAY != temp && _POINTER != temp) {
                 printf("Wrong assign for not id at left.\n");
                 exit(-2);
-            } */
+            }
             indirectTripleCodeGenerator(node->child[1], instruction);
             if (0 > getWordInfo(node->child[0]->word)->store) {
                 printf("Using not inited value.\n");
@@ -2030,10 +2030,10 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             break;
         case _ADD:
             indirectTripleCodeGenerator(node->child[0], instruction);
-            node->begin = node->child[0]->head;
+            node->begin = node->child[0]->begin;
             indirectTripleCodeGenerator(node->child[1], instruction);
             if (-1 == node->begin) {
-                node->begin = node->child[1]->head;
+                node->begin = node->child[1]->begin;
             }
             node->end = makeNewTemp(instruction,
                                     generateIndirectTriple("+",
@@ -2046,10 +2046,10 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             break;
         case _MINUS:
             indirectTripleCodeGenerator(node->child[0], instruction);
-            node->begin = node->child[0]->head;
+            node->begin = node->child[0]->begin;
             indirectTripleCodeGenerator(node->child[1], instruction);
             if (-1 == node->begin) {
-                node->begin = node->child[1]->head;
+                node->begin = node->child[1]->begin;
             }
             node->end = makeNewTemp(instruction,
                                     generateIndirectTriple("-",
@@ -2062,10 +2062,10 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             break;
         case _TIMES:
             indirectTripleCodeGenerator(node->child[0], instruction);
-            node->begin = node->child[0]->head;
+            node->begin = node->child[0]->begin;
             indirectTripleCodeGenerator(node->child[1], instruction);
             if (-1 == node->begin) {
-                node->begin = node->child[1]->head;
+                node->begin = node->child[1]->begin;
             }
             node->end = makeNewTemp(instruction,
                                     generateIndirectTriple("*",
@@ -2078,10 +2078,10 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             break;
         case _DIVIDE:
             indirectTripleCodeGenerator(node->child[0], instruction);
-            node->begin = node->child[0]->head;
+            node->begin = node->child[0]->begin;
             indirectTripleCodeGenerator(node->child[1], instruction);
             if (-1 == node->begin) {
-                node->begin = node->child[1]->head;
+                node->begin = node->child[1]->begin;
             }
             node->end = makeNewTemp(instruction,
                                     generateIndirectTriple("/",
@@ -2094,10 +2094,10 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             break;
         case _MOD:
             indirectTripleCodeGenerator(node->child[0], instruction);
-            node->begin = node->child[0]->head;
+            node->begin = node->child[0]->begin;
             indirectTripleCodeGenerator(node->child[1], instruction);
             if (-1 == node->begin) {
-                node->begin = node->child[1]->head;
+                node->begin = node->child[1]->begin;
             }
             node->end = makeNewTemp(instruction,
                                     generateIndirectTriple("%",
@@ -2110,10 +2110,10 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             break;
         case _POW:
             indirectTripleCodeGenerator(node->child[0], instruction);
-            node->begin = node->child[0]->head;
+            node->begin = node->child[0]->begin;
             indirectTripleCodeGenerator(node->child[1], instruction);
             if (-1 == node->begin) {
-                node->begin = node->child[1]->head;
+                node->begin = node->child[1]->begin;
             }
             node->end = makeNewTemp(instruction,
                                     generateIndirectTriple("^",
