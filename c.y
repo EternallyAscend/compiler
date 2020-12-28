@@ -1759,6 +1759,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                         strcpy(node->value, child->value);
                         node->begin = child->begin;
                         node->end = child->end;
+                        sprintf(node->value, "%s", child->value);
                         node->ptrType = findLowerPtr(child->ptrType);
                         break;
                     }
@@ -1769,6 +1770,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                                                                                     node->child[0]->value,
                                                                                     "_"));
                         node->ptrType = findLowerPtr(child->ptrType);
+                        sprintf(node->value, "%s", node->end);
                     }
                     node->type = 2;
                 }

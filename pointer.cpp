@@ -79,7 +79,7 @@ int setArrayWidth(PtrInfo* info, int _width) {
 
  
 PtrInfo* findLowerPtr(PtrInfo* upper) {
-    PtrInfo* lowerPtr = (PtrInfo*)malloc(sizeof(PtrInfo));
+    PtrInfo* lowerPtr = new PtrInfo();
     lowerPtr->dimension = upper->dimension - 1;
     lowerPtr->width = std::vector<int>(upper->width);
     lowerPtr->width.erase(lowerPtr->width.begin());
