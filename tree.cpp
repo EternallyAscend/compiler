@@ -227,8 +227,8 @@ int Tree::restart() {
 }
 
 struct Word* Tree::getWordGlobal(std::string name) {
-	Item* item = getItemGlobal(name);
 	printf("HELP! Bitch name is %s.\n", name);
+	Item* item = getItemGlobal(name);
 	if (NULL == item) {
 		printf("HELP! NULL item got.\n");
 		return NULL;
