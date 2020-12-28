@@ -2159,9 +2159,16 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             // Searching in symbol table.
             printf("ready: ID\n");
             word = getWordInfo(node->word);
+            if (NULL == word) {
+                printf("Undefined.\n");
+                exit(-3);
+            }
             printf("got info\n");
             node->type = word->type;
+            printf("word is null.\n");
             if (NULL == word->position) {
+                printf("Word pos is't null.\n");
+                
                 sprintf(node->value, "%s", word->position);
             }
             // by zhu: 添加指针，指向描述类型的数据
