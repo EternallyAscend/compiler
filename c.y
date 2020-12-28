@@ -1136,6 +1136,7 @@ condition_tail
 
    
 void extendTree(int isTerminal, const char* word, const char* grammer, int op) {
+    printf("Extend Tree %d %s %s %d\n", isTerminal, word, grammer, op);
     tempPointer = createGrammerNode(isTerminal, word, grammer);
     tempPointer->opt = op;
     push_child(curNode, tempPointer); 
@@ -1260,7 +1261,9 @@ int main(int arg, char* argv[]) {
     printf("Before table.\n");
 
     launchTable();
-    
+
+    printf("After launch.\n");
+        
     int err = yyparse();
     closeLEX();
 
