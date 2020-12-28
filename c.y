@@ -1221,8 +1221,7 @@ void declarationId(const char* name) {
         if (currentArg -> dimension > 0) {
             setType(name, 5);
             int store = calculateStore(currentArg);
-            /* setStore(name, store, NULL); */
-            setSTORE(name, store, NULL);
+            setStores(name, store, NULL);
             registPtr(position, currentArg);
         }
 		sprintf(attribute, "0x%x", position);
@@ -1735,8 +1734,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                                       generateIndirectTriple("n",
                                                              child->value,
                                                              go));
-            /* setStore(child->word, getWordInfo(child->word)->store, child->value); */
-            setSTORE(child->word, getWordInfo(child->word)->store, child->value);
+            setStores(child->word, getWordInfo(child->word)->store, child->value);
             if (node->child[0]->opt == _ASSIGN) {
                 indirectTripleCodeGenerator(node->child[1], instruction);
                 node->end = node->child[1]->end;
