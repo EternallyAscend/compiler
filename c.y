@@ -1792,6 +1792,9 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             indirectTripleCodeGenerator(node->child[0], instruction);
             indirectTripleCodeGenerator(node->child[1], instruction);
             node->begin = node->child[0]->begin;
+            if (-1 == node->begin) {
+                node->begin = node->child[1]->begin;
+            }
             node->end = node->child[1]->end;
             break;
         case _ARGUMENT_DECLARATION_LIST: // ============================================================================
@@ -1811,7 +1814,8 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             while(child->opt != _ID){
                     child = child->child[0];
             }
-            node->begin = indirectTripleCodeGenerator(child, instruction);
+            indirectTripleCodeGenerator(child, instruction);
+            node->begin = child->begin;
             // not sure if the format is correct
             sprintf(go, "%d", getWordInfo(child->word)->store);
             jump = makeNewTemp(instruction,
