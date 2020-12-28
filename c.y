@@ -1268,7 +1268,7 @@ int main(int arg, char* argv[]) {
 
     restartTable();
 
-    indirectTripleCodeGenerator(root);
+    indirectTripleCodeGenerator(root, instruction);
 
     stopTable();
 
