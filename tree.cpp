@@ -42,6 +42,7 @@ int Node::countItem(const char* name) {
 
 Item* Node::getItem(const char* name) {
 	printf("HELP! Get name in getItem |%s|.\n");
+	
 	if (this->hashMap->count(name)) {
 		return this->hashMap->at(name);
 	}

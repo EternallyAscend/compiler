@@ -48,6 +48,7 @@ int popScope() {
 }
 
 int addWord(const char* name) {
+	printf("HELP! THe shit input is |%s|\n", name);
 	if (NULL == symbolTable) {
 		return 0;
 	}
