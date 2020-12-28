@@ -110,6 +110,9 @@ void freeGrammerNode(grammerTree* node) {
         if (NULL != node->value) {
             free(node->value);
         }
+        if (NULL != node->child) {
+            free(node->child);
+        }
         free(node);
         node = NULL;
     }    
