@@ -1255,6 +1255,7 @@ void useId(const char* name) {
 }
 
 void declarationId(const char* name) {
+    int store;
     char* attribute = (char*)malloc(sizeof(char)*64);
 	if (searchWord(name)) {
 		//printf("Exist at line %d.\n", yylineno);
@@ -1266,8 +1267,9 @@ void declarationId(const char* name) {
         printf("%d\n", currentArg -> dimension);
         if (currentArg -> dimension > 0) {
             setType(name, 5);
-            setStore(name, calculateStore(currentArg), NULL);
-            printf("%d\n", calculateStore(currentArg));
+            store = calculateStore(currentArg);
+            setStore(name, store, NULL);
+            printf("%d\n", store);
             registPtr(position, currentArg);
         }
         else {
