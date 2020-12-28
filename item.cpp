@@ -45,7 +45,6 @@ int Item::modifyItemStore(int store, char* position) {
 	}
 	if (NULL!= this->position) {
 		printf("HELP! STORE is %s %d %s\n", this->name, this->store, this->position);
-
 	}
 	return this->store;
 }
