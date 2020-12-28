@@ -41,7 +41,7 @@ typedef struct GrammerTree{
 int push_child(grammerTree* parent, grammerTree* node){
     // if (parent->size >= 9) return 0;
     // parent->child[parent->size] = node;
-    parent->child.push(node);
+    parent->child.push_back(node);
     node->parent = parent;
     return parent->size++;
 }

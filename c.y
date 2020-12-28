@@ -1222,8 +1222,8 @@ void connectParentChild() {
     } */
     /* grammerTree** child = (grammerTree**)malloc(sizeof(grammerTree*)); */
     int cursor = 0;
-    for (; cursor < curNode->child; cursor++) {
-        push_child(parent, getChildInGrammarTree(node, cursor));
+    for (; cursor < curNode->size; cursor++) {
+        push_child(parent, getChildInGrammarTree(curNode, cursor));
     }
     freeGrammerNode(curNode);
     curNode = parent;
