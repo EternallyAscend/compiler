@@ -1551,6 +1551,10 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             pushScope(0);
             indirectTripleCodeGenerator(node->child[1], instruction); // LOOP
             popScope();
+            node->end = node->child[1]->end;
+            if (-1 == node->end) {
+                node->end = node->falseList;
+            }
 
             sprintf(go, "%d", node->child[1]->begin);
             rewriteTemp(instruction, node->trueList, 2, go);
