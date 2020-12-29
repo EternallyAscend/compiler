@@ -43,7 +43,7 @@ void assGetAddress(char *num1, char *i){
     char getAddress[30];
     char firMove[30];
     sprintf(getAddress, "%s %s, %s", lea, ax, num1);
-    sprintf(firMove, "%s %s, %s", mov, i, ax);
+    sprintf(firMove, "%s [?%s], %s", mov, i, ax);
     FILE* f = fopen("ass.asm", 'a+');
     fprint(f, "L%s:\n", i);
     fprint(f, "%s\n", getAddress);
@@ -51,7 +51,7 @@ void assGetAddress(char *num1, char *i){
     lockOrNot = 0;
 }
 
-void assFind(char *num1, char *num2, char *i){
+void assFind(char *num1, char *i){
     while(lockOrNot == 1) {
         sleep(1);
     }
@@ -61,7 +61,7 @@ void assFind(char *num1, char *num2, char *i){
     char thiMove[30];
     sprintf(firMove, "%s %s, %s", mov, bx, num1);
     sprintf(secMove, "%s %s, [%s]", mov, ax, bx);
-    sprintf(thiMove, "%s %s, %s", mov, num2, ax);
+    sprintf(thiMove, "%s [?%s], %s", mov, i, ax);
     FILE* f = fopen("ass.asm", 'a+');
     fprint(f, "L%s:\n", i);
     fprint(f, "%s\n", firMove);
@@ -83,6 +83,4 @@ void assOffset(char *num1, char *num2, char *i){
 }
 
 void assJump(char *num1, char *num2, char *i){
-
-
 }
