@@ -1541,24 +1541,26 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
         case _WHILE:
             indirectTripleCodeGenerator(node->child[0], instruction); // WHIEL_CONDITION
             node->begin = node->child[0]->begin;
-            trueList = makeNewTemp(instruction, generateIndirectTriple("j",
+            node->trueList = makeNewTemp(instruction, generateIndirectTriple("j",
                                                                        node->child[0]->value, "_"));
-            falseList = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
+            if (-1 == node->begin) {
+                node->begin = node->trueList;
+            }
+            node->falseList = makeNewTemp(instruction, generateIndirectTriple("j", "_", "_"));
 
             pushScope(0);
             indirectTripleCodeGenerator(node->child[1], instruction); // LOOP
             popScope();
 
             sprintf(go, "%d", node->child[1]->begin);
-            rewriteTemp(instruction, trueList, 2, go);
+            rewriteTemp(instruction, node->trueList, 2, go);
 
             sprintf(go, "%d", node->begin);
             makeNewTemp(instruction, generateIndirectTriple("j", "_",
                                                             go));
 
-            node->end = makeNewTemp(instruction, generateIndirectTriple("!", "1", "_"));
-            sprintf(go, "%d", node->end);
-            rewriteTemp(instruction, falseList, 2, go);
+            sprintf(go, "%d", node->end + 1);
+            rewriteTemp(instruction, node->falseList, 2, go);
             break;
         case _CONTINUE:
             parent = node->parent;
