@@ -9,28 +9,30 @@ void start();
 
 void end();
 
-char* assAdd(char* num1, char* num2);
+void assAdd(char* num1, char* num2, char* i);
 
-char* assMulti(char* num1, char* num2);
+void assMulti(char* num1, char* num2, char* i);
 
-char* assSub(char* num1, char* num2);
+void assSub(char* num1, char* num2, char* i);
 
-char* assDiv(char* num1, char* num2);
+void assDiv(char* num1, char* num2, char* i);
 
-char* assRemainder(char* num1, char* num2);
+void assRemainder(char* num1, char* num2, char* i);
 
-char* assPow(char* num1, char* num2);
+void assPow(char* num1, char* num2, char* i);
 
-char* assAssgin(char* num1, char* num2);
+void assAssgin(char* num1, char* num2, char* i);
 
-char* equalOrNot(char* num1, char* num2);
+void equalOrNot(char* num1, char* num2, char* i);
 
-char* notEqual(char* num1, char* num2);
+void notEqual(char* num1, char* num2, char* i);
 
-char* assLower(char* num1, char* num2);
+void assLower(char* num1, char* num2, char* i);
 
-char* assLowerEqual(char* num1, char* num2, char* nextStep); 
+void assLowerEqual(char* num1, char* num2, char* i); 
 
-char* assGreater(char* num1, char* num2); 
+void assGreater(char* num1, char* num2, char* i); 
 
-char* assGreaterEqual(char* num1, char* num2);
+void assGreaterEqual(char* num1, char* num2, char* i);
+
+void assNot(char* num1, char* i);

@@ -41,7 +41,7 @@ void end(){
     
 }
 
-void assAdd(char* num1, char* num2) {
+void assAdd(char* num1, char* num2, char* i) {
     while(lockOrNot == 1) {
         sleep(1);
     }
@@ -51,22 +51,22 @@ void assAdd(char* num1, char* num2) {
     char secMove[30];
     char firAdd[30];
     char storageResult[30];
-     if(num1[0] == '#')
+     if(num1[0] == '?')
     {
         sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
     }
-     else if(num1[0] == '@')
+     else if(num1[0] == '$')
     {
         sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
     }
     else{
         sprintf(firMove, "%s %s, %s", mov, ax, num1);
     }
-    if(num2[0] == '#')
+    if(num2[0] == '?')
     {
         sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     }
-     else if(num2[0] == '@')
+     else if(num2[0] == '$')
     {
         sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     }
@@ -74,11 +74,16 @@ void assAdd(char* num1, char* num2) {
         sprintf(secMove, "%s %s, %s", mov, bx, num2);
     }
     sprintf(firAdd, "%s %s, %s", add, ax, bx);//ax = ax + bx
-    sprintf(storageResult, "[#%s]", ax);//put ax to stroge
+    sprintf(storageResult, "%s [?%s], %s", mov, i, ax);//put ax to 
+    FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "%s\n", firMove);
+    fprint(f, "%s\n", secMove);
+    fprint(f, "%s\n", firAdd);
+    fprint(f, "%s\n", storageResult);
     lockOrNot = 0;
 }
 
-void assMulti(char* num1, char* num2) {
+/*void assMulti(char* num1, char* num2) {
     while(lockOrNot == 1) {
         sleep(1);
     }
@@ -115,11 +120,11 @@ void assMulti(char* num1, char* num2) {
         sprintf(thiMove, "%s %s, %s", mov, bx, num2);
     }
     sprintf(loop, "m%s: %s %s, %s\n  loop m%s", bx, add, ax, cx, bx);
-    sprintf(storageResult, " [%s]", ax);//put ax to stroge
+    sprintf(storageResult, " [?%s]", ax);//put ax to stroge
     lockOrNot = 0;
-}
+}*/
 
-void equalOrNot(char* num1, char* num2) {
+void equalOrNot(char* num1, char* num2, char* i) {
     while(lockOrNot == 1) {
         sleep(1);
     }
@@ -129,34 +134,39 @@ void equalOrNot(char* num1, char* num2) {
     char compare[30];
     char storageResult[30];
     char result[30];
-    if(num1[0] == '#')
+    if(num1[0] == '?')
     {
         sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
     }
-     else if(num1[0] == '@')
+     else if(num1[0] == '$')
     {
         sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
     }
     else{
         sprintf(firMove, "%s %s, %s", mov, ax, num1);
     }
-    if(num2[0] == '#')
+    if(num2[0] == '?')
     {
         sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     }
-     else if(num2[0] == '@')
+     else if(num2[0] == '$')
     {
         sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     }
     else{
         sprintf(secMove, "%s %s, %s", mov, bx, num2);
     }
-    sprintf(firMove, "%s %s, %d", cmp, ax, bx);
-    sprintf(storageResult, "[%s]", zf);
+    sprintf(compare, "%s %s, %d", cmp, ax, bx);
+    sprintf(storageResult, "%s [?%s],%s", mov, i, zf);
+    FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "%s\n", firMove);
+    fprint(f, "%s\n", secMove);
+    fprint(f, "%s\n", compare);
+    fprint(f, "%s\n", storageResult);
     lockOrNot = 0;
 }
 
-void assRemainder(char* num1, char* num2) {
+void assRemainder(char* num1, char* num2, char *i) {
     while(lockOrNot == 1) {
         sleep(1);
     }
@@ -165,36 +175,39 @@ void assRemainder(char* num1, char* num2) {
     char secMove[30];
     char storageResult[30];
     char result[30];
-     if(num1[0] == '#')
+     if(num1[0] == '?')
     {
         sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
     }
-     else if(num1[0] == '@')
+     else if(num1[0] == '$')
     {
         sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
     }
     else{
         sprintf(firMove, "%s %s, %s", mov, ax, num1);
     }
-    if(num2[0] == '#')
+    if(num2[0] == '?')
     {
         sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     }
-     else if(num2[0] == '@')
+     else if(num2[0] == '$')
     {
         sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     }
     else{
         sprintf(secMove, "%s %s, %s", mov, bx, num2);
     }
-    sprintf(firMove, "%s %s, %d", mov, ax, num1);
-    sprintf(secMove, "%s %s, %d", mov, bx, num2);
     sprintf(result, "%s %s", idiv, bx);
-    sprintf(storageResult, "[%s]", ah);
+    sprintf(storageResult, "%s [?%s], %s", mov, i, ah);
+    FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "%s\n", firMove);
+    fprint(f, "%s\n", secMove);
+    fprint(f, "%s\n", result);
+    fprint(f, "%s\n", storageResult);
     lockOrNot = 0;
 }
 
-void notEqual(char* num1, char* num2) {
+void notEqual(char* num1, char* num2, char* i) {
     while(lockOrNot == 1) {
         sleep(1);
     }
@@ -204,22 +217,22 @@ void notEqual(char* num1, char* num2) {
     char compare[30];
     char storageResult[30];
     char result[30];
-     if(num1[0] == '#')
+     if(num1[0] == '?')
     {
         sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
     }
-     else if(num1[0] == '@')
+     else if(num1[0] == '$')
     {
         sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
     }
     else{
         sprintf(firMove, "%s %s, %s", mov, ax, num1);
     }
-    if(num2[0] == '#')
+    if(num2[0] == '?')
     {
         sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     }
-     else if(num2[0] == '@')
+     else if(num2[0] == '$')
     {
         sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     }
@@ -228,11 +241,17 @@ void notEqual(char* num1, char* num2) {
     }
     sprintf(compare, "%s %s, %d", cmp, ax, bx);
     sprintf(result, "%s %s", setne, zf);
-    sprintf(storageResult, "[%s]", zf);
+    sprintf(storageResult, "%s [?%s], %s", mov, i, zf);
+    FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "%s\n", firMove);
+    fprint(f, "%s\n", secMove);
+    fprint(f, "%s\n", compare);
+    fprint(f, "%s\n", result);
+    fprint(f, "%s\n", storageResult);
     lockOrNot = 0;
 }
 
-void assLower(char* num1, char* num2) {
+void assLower(char* num1, char* num2, char* i) {
     while(lockOrNot == 1) {
         sleep(1);
     }
@@ -242,22 +261,22 @@ void assLower(char* num1, char* num2) {
     char compare[30];
     char storageResult[30];
     char result[30];
-        if(num1[0] == '#')
+        if(num1[0] == '?')
     {
         sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
     }
-     else if(num1[0] == '@')
+     else if(num1[0] == '$')
     {
         sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
     }
     else{
         sprintf(firMove, "%s %s, %s", mov, ax, num1);
     }
-    if(num2[0] == '#')
+    if(num2[0] == '?')
     {
         sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     }
-     else if(num2[0] == '@')
+     else if(num2[0] == '$')
     {
         sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     }
@@ -266,11 +285,17 @@ void assLower(char* num1, char* num2) {
     }
     sprintf(compare, "%s %s, %s", cmp, ax, bx);
     sprintf(result, "%s %s", setl, cf);
-    sprintf(storageResult, "[%s]", cf);
+    sprintf(storageResult, "%s [?%s], %s", mov, i, cf);
+    FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "%s\n", firMove);
+    fprint(f, "%s\n", secMove);
+    fprint(f, "%s\n", compare);
+    fprint(f, "%s\n", result);
+    fprint(f, "%s\n", storageResult);
     lockOrNot = 0;
 }
 
-void assLowerEqual(char* num1, char* num2) {
+void assLowerEqual(char* num1, char* num2, char* i) {
    while(lockOrNot == 1) {
         sleep(1);
     }
@@ -280,22 +305,22 @@ void assLowerEqual(char* num1, char* num2) {
     char compare[30];
     char storageResult[30];
     char result[30];
-        if(num1[0] == '#')
+        if(num1[0] == '?')
     {
         sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
     }
-     else if(num1[0] == '@')
+     else if(num1[0] == '$')
     {
         sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
     }
     else{
         sprintf(firMove, "%s %s, %s", mov, ax, num1);
     }
-    if(num2[0] == '#')
+    if(num2[0] == '?')
     {
         sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     }
-     else if(num2[0] == '@')
+     else if(num2[0] == '$')
     {
         sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     }
@@ -304,11 +329,17 @@ void assLowerEqual(char* num1, char* num2) {
     }
     sprintf(compare, "%s %s, %s", cmp, ax, bx);
     sprintf(result, "%s %s", setle, cf);
-    sprintf(storageResult, "[%s]", cf);
+    sprintf(storageResult, "%s [?%s], %s", mov, i, cf);
+    FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "%s\n", firMove);
+    fprint(f, "%s\n", secMove);
+    fprint(f, "%s\n", compare);
+    fprint(f, "%s\n", result);
+    fprint(f, "%s\n", storageResult);
     lockOrNot = 0;
 }
 
-void assGreater(char* num1, char* num2) {
+void assGreater(char* num1, char* num2, char* i) {
    while(lockOrNot == 1) {
         sleep(1);
     }
@@ -318,22 +349,22 @@ void assGreater(char* num1, char* num2) {
     char compare[30];
     char storageResult[30];
     char result[30];
-        if(num1[0] == '#')
+        if(num1[0] == '?')
     {
         sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
     }
-     else if(num1[0] == '@')
+     else if(num1[0] == '$')
     {
         sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
     }
     else{
         sprintf(firMove, "%s %s, %s", mov, ax, num1);
     }
-    if(num2[0] == '#')
+    if(num2[0] == '?')
     {
         sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     }
-     else if(num2[0] == '@')
+     else if(num2[0] == '$')
     {
         sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     }
@@ -342,11 +373,17 @@ void assGreater(char* num1, char* num2) {
     }
     sprintf(compare, "%s %s, %s", cmp, ax, bx);
     sprintf(result, "%s %s", setg, cf);
-    sprintf(storageResult, "%s", cf);
+    sprintf(storageResult, "%s [?%s], %s", mov, i, cf);
+    FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "%s\n", firMove);
+    fprint(f, "%s\n", secMove);
+    fprint(f, "%s\n", compare);
+    fprint(f, "%s\n", result);
+    fprint(f, "%s\n", storageResult);
     lockOrNot = 0;
 }
 
-void assGreaterEqual(char* num1, char* num2) {
+void assGreaterEqual(char* num1, char* num2, char* i) {
      while(lockOrNot == 1) {
         sleep(1);
     }
@@ -356,22 +393,22 @@ void assGreaterEqual(char* num1, char* num2) {
     char compare[30];
     char storageResult[30];
     char result[30];
-        if(num1[0] == '#')
+        if(num1[0] == '?')
     {
         sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
     }
-     else if(num1[0] == '@')
+     else if(num1[0] == '$')
     {
         sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
     }
     else{
         sprintf(firMove, "%s %s, %s", mov, ax, num1);
     }
-    if(num2[0] == '#')
+    if(num2[0] == '?')
     {
         sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     }
-     else if(num2[0] == '@')
+     else if(num2[0] == '$')
     {
         sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     }
@@ -380,7 +417,13 @@ void assGreaterEqual(char* num1, char* num2) {
     }
     sprintf(compare, "%s %s, %s", cmp, ax, bx);
     sprintf(result, "%s %s", setge, cf);
-    sprintf(storageResult, "%s", cf);
+    sprintf(storageResult, "%s [?%s], %s", mov, i, cf);
+    FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "%s\n", firMove);
+    fprint(f, "%s\n", secMove);
+    fprint(f, "%s\n", compare);
+    fprint(f, "%s\n", result);
+    fprint(f, "%s\n", storageResult);
     lockOrNot = 0;
 }
 
@@ -404,7 +447,7 @@ void Input(char* num1, char* num2) {
     else{
         sprintf(firMove, "%s %s, %s", mov, ax, num1);
     }
-    if(num2[0] == '#')
+    /*if(num2[0] == '#')
     {
         sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     }
@@ -414,12 +457,16 @@ void Input(char* num1, char* num2) {
     }
     else{
         sprintf(secMove, "%s %s, %s", mov, bx, num2);
-    }
-    sprintf(getin, "%s %s, %s", in, ax, bx);
+    }*/
+    sprintf(getin, "%s %s, 21H", in, ax);
+    FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "%s\n", firMove);
+    // fprint(f, "%s\n", secMove);
+    fprint(f, "%s\n", getin);
     lockOrNot = 0;
 }
 
-void Output(char* num1, char* num2) {
+void Output(char* num1, char* i) {
    while(lockOrNot == 1) {
         sleep(1);
     }
@@ -438,7 +485,7 @@ void Output(char* num1, char* num2) {
     else{
         sprintf(firMove, "%s %s, %s", mov, ax, num1);
     }
-    if(num2[0] == '#')
+/*if(num2[0] == '#')
     {
         sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
     }
@@ -448,12 +495,16 @@ void Output(char* num1, char* num2) {
     }
     else{
         sprintf(secMove, "%s %s, %s", mov, bx, num2);
-    }
-    sprintf(getout, "%s %s, %s", out, bx, ax);
+    }*/
+    sprintf(getout, "%s 378H, %s", out, ax);
+    FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "%s\n", firMove);
+    // fprint(f, "%s\n", secMove);
+    fprint(f, "%s\n", getout);
     lockOrNot = 0;
 }
 
-void logicNot(char* num1){
+void assNot(char* num1, char* i){
 while(lockOrNot == 1) {
         sleep(1);
     }
@@ -472,5 +523,8 @@ while(lockOrNot == 1) {
         sprintf(firMove, "%s %s, %s", mov, ax, num1);
     }
     sprintf(getNot, "%s %s", not, ax);
+    FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "%s\n", firMove);
+    fprint(f, "%s\n", getNot);
     lockOrNot = 0;
 }
