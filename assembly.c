@@ -5,8 +5,8 @@
 #include "file.h"
 #include "ass.h"
 int lockOrNot = 0;
-int addCount = 0;
-int multiCount = 0;
+int Count = 0;
+/*int multiCount = 0;
 int cmpEqualCount = 0;
 int remCount = 0;
 int cmpNotCount = 0;
@@ -14,24 +14,24 @@ int cmpGreaterCount = 0;
 int cmpLowerCount = 0;
 int cmpLowerEqualCount = 0;
 int cmpGreaterEqualCount = 0;
+*/
+char mov[] = "MOV";
+char add[] = "ADD";
+char cmp[] = "CMP";
+char idiv[] ="IDIV";
+char jnb[] = "JNB";
+char jb[] = "JB";
+char je[] = "JE";
+char jne[] = "JNE";
+char jna[] = "JNA";
+char ja[] = "JA";
 
-char* mov = "MOV";
-char* add = "ADD";
-char* cmp = "CMP";
-char* idiv ="IDIV";
-char* jnb = "JNB";
-char* jb = "JB";
-char* je = "JE";
-char* jne = "JNE";
-char* jna = "JNA";
-char* ja = "JA";
-
-char* ax = "eax";
-char* bx = "ebx";
-char* cx = "ecx";
-char* zf = "zf";
-char* ah = "ah";
-char* cf = "cf";
+char ax[] = "eax";
+char bx[] = "ebx";
+char cx[] = "ecx";
+char zf[] = "zf";
+char ah[] = "ah";
+char cf[] = "cf";
 
 void start(){
                                                                                               
@@ -46,19 +46,43 @@ char* assAdd(char* num1, char* num2) {
         sleep(1);
     }
     lockOrNot = 1;
-    char* count;
-    char* firMove;
-    char* secMove;
-    char* firAdd;
-    char* storageResult;
-    sprintf(count, "addCount%d", addCount);
-    sprintf(firMove, "%s %s, %s", mov, ax, num1);//put num1 to ax
-    sprintf(secMove, "%s %s, %s", mov, bx, num2);//put num2 to bx
+    char count[30];
+    char firMove[30];
+    char secMove[30];
+    char firAdd[30];
+    char storageResult[30];
+     if(num1[0] == '#')
+    {
+        sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
+    }
+    else{
+        sprintf(firMove, "%s %s, %s", mov, ax, num1);
+    }
+    if(num2[0] == '#')
+    {
+        sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
+    }
+    else{
+        sprintf(secMove, "%s %s, %s", mov, bx, num2);
+    }
+    if(num1[0] == '@')
+    {
+        sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
+    }
+    else{
+        sprintf(firMove, "%s %s, %s", mov, ax, num1);
+    }
+    if(num2[0] == '@')
+    {
+        sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
+    }
+    else{
+        sprintf(secMove, "%s %s, %s", mov, bx, num2);
+    }
+    //sprintf(count, "addCount%d", addCount);
     sprintf(firAdd, "%s %s, %s", add, ax, bx);//ax = ax + bx
-    sprintf(storageResult, "%s [%s], %s", mov , count, ax);//put ax to stroge
-    addCount++;
+    sprintf(storageResult, "[#%s]", ax);//put ax to stroge
     lockOrNot = 0;
-    return count;
 }
 
 char* assMulti(char* num1, char* num2) {
