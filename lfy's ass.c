@@ -44,10 +44,11 @@ void assGetAddress(char *num1, char *i){
     char firMove[30];
     sprintf(getAddress, "%s %s, %s", lea, ax, num1);
     sprintf(firMove, "%s [?%s], %s", mov, i, ax);
-    FILE* f = fopen("ass.asm", 'a+');
-    fprint(f, "L%s:\n", i);
-    fprint(f, "%s\n", getAddress);
-    fprint(f, "%s\n", firMove);
+    FILE* f = fopen("ass.asm", "a+");
+    fprintf(f, "L%s:\n", i);
+    fprintf(f, "%s\n", getAddress);
+    fprintf(f, "%s\n", firMove);
+    fclose(f);
     lockOrNot = 0;
 }
 
@@ -62,11 +63,12 @@ void assFind(char *num1, char *i){
     sprintf(firMove, "%s %s, %s", mov, bx, num1);
     sprintf(secMove, "%s %s, [%s]", mov, ax, bx);
     sprintf(thiMove, "%s [?%s], %s", mov, i, ax);
-    FILE* f = fopen("ass.asm", 'a+');
-    fprint(f, "L%s:\n", i);
-    fprint(f, "%s\n", firMove);
-    fprint(f, "%s\n", secMove);
-    fprint(f, "%s\n", thiMove);
+    FILE* f = fopen("ass.asm", "a+");
+    fprintf(f, "L%s:\n", i);
+    fprintf(f, "%s\n", firMove);
+    fprintf(f, "%s\n", secMove);
+    fprintf(f, "%s\n", thiMove);
+    fclose(f);
     lockOrNot = 0;
 }
 
@@ -76,9 +78,10 @@ void assOffset(char *num1, char *num2, char *i){
     }
     lockOrNot = 1;
     sprintf(firMove, "%s %s, %s", mov, bx, num1);
-    FILE* f = fopen("ass.asm", 'a+');
-    fprint(f, "L%s:\n", i);
-    fprint(f, "%s\n", firMove);
+    FILE* f = fopen("ass.asm", "a+");
+    fprintf(f, "L%s:\n", i);
+    fprintf(f, "%s\n", firMove);
+    fclose(f);
     lockOrNot = 0;
 }
 

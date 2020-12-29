@@ -75,12 +75,13 @@ void assAdd(char* num1, char* num2, char* i) {
     }
     sprintf(firAdd, "%s %s, %s", add, ax, bx);//ax = ax + bx
     sprintf(storageResult, "%s [?%s], %s", mov, i, ax);//put ax to 
-    FILE* f = fopen("ass.asm", 'a+');
-    fprint(f, "L%s:\n", i);
-    fprint(f, "%s\n", firMove);
-    fprint(f, "%s\n", secMove);
-    fprint(f, "%s\n", firAdd);
-    fprint(f, "%s\n", storageResult);
+    FILE* f = fopen("ass.asm", "a+");
+    fprintf(f, "L%s:\n", i);
+    fprintf(f, "%s\n", firMove);
+    fprintf(f, "%s\n", secMove);
+    fprintf(f, "%s\n", firAdd);
+    fprintf(f, "%s\n", storageResult);
+    fclose(f);
     lockOrNot = 0;
 }
 
@@ -122,6 +123,7 @@ void assAdd(char* num1, char* num2, char* i) {
     }
     sprintf(loop, "m%s: %s %s, %s\n  loop m%s", bx, add, ax, cx, bx);
     sprintf(storageResult, " [?%s]", ax);//put ax to stroge
+    fclose(f);
     lockOrNot = 0;
 }*/
 
@@ -159,12 +161,13 @@ void equalOrNot(char* num1, char* num2, char* i) {
     }
     sprintf(compare, "%s %s, %d", cmp, ax, bx);
     sprintf(storageResult, "%s [?%s],%s", mov, i, zf);
-    FILE* f = fopen("ass.asm", 'a+');
-    fprint(f, "L%s:\n", i);
-    fprint(f, "%s\n", firMove);
-    fprint(f, "%s\n", secMove);
-    fprint(f, "%s\n", compare);
-    fprint(f, "%s\n", storageResult);
+    FILE* f = fopen("ass.asm", "a+");
+    fprintf(f, "L%s:\n", i);
+    fprintf(f, "%s\n", firMove);
+    fprintf(f, "%s\n", secMove);
+    fprintf(f, "%s\n", compare);
+    fprintf(f, "%s\n", storageResult);
+    fclose(f);
     lockOrNot = 0;
 }
 
@@ -201,12 +204,13 @@ void assRemainder(char* num1, char* num2, char *i) {
     }
     sprintf(result, "%s %s", idiv, bx);
     sprintf(storageResult, "%s [?%s], %s", mov, i, ah);
-    FILE* f = fopen("ass.asm", 'a+');
-    fprint(f, "L%s:\n", i);
-    fprint(f, "%s\n", firMove);
-    fprint(f, "%s\n", secMove);
-    fprint(f, "%s\n", result);
-    fprint(f, "%s\n", storageResult);
+    FILE* f = fopen("ass.asm", "a+");
+    fprintf(f, "L%s:\n", i);
+    fprintf(f, "%s\n", firMove);
+    fprintf(f, "%s\n", secMove);
+    fprintf(f, "%s\n", result);
+    fprintf(f, "%s\n", storageResult);
+    fclose(f);
     lockOrNot = 0;
 }
 
@@ -245,13 +249,14 @@ void notEqual(char* num1, char* num2, char* i) {
     sprintf(compare, "%s %s, %d", cmp, ax, bx);
     sprintf(result, "%s %s", setne, zf);
     sprintf(storageResult, "%s [?%s], %s", mov, i, zf);
-    FILE* f = fopen("ass.asm", 'a+');
-    fprint(f, "L%s:\n", i);
-    fprint(f, "%s\n", firMove);
-    fprint(f, "%s\n", secMove);
-    fprint(f, "%s\n", compare);
-    fprint(f, "%s\n", result);
-    fprint(f, "%s\n", storageResult);
+    FILE* f = fopen("ass.asm", "a+");
+    fprintf(f, "L%s:\n", i);
+    fprintf(f, "%s\n", firMove);
+    fprintf(f, "%s\n", secMove);
+    fprintf(f, "%s\n", compare);
+    fprintf(f, "%s\n", result);
+    fprintf(f, "%s\n", storageResult);
+    fclose(f);
     lockOrNot = 0;
 }
 
@@ -290,13 +295,14 @@ void assLower(char* num1, char* num2, char* i) {
     sprintf(compare, "%s %s, %s", cmp, ax, bx);
     sprintf(result, "%s %s", setl, cf);
     sprintf(storageResult, "%s [?%s], %s", mov, i, cf);
-    FILE* f = fopen("ass.asm", 'a+');
-    fprint(f, "L%s:\n", i);
-    fprint(f, "%s\n", firMove);
-    fprint(f, "%s\n", secMove);
-    fprint(f, "%s\n", compare);
-    fprint(f, "%s\n", result);
-    fprint(f, "%s\n", storageResult);
+    FILE* f = fopen("ass.asm", "a+");
+    fprintf(f, "L%s:\n", i);
+    fprintf(f, "%s\n", firMove);
+    fprintf(f, "%s\n", secMove);
+    fprintf(f, "%s\n", compare);
+    fprintf(f, "%s\n", result);
+    fprintf(f, "%s\n", storageResult);
+    fclose(f);
     lockOrNot = 0;
 }
 
@@ -335,13 +341,14 @@ void assLowerEqual(char* num1, char* num2, char* i) {
     sprintf(compare, "%s %s, %s", cmp, ax, bx);
     sprintf(result, "%s %s", setle, cf);
     sprintf(storageResult, "%s [?%s], %s", mov, i, cf);
-    FILE* f = fopen("ass.asm", 'a+');
-    fprint(f, "L%s:\n", i);
-    fprint(f, "%s\n", firMove);
-    fprint(f, "%s\n", secMove);
-    fprint(f, "%s\n", compare);
-    fprint(f, "%s\n", result);
-    fprint(f, "%s\n", storageResult);
+    FILE* f = fopen("ass.asm", "a+");
+    fprintf(f, "L%s:\n", i);
+    fprintf(f, "%s\n", firMove);
+    fprintf(f, "%s\n", secMove);
+    fprintf(f, "%s\n", compare);
+    fprintf(f, "%s\n", result);
+    fprintf(f, "%s\n", storageResult);
+    fclose(f);
     lockOrNot = 0;
 }
 
@@ -380,13 +387,14 @@ void assGreater(char* num1, char* num2, char* i) {
     sprintf(compare, "%s %s, %s", cmp, ax, bx);
     sprintf(result, "%s %s", setg, cf);
     sprintf(storageResult, "%s [?%s], %s", mov, i, cf);
-    FILE* f = fopen("ass.asm", 'a+');
-    fprint(f, "L%s:\n", i);
-    fprint(f, "%s\n", firMove);
-    fprint(f, "%s\n", secMove);
-    fprint(f, "%s\n", compare);
-    fprint(f, "%s\n", result);
-    fprint(f, "%s\n", storageResult);
+    FILE* f = fopen("ass.asm", "a+");
+    fprintf(f, "L%s:\n", i);
+    fprintf(f, "%s\n", firMove);
+    fprintf(f, "%s\n", secMove);
+    fprintf(f, "%s\n", compare);
+    fprintf(f, "%s\n", result);
+    fprintf(f, "%s\n", storageResult);
+    fclose(f);
     lockOrNot = 0;
 }
 
@@ -425,13 +433,14 @@ void assGreaterEqual(char* num1, char* num2, char* i) {
     sprintf(compare, "%s %s, %s", cmp, ax, bx);
     sprintf(result, "%s %s", setge, cf);
     sprintf(storageResult, "%s [?%s], %s", mov, i, cf);
-    FILE* f = fopen("ass.asm", 'a+');
-    fprint(f, "L%s:\n", i);
-    fprint(f, "%s\n", firMove);
-    fprint(f, "%s\n", secMove);
-    fprint(f, "%s\n", compare);
-    fprint(f, "%s\n", result);
-    fprint(f, "%s\n", storageResult);
+    FILE* f = fopen("ass.asm", "a+");
+    fprintf(f, "L%s:\n", i);
+    fprintf(f, "%s\n", firMove);
+    fprintf(f, "%s\n", secMove);
+    fprintf(f, "%s\n", compare);
+    fprintf(f, "%s\n", result);
+    fprintf(f, "%s\n", storageResult);
+    fclose(f);
     lockOrNot = 0;
 }
 
@@ -467,11 +476,12 @@ void Input(char* num1, char* i) {
         sprintf(secMove, "%s %s, %s", mov, bx, num2);
     }*/
     sprintf(getin, "%s %s, 21H", in, ax);
-    FILE* f = fopen("ass.asm", 'a+');
-    fprint(f, "L%s:\n", i);
-    fprint(f, "%s\n", firMove);
-    // fprint(f, "%s\n", secMove);
-    fprint(f, "%s\n", getin);
+    FILE* f = fopen("ass.asm", "a+");
+    fprintf(f, "L%s:\n", i);
+    fprintf(f, "%s\n", firMove);
+    // fprintf(f, "%s\n", secMove);
+    fprintf(f, "%s\n", getin);
+    fclose(f);
     lockOrNot = 0;
 }
 
@@ -506,11 +516,12 @@ void Output(char* num1, char* i) {
         sprintf(secMove, "%s %s, %s", mov, bx, num2);
     }*/
     sprintf(getout, "%s 378H, %s", out, ax);
-    FILE* f = fopen("ass.asm", 'a+');
-    fprint(f, "L%s:\n", i);
-    fprint(f, "%s\n", firMove);
-    // fprint(f, "%s\n", secMove);
-    fprint(f, "%s\n", getout);
+    FILE* f = fopen("ass.asm", "a+");
+    fprintf(f, "L%s:\n", i);
+    fprintf(f, "%s\n", firMove);
+    // fprintf(f, "%s\n", secMove);
+    fprintf(f, "%s\n", getout);
+    fclose(f);
     lockOrNot = 0;
 }
 
@@ -534,10 +545,11 @@ while(lockOrNot == 1) {
     }
     sprintf(getNot, "%s %s, 0", cmp, ax);
     sprintf(storageResult, "%s [?%s], %s", mov, i, zf)
-    FILE* f = fopen("ass.asm", 'a+');
-    fprint(f, "L%s:\n", i);
-    fprint(f, "%s\n", firMove);
-    fprint(f, "%s\n", getNot);
-    fprint(f, "%s\n", storageResult);
+    FILE* f = fopen("ass.asm", "a+");
+    fprintf(f, "L%s:\n", i);
+    fprintf(f, "%s\n", firMove);
+    fprintf(f, "%s\n", getNot);
+    fprintf(f, "%s\n", storageResult);
+    fclose(f);
     lockOrNot = 0;
 }
