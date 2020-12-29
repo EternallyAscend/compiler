@@ -76,6 +76,7 @@ void assAdd(char* num1, char* num2, char* i) {
     sprintf(firAdd, "%s %s, %s", add, ax, bx);//ax = ax + bx
     sprintf(storageResult, "%s [?%s], %s", mov, i, ax);//put ax to 
     FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "L%s:\n", i);
     fprint(f, "%s\n", firMove);
     fprint(f, "%s\n", secMove);
     fprint(f, "%s\n", firAdd);
@@ -159,6 +160,7 @@ void equalOrNot(char* num1, char* num2, char* i) {
     sprintf(compare, "%s %s, %d", cmp, ax, bx);
     sprintf(storageResult, "%s [?%s],%s", mov, i, zf);
     FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "L%s:\n", i);
     fprint(f, "%s\n", firMove);
     fprint(f, "%s\n", secMove);
     fprint(f, "%s\n", compare);
@@ -200,6 +202,7 @@ void assRemainder(char* num1, char* num2, char *i) {
     sprintf(result, "%s %s", idiv, bx);
     sprintf(storageResult, "%s [?%s], %s", mov, i, ah);
     FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "L%s:\n", i);
     fprint(f, "%s\n", firMove);
     fprint(f, "%s\n", secMove);
     fprint(f, "%s\n", result);
@@ -243,6 +246,7 @@ void notEqual(char* num1, char* num2, char* i) {
     sprintf(result, "%s %s", setne, zf);
     sprintf(storageResult, "%s [?%s], %s", mov, i, zf);
     FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "L%s:\n", i);
     fprint(f, "%s\n", firMove);
     fprint(f, "%s\n", secMove);
     fprint(f, "%s\n", compare);
@@ -287,6 +291,7 @@ void assLower(char* num1, char* num2, char* i) {
     sprintf(result, "%s %s", setl, cf);
     sprintf(storageResult, "%s [?%s], %s", mov, i, cf);
     FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "L%s:\n", i);
     fprint(f, "%s\n", firMove);
     fprint(f, "%s\n", secMove);
     fprint(f, "%s\n", compare);
@@ -331,6 +336,7 @@ void assLowerEqual(char* num1, char* num2, char* i) {
     sprintf(result, "%s %s", setle, cf);
     sprintf(storageResult, "%s [?%s], %s", mov, i, cf);
     FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "L%s:\n", i);
     fprint(f, "%s\n", firMove);
     fprint(f, "%s\n", secMove);
     fprint(f, "%s\n", compare);
@@ -375,6 +381,7 @@ void assGreater(char* num1, char* num2, char* i) {
     sprintf(result, "%s %s", setg, cf);
     sprintf(storageResult, "%s [?%s], %s", mov, i, cf);
     FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "L%s:\n", i);
     fprint(f, "%s\n", firMove);
     fprint(f, "%s\n", secMove);
     fprint(f, "%s\n", compare);
@@ -419,6 +426,7 @@ void assGreaterEqual(char* num1, char* num2, char* i) {
     sprintf(result, "%s %s", setge, cf);
     sprintf(storageResult, "%s [?%s], %s", mov, i, cf);
     FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "L%s:\n", i);
     fprint(f, "%s\n", firMove);
     fprint(f, "%s\n", secMove);
     fprint(f, "%s\n", compare);
@@ -428,7 +436,7 @@ void assGreaterEqual(char* num1, char* num2, char* i) {
 }
 
 // 第一个变量为操作数 第二个为端口地址，输出同理
-void Input(char* num1, char* num2) {
+void Input(char* num1, char* i) {
    while(lockOrNot == 1) {
         sleep(1);
     }
@@ -460,6 +468,7 @@ void Input(char* num1, char* num2) {
     }*/
     sprintf(getin, "%s %s, 21H", in, ax);
     FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "L%s:\n", i);
     fprint(f, "%s\n", firMove);
     // fprint(f, "%s\n", secMove);
     fprint(f, "%s\n", getin);
@@ -498,6 +507,7 @@ void Output(char* num1, char* i) {
     }*/
     sprintf(getout, "%s 378H, %s", out, ax);
     FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "L%s:\n", i);
     fprint(f, "%s\n", firMove);
     // fprint(f, "%s\n", secMove);
     fprint(f, "%s\n", getout);
@@ -522,9 +532,12 @@ while(lockOrNot == 1) {
     else{
         sprintf(firMove, "%s %s, %s", mov, ax, num1);
     }
-    sprintf(getNot, "%s %s", not, ax);
+    sprintf(getNot, "%s %s, 0", cmp, ax);
+    sprintf(storageResult, "%s [?%s], %s", mov, i, zf)
     FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "L%s:\n", i);
     fprint(f, "%s\n", firMove);
     fprint(f, "%s\n", getNot);
+    fprint(f, "%s\n", storageResult);
     lockOrNot = 0;
 }

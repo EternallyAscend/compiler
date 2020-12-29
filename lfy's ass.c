@@ -35,7 +35,7 @@ char ah[] = "ah";
 char cf[] = "cf";
 char sf[] = "sf";
 
-void assGetAddress(char *num1, char *num2){
+void assGetAddress(char *num1, char *i){
     while(lockOrNot == 1) {
         sleep(1);
     }
@@ -43,14 +43,15 @@ void assGetAddress(char *num1, char *num2){
     char getAddress[30];
     char firMove[30];
     sprintf(getAddress, "%s %s, %s", lea, ax, num1);
-    sprintf(firMove, "%s %s, %s", mov, num2, ax);
+    sprintf(firMove, "%s %s, %s", mov, i, ax);
     FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "L%s:\n", i);
     fprint(f, "%s\n", getAddress);
     fprint(f, "%s\n", firMove);
     lockOrNot = 0;
 }
 
-void assFind(char *num1, char *num2, char *num3){
+void assFind(char *num1, char *num2, char *i){
     while(lockOrNot == 1) {
         sleep(1);
     }
@@ -62,8 +63,26 @@ void assFind(char *num1, char *num2, char *num3){
     sprintf(secMove, "%s %s, [%s]", mov, ax, bx);
     sprintf(thiMove, "%s %s, %s", mov, num2, ax);
     FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "L%s:\n", i);
     fprint(f, "%s\n", firMove);
     fprint(f, "%s\n", secMove);
     fprint(f, "%s\n", thiMove);
     lockOrNot = 0;
+}
+
+void assOffset(char *num1, char *num2, char *i){
+    while(lockOrNot == 1) {
+        sleep(1);
+    }
+    lockOrNot = 1;
+    sprintf(firMove, "%s %s, %s", mov, bx, num1);
+    FILE* f = fopen("ass.asm", 'a+');
+    fprint(f, "L%s:\n", i);
+    fprint(f, "%s\n", firMove);
+    lockOrNot = 0;
+}
+
+void assJump(char *num1, char *num2, char *i){
+
+
 }
