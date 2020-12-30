@@ -786,7 +786,7 @@ void assJump(char *num1, char *num2, char *i){
     if(num1[0] == '_'){
         char firJmp[30];
         if(num2[0] == '-'){
-            sprintf(firJmp, "%s End", jmp);
+            sprintf(firJmp, "%s E", jmp);
         }
         else{
             sprintf(firJmp, "%s L%s", jmp, num2);
@@ -804,7 +804,7 @@ void assJump(char *num1, char *num2, char *i){
         }
         if(num2[0] == '-')
         {
-        	sprintf(firJmp, "%s End", jg);
+        	sprintf(firJmp, "%s E", jg);
 		}
 		else{
 			sprintf(firJmp, "%s L%s", jg, num2);
@@ -957,9 +957,40 @@ void readThree(char*** threeCode, char* i, char*** varyCode, int rowNum)
 }
 
 void start(char*** varyCode, int rowNum){
-
+    while(lockOrNot == 1) {
+        sleep(1);
+    }
+    lockOrNot = 1;
+    char exitProcess[30] = "ExitProcess PROTO\n";
+    char codeIdentify[30] = ".code\nmain PROC";
+    FILE* f = fopen("ass.asm", "a+");
+    fprintf(f, "%s\n", exitProcess);
+    fprintf(f, "%s\n", codeIdentify);
+    fclose(f);
+    lockOrNot = 0;
 }
 
-void end(){
-
+void end(char*** varyCode, int rowNum){
+    while(lockOrNot == 1) {
+        sleep(1);
+    }
+    lockOrNot = 1;
+    FILE* f = fopen("ass.asm", "a+");
+    char firMove[100] = "\nMOV eax, 0\nE:\ncall ExitProcess\nmain ENDP\n.data";
+    fprintf(f, "%s\n", firMove);
+    int i = 0;
+    for(; i <= rowNum; i++){
+        char initRow[30];
+        sprintf(initRow, "?%d QWORD 0", i);
+        fprintf(f, "%s\n", initRow);
+    }
+    for(i = 0; i <= rowNum; i++){
+        if(strcmp(varyCode[i][0], "") != 0){
+            char initRow[30];
+            sprintf(initRow, "%s BYTE %s DUP (?)", varyCode[i][0], varyCode[i][1]);
+            fprintf(f, "%s\n", initRow);
+        }
+    }
+    fclose(f);
+    lockOrNot = 0;
 }
