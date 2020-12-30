@@ -3,7 +3,6 @@
 #include <string.h>
 
 #include "file.h"
-#include "ass.h"
 int lockOrNot = 0;
 char mov[] = "MOV";
 char add[] = "ADD";

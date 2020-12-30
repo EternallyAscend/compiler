@@ -5,7 +5,7 @@
 
 #include <stdio.h>
 
-void start();
+void start(char*** varyCode, int rowNum);
 
 void end();
 
@@ -48,3 +48,9 @@ void assFind(char *num1, char *num2, char *i);
 void assOffset(char *num1, char *num2, char *i);
 
 void assJump(char *num1, char *num2, char *i);
+
+int giveRow();
+
+void saveVary(char*** threeCode, int i, char*** varyCode);
+
+void readThree(char*** threeCode, char* i, char*** varyCode, int rowNum);
