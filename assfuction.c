@@ -956,7 +956,7 @@ void readThree(char*** threeCode, char* i, char*** varyCode, int rowNum)
 	}
 }
 
-void start(char*** varyCode, int rowNum){
+void start(){
     while(lockOrNot == 1) {
         sleep(1);
     }
@@ -979,18 +979,19 @@ void end(char*** varyCode, int rowNum){
     char firMove[100] = "\nMOV eax, 0\nE:\ncall ExitProcess\nmain ENDP\n.data";
     fprintf(f, "%s\n", firMove);
     int i = 0;
-    for(; i <= rowNum; i++){
+    for(; i < rowNum; i++){
         char initRow[30];
         sprintf(initRow, "?%d QWORD 0", i);
         fprintf(f, "%s\n", initRow);
     }
-    for(i = 0; i <= rowNum; i++){
+    for(i = 0; i < rowNum; i++){
         if(strcmp(varyCode[i][0], "") != 0){
             char initRow[30];
             sprintf(initRow, "%s BYTE %s DUP (?)", varyCode[i][0], varyCode[i][1]);
             fprintf(f, "%s\n", initRow);
         }
     }
+    fprintf(f, "END");
     fclose(f);
     lockOrNot = 0;
 }

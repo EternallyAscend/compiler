@@ -80,7 +80,9 @@ int main()
 		memset(buf, 0, 1024);
 	}
 	fclose(f); 
+	start();
     readThree(threeCode, threeCode[0][0], varyCode, rowNum);
+	end(varyCode, rowNum);
     for (cursorOne = 0; cursorOne < rowNum; cursorOne++) 
     {
     	for (cursorTwo = 0;cursorTwo < 4; cursorTwo++)

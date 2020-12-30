@@ -5,9 +5,9 @@
 
 #include <stdio.h>
 
-void start(char*** varyCode, int rowNum);
+void start();
 
-void end();
+void end(char*** varyCode, int rowNum);
 
 void assAdd(char* num1, char* num2, char* i);
 
