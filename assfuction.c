@@ -710,8 +710,6 @@ void assOffset(char *num1, char *num2, char *i){
     }
     lockOrNot = 1;
     char getAddress[30];
-    char firMove[30];
-    char secMove[30];
     char thiMove[30];
     char firAdd[30];
     sprintf(getAddress, "%s %s, [%s]", lea, ax, num1);
@@ -720,17 +718,13 @@ void assOffset(char *num1, char *num2, char *i){
         sprintf(firAdd, "%s %s, [%s]", add, ax, num2);
     }
     else{
-        sprintf(firAdd, "%s %s, %s", mov, bx, num2);
+        sprintf(firAdd, "%s %s, %s", add, ax, num2);
     }
-    sprintf(firMove, "%s %s, %s", mov, bx, ax);
-    sprintf(secMove, "%s %s, [%s]", mov, ax, bx);
     sprintf(thiMove, "%s [?%s], %s", mov, i, ax);
     FILE* f = fopen("ass.asm", "a+");
     fprintf(f, "L%s:\n", i);
     fprintf(f, "%s\n", getAddress);
     fprintf(f, "%s\n", firAdd);
-    fprintf(f, "%s\n", firMove);
-    fprintf(f, "%s\n", secMove);
     fprintf(f, "%s\n", thiMove);
     fclose(f);
     lockOrNot = 0;
