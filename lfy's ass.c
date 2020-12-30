@@ -3,7 +3,6 @@
 #include <string.h>
 
 #include "file.h"
-#include "ass.h"
 
 int lockOrNot = 0;
 char mov[] = "MOV";
@@ -16,9 +15,9 @@ char je[] = "JE";
 char jne[] = "JNE";
 char jna[] = "JNA";
 char ja[] = "JA";
+char jg[] = "JG";
 char jmp[] = "JMP";
 char lea[] = "LEA"
-char or[] = "OR";
 char in[] = "IN";
 char out[] = "OUT";
 char setge[] = "SETGE";
@@ -26,13 +25,13 @@ char setg[] = "SETG";
 char setl[] = "SETL";
 char setle[] = "SETLE";
 char setne[] = "SETNE";
-char not[] = "NOT";
 
 char ax[] = "eax";
 char bx[] = "ebx";
 char cx[] = "ecx";
 char zf[] = "zf";
 char ah[] = "ah";
+char al[] = "al";
 char cf[] = "cf";
 char sf[] = "sf";
 
@@ -61,7 +60,7 @@ void assFind(char *num1, char *i){
     char firMove[30];
     char secMove[30];
     char thiMove[30];
-    sprintf(firMove, "%s %s, %s", mov, bx, num1);
+    sprintf(firMove, "%s %s, [%s]", mov, bx, num1);
     sprintf(secMove, "%s %s, [%s]", mov, ax, bx);
     sprintf(thiMove, "%s [?%s], %s", mov, i, ax);
     FILE* f = fopen("ass.asm", "a+");
@@ -80,6 +79,9 @@ void assOffset(char *num1, char *num2, char *i){
     lockOrNot = 1;
     char getAddress[30];
     char firMove[30];
+    char secMove[30];
+    char thiMove[30];
+    char firAdd[30];
     sprintf(getAddress, "%s %s, [%s]", lea, ax, num1);
     if(num2[0] == '?' || num2[0] == '$')
     {
@@ -111,11 +113,11 @@ void assJump(char *num1, char *num2, char *i){
     fprintf(f, "L%s:\n", i);
     if(num1[0] == '_'){
         char firJmp[30];
-        if(num2[0] < '-'){
+        if(num2[0] == '-'){
             sprintf(firJmp, "%s End", jmp);
         }
         else{
-            sprintf(firJmp, "%s L%s", jmp, num2)
+            sprintf(firJmp, "%s L%s", jmp, num2);
         }
         fprintf(f, "%s\n", firJmp);
     }
@@ -128,7 +130,12 @@ void assJump(char *num1, char *num2, char *i){
         else{
             sprintf(firCmp, "%s %s, 0", cmp, num1);
         }
-        sprintf(firJmp, "%s L%s", jmp, num2);
+        if(num2[0] == '-'){
+            sprintf(firJmp, "%s End", jg);
+        }
+        else{
+            sprintf(firJmp, "%s L%s", jmp, num2);
+        }
         fprintf(f, "%s\n", firCmp);
         fprintf(f, "%s\n", firJmp);
     }

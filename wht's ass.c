@@ -3,7 +3,6 @@
 #include <string.h>
 
 #include "file.h"
-#include "ass.h"
 
 int lockOrNot = 0;
 
@@ -173,7 +172,7 @@ void assPow(char* num1, char* num2, char* i) {
     }
     else{
         sprintf(firMove, "%s %s, %s", mov, ax, num1);
-        sprintf(secMove, "%s %S, %s", mov, bx, num1);
+        sprintf(secMove, "%s %s, %s", mov, bx, num1);
     }
     if(num2[0] == '?')
     {
@@ -187,8 +186,8 @@ void assPow(char* num1, char* num2, char* i) {
         sprintf(thiMove, "%s %s, %s", mov, cx, num2);
     }
     sprintf(firSub, "%s %s, %s", sub, cx, '1');
-    sprintf(loop, "m%d: %s %s, %s\n  loop m%d", cx, imul, ax, bx, cx);
-    sprintf(storageResult, "  %s [?%s], %s", mov, i, ax);//put ax to stroge
+    sprintf(loop, "m%s: %s %s, %s\nloop m%s", i, imul, ax, bx, i);
+    sprintf(storageResult, "%s [?%s], %s", mov, i, ax);//put ax to stroge
     FILE* f = fopen("ass.asm", "a+");
     fprintf(f, "L%s:\n", i);
     fprintf(f, "%s\n", firMove);
