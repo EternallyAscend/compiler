@@ -835,11 +835,8 @@ void saveVary(char*** threeCode, int i, char*** varyCode)
     lockOrNot = 1;
 	sprintf(varyCode[i][0], "%s", threeCode[i][2]);
 	sprintf(varyCode[i][1], "%s", threeCode[i][3]);
-    char nw[30];
-    sprintf(nw, "%s [?%d], %s", mov, i, "0");
     FILE* fp = fopen("ass.asm", "a+");
     fprintf(fp, "L%d:\n", i);
-    fprintf(fp, "%s\n", nw);
     fclose(fp);
     lockOrNot = 0;
 }
@@ -995,7 +992,6 @@ void end(char*** varyCode, int rowNum){
             fprintf(f, "%s\n", initRow);
         }
     }
-    fprintf(f, "END");
     fclose(f);
     lockOrNot = 0;
 }
