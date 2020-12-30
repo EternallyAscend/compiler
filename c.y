@@ -1736,11 +1736,11 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             node->type = 2;
             if (node->child[0]->ptrType->dimension == 1) {
                 // 如果type现在为int，寻址，end为寻址
-                node->end = makeNewTemp(instruction, generateIndirectTriple("find",
+                /* node->end = makeNewTemp(instruction, generateIndirectTriple("find",
                                                                             node->value,
-                                                                            "_"));
+                                                                            "_")); */
                 node->type = 1;
-                sprintf(node->value, "#%d", node->end);
+                sprintf(node->value, "[#%d]", node->end);
             }
             break;
         case _LOOP:
