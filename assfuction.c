@@ -4,28 +4,28 @@
 #include "file.h"
 #include "ass.h"
 int lockOrNot = 0;
-char mov[] = "MOV";
-char add[] = "ADD";
-char sub[] = "SUB";
-char imul[] = "IMUL";
-char cmp[] = "CMP";
-char idiv[] ="IDIV";
-char jnb[] = "JNB";
-char jb[] = "JB";
-char je[] = "JE";
-char jne[] = "JNE";
-char jna[] = "JNA";
-char ja[] = "JA";
-char jg[] = "JG";
-char jmp[] = "JMP";
-char lea[] = "LEA";
-char in[] = "IN";
-char out[] = "OUT";
-char setge[] = "SETGE";
-char setg[] = "SETG";
-char setl[] = "SETL";
-char setle[] = "SETLE";
-char setne[] = "SETNE";
+char mov[] = "mov";
+char add[] = "add";
+char sub[] = "sub";
+char imul[] = "imul";
+char cmp[] = "cmp";
+char idiv[] ="idiv";
+char jnb[] = "jnb";
+char jb[] = "jb";
+char je[] = "je";
+char jne[] = "jne";
+char jna[] = "jna";
+char ja[] = "ja";
+char jg[] = "jg";
+char jmp[] = "jmp";
+char lea[] = "lea";
+char in[] = "in";
+char out[] = "out";
+char setge[] = "setge";
+char setg[] = "setg";
+char setl[] = "setl";
+char setle[] = "setle";
+char setne[] = "setne";
 
 char ax[] = "eax";
 char bx[] = "ebx";
@@ -963,8 +963,8 @@ void start(){
         sleep(1);
     }
     lockOrNot = 1;
-    char exitProcess[30] = "ExitProcess PROTO\n";
-    char codeIdentify[30] = ".code\nmain PROC";
+    char exitProcess[30] = "global main\n";
+    char codeIdentify[30] = "main:";
     FILE* f = fopen("ass.asm", "a+");
     fprintf(f, "%s\n", exitProcess);
     fprintf(f, "%s\n", codeIdentify);
@@ -978,18 +978,20 @@ void end(char*** varyCode, int rowNum){
     }
     lockOrNot = 1;
     FILE* f = fopen("ass.asm", "a+");
-    char firMove[100] = "\nMOV eax, 0\nE:\ncall ExitProcess\nmain ENDP\n.data";
+    char firMove[100] = "E:\nret\n\nsection .data";
     fprintf(f, "%s\n", firMove);
     int i = 0;
     for(; i < rowNum; i++){
         char initRow[30];
-        sprintf(initRow, "?%d QWORD 0", i);
+        sprintf(initRow, "?%d dw 0", i);
         fprintf(f, "%s\n", initRow);
     }
     for(i = 0; i < rowNum; i++){
         if(strcmp(varyCode[i][0], "") != 0){
+            int number = atoi(varyCode[i][1]);
+            number = number / 4;
             char initRow[30];
-            sprintf(initRow, "%s BYTE %s DUP (?)", varyCode[i][0], varyCode[i][1]);
+            sprintf(initRow, "%s times %d dw 0", varyCode[i][0], number);
             fprintf(f, "%s\n", initRow);
         }
     }
