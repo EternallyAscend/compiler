@@ -49,10 +49,6 @@ int main()
 			{
 				sprintf(threeCode[j][2], "?%s", x);
 			}
-			else if(buf[0] == '@')
-			{
-				sprintf(threeCode[j][2], "$%s", x);
-			}
 			else
 			{
 				strcpy(threeCode[j][2], buf);
@@ -65,10 +61,6 @@ int main()
 			if(buf[0] == '#')
 			{
 				sprintf(threeCode[j][3], "?%s", x);
-			}
-			else if(buf[0] == '@')
-			{
-				sprintf(threeCode[j][3], "$%s", x);
 			}
 			else
 			{
