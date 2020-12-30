@@ -45,8 +45,8 @@ void appendLexOutputFile(const char* type, const char* name, const char* attribu
 \%			{ appendLexOutputFile("MOD", yytext, ""); return(MOD); }
 \+			{ appendLexOutputFile("PLUS", yytext, ""); return(PLUS); }
 \-			{ appendLexOutputFile("MINUS", yytext, ""); return(MINUS); }
-\<			{ appendLexOutputFile("GT", yytext, ""); return(GT); }
-\>			{ appendLexOutputFile("LT", yytext, ""); return(LT); }
+\>			{ appendLexOutputFile("GT", yytext, ""); return(GT); }
+\<			{ appendLexOutputFile("LT", yytext, ""); return(LT); }
 \<\=			{ appendLexOutputFile("LE", yytext, ""); return(LE); }
 \>\=			{ appendLexOutputFile("GE", yytext, ""); return(GE); }
 \=\=			{ appendLexOutputFile("EQ", yytext, ""); return(EQ); }
