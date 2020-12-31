@@ -331,6 +331,10 @@ void assAssgin(char* num1, char* num2,char* i) {
     {
         sprintf(firAssign, "%s [%s], %s", mov, num1, ax);
     }
+    else if(num1[0] == '[')
+    {
+    	sprintf(firAssign, "%s %s, %s\n%s [%s], %s", mov, bx, num1, mov, bx, ax);
+	}
     else{
         sprintf(firAssign, "%s %s, %s", mov, num1, ax);
     }
