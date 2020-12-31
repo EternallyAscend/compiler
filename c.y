@@ -2213,7 +2213,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
                                     generateIndirectTriple("j", "_", "-1")); */
             // Before.
             indirectTripleCodeGenerator(node->child[0], instruction); // Go code blocks.
-            node->begin = node->child[0];
+            node->begin = node->child[0]->begin;
             node->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "-1"));
             if (-1 == node->begin) {
                 node->begin = node->end;
