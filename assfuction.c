@@ -34,6 +34,7 @@ char cx[] = "ecx";
 char zf[] = "zf";
 char ah[] = "ah";
 char al[] = "al";
+char bl[] = "bl";
 char cf[] = "cf";
 char sf[] = "sf";
 
@@ -250,7 +251,7 @@ void assDiv(char* num1, char* num2, char* i) {
     else{
         sprintf(secMove, "%s %s, %s", mov, bx, num2);
     }
-    sprintf(firDiv, "%s %s", idiv, bx);
+    sprintf(firDiv, "%s %s", idiv, bl);
     sprintf(storageResult, "%s [?%s], %s", mov, i, al);
     FILE* f = fopen("ass.asm", "a+");
     fprintf(f, "L%s:\n", i);
@@ -293,7 +294,7 @@ void assRemainder(char* num1, char* num2, char *i) {
     else{
         sprintf(secMove, "%s %s, %s", mov, bx, num2);
     }
-    sprintf(result, "%s %s", idiv, bx);
+    sprintf(result, "%s %s", idiv, bl);
     sprintf(storageResult, "%s [?%s], %s", mov, i, ah);
     FILE* f = fopen("ass.asm", "a+");
     fprintf(f, "L%s:\n", i);
