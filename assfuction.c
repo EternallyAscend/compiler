@@ -761,7 +761,7 @@ void assGetAddress(char *num1, char *i){
     lockOrNot = 1;
     char getAddress[30];
     char firMove[30];
-    sprintf(getAddress, "%s %s, %s", lea, ax, num1);
+    sprintf(getAddress, "%s %s, [%s]", lea, ax, num1);
     sprintf(firMove, "%s [?%s], %s", mov, i, ax);
     FILE* f = fopen("ass.asm", "a+");
     fprintf(f, "L%s:\n", i);
