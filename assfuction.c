@@ -797,12 +797,15 @@ void assJump(char *num1, char *num2, char *i){
         fprintf(f, "%s\n", firJmp);
     }
     else{
+        char firMov[30];
         char firCmp[30];
         char firJmp[30];
         if(num1[0] == '?' || num1[0] == '@'){
-            sprintf(firCmp, "%s [%s], 0", cmp, num1);
+            sprintf(firMov, "%s %s, [%s]", mov, ax, num1);
+            sprintf(firCmp, "%s %s, 0", cmp, ax);
         }
         else{
+            sprintf(firMov, "%s %s, %s", mov, ax, num1);
             sprintf(firCmp, "%s %s, 0", cmp, num1);
         }
         if(num2[0] == '-')
@@ -812,6 +815,7 @@ void assJump(char *num1, char *num2, char *i){
 		else{
 			sprintf(firJmp, "%s L%s", jg, num2);
 		}
+        fprintf(f, "%s\n", firMov);
         fprintf(f, "%s\n", firCmp);
         fprintf(f, "%s\n", firJmp);
     }
