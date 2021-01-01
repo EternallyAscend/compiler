@@ -31,6 +31,7 @@ char setne[] = "setne";
 char ax[] = "eax";
 char bx[] = "ebx";
 char cx[] = "ecx";
+char dx[] = "edx";
 char zf[] = "zf";
 char ah[] = "ah";
 char al[] = "al";
@@ -660,58 +661,55 @@ void assGreaterEqual(char* num1, char* num2, char* i) {
     lockOrNot = 0;
 }
 
-void Input(char* num1, char* i) {
+void Input(char* i) {
    while(lockOrNot == 1) {
         sleep(1);
     }
     lockOrNot = 1;
     char firMove[30];
     char secMove[30];
+    char thiMove[30];
+    char fotMove[30];
     char getin[30];
-        if(num1[0] == '?')
-    {
-        sprintf(firMove, "%s [%s], %s", mov, num1, ax);
-    }
-     else if(num1[0] == '@')
-    {
-        sprintf(firMove, "%s [%s], %s", mov, num1, ax);
-    }
-    else{
-        sprintf(firMove, "%s %s, %s", mov, num1, ax);
-    }
-    sprintf(getin, "%s %s, 21H", in, ax);
+    sprintf(firMove, "%s %s, 3", mov, ax);
+    sprintf(secMove, "%s %s, 1", mov, bx);
+    sprintf(thiMove, "%s %s, %s", mov, cx, i);
+    sprintf(fotMove, "%s %s, 4", mov, dx);
+    sprintf(getin, "int 80h");
     FILE* f = fopen("ass.asm", "a+");
     fprintf(f, "L%s:\n", i);
-    fprintf(f, "%s\n", getin);
     fprintf(f, "%s\n", firMove);
+    fprintf(f, "%s\n", secMove);
+    fprintf(f, "%s\n", thiMove);
+    fprintf(f, "%s\n", fotMove);
+    fprintf(f, "%s\n", getin);
     fclose(f);
     lockOrNot = 0;
 }
 
-void Output(char* num1, char* i) {
+void Output(char* i) {
    while(lockOrNot == 1) {
         sleep(1);
     }
     lockOrNot = 1;
     char firMove[30];
     char secMove[30];
+    char thiMove[30];
+    char fotMove[30];
     char getout[30];
-        if(num1[0] == '?')
-    {
-        sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
-    }
-     else if(num1[0] == '@')
-    {
-        sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
-    }
-    else{
-        sprintf(firMove, "%s %s, %s", mov, ax, num1);
-    }
-    sprintf(getout, "%s 378H, %s", out, ax);
+    sprintf(firMove, "%s %s, 4", mov, ax);
+    sprintf(secMove, "%s %s, 1", mov, bx);
+    sprintf(thiMove, "%s %s, %s", mov, cx, i);
+    sprintf(fotMove, "%s %s, 4", mov, dx);
+    sprintf(getout, "int 80h");
     FILE* f = fopen("ass.asm", "a+");
     fprintf(f, "L%s:\n", i);
     fprintf(f, "%s\n", firMove);
+    fprintf(f, "%s\n", secMove);
+    fprintf(f, "%s\n", thiMove);
+    fprintf(f, "%s\n", fotMove);
     fprintf(f, "%s\n", getout);
+    fclose(f);
     fclose(f);
     lockOrNot = 0;
 }
