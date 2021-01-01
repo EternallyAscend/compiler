@@ -1,8 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include "file.h"
 #include "ass.h"
+#include "file.h"
 int lockOrNot = 0;
 char mov[] = "mov";
 char add[] = "add";
@@ -82,6 +82,47 @@ void assSub(char* num1, char* num2, char* i) {
     lockOrNot = 0;
 }
 
+void assSubb(char* num1, char* num2, char* i) {
+    while(lockOrNot == 1) {
+        sleep(1);
+    }
+    lockOrNot = 1;
+    char firMove[30];
+    char secMove[30];
+    char firSub[30];
+    char storageResult[30];
+    if(num1[0] == '?')
+    {
+        sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
+    }
+    else if(num1[0] == '@')
+    {
+        sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
+    }
+    else{
+        sprintf(firMove, "%s %s, %s", mov, ax, num1);
+    }
+    if(num2[0] == '?')
+    {
+        sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
+    }
+    else if(num2[0] == '@')
+    {
+        sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
+    }
+    else{
+        sprintf(secMove, "%s %s, %s", mov, bx, num2);
+    }
+    sprintf(firSub, "%s %s, %s", sub, ax, bx);//ax = ax + bx
+    FILE* f = fopen("ass.asm", "a+");
+    fprintf(f, "L%s:\n", i);
+    fprintf(f, "%s\n", firMove);
+    fprintf(f, "%s\n", secMove);
+    fprintf(f, "%s\n", firSub);
+    fclose(f);
+    lockOrNot = 0;
+}
+
 void assAdd(char* num1, char* num2, char* i) {
     while(lockOrNot == 1) {
         sleep(1);
@@ -122,6 +163,47 @@ void assAdd(char* num1, char* num2, char* i) {
     fprintf(f, "%s\n", secMove);
     fprintf(f, "%s\n", firAdd);
     fprintf(f, "%s\n", storageResult);
+    fclose(f);
+    lockOrNot = 0;
+}
+
+void assAddd(char* num1, char* num2, char* i) {
+    while(lockOrNot == 1) {
+        sleep(1);
+    }
+    lockOrNot = 1;
+
+    char firMove[30];
+    char secMove[30];
+    char firAdd[30];
+     if(num1[0] == '?')
+    {
+        sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
+    }
+     else if(num1[0] == '@')
+    {
+        sprintf(firMove, "%s %s, [%s]", mov, ax, num1);
+    }
+    else{
+        sprintf(firMove, "%s %s, %s", mov, ax, num1);
+    }
+    if(num2[0] == '?')
+    {
+        sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
+    }
+     else if(num2[0] == '@')
+    {
+        sprintf(secMove, "%s %s, [%s]", mov, bx, num2);
+    }
+    else{
+        sprintf(secMove, "%s %s, %s", mov, bx, num2);
+    }
+    sprintf(firAdd, "%s %s, %s", add, ax, bx);//ax = ax + bx
+    FILE* f = fopen("ass.asm", "a+");
+    fprintf(f, "L%s:\n", i);
+    fprintf(f, "%s\n", firMove);
+    fprintf(f, "%s\n", secMove);
+    fprintf(f, "%s\n", firAdd);
     fclose(f);
     lockOrNot = 0;
 }
@@ -345,6 +427,37 @@ void assAssgin(char* num1, char* num2,char* i) {
     FILE* f = fopen("ass.asm", "a+");
     fprintf(f, "L%s:\n", i);
     fprintf(f, "%s\n", firMove);
+    fprintf(f, "%s\n", firAssign);
+    fprintf(f, "%s\n", storageResult);
+    fclose(f);
+    lockOrNot = 0;
+}
+
+void assAssginn(char* num1, char* num2,char* i) {
+    while(lockOrNot == 1) {
+        sleep(1);
+    }
+    lockOrNot = 1;
+    char firAssign[30];
+    char storageResult[30];
+    if(num1[0] == '?')
+    {
+        sprintf(firAssign, "%s [%s], %s", mov, num1, ax);
+    }
+    else if(num1[0] == '@')
+    {
+        sprintf(firAssign, "%s [%s], %s", mov, num1, ax);
+    }
+    else if(num1[0] == '[')
+    {
+    	sprintf(firAssign, "%s %s, %s\n%s [%s], %s", mov, bx, num1, mov, bx, ax);
+	}
+    else{
+        sprintf(firAssign, "%s %s, %s", mov, num1, ax);
+    }
+    sprintf(storageResult, "%s [?%s], %s", mov, i, ax);
+    FILE* f = fopen("ass.asm", "a+");
+    fprintf(f, "L%s:\n", i);
     fprintf(f, "%s\n", firAssign);
     fprintf(f, "%s\n", storageResult);
     fclose(f);
@@ -860,12 +973,28 @@ void readThree(char*** threeCode, char* i, char*** varyCode, int rowNum)
 	int floor = atoi(i);
 	if(strcmp(threeCode[floor][1], "+") == 0)
 	{
-		assAdd(threeCode[floor][2], threeCode[floor][3], i);
+		if(strcmp(threeCode[floor + 1][1], "=") == 0)
+		{
+			assAddd(threeCode[floor][2], threeCode[floor][3], i);
+		}
+		else
+		{
+			assAdd(threeCode[floor][2], threeCode[floor][3], i);
+		}
+//		assAdd(threeCode[floor][2], threeCode[floor][3], i);
 		floor += 1;
 	}
 	else if(strcmp(threeCode[floor][1], "-") == 0)
 	{
-		assSub(threeCode[floor][2], threeCode[floor][3], i);
+		if(strcmp(threeCode[floor + 1][1], "=") == 0)
+		{
+			assSubb(threeCode[floor][2], threeCode[floor][3], i);
+		}
+		else
+		{
+			assSub(threeCode[floor][2], threeCode[floor][3], i);
+		}
+//        assSub(threeCode[floor][2], threeCode[floor][3], i);
 		floor += 1;
 	}
 	else if(strcmp(threeCode[floor][1], "^") == 0)
@@ -890,7 +1019,19 @@ void readThree(char*** threeCode, char* i, char*** varyCode, int rowNum)
 	}
 	else if(strcmp(threeCode[floor][1], "=") == 0)
 	{
-		assAssgin(threeCode[floor][2], threeCode[floor][3], i);
+		if(strcmp(threeCode[floor - 1][1], "-") == 0)
+		{
+			assAssginn(threeCode[floor][2], threeCode[floor][3], i);
+		}
+		else if(strcmp(threeCode[floor - 1][1], "+") == 0)
+		{
+			assAssginn(threeCode[floor][2], threeCode[floor][3], i);
+		}
+		else
+		{
+			assAssgin(threeCode[floor][2], threeCode[floor][3], i);
+		}
+//        assAssgin(threeCode[floor][2], threeCode[floor][3], i);
 		floor += 1;
 	}
 	else if(strcmp(threeCode[floor][1], "!") == 0)

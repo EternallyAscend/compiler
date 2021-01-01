@@ -11,9 +11,13 @@ void end(char*** varyCode, int rowNum);
 
 void assAdd(char* num1, char* num2, char* i);
 
+void assAddd(char* num1, char* num2, char* i);
+
 void assMulti(char* num1, char* num2, char* i);
 
 void assSub(char* num1, char* num2, char* i);
+
+void assSubb(char* num1, char* num2, char* i);
 
 void assDiv(char* num1, char* num2, char* i);
 
@@ -22,6 +26,8 @@ void assRemainder(char* num1, char* num2, char* i);
 void assPow(char* num1, char* num2, char* i);
 
 void assAssgin(char* num1, char* num2, char* i);
+
+void assAssginn(char* num1, char* num2, char* i);
 
 void equalOrNot(char* num1, char* num2, char* i);
 
