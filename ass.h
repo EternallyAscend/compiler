@@ -43,7 +43,7 @@ void Output(char* num1, char* i);
 
 void assGetAddress(char *num1, char *i);
 
-void assFind(char *num1, char *num2, char *i);
+void assFind(char *num1, char *i);
 
 void assOffset(char *num1, char *num2, char *i);
 

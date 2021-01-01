@@ -661,7 +661,7 @@ void assGreaterEqual(char* num1, char* num2, char* i) {
     lockOrNot = 0;
 }
 
-void Input(char* i) {
+void Input(char* num1, char* i) {
    while(lockOrNot == 1) {
         sleep(1);
     }
@@ -673,7 +673,7 @@ void Input(char* i) {
     char getin[30];
     sprintf(firMove, "%s %s, 3", mov, ax);
     sprintf(secMove, "%s %s, 1", mov, bx);
-    sprintf(thiMove, "%s %s, %s", mov, cx, i);
+    sprintf(thiMove, "%s %s, %s", mov, cx, num1);
     sprintf(fotMove, "%s %s, 4", mov, dx);
     sprintf(getin, "int 80h");
     FILE* f = fopen("ass.asm", "a+");
@@ -687,7 +687,7 @@ void Input(char* i) {
     lockOrNot = 0;
 }
 
-void Output(char* i) {
+void Output(char* num1, char* i) {
    while(lockOrNot == 1) {
         sleep(1);
     }
@@ -699,7 +699,7 @@ void Output(char* i) {
     char getout[30];
     sprintf(firMove, "%s %s, 4", mov, ax);
     sprintf(secMove, "%s %s, 1", mov, bx);
-    sprintf(thiMove, "%s %s, %s", mov, cx, i);
+    sprintf(thiMove, "%s %s, %s", mov, cx, num1);
     sprintf(fotMove, "%s %s, 4", mov, dx);
     sprintf(getout, "int 80h");
     FILE* f = fopen("ass.asm", "a+");
