@@ -77,7 +77,7 @@ int main (int argc, char* argv[]) {
             if (*jump == "-1") {
                 continue;
             }
-            for (auto next = line + 1; next != codes.end(); next++) {
+            for (auto next = codes.begin(); next != codes.end(); next++) {
                 if (*jump == next->str[0]) {
                     break;
                 }
