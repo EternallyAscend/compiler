@@ -1361,7 +1361,7 @@ void yyerror(const char* charactor) {
 }
 
 int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instruction) {
-    printf("HELP! Trap into node %s as %d.\n", node->word, node->opt);
+    //printf("HELP! Trap into node %s as %d.\n", node->word, node->opt);
     if (NULL == node) {
         return -65536;
     }

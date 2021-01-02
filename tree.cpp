@@ -44,9 +44,9 @@ int Node::countItem(const char* name) {
 
 Item* Node::getItem(const char* name) {
 	//printf("HELP! Get name in getItem |%s|.\n");
-	for (auto iter = hashMap->begin(); iter != hashMap->end(); ++iter) {
-        std::cout << "<" << iter->first << ", " << iter->second << ">" << std::endl;
-    }
+	//for (auto iter = hashMap->begin(); iter != hashMap->end(); ++iter) {
+        //std::cout << "<" << iter->first << ", " << iter->second << ">" << std::endl;
+        //}
 	if (this->hashMap->count((name))) {
 		return this->hashMap->at((name));
 	}

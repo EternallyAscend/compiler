@@ -6,6 +6,7 @@ output
 example.c.bak
 example.c
 ccompiler
+assembly
 compiler
 cmain
 .vscode

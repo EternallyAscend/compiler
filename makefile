@@ -1,11 +1,16 @@
 LEX=lex #flex
 YACC=yacc #bison
-CC=g++
+CC=g++ -w
+C=gcc -w
 OBJECT=ccompiler
 FILE=example.c
- 
+ASSEMBLY=assembly
+PROMOTE=promote
+
 $(OBJECT): lex.yy.o  y.tab.o
 	$(CC) lex.yy.o y.tab.o file.c table.cpp tree.cpp item.cpp indirectTriple.c pointer.cpp -o $(OBJECT)
+	$(C) assmain.c assfunction.c file.c -o $(ASSEMBLY)
+	$(CC) promote.cpp -o $(PROMOTE)
 	# @./$(OBJECT) $(FILE) 
  
 #lex.yy.o: lex.yy.c c.tab.h file.c table.h
@@ -25,4 +30,4 @@ lex.yy.c: c.l
 	$(LEX) c.l
  
 clean:
-	@rm -f $(OBJECT)  *.o lex.yy.c y.tab.c y.tab.h # c.tab.c c.tab.h
+	@rm -f $(OBJECT) $(ASSEMBLY) $(PROMOTE) *.o lex.yy.c y.tab.c y.tab.h # c.tab.c c.tab.h
