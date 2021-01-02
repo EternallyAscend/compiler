@@ -3,9 +3,8 @@
 #include<string.h>
 #include "file.h"
 #include "ass.h"
-int main(int args, char* argv[]) {
-	//printf("%d\n", args);
-	//printf("%s %s\n", argv[0], argv[1]);
+int main(int args, char* argv[])
+{
 	int rowNum;
 	rowNum = giveRow();
 	int cursorOne;
@@ -28,9 +27,8 @@ int main(int args, char* argv[]) {
 	    	varyCode[cursorOne][cursorTwo] = (char*)malloc(sizeof(char)*64);
 		}
     }
-    printf("Before open file.\n");
-    FILE* f = fopen(argv[1], "r");
-    printf("After open file.\n");
+	FILE* f = fopen(argv[1], "r");
+    // FILE* f = fopen("output.txt", "r");
 	char buf[1024];
 	int i = 0;
 	int j = 0;
