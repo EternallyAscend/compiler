@@ -2207,20 +2207,25 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             break;
         case _MAIN:
-            node->begin = makeNewTemp(instruction,
+            /* node->begin = makeNewTemp(instruction,
                                       generateIndirectTriple("j", "_", "_"));
             node->end = makeNewTemp(instruction,
-                                    generateIndirectTriple("j", "_", "-1"));
+                                    generateIndirectTriple("j", "_", "-1")); */
             // Before.
             indirectTripleCodeGenerator(node->child[0], instruction); // Go code blocks.
+            node->begin = node->child[0]->begin;
+            node->end = makeNewTemp(instruction, generateIndirectTriple("j", "_", "-1"));
+            if (-1 == node->begin) {
+                node->begin = node->end;
+            }
             // After.
-            if (-1 != node->child[0]->begin) {
+            /* if (-1 != node->child[0]->begin) {
                 sprintf(go, "%d", node->child[0]->begin);
                 rewriteTemp(instruction, node->begin, 2, go);
-            }
-            sprintf(go, "%d", node->end);
+            } */
+            /* sprintf(go, "%d", node->end); */
             /* rewriteTemp(instruction, node->child[0]->end, 2, go); */
-            makeNewTemp(instruction, generateIndirectTriple("j", "_", go));
+            /* makeNewTemp(instruction, generateIndirectTriple("j", "_", go)); */
             break;
         case _ID:
             // Searching in symbol table.
