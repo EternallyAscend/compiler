@@ -48,7 +48,7 @@ int popScope() {
 }
 
 int addWord(const char* name) {
-	printf("HELP! THe shit input is |%s|\n", name);
+	//printf("HELP! THe shit input is |%s|\n", name);
 	if (NULL == symbolTable) {
 		return 0;
 	}
@@ -85,7 +85,7 @@ int setType(const char* name, const int type) {
 }
 
 int setStore(const char* name, const int store, char* position) {
-	printf("HELP! SET STORE in table %s %d %s\n", name, store, position);
+	//printf("HELP! SET STORE in table %s %d %s\n", name, store, position);
 	if (NULL == symbolTable) {
 		return 0;
 	}
@@ -132,9 +132,9 @@ int restartTable() {
 }
 
 struct Word* getWordInfo(const char* name) {
-	printf("Searching word info |%s|\n", name);
+	//printf("Searching word info |%s|\n", name);
 	if (NULL == symbolTable) {
-		printf("HELP! NULL symbolTable.\n");
+		//printf("HELP! NULL symbolTable.\n");
 		return NULL;
 	}
 	else {

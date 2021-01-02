@@ -1101,11 +1101,11 @@ init_identifier
         // extendTerminal($<str>2, "identifier", _ID);
     } init_high_ay_decorator {
         loadNode();
-        printf("ready to set: %d\n", starNum);
+        //printf("ready to set: %d\n", starNum);
         for(int i = 0; i < starNum; i++){
             setArrayWidth(currentArg, -1);
         }
-        printf("set over\n");
+        //printf("set over\n");
         starNum = 0;
 	    // printf("HELP! The shit $ 2 is |%s| again.\n", $<str>2); 
         // declarationId($<str>2);
@@ -1175,7 +1175,7 @@ condition_tail
 
    
 void extendTree(int isTerminal, const char* word, const char* grammer, int op) {
-    printf("HELP! Extend Tree %d %s %s %d\n", isTerminal, word, grammer, op);
+    //printf("HELP! Extend Tree %d %s %s %d\n", isTerminal, word, grammer, op);
     tempPointer = createGrammerNode(isTerminal, word, grammer);
     tempPointer->opt = op;
     push_child(curNode, tempPointer); 
@@ -1264,12 +1264,12 @@ void declarationId(const char* name) {
 	}
 	else {
 		unsigned int position = addWord(name);
-        printf("%d\n", currentArg -> dimension);
+        //printf("%d\n", currentArg -> dimension);
         if (currentArg -> dimension > 0) {
             setType(name, 5);
             store = calculateStore(currentArg);
             setStore(name, store, NULL);
-            printf("%d\n", store);
+            //printf("%d\n", store);
             registPtr(position, currentArg);
         }
         else {
@@ -1297,39 +1297,39 @@ int main(int arg, char* argv[]) {
     }
     yyin = fopen(argv[1], "r");
     
-    printf("root.\n");
+    //printf("root.\n");
 
     root = createGrammerNode(NON_TERMINAL, "", "start");
     root->opt = _START;
     curNode = root;
     tempPointer = NULL;
 
-    printf("Before lex.\n");
+    //printf("Before lex.\n");
 
     generateLEX();
     appendLEX("Type           Name           Attribute \n");
     generateCODE();
 
-    printf("Before table.\n");
+    //printf("Before table.\n");
 
     launchTable();
 
-    printf("After launch.\n");
+    //printf("After launch.\n");
         
     int err = yyparse();
     closeLEX();
 
-    printf("Before yacc.\n");
+    //printf("Before yacc.\n");
 
     generateYACC();
     printGrammerTree(root);
     closeYACC();
 
-    printf("Before restart table.\n");
+    //printf("Before restart table.\n");
 
     restartTable();
 
-    printf("Before instruction.\n");
+    //printf("Before instruction.\n");
 
     instruction = generateInstruction();
 
@@ -1337,7 +1337,7 @@ int main(int arg, char* argv[]) {
 
     stopTable();
 
-    printf("Before write code file.\n");
+    //printf("Before write code file.\n");
 
     destroyInstruction(instruction);
 
@@ -1355,6 +1355,7 @@ void yyerror(const char* charactor) {
     char str[256];
     sprintf(str, "error in line %d: %s\n", yylineno, charactor);
     appendREPORT(str);
+    printf("%s", str);
     //yyclearin;
     //yyparse();
 }
@@ -2229,24 +2230,24 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             break;
         case _ID:
             // Searching in symbol table.
-            printf("ready: ID\n");
+            //printf("ready: ID\n");
             word = getWordInfo(node->word);
             if (NULL == word) {
                 printf("Undefined.\n");
                 exit(-3);
             }
-            printf("got info\n");
+            //printf("got info\n");
             node->type = word->type;
-            printf("Before positon is null.\n");
+            //printf("Before positon is null.\n");
             if (NULL == word->position) {
-                printf("Word pos is't null.\n");
+                //printf("Word pos is't null.\n");
             }
             else {
                 sprintf(node->value, "%s", word->position);
-                printf("HELP! GOt NULL in word position.\n");
+                //printf("HELP! GOt NULL in word position.\n");
             }
             // by zhu: 添加指针，指向描述类型的数据
-            printf("try get type\n");
+            //printf("try get type\n");
             node->ptrType = getPtrInfo(word->symbolPosition);
             break;
         case _STRING:
@@ -2260,6 +2261,6 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
         default:
             return -2;
     }
-    printf("HELP! Leave node %s as %d.\n", node->word, node->opt);
+    //printf("HELP! Leave node %s as %d.\n", node->word, node->opt);
     return 0;
 }

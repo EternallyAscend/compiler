@@ -25,14 +25,14 @@ int setArrayWidth(PtrInfo* info, int _width) {
 }
 
  PtrInfo* getPtrInfo(unsigned int id) {
-     printf("ready to find\n");
+     //printf("ready to find\n");
     auto iter = PtrTable.find(id);
     if(iter == PtrTable.end()){
-        printf("not found\n");
+        //printf("not found\n");
         return NULL;
 
     }
-    printf("found info\n");
+    //printf("found info\n");
     return iter->second;
  }
 

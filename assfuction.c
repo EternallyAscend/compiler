@@ -823,7 +823,6 @@ void Output(char* num1, char* i) {
     fprintf(f, "%s\n", fotMove);
     fprintf(f, "%s\n", getout);
     fclose(f);
-    fclose(f);
     lockOrNot = 0;
 }
 

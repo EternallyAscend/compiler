@@ -43,7 +43,7 @@ int Node::countItem(const char* name) {
 }
 
 Item* Node::getItem(const char* name) {
-	printf("HELP! Get name in getItem |%s|.\n");
+	//printf("HELP! Get name in getItem |%s|.\n");
 	for (auto iter = hashMap->begin(); iter != hashMap->end(); ++iter) {
         std::cout << "<" << iter->first << ", " << iter->second << ">" << std::endl;
     }
@@ -65,15 +65,15 @@ Node* Node::getNextChild() {
 // Tree ============================================================
 
 Item* Tree::getItemGlobal(const char* name) {
-	printf("HELP! Name in get item global |%s|.\n", name);
+	//printf("HELP! Name in get item global |%s|.\n", name);
 	if (NULL == this->current) {
-		printf("HELP! NULL current pointer.\n");
+		//printf("HELP! NULL current pointer.\n");
 		return NULL;
 	}
 	else {
 		Node* pointer = this->current;
 		while (NULL == pointer->getItem(name)) {
-			printf("HELP! Do not get element |%s| in this scope.\n", name);
+			//printf("HELP! Do not get element |%s| in this scope.\n", name);
 			if (NULL != pointer->parent) {
 				pointer = pointer->parent;
 			}
@@ -136,7 +136,7 @@ int Tree::addWord(const char* name) {
 int Tree::searchWord(const char* name) {
 	if (NULL == this->current) {
 
-		printf("Null current pointer. \n");
+		//printf("Null current pointer. \n");
 		return -1;
 	}
 	else {
@@ -182,7 +182,7 @@ int Tree::setType(const char* name, int type) {
 
 // int Tree::setStore(const char* name, int store, int position) {
 int Tree::setStore(const char* name, int store, char* position) {
-	printf("HELP! SET STORE in Tree %s %d %s\n", name, store, position);
+	//printf("HELP! SET STORE in Tree %s %d %s\n", name, store, position);
 	return this->getItemGlobal(name)->modifyItemStore(store, position);
 }
 
@@ -235,10 +235,10 @@ int Tree::restart() {
 }
 
 struct Word* Tree::getWordGlobal(const char* name) {
-	printf("HELP! Bitch name is |%s|.\n", name);
+	//printf("HELP! Bitch name is |%s|.\n", name);
 	Item* item = getItemGlobal(name);
 	if (NULL == item) {
-		printf("HELP! NULL item got.\n");
+		//printf("HELP! NULL item got.\n");
 		return NULL;
 	}
 	else {
