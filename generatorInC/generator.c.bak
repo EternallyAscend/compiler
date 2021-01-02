@@ -448,7 +448,7 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
         case _ARGUMENT_DECLARATION_LIST: // ============================================================================
             indirectTripleCodeGenerator(node->child[0], instruction);
             node->begin = node->child[0]->begin;
-            node->end = node->child[node->size - 1]->end;
+            node->end = node->child[node->size]->end;
             break;
         case _DECLARATION_BODY: // =====================================================================================
             indirectTripleCodeGenerator(node->child[0], instruction);
