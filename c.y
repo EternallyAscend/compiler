@@ -2081,15 +2081,15 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             break;
         case _ADD:
+            indirectTripleCodeGenerator(node->child[0], instruction);
+            node->begin = node->child[0]->begin;
+            indirectTripleCodeGenerator(node->child[1], instruction);
             if (!((node->child[0]->type == 1 && node->child[1]->type == 1) || 
                 ((node->child[0]->ptrType && node->child[1]->ptrType) && 
                     node->child[0]->ptrType->dimension == node->child[1]->ptrType->dimension))) {
                 printf("types do not match\n");
                 exit(-3);
             }
-            indirectTripleCodeGenerator(node->child[0], instruction);
-            node->begin = node->child[0]->begin;
-            indirectTripleCodeGenerator(node->child[1], instruction);
             if (-1 == node->begin) {
                 node->begin = node->child[1]->begin;
             }
@@ -2103,15 +2103,15 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             break;
         case _MINUS:
-        if (!((node->child[0]->type == 1 && node->child[1]->type == 1) || 
+            indirectTripleCodeGenerator(node->child[0], instruction);
+            node->begin = node->child[0]->begin;
+            indirectTripleCodeGenerator(node->child[1], instruction);
+            if (!((node->child[0]->type == 1 && node->child[1]->type == 1) || 
                 ((node->child[0]->ptrType && node->child[1]->ptrType) && 
                     node->child[0]->ptrType->dimension == node->child[1]->ptrType->dimension))) {
                 printf("types do not match\n");
                 exit(-3);
             }
-            indirectTripleCodeGenerator(node->child[0], instruction);
-            node->begin = node->child[0]->begin;
-            indirectTripleCodeGenerator(node->child[1], instruction);
             if (-1 == node->begin) {
                 node->begin = node->child[1]->begin;
             }
@@ -2125,15 +2125,15 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             break;
         case _TIMES:
+            indirectTripleCodeGenerator(node->child[0], instruction);
+            node->begin = node->child[0]->begin;
+            indirectTripleCodeGenerator(node->child[1], instruction);
             if (!((node->child[0]->type == 1 && node->child[1]->type == 1) || 
                 ((node->child[0]->ptrType && node->child[1]->ptrType) && 
                     node->child[0]->ptrType->dimension == node->child[1]->ptrType->dimension))) {
                 printf("types do not match\n");
                 exit(-3);
             }
-            indirectTripleCodeGenerator(node->child[0], instruction);
-            node->begin = node->child[0]->begin;
-            indirectTripleCodeGenerator(node->child[1], instruction);
             if (-1 == node->begin) {
                 node->begin = node->child[1]->begin;
             }
@@ -2147,15 +2147,15 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             break;
         case _DIVIDE:
+            indirectTripleCodeGenerator(node->child[0], instruction);
+            node->begin = node->child[0]->begin;
+            indirectTripleCodeGenerator(node->child[1], instruction);
             if (!((node->child[0]->type == 1 && node->child[1]->type == 1) || 
                 ((node->child[0]->ptrType && node->child[1]->ptrType) && 
                     node->child[0]->ptrType->dimension == node->child[1]->ptrType->dimension))) {
                 printf("types do not match\n");
                 exit(-3);
             }
-            indirectTripleCodeGenerator(node->child[0], instruction);
-            node->begin = node->child[0]->begin;
-            indirectTripleCodeGenerator(node->child[1], instruction);
             if (-1 == node->begin) {
                 node->begin = node->child[1]->begin;
             }
@@ -2169,15 +2169,15 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             break;
         case _MOD:
+            indirectTripleCodeGenerator(node->child[0], instruction);
+            node->begin = node->child[0]->begin;
+            indirectTripleCodeGenerator(node->child[1], instruction);
             if (!((node->child[0]->type == 1 && node->child[1]->type == 1) || 
                 ((node->child[0]->ptrType && node->child[1]->ptrType) && 
                     node->child[0]->ptrType->dimension == node->child[1]->ptrType->dimension))) {
                 printf("types do not match\n");
                 exit(-3);
             }
-            indirectTripleCodeGenerator(node->child[0], instruction);
-            node->begin = node->child[0]->begin;
-            indirectTripleCodeGenerator(node->child[1], instruction);
             if (-1 == node->begin) {
                 node->begin = node->child[1]->begin;
             }
@@ -2191,15 +2191,15 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             break;
         case _POW:
+            indirectTripleCodeGenerator(node->child[0], instruction);
+            node->begin = node->child[0]->begin;
+            indirectTripleCodeGenerator(node->child[1], instruction);
             if (!((node->child[0]->type == 1 && node->child[1]->type == 1) || 
                 ((node->child[0]->ptrType && node->child[1]->ptrType) && 
                     node->child[0]->ptrType->dimension == node->child[1]->ptrType->dimension))) {
                 printf("types do not match\n");
                 exit(-3);
             }
-            indirectTripleCodeGenerator(node->child[0], instruction);
-            node->begin = node->child[0]->begin;
-            indirectTripleCodeGenerator(node->child[1], instruction);
             if (-1 == node->begin) {
                 node->begin = node->child[1]->begin;
             }
