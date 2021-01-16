@@ -2081,6 +2081,12 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             break;
         case _ADD:
+            if (!((node->child[0]->type == 1 && node->child[1]->type == 1) || 
+                ((node->child[0]->ptrType && node->child[1]->ptrType) && 
+                    node->child[0]->ptrType->dimension == node->child[1]->ptrType->dimension))) {
+                printf("types do not match\n");
+                exit(-3);
+            }
             indirectTripleCodeGenerator(node->child[0], instruction);
             node->begin = node->child[0]->begin;
             indirectTripleCodeGenerator(node->child[1], instruction);
@@ -2097,6 +2103,12 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             break;
         case _MINUS:
+        if (!((node->child[0]->type == 1 && node->child[1]->type == 1) || 
+                ((node->child[0]->ptrType && node->child[1]->ptrType) && 
+                    node->child[0]->ptrType->dimension == node->child[1]->ptrType->dimension))) {
+                printf("types do not match\n");
+                exit(-3);
+            }
             indirectTripleCodeGenerator(node->child[0], instruction);
             node->begin = node->child[0]->begin;
             indirectTripleCodeGenerator(node->child[1], instruction);
@@ -2113,6 +2125,12 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             break;
         case _TIMES:
+            if (!((node->child[0]->type == 1 && node->child[1]->type == 1) || 
+                ((node->child[0]->ptrType && node->child[1]->ptrType) && 
+                    node->child[0]->ptrType->dimension == node->child[1]->ptrType->dimension))) {
+                printf("types do not match\n");
+                exit(-3);
+            }
             indirectTripleCodeGenerator(node->child[0], instruction);
             node->begin = node->child[0]->begin;
             indirectTripleCodeGenerator(node->child[1], instruction);
@@ -2129,6 +2147,12 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             break;
         case _DIVIDE:
+            if (!((node->child[0]->type == 1 && node->child[1]->type == 1) || 
+                ((node->child[0]->ptrType && node->child[1]->ptrType) && 
+                    node->child[0]->ptrType->dimension == node->child[1]->ptrType->dimension))) {
+                printf("types do not match\n");
+                exit(-3);
+            }
             indirectTripleCodeGenerator(node->child[0], instruction);
             node->begin = node->child[0]->begin;
             indirectTripleCodeGenerator(node->child[1], instruction);
@@ -2145,6 +2169,12 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             break;
         case _MOD:
+            if (!((node->child[0]->type == 1 && node->child[1]->type == 1) || 
+                ((node->child[0]->ptrType && node->child[1]->ptrType) && 
+                    node->child[0]->ptrType->dimension == node->child[1]->ptrType->dimension))) {
+                printf("types do not match\n");
+                exit(-3);
+            }
             indirectTripleCodeGenerator(node->child[0], instruction);
             node->begin = node->child[0]->begin;
             indirectTripleCodeGenerator(node->child[1], instruction);
@@ -2161,6 +2191,12 @@ int indirectTripleCodeGenerator(GrammarTree node, struct Instruction* instructio
             }
             break;
         case _POW:
+            if (!((node->child[0]->type == 1 && node->child[1]->type == 1) || 
+                ((node->child[0]->ptrType && node->child[1]->ptrType) && 
+                    node->child[0]->ptrType->dimension == node->child[1]->ptrType->dimension))) {
+                printf("types do not match\n");
+                exit(-3);
+            }
             indirectTripleCodeGenerator(node->child[0], instruction);
             node->begin = node->child[0]->begin;
             indirectTripleCodeGenerator(node->child[1], instruction);
